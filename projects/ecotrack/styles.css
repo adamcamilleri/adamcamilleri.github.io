@@ -138,8 +138,8 @@ body {
 
 .hero-image {
     flex: 1;
-    max-width: 600px;
-    padding: 2rem;
+    max-width: 800px;
+    padding: 1rem;
 }
 
 .hero-image img {
