@@ -1,26 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>themify-palette-haven</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam Camilleri | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+</head>
+<body>
+    <div class="parallax-container">
+        <ul id="scene" class="scene">
+            <li class="layer" data-depth="0.1"><div class="bg-gradient"></div></li>
+            <li class="layer" data-depth="0.2"><div class="particle particle-1"></div></li>
+            <li class="layer" data-depth="0.3"><div class="particle particle-2"></div></li>
+            <li class="layer" data-depth="0.4"><div class="particle particle-3"></div></li>
+            <li class="layer" data-depth="0.5"><div class="particle particle-4"></div></li>
+        </ul>
+    </div>
 
-    <meta property="og:title" content="themify-palette-haven" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#home">AC</a>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content animate__animated animate__fadeInUp">
+                <h1>Adam Camilleri</h1>
+                <h2 class="typewriter">I'm a <span class="typing"></span></h2>
+                <p>Welcome to my portfolio. Explore my work and get in touch.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn primary">View Projects</a>
+                    <a href="#contact" class="btn secondary">Contact Me</a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <div class="arrow">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </section>
 
-  <body>
-    <div id="root"></div>
-    <!-- Scripts -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="./src/main.tsx"></script>
-  </body>
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <div class="image-container">
+                            <img src="/api/placeholder/400/400" alt="Adam Camilleri">
+                            <div class="image-overlay"></div>
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <h3>Hello, I'm Adam Camilleri</h3>
+                        <p>I'm passionate about creating elegant solutions to complex problems. With a background in [Your Field], I combine technical expertise with creative thinking to deliver outstanding results.</p>
+                        
+                        <p>When I'm not coding, you can find me [Your Interests/Hobbies]. I believe in continuous learning and pushing the boundaries of what's possible.</p>
+                        
+                        <div class="personal-info">
+                            <div class="info-item">
+                                <span class="info-title">Email:</span>
+                                <span class="info-value">contact@adamcamilleri.com</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-title">Based in:</span>
+                                <span class="info-value">[Your Location]</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-title">Experience:</span>
+                                <span class="info-value">[Years] Years</span>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        
+                        <a href="#" class="btn download-cv">Download CV <i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="skills">
+            <div class="container">
+                <h2 class="section-title">My Skills</h2>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h3>Technical Skills</h3>
+                        <div class="skill-grid">
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                                <h4>HTML5</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+                                <h4>CSS3</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fab fa-js"></i></div>
+                                <h4>JavaScript</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fab fa-react"></i></div>
+                                <h4>React</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Additional Skills</h3>
+                        <div class="skill-grid">
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fas fa-users"></i></div>
+                                <h4>Team Leadership</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fas fa-tasks"></i></div>
+                                <h4>Project Management</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fas fa-lightbulb"></i></div>
+                                <h4>Problem Solving</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-icon"><i class="fas fa-comments"></i></div>
+                                <h4>Communication</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title">My Projects</h2>
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web Development</button>
+                    <button class="filter-btn" data-filter="app">App Development</button>
+                    <button class="filter-btn" data-filter="design">Design</button>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" data-category="web">
+                        <div class="project-img">
+                            <img src="/api/placeholder/400/300" alt="Project 1">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                                    <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Project Name 1</h3>
+                            <p>Web Development</p>
+                            <div class="project-tech">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-category="app">
+                        <div class="project-img">
+                            <img src="/api/placeholder/400/300" alt="Project 2">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                                    <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Project Name 2</h3>
+                            <p>App Development</p>
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-category="design">
+                        <div class="project-img">
+                            <img src="/api/placeholder/400/300" alt="Project 3">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                                    <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Project Name 3</h3>
+                            <p>Design</p>
+                            <div class="project-tech">
+                                <span>Figma</span>
+                                <span>Photoshop</span>
+                                <span>Illustrator</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card" data-category="web">
+                        <div class="project-img">
+                            <img src="/api/placeholder/400/300" alt="Project 4">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                                    <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Project Name 4</h3>
+                            <p>Web Development</p>
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>SASS</span>
+                                <span>Firebase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-more">
+                    <a href="#" class="btn primary">View All Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Location</h3>
+                                <p>[Your Location]</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <p>contact@adamcamilleri.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Phone</h3>
+                                <p>[Your Phone]</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Social Profiles</h3>
+                                <div class="social-links">
+                                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                                    <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                                <label for="name">Your Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                                <label for="email">Your Email</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                                <label for="subject">Subject</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                                <label for="message">Your Message</label>
+                            </div>
+                            <button type="submit" class="btn submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Adam Camilleri</h2>
+                    <p>Thank you for visiting my portfolio. Let's connect and create something amazing together.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe to my newsletter for the latest updates.</p>
+                    <form class="newsletter-form">
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Adam Camilleri. All Rights Reserved.</p>
+                <div class="back-to-top">
+                    <a href="#home"><i class="fas fa-chevron-up"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Parallax
+        document.addEventListener('DOMContentLoaded', function() {
+            var scene = document.getElementById('scene');
+            var parallaxInstance = new Parallax(scene);
+            
+            // Mobile Navigation
+            const burger = document.querySelector('.burger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            burger.addEventListener('click', () => {
+                navLinks.classList.toggle('nav-active');
+                burger.classList.toggle('toggle');
+            });
+            
+            // Typewriter Effect
+            const typingElement = document.querySelector('.typing');
+            const professions = ["Developer", "Designer", "Creator", "Innovator"];
+            let i = 0;
+            let j = 0;
+            let currentProfession = "";
+            let isDeleting = false;
+            let isEnd = false;
+            
+            function typeWriter() {
+                isEnd = false;
+                if (i < professions.length) {
+                    if (!isDeleting && j <= professions[i].length) {
+                        currentProfession = professions[i].substring(0, j);
+                        typingElement.textContent = currentProfession;
+                        j++;
+                        if (j > professions[i].length) {
+                            isEnd = true;
+                            isDeleting = true;
+                            setTimeout(typeWriter, 2000);
+                            return;
+                        }
+                    }
+                    
+                    if (isDeleting && j >= 0) {
+                        currentProfession = professions[i].substring(0, j);
+                        typingElement.textContent = currentProfession;
+                        j--;
+                        if (j < 0) {
+                            isDeleting = false;
+                            i++;
+                            if (i === professions.length) {
+                                i = 0;
+                            }
+                            j = 0;
+                        }
+                    }
+                    
+                    const spedUp = isDeleting ? 30 : 100;
+                    const normalSpeed = isEnd ? 2000 : spedUp;
+                    setTimeout(typeWriter, normalSpeed);
+                }
+            }
+            
+            typeWriter();
+            
+            // Project Filtering
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projects = document.querySelectorAll('.project-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    const filter = btn.getAttribute('data-filter');
+                    
+                    projects.forEach(project => {
+                        if (filter === 'all' || project.getAttribute('data-category') === filter) {
+                            project.style.display = 'block';
+                        } else {
+                            project.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.classList.contains('nav-active')) {
+                        navLinks.classList.remove('nav-active');
+                        burger.classList.remove('toggle');
+                    }
+                });
+            });
+            
+            // Active Navigation on Scroll
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-links a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            
+            // Form Animation
+            const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', () => {
+                    if (input.value === '') {
+                        input.parentElement.classList.remove('focused');
+                    }
+                });
+                
+                // Check on page load
+                if (input.value !== '') {
+                    input.parentElement.classList.add('focused');
+                }
+            });
+            
+            // Form Submission
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Here you would typically handle the form submission with AJAX
+                    // For now, just show an alert
+                    alert('Thank you for your message! I will get back to you soon.');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
 </html>
