@@ -14,7 +14,7 @@
     --bg-color-alt: #D1E8FF;  /* Projects section */
     --bg-color-dark: #90CAF9;  /* About section */
     --bg-color-darker: #64B5F6;  /* Learning section */
-    --bg-color-darkest: #1976D2;  /* Hero section */
+    --bg-color-darkest: #0A192F;  /* Hero section - Navy blue */
     --bg-color-skills: #A5D4FA;  /* Skills section */
     --border-color: #64B5F6;
     --success-color: #2ecc71;
@@ -22,8 +22,8 @@
     --error-color: #e74c3c;
     
     /* Gradients */
-    --gradient-start: #BBDEFB;
-    --gradient-end: #90CAF9;
+    --gradient-start: #0A192F;  /* Navy blue */
+    --gradient-end: #112240;    /* Slightly lighter navy */
     
     /* Typography */
     --body-font: 'Poppins', sans-serif;
@@ -70,11 +70,11 @@
     --bg-color-alt: #0B3D91;  /* Projects section */
     --bg-color-dark: #083B8E;  /* About section */
     --bg-color-darker: #062B6B;  /* Learning section */
-    --bg-color-darkest: #051B4B;  /* Hero section */
+    --bg-color-darkest: #020B1C;  /* Hero section - Darker navy */
     --bg-color-skills: #073A8C;  /* Skills section */
     --border-color: #1976D2;
-    --gradient-start: #0D47A1;
-    --gradient-end: #0A3D91;
+    --gradient-start: #020B1C;  /* Darker navy */
+    --gradient-end: #0A192F;    /* Navy blue */
 }
 
 /* =========== BASE =========== */
@@ -230,7 +230,7 @@ button {
 .bg-gradient {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    background: linear-gradient(135deg, #0A192F 0%, #112240 50%, #1A365D 100%);
 }
 
 .particle {
@@ -243,7 +243,7 @@ button {
     left: 20%;
     width: 80px;
     height: 80px;
-    background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(67, 97, 238, 0) 70%);
+    background: radial-gradient(circle, rgba(10, 25, 47, 0.5) 0%, rgba(10, 25, 47, 0) 70%);
     animation: float 8s infinite ease-in-out;
 }
 
@@ -252,7 +252,7 @@ button {
     left: 80%;
     width: 120px;
     height: 120px;
-    background: radial-gradient(circle, rgba(247, 37, 133, 0.1) 0%, rgba(247, 37, 133, 0) 70%);
+    background: radial-gradient(circle, rgba(17, 34, 64, 0.5) 0%, rgba(17, 34, 64, 0) 70%);
     animation: float 10s infinite ease-in-out reverse;
 }
 
@@ -261,7 +261,7 @@ button {
     left: 70%;
     width: 150px;
     height: 150px;
-    background: radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, rgba(76, 201, 240, 0) 70%);
+    background: radial-gradient(circle, rgba(26, 55, 97, 0.5) 0%, rgba(26, 55, 97, 0) 70%);
     animation: float 12s infinite ease-in-out;
 }
 
@@ -270,7 +270,7 @@ button {
     left: 10%;
     width: 100px;
     height: 100px;
-    background: radial-gradient(circle, rgba(58, 12, 163, 0.1) 0%, rgba(58, 12, 163, 0) 70%);
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.4) 0%, rgba(33, 150, 243, 0) 70%);
     animation: float 9s infinite ease-in-out reverse;
 }
 
