@@ -524,8 +524,7 @@ header.scrolled {
 .scroll-indicator {
     position: absolute;
     bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(50% - 10px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -554,17 +553,6 @@ header.scrolled {
     animation: scroll 1.5s infinite;
 }
 
-@keyframes scroll {
-    0% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-    }
-}
-
 .arrow {
     display: flex;
     flex-direction: column;
@@ -582,12 +570,15 @@ header.scrolled {
     animation: arrow 1.5s infinite;
 }
 
-.arrow span:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.arrow span:nth-child(3) {
-    animation-delay: 0.4s;
+@keyframes scroll {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
 }
 
 @keyframes arrow {
