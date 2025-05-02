@@ -79,20 +79,38 @@
                         
                         <p>When I'm not coding, you can find me chefing up in the kitchen. I believe in continuous learning and pushing the boundaries of what's possible.</p>
                         
-                        <div class="personal-info">
-                            <div class="info-item">
-                                <span class="info-title">Email:</span>
-                                <span class="info-value">imadamcam@gmail.com</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-title">   Based in:</span>
-                                <span class="info-value">   Kitchener, ON</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-title">   Experience:</span>
-                                <span class="info-value">   4+ yrs</span>
-                            </div>
-                        </div>
+                        <style>
+                          .personal-info {
+                              display: flex;
+                              gap: 40px; /* Adjust this value as needed */
+                              flex-wrap: wrap; /* Optional: allows wrapping on smaller screens */
+                          }
+                      
+                          .info-item {
+                              display: flex;
+                              flex-direction: column;
+                          }
+                      
+                          .info-title {
+                              font-weight: bold;
+                          }
+                      </style>
+                      
+                      <div class="personal-info">
+                          <div class="info-item">
+                              <span class="info-title">Email:</span>
+                              <span class="info-value">imadamcam@gmail.com</span>
+                          </div>
+                          <div class="info-item">
+                              <span class="info-title">Based in:</span>
+                              <span class="info-value">Kitchener, ON</span>
+                          </div>
+                          <div class="info-item">
+                              <span class="info-title">Experience:</span>
+                              <span class="info-value">4+ yrs</span>
+                          </div>
+                      </div>
+                      
                         
                         <div class="social-links">
                           <a href="https://github.com/adamcamilleri" class="social-icon" target="_blank"><i class="fab fa-github"></i></a>
