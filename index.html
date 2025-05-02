@@ -32,6 +32,9 @@
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </div>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
             <div class="burger">
                 <div class="line1"></div>
                 <div class="line2"></div>
@@ -44,8 +47,10 @@
         <section id="home" class="hero">
             <div class="hero-content animate__animated animate__fadeInUp">
                 <h1>Adam Camilleri</h1>
+                <div class="hero-image">
+                    <img src="images/1718307854171.jpg" alt="Adam Camilleri">
+                </div>
                 <h2 class="typewriter">I'm a <span class="typing"></span></h2>
-                <p>Welcome to my portfolio. Explore my work and get in touch.</p>
                 <div class="cta-buttons">
                     <a href="#projects" class="btn primary">View Projects</a>
                     <a href="#contact" class="btn secondary">Contact Me</a>
@@ -59,6 +64,52 @@
                     <span></span>
                     <span></span>
                     <span></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="learning" class="learning">
+            <div class="container">
+                <h2 class="section-title">Lifelong Learning</h2>
+                <div class="learning-content">
+                    <div class="learning-intro">
+                        <p>Continuous learning is at the heart of my professional journey. Here are some of my key certifications and ongoing educational pursuits.</p>
+                    </div>
+                    <div class="certificates-grid">
+                        <div class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="certificate-details">
+                                <h3>Full Stack Web Development</h3>
+                                <p class="issuer">Meta</p>
+                                <p class="date">Issued: 2024</p>
+                                <p class="description">Comprehensive certification in modern web development technologies and practices.</p>
+                            </div>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="certificate-details">
+                                <h3>Advanced JavaScript</h3>
+                                <p class="issuer">Udemy</p>
+                                <p class="date">Issued: 2023</p>
+                                <p class="description">Mastery of modern JavaScript concepts and advanced programming patterns.</p>
+                            </div>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="certificate-details">
+                                <h3>React Development</h3>
+                                <p class="issuer">Coursera</p>
+                                <p class="date">Issued: 2023</p>
+                                <p class="description">Expertise in React.js, Redux, and modern frontend development practices.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -413,6 +464,30 @@
         document.addEventListener('DOMContentLoaded', function() {
             var scene = document.getElementById('scene');
             var parallaxInstance = new Parallax(scene);
+            
+            // Theme switching functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
             
             // Mobile Navigation
             const burger = document.querySelector('.burger');
