@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBuddy - Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>StudyBuddy</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#timer" class="active">Timer</a>
+                    <a href="#tasks">Tasks</a>
+                    <a href="#stats">Stats</a>
+                    <a href="#settings">Settings</a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section id="timer" class="timer-section">
+                <div class="timer-container">
+                    <div class="timer-display">
+                        <span id="minutes">25</span>:<span id="seconds">00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="startBtn" class="control-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="pauseBtn" class="control-btn" disabled>
+                            <i class="fas fa-pause"></i>
+                        </button>
+                        <button id="resetBtn" class="control-btn">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    <div class="timer-modes">
+                        <button class="mode-btn active" data-mode="pomodoro">Study</button>
+                        <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+                        <button class="mode-btn" data-mode="longBreak">Long Break</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tasks" class="tasks-section">
+                <div class="tasks-container">
+                    <h2>Study Tasks</h2>
+                    <div class="task-input">
+                        <input type="text" id="taskInput" placeholder="Add a new study task...">
+                        <button id="addTaskBtn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <ul id="taskList" class="task-list">
+                        <!-- Tasks will be added here dynamically -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="stats" class="stats-section">
+                <div class="stats-container">
+                    <h2>Today's Progress</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>Study Sessions</h3>
+                            <p id="completedPomodoros">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <h3>Study Time</h3>
+                            <p id="focusTime">0h 0m</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Tasks Completed</h3>
+                            <p id="tasksCompleted">0</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings" class="settings-section">
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <h3>Timer Duration (minutes)</h3>
+                            <div class="duration-settings">
+                                <div class="duration-input">
+                                    <label for="pomodoroDuration">Study Session</label>
+                                    <input type="number" id="pomodoroDuration" value="25" min="1" max="60">
+                                </div>
+                                <div class="duration-input">
+                                    <label for="shortBreakDuration">Short Break</label>
+                                    <input type="number" id="shortBreakDuration" value="5" min="1" max="30">
+                                </div>
+                                <div class="duration-input">
+                                    <label for="longBreakDuration">Long Break</label>
+                                    <input type="number" id="longBreakDuration" value="15" min="1" max="60">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Sound Settings</h3>
+                            <div class="sound-settings">
+                                <div class="sound-toggle">
+                                    <label for="enableSound">Enable Sound</label>
+                                    <input type="checkbox" id="enableSound" checked>
+                                </div>
+                                <div class="sound-volume">
+                                    <label for="soundVolume">Volume</label>
+                                    <input type="range" id="soundVolume" min="0" max="100" value="50">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Notifications</h3>
+                            <div class="notification-settings">
+                                <div class="notification-toggle">
+                                    <label for="enableNotifications">Enable Notifications</label>
+                                    <input type="checkbox" id="enableNotifications" checked>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="ambient-sounds">
+            <button class="sound-toggle-btn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="sound-options">
+                <button class="sound-option" data-sound="rain">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>Rain</span>
+                </button>
+                <button class="sound-option" data-sound="cafe">
+                    <i class="fas fa-coffee"></i>
+                    <span>Cafe</span>
+                </button>
+                <button class="sound-option" data-sound="nature">
+                    <i class="fas fa-leaf"></i>
+                    <span>Nature</span>
+                </button>
+                <button class="sound-option" data-sound="white-noise">
+                    <i class="fas fa-wind"></i>
+                    <span>White Noise</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

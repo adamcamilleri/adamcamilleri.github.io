@@ -872,16 +872,17 @@ header.scrolled {
 }
 
 .project-card {
-    background-color: var(--bg-color);
-    border-radius: var(--border-radius-medium);
+    background: var(--card-bg);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: var(--shadow-small);
-    transition: all var(--transition-fast);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 2rem;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-medium);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .project-img {
@@ -973,17 +974,92 @@ header.scrolled {
 
 .project-tech {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
 }
 
 .project-tech span {
-    padding: 0.25rem 0.75rem;
-    background-color: rgba(67, 97, 238, 0.1);
-    color: var(--primary-color);
-    border-radius: var(--border-radius-small);
-    font-size: var(--smaller-font-size);
+    background: var(--bg-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.project-role {
+    color: var(--accent-color);
     font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.project-impact {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-impact span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-color-light);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+}
+
+.project-challenges {
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.project-challenges h4 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.project-challenges ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-challenges li {
+    color: var(--text-color);
+    margin-bottom: 0.3rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.project-challenges li:before {
+    content: "•";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+}
+
+@media (max-width: 768px) {
+    .project-impact {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .project-impact span {
+        width: 100%;
+    }
 }
 
 .view-more {

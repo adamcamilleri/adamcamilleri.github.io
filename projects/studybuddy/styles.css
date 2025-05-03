@@ -1,0 +1,458 @@
+:root {
+    /* Dark theme colors */
+    --primary-color: #74b9ff;
+    --secondary-color: #a29bfe;
+    --accent-color: #00cec9;
+    --background-color: #2d3436;
+    --text-color: #f8f9fa;
+    --card-color: #353b48;
+    --border-color: #636e72;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --success-color: #00cec9;
+    --warning-color: #ffeaa7;
+    --error-color: #ff7675;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--shadow-color);
+}
+
+/* Timer Section */
+.timer-section {
+    background-color: var(--card-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+.timer-display {
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0;
+    color: var(--primary-color);
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.control-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--secondary-color);
+}
+
+.control-btn:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.timer-modes {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.mode-btn {
+    background-color: var(--card-color);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn:hover,
+.mode-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Tasks Section */
+.tasks-section {
+    background-color: var(--card-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+.task-input {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.task-input input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.task-input button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task-input button:hover {
+    background-color: var(--success-color);
+}
+
+.task-list {
+    list-style: none;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.task-item:hover {
+    background-color: var(--background-color);
+}
+
+.task-item.completed span {
+    text-decoration: line-through;
+    color: var(--border-color);
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-actions button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.task-actions button:hover {
+    background-color: var(--shadow-color);
+}
+
+/* Stats Section */
+.stats-section {
+    background-color: var(--card-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.stat-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/* Settings Section */
+.settings-section {
+    background-color: var(--card-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.settings-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.setting-group {
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.setting-group h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.duration-settings {
+    display: grid;
+    gap: 1rem;
+}
+
+.duration-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.duration-input input {
+    width: 80px;
+    padding: 0.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-color);
+    color: var(--text-color);
+}
+
+.sound-settings,
+.notification-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sound-toggle,
+.notification-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sound-volume {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 5px;
+    background-color: var(--border-color);
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Ambient Sounds */
+.ambient-sounds {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.sound-toggle-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.sound-toggle-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--secondary-color);
+}
+
+.sound-options {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sound-options.show {
+    display: flex;
+}
+
+.sound-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sound-option:hover,
+.sound-option.active {
+    background-color: var(--background-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .timer-display {
+        font-size: 3rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ambient-sounds {
+        bottom: 1rem;
+        right: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timer-section,
+.tasks-section,
+.stats-section,
+.settings-section {
+    animation: fadeIn 0.5s ease-out;
+} 

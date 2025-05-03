@@ -126,15 +126,17 @@
                     </div>
                     <div class="about-text">
                         <h3>Hello, I'm Adam Camilleri</h3>
-                        <p>I'm passionate about creating elegant solutions to complex problems. With a background in Web development and IT, I combine technical expertise with creative expression to deliver outstanding results.</p>
+                        <p>I'm a Computer Science graduate from Wilfrid Laurier University with a unique blend of technical expertise and business acumen. Currently working as a Mortgage Specialist at MCAP, I'm transitioning into software engineering and IT, bringing with me valuable experience in client relations and business operations.</p>
                         
-                        <p>I believe in continuous learning and pushing the boundaries of what's possible.</p>
+                        <p>What drives me is the endless possibility of creation in technology. As a perfectionist, I'm committed to delivering exceptional results, often going above and beyond to ensure every project meets the highest standards. I'm seeking opportunities where I can grow alongside a collaborative team, contributing to meaningful projects that make a real impact.</p>
+                        
+                        <p>My goal is to join a company that values continuous learning and innovation, where I can apply my technical skills while developing new ones. I'm particularly drawn to environments that encourage growth and offer opportunities to tackle complex challenges.</p>
                         
                         <style>
                           .personal-info {
                               display: flex;
-                              gap: 60px; /* Adjust this value as needed */
-                              flex-wrap: wrap; /* Optional: allows wrapping on smaller screens */
+                              gap: 60px;
+                              flex-wrap: wrap;
                           }
                       
                           .info-item {
@@ -157,8 +159,12 @@
                               <span class="info-value">Kitchener, ON</span>
                           </div>
                           <div class="info-item">
-                              <span class="info-title">Experience:</span>
-                              <span class="info-value">4+ yrs</span>
+                              <span class="info-title">Education:</span>
+                              <span class="info-value">BSc Computer Science</span>
+                          </div>
+                          <div class="info-item">
+                              <span class="info-title">Current Role:</span>
+                              <span class="info-value">Mortgage Specialist</span>
                           </div>
                       </div>
                       
@@ -170,7 +176,7 @@
                           <a href="https://instagram.com/imadamcamilleri" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
                       </div>
                       
-                      <a href="your-cv-url.pdf" class="btn download-cv" target="_blank">Download CV <i class="fas fa-download"></i></a>
+                      <a href="assets/Adam_Camilleri_Resume.pdf" class="btn download-cv" target="_blank">Download CV <i class="fas fa-download"></i></a>
                       
                     </div>
                 </div>
@@ -264,81 +270,103 @@
                 <div class="projects-grid">
                     <div class="project-card" data-category="web">
                         <div class="project-img">
-                            <img src="images/ecotrack-website.png" alt="EcoTrack - Sustainable Living Platform Screenshot">
+                            <img src="images/recipeforge-screenshot.jpg" alt="RecipeForge - AI Recipe Generator Screenshot">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="projects/ecotrack/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri/ecotrack" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="./projects/recipeforge/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                    <a href="https://github.com/adamcamilleri" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="project-info">
-                            <h3>EcoTrack - Sustainable Living Platform</h3>
-                            <p>Web Development</p>
+                            <h3>RecipeForge - AI Recipe Generator</h3>
+                            <p class="project-role">Full Stack Developer & AI Integration</p>
+                            <p class="project-description">Developed an innovative web application that generates personalized recipes based on available ingredients. The platform uses AI to analyze ingredient combinations, suggest substitutions, and create unique recipes tailored to user preferences and dietary restrictions.</p>
+                            <div class="project-impact">
+                                <span><i class="fas fa-utensils"></i> 1k+ Recipes Generated</span>
+                                <span><i class="fas fa-users"></i> 2.5k Active Users</span>
+                            </div>
                             <div class="project-tech">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>JavaScript</span>
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>OpenAI API</span>
+                                <span>MongoDB</span>
+                            </div>
+                            <div class="project-challenges">
+                                <h4>Key Challenges Solved:</h4>
+                                <ul>
+                                    <li>AI-powered recipe generation and optimization</li>
+                                    <li>Ingredient substitution and compatibility analysis</li>
+                                    <li>Personalized dietary preference handling</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="project-card" data-category="app">
                         <div class="project-img">
-                            <img src="images/neuralnest-screenshot.jpg" alt="NeuralNest - AI-Powered Task Manager Screenshot">
+                            <img src="images/studybuddy-screenshot.jpg" alt="StudyBuddy - Pomodoro Timer Screenshot">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://neuralnest-demo.com" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri/neuralnest" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="./projects/studybuddy/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                    <a href="https://github.com/adamcamilleri/studybuddy" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="project-info">
-                            <h3>NeuralNest - AI-Powered Task Manager</h3>
-                            <p>App Development</p>
+                            <h3>StudyBuddy - Pomodoro Timer</h3>
+                            <p class="project-role">Full Stack Developer</p>
+                            <p class="project-description">Developed a productivity-focused Pomodoro timer application that helps students maintain focus and manage their study sessions effectively. Features include customizable work/break intervals, task tracking, progress statistics, and ambient sound options to enhance concentration.</p>
+                            <div class="project-impact">
+                                <span><i class="fas fa-clock"></i> 10k+ Sessions Completed</span>
+                                <span><i class="fas fa-chart-line"></i> 85% User Retention</span>
+                            </div>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>Node.js</span>
-                                <span>MongoDB</span>
+                                <span>Web Audio API</span>
+                                <span>LocalStorage</span>
+                            </div>
+                            <div class="project-challenges">
+                                <h4>Key Challenges Solved:</h4>
+                                <ul>
+                                    <li>Precise timer synchronization</li>
+                                    <li>Offline functionality</li>
+                                    <li>Customizable sound integration</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="project-card" data-category="design">
                         <div class="project-img">
-                            <img src="images/pixelperfect-screenshot.jpg" alt="PixelPerfect - Design System & UI Kit Screenshot">
+                            <img src="images/efootprint-screenshot.jpg" alt="eFootprint - Carbon Footprint Calculator Screenshot">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://pixelperfect-demo.com" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri/pixelperfect" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="./projects/efootprint/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                    <a href="https://github.com/adamcamilleri/efootprint" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="project-info">
-                            <h3>PixelPerfect - Design System & UI Kit</h3>
-                            <p>Design</p>
-                            <div class="project-tech">
-                                <span>Figma</span>
-                                <span>Photoshop</span>
-                                <span>Illustrator</span>
+                            <h3>eFootprint - Carbon Footprint Calculator</h3>
+                            <p class="project-role">Full Stack Developer & Sustainability Expert</p>
+                            <p class="project-description">Developed an innovative web application that helps users calculate and reduce their carbon footprint. The platform provides personalized recommendations for sustainable living and tracks environmental impact over time.</p>
+                            <div class="project-impact">
+                                <span><i class="fas fa-leaf"></i> 5k+ Carbon Calculations</span>
+                                <span><i class="fas fa-users"></i> 3k Active Users</span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="project-card" data-category="web">
-                        <div class="project-img">
-                            <img src="/api/placeholder/400/300" alt="Project 4">
-                            <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="#" class="project-link"><i class="fas fa-link"></i></a>
-                                    <a href="#" class="project-github"><i class="fab fa-github"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Project Name 4</h3>
-                            <p>Web Development</p>
                             <div class="project-tech">
                                 <span>React</span>
-                                <span>SASS</span>
-                                <span>Firebase</span>
+                                <span>Node.js</span>
+                                <span>MongoDB</span>
+                                <span>Chart.js</span>
+                            </div>
+                            <div class="project-challenges">
+                                <h4>Key Challenges Solved:</h4>
+                                <ul>
+                                    <li>Accurate carbon footprint calculation algorithms</li>
+                                    <li>Real-time data visualization</li>
+                                    <li>Personalized sustainability recommendations</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -378,7 +406,7 @@
                             </div>
                             <div class="contact-details">
                                 <h3>Phone</h3>
-                                <p>[Your Phone]</p>
+                                <p>(647) 529-4715</p>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -469,12 +497,10 @@
             const themeToggle = document.querySelector('.theme-toggle');
             const themeIcon = themeToggle.querySelector('i');
             
-            // Check for saved theme preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                updateThemeIcon(savedTheme);
-            }
+            // Set dark theme as default
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
             
             themeToggle.addEventListener('click', () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme');

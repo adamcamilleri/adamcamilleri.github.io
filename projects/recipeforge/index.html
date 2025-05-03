@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipeForge - AI Recipe Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-utensils"></i>
+            <span>RecipeForge</span>
+        </div>
+        <div class="nav-links">
+            <a href="#generator" class="active">Recipe Generator</a>
+            <a href="#saved">Saved Recipes</a>
+            <a href="#preferences">Preferences</a>
+            <a href="#how-it-works">How It Works</a>
+        </div>
+        <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </nav>
+
+    <section id="generator" class="generator">
+        <div class="generator-container">
+            <div class="ingredients-input">
+                <h2>Recipe Generator</h2>
+                <p class="generator-description">Enter your ingredients and preferences to discover delicious recipes.</p>
+                <div class="ingredients-list">
+                    <div class="ingredient-tag">
+                        <span>Chicken</span>
+                        <button class="remove-ingredient" aria-label="Remove Chicken">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="ingredient-tag">
+                        <span>Rice</span>
+                        <button class="remove-ingredient" aria-label="Remove Rice">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <input type="text" placeholder="Add an ingredient..." class="ingredient-input">
+                </div>
+                <div class="dietary-preferences">
+                    <h4>Dietary Preferences</h4>
+                    <div class="preference-tags">
+                        <label class="preference-tag">
+                            <input type="checkbox" name="vegetarian">
+                            <span>Vegetarian</span>
+                        </label>
+                        <label class="preference-tag">
+                            <input type="checkbox" name="vegan">
+                            <span>Vegan</span>
+                        </label>
+                        <label class="preference-tag">
+                            <input type="checkbox" name="gluten-free">
+                            <span>Gluten-Free</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="generate-button">Generate Recipe</button>
+            </div>
+            <div class="recipe-preview">
+                <div class="recipe-card">
+                    <h3>Suggested Recipe</h3>
+                    <div class="recipe-image">
+                        <img src="https://source.unsplash.com/random/800x600/?food" alt="Recipe Preview">
+                    </div>
+                    <div class="recipe-details">
+                        <h4>Add ingredients and click "Generate Recipe" to see suggestions</h4>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> --</span>
+                            <span><i class="fas fa-fire"></i> --</span>
+                            <span><i class="fas fa-star"></i> --</span>
+                        </div>
+                        <p class="recipe-description">Enter your available ingredients and dietary preferences to get personalized recipe suggestions.</p>
+                        <div class="recipe-actions">
+                            <button class="save-recipe" disabled><i class="fas fa-bookmark"></i> Save</button>
+                            <button class="view-recipe" disabled>View Recipe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Smart Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI-Powered Generation</h3>
+                <p>Get unique recipe suggestions based on your available ingredients and preferences.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-exchange-alt"></i>
+                <h3>Smart Substitutions</h3>
+                <p>Find perfect ingredient alternatives based on what you have in your pantry.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-check"></i>
+                <h3>Personalized Preferences</h3>
+                <p>Save your dietary preferences and restrictions for tailored recipe suggestions.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bookmark"></i>
+                <h3>Recipe Collection</h3>
+                <p>Save and organize your favorite recipes for future reference.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How RecipeForge Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>1. Add Your Ingredients</h3>
+                    <p>Enter the ingredients you have available in your kitchen.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>2. Set Preferences</h3>
+                    <p>Choose your dietary preferences and restrictions.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>3. Generate Recipe</h3>
+                    <p>Our AI will create a personalized recipe just for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>RecipeForge</h3>
+                <p>Making cooking easier and more creative with AI.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#generator">Recipe Generator</a></li>
+                    <li><a href="#saved">Saved Recipes</a></li>
+                    <li><a href="#preferences">Preferences</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RecipeForge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
