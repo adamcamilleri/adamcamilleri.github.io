@@ -3,180 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eFootprint - Digital Carbon Tracking Platform</title>
+    <title>eFootprint - Digital Carbon Footprint Tracker</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i>
-            <span>eFootprint</span>
+            eFootprint
         </div>
         <div class="nav-links">
-            <a href="#home" class="active">Home</a>
-            <a href="#features">Features</a>
+            <a href="#features" class="active">Features</a>
             <a href="#dashboard">Dashboard</a>
             <a href="#community">Community</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#about">About</a>
         </div>
-        <button class="theme-toggle" aria-label="Toggle dark mode">
-            <i class="fas fa-moon"></i>
-        </button>
-        <button class="cta-button">Get Started</button>
+        <div class="nav-buttons">
+            <button class="secondary-button">Log In</button>
+            <button class="cta-button">Get Started</button>
+        </div>
     </nav>
 
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="hero-content">
-            <h1>Track Your Impact,<br>Change the World</h1>
-            <p>Monitor your carbon footprint, set sustainability goals, and join a community of eco-conscious individuals.</p>
+            <h1>Track Your Digital Carbon Footprint</h1>
+            <p>Monitor and reduce your environmental impact in the digital world. Join thousands of users making a difference.</p>
             <div class="hero-buttons">
-                <button class="primary-button">Start Tracking</button>
+                <button class="cta-button">Start Tracking</button>
                 <button class="secondary-button">Learn More</button>
             </div>
-        </div>
-        <div class="hero-image">
-            <img src="./images/hero-dashboard.png" alt="eFootprint Dashboard Preview" style="max-width: 100%; height: auto;">
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">CO₂ Saved</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">User Satisfaction</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="features" class="features">
         <h2>Key Features</h2>
-        <div class="features-grid">
+        <div class="feature-grid">
             <div class="feature-card">
                 <i class="fas fa-chart-line"></i>
-                <h3>Carbon Tracking</h3>
-                <p>Monitor your daily carbon footprint with our intuitive tracking system.</p>
+                <h3>Real-time Tracking</h3>
+                <p>Monitor your digital carbon footprint in real-time with detailed analytics and insights.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-bullseye"></i>
-                <h3>Goal Setting</h3>
-                <p>Set and achieve sustainability goals with personalized recommendations.</p>
+                <i class="fas fa-bolt"></i>
+                <h3>Energy Usage</h3>
+                <p>Track energy consumption across your devices and applications with precision.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Smart Recommendations</h3>
+                <p>Get personalized suggestions to reduce your digital carbon footprint.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-users"></i>
-                <h3>Community</h3>
-                <p>Connect with like-minded individuals and share your eco-journey.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-award"></i>
-                <h3>Achievements</h3>
-                <p>Earn badges and rewards for your sustainable lifestyle choices.</p>
+                <h3>Community Challenges</h3>
+                <p>Join challenges and compete with others to reduce your environmental impact.</p>
             </div>
         </div>
     </section>
 
-    <section id="dashboard" class="dashboard">
-        <h2>Your Sustainability Dashboard</h2>
-        <div class="dashboard-preview">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Carbon Footprint</h3>
-                    <div class="stat-value">2.4</div>
-                    <div class="stat-label">tons CO₂</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Water Saved</h3>
-                    <div class="stat-value">1,200</div>
-                    <div class="stat-label">liters</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Energy Saved</h3>
-                    <div class="stat-value">450</div>
-                    <div class="stat-label">kWh</div>
-                </div>
+    <section id="dashboard" class="dashboard-preview">
+        <h2>Your Digital Impact Dashboard</h2>
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Today's Impact</h3>
+                <div class="stat-value">2.4 kg</div>
+                <p>CO₂ equivalent</p>
             </div>
-            <div class="activity-feed">
-                <h3>Recent Activities</h3>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <i class="fas fa-bicycle"></i>
-                        <div class="activity-details">
-                            <h4>Bike to Work</h4>
-                            <p>Saved 2.5 kg CO₂</p>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <i class="fas fa-recycle"></i>
-                        <div class="activity-details">
-                            <h4>Recycling</h4>
-                            <p>Saved 1.8 kg CO₂</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <h3>Weekly Trend</h3>
+                <div class="stat-value">-15%</div>
+                <p>vs last week</p>
+            </div>
+            <div class="stat-card">
+                <h3>Energy Saved</h3>
+                <div class="stat-value">45 kWh</div>
+                <p>this month</p>
             </div>
         </div>
-    </section>
-
-    <section id="learning" class="learning">
-        <h2>Lifelong Learning Journey</h2>
-        <div class="learning-content">
-            <div class="learning-intro">
-                <p>Continuous learning is at the heart of sustainable development. Here's my journey of growth and certification in environmental sustainability.</p>
-            </div>
-            <div class="certificates-grid">
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="certificate-details">
-                        <h3>Carbon Management Professional</h3>
-                        <p class="issuer">Green Business Certification Inc.</p>
-                        <p class="date">Issued: January 2024</p>
-                        <p class="description">Advanced certification in carbon footprint assessment and reduction strategies.</p>
-                    </div>
-                </div>
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="certificate-details">
-                        <h3>Sustainable Development Goals</h3>
-                        <p class="issuer">United Nations</p>
-                        <p class="date">Issued: December 2023</p>
-                        <p class="description">Comprehensive understanding of the UN's 17 Sustainable Development Goals.</p>
-                    </div>
-                </div>
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="certificate-details">
-                        <h3>Renewable Energy Systems</h3>
-                        <p class="issuer">Clean Energy Institute</p>
-                        <p class="date">Issued: November 2023</p>
-                        <p class="description">Expertise in solar, wind, and other renewable energy technologies.</p>
-                    </div>
+        <div class="activity-feed">
+            <h3>Recent Activities</h3>
+            <div class="activity-item">
+                <i class="fas fa-laptop"></i>
+                <div class="activity-content">
+                    <h4>Optimized Browser Usage</h4>
+                    <p>Reduced energy consumption by 20%</p>
+                    <span class="activity-time">2 hours ago</span>
                 </div>
             </div>
-            <div class="learning-cta">
-                <h3>Join the Learning Journey</h3>
-                <p>Stay updated with the latest in sustainability and environmental science.</p>
-                <button class="primary-button">Explore Courses</button>
+            <div class="activity-item">
+                <i class="fas fa-cloud"></i>
+                <div class="activity-content">
+                    <h4>Cloud Storage Cleanup</h4>
+                    <p>Freed up 5GB of storage</p>
+                    <span class="activity-time">5 hours ago</span>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="community" class="community">
         <h2>Join Our Community</h2>
-        <div class="community-content">
-            <div class="community-stats">
-                <div class="stat">
-                    <div class="stat-number">10K+</div>
-                    <div class="stat-label">Active Users</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Tons CO₂ Saved</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Cities</div>
-                </div>
+        <p>Connect with like-minded individuals and make a collective impact.</p>
+        <div class="community-stats">
+            <div class="stat">
+                <span class="stat-number">100+</span>
+                <span class="stat-label">Daily Challenges</span>
             </div>
-            <div class="community-cta">
-                <h3>Ready to Make a Difference?</h3>
-                <p>Join thousands of eco-conscious individuals making a positive impact.</p>
-                <button class="primary-button">Join Now</button>
+            <div class="stat">
+                <span class="stat-number">50K+</span>
+                <span class="stat-label">Community Members</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">1M+</span>
+                <span class="stat-label">Actions Taken</span>
+            </div>
+        </div>
+        <button class="cta-button">Join Community</button>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <h2>Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <ul>
+                    <li>Basic tracking</li>
+                    <li>Weekly reports</li>
+                    <li>Community access</li>
+                </ul>
+                <button class="secondary-button">Get Started</button>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Pro</h3>
+                <div class="price">$9.99<span>/month</span></div>
+                <ul>
+                    <li>Advanced analytics</li>
+                    <li>Real-time tracking</li>
+                    <li>Custom recommendations</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="cta-button">Get Pro</button>
+            </div>
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">Custom</div>
+                <ul>
+                    <li>Team management</li>
+                    <li>API access</li>
+                    <li>Custom integrations</li>
+                    <li>Dedicated support</li>
+                </ul>
+                <button class="secondary-button">Contact Us</button>
             </div>
         </div>
     </section>
@@ -185,7 +180,12 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>eFootprint</h3>
-                <p>Making sustainability tracking easy and engaging.</p>
+                <p>Making digital sustainability accessible to everyone.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
@@ -193,15 +193,25 @@
                     <li><a href="#features">Features</a></li>
                     <li><a href="#dashboard">Dashboard</a></li>
                     <li><a href="#community">Community</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>Connect</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Stay updated with our latest features and tips.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit" class="primary-button">Subscribe</button>
+                </form>
             </div>
         </div>
         <div class="footer-bottom">
@@ -210,30 +220,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Theme switching functionality
-        const themeToggle = document.querySelector('.theme-toggle');
-        const themeIcon = themeToggle.querySelector('i');
-        
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-        
-        function updateThemeIcon(theme) {
-            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-    </script>
 </body>
 </html> 

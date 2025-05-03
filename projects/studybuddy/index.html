@@ -6,6 +6,7 @@
     <title>StudyBuddy - Pomodoro Timer</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -26,18 +27,22 @@
 
         <main>
             <section id="timer" class="timer-section">
+                <div class="timer-background"></div>
                 <div class="timer-container">
-                    <div class="timer-display">
-                        <span id="minutes">25</span>:<span id="seconds">00</span>
+                    <div class="timer-progress">
+                        <svg class="progress-ring" width="250" height="250">
+                            <circle class="progress-ring-circle-bg" stroke-width="8" cx="125" cy="125" r="115" fill="transparent"/>
+                            <circle class="progress-ring-circle" stroke-width="8" cx="125" cy="125" r="115" fill="transparent"/>
+                        </svg>
+                        <div class="timer-display">
+                            <span id="minutes">25</span>:<span id="seconds">00</span><span id="milliseconds">.000</span>
+                        </div>
                     </div>
                     <div class="timer-controls">
-                        <button id="startBtn" class="control-btn">
+                        <button id="startBtn" class="control-btn" title="Start/Pause (Space)">
                             <i class="fas fa-play"></i>
                         </button>
-                        <button id="pauseBtn" class="control-btn" disabled>
-                            <i class="fas fa-pause"></i>
-                        </button>
-                        <button id="resetBtn" class="control-btn">
+                        <button id="resetBtn" class="control-btn" title="Reset (R)">
                             <i class="fas fa-redo"></i>
                         </button>
                     </div>
@@ -46,17 +51,41 @@
                         <button class="mode-btn" data-mode="shortBreak">Short Break</button>
                         <button class="mode-btn" data-mode="longBreak">Long Break</button>
                     </div>
+                    <div class="session-count">
+                        <span>Study Session </span>
+                        <span id="sessionCount">1</span>
+                        <span> of </span>
+                        <span id="totalSessions">4</span>
+                        <span> (Long Break Next)</span>
+                    </div>
                 </div>
             </section>
 
             <section id="tasks" class="tasks-section">
                 <div class="tasks-container">
-                    <h2>Study Tasks</h2>
+                    <div class="tasks-header">
+                        <h2>Study Tasks</h2>
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="active">Active</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                        </div>
+                    </div>
                     <div class="task-input">
                         <input type="text" id="taskInput" placeholder="Add a new study task...">
-                        <button id="addTaskBtn">
+                        <input type="date" id="taskDueDate" title="Due Date">
+                        <select id="taskPriority" title="Priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                        <button id="addTaskBtn" title="Add Task (Enter)">
                             <i class="fas fa-plus"></i>
                         </button>
+                    </div>
+                    <div class="task-search">
+                        <input type="text" id="taskSearch" placeholder="Search tasks...">
+                        <i class="fas fa-search"></i>
                     </div>
                     <ul id="taskList" class="task-list">
                         <!-- Tasks will be added here dynamically -->
@@ -66,7 +95,7 @@
 
             <section id="stats" class="stats-section">
                 <div class="stats-container">
-                    <h2>Today's Progress</h2>
+                    <h2>Study Analytics</h2>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <i class="fas fa-check-circle"></i>
@@ -82,6 +111,21 @@
                             <i class="fas fa-tasks"></i>
                             <h3>Tasks Completed</h3>
                             <p id="tasksCompleted">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-fire"></i>
+                            <h3>Current Streak</h3>
+                            <p id="currentStreak">0 days</p>
+                        </div>
+                    </div>
+                    <div class="stats-charts">
+                        <div class="chart-container">
+                            <h3>Daily Progress</h3>
+                            <canvas id="dailyChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Task Completion</h3>
+                            <canvas id="taskChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -106,6 +150,10 @@
                                     <label for="longBreakDuration">Long Break</label>
                                     <input type="number" id="longBreakDuration" value="15" min="1" max="60">
                                 </div>
+                                <div class="duration-input">
+                                    <label for="sessionsUntilLongBreak">Sessions until Long Break</label>
+                                    <input type="number" id="sessionsUntilLongBreak" value="4" min="1" max="10">
+                                </div>
                             </div>
                         </div>
                         <div class="setting-group">
@@ -119,6 +167,14 @@
                                     <label for="soundVolume">Volume</label>
                                     <input type="range" id="soundVolume" min="0" max="100" value="50">
                                 </div>
+                                <div class="sound-select">
+                                    <label for="alarmSound">Alarm Sound</label>
+                                    <select id="alarmSound">
+                                        <option value="bell">Bell</option>
+                                        <option value="chime">Chime</option>
+                                        <option value="digital">Digital</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="setting-group">
@@ -128,6 +184,22 @@
                                     <label for="enableNotifications">Enable Notifications</label>
                                     <input type="checkbox" id="enableNotifications" checked>
                                 </div>
+                                <div class="notification-toggle">
+                                    <label for="autoStartBreaks">Auto-start Breaks</label>
+                                    <input type="checkbox" id="autoStartBreaks" checked>
+                                </div>
+                                <div class="notification-toggle">
+                                    <label for="autoStartPomodoros">Auto-start Pomodoros</label>
+                                    <input type="checkbox" id="autoStartPomodoros">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Data Management</h3>
+                            <div class="data-settings">
+                                <button id="exportData" class="btn">Export Data</button>
+                                <button id="importData" class="btn">Import Data</button>
+                                <button id="resetData" class="btn danger">Reset All Data</button>
                             </div>
                         </div>
                     </div>
@@ -136,30 +208,46 @@
         </main>
 
         <div class="ambient-sounds">
-            <button class="sound-toggle-btn">
+            <button class="sound-toggle-btn" title="Toggle Ambient Sounds">
                 <i class="fas fa-volume-up"></i>
             </button>
             <div class="sound-options">
-                <button class="sound-option" data-sound="rain">
+                <button class="sound-option" data-sound="rain" title="Rain">
                     <i class="fas fa-cloud-rain"></i>
                     <span>Rain</span>
                 </button>
-                <button class="sound-option" data-sound="cafe">
+                <button class="sound-option" data-sound="cafe" title="Cafe">
                     <i class="fas fa-coffee"></i>
                     <span>Cafe</span>
                 </button>
-                <button class="sound-option" data-sound="nature">
+                <button class="sound-option" data-sound="nature" title="Nature">
                     <i class="fas fa-leaf"></i>
                     <span>Nature</span>
                 </button>
-                <button class="sound-option" data-sound="white-noise">
+                <button class="sound-option" data-sound="white-noise" title="White Noise">
                     <i class="fas fa-wind"></i>
                     <span>White Noise</span>
                 </button>
             </div>
         </div>
+
+        <div class="keyboard-shortcuts">
+            <button class="shortcuts-btn" title="Keyboard Shortcuts">
+                <i class="fas fa-keyboard"></i>
+            </button>
+            <div class="shortcuts-modal">
+                <h3>Keyboard Shortcuts</h3>
+                <ul>
+                    <li><kbd>Space</kbd> Start/Pause Timer</li>
+                    <li><kbd>R</kbd> Reset Timer</li>
+                    <li><kbd>Enter</kbd> Add Task</li>
+                    <li><kbd>Esc</kbd> Close Modal</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html> 
