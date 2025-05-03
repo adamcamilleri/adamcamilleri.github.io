@@ -91,16 +91,121 @@ function updateSessionDisplay() {
     `;
 }
 
+// Ambient Sound Matching
+const soundRecommendations = {
+    coding: ['white-noise', 'cafe'],
+    writing: ['rain', 'nature'],
+    reading: ['nature', 'white-noise'],
+    default: ['cafe', 'rain']
+};
+
+let currentTaskType = 'default';
+let productivityScore = 0;
+
+function updateTaskType(type) {
+    currentTaskType = type;
+    recommendSound();
+}
+
+function recommendSound() {
+    const recommendedSounds = soundRecommendations[currentTaskType];
+    const randomSound = recommendedSounds[Math.floor(Math.random() * recommendedSounds.length)];
+    
+    // Update UI to show recommendation
+    const soundRecommendation = document.createElement('div');
+    soundRecommendation.className = 'sound-recommendation';
+    soundRecommendation.innerHTML = `
+        <p>Recommended sound for ${currentTaskType}:</p>
+        <button class="sound-option" data-sound="${randomSound}">
+            <i class="fas fa-music"></i> ${randomSound.replace('-', ' ')}
+        </button>
+    `;
+    
+    // Remove any existing recommendation
+    const existingRecommendation = document.querySelector('.sound-recommendation');
+    if (existingRecommendation) {
+        existingRecommendation.remove();
+    }
+    
+    // Add new recommendation
+    document.querySelector('.sound-options').appendChild(soundRecommendation);
+    
+    // Add click handler for the new button
+    soundRecommendation.querySelector('.sound-option').addEventListener('click', () => {
+        playAmbientSound(randomSound);
+    });
+}
+
+// Virtual Accountability Partner
+const accountabilityMessages = {
+    start: [
+        "Ready to crush this session! 💪",
+        "Let's make this time count! ⏰",
+        "You've got this! 🚀"
+    ],
+    pause: [
+        "Taking a break? Good call! Remember to stretch. 🧘‍♂️",
+        "Quick breaks help maintain focus. You're doing great! 🌟",
+        "Smart to pause when needed. Ready to continue? 🎯"
+    ],
+    complete: [
+        "Amazing work! You're building great habits! 🎉",
+        "Another session completed! Keep up the momentum! 🌈",
+        "You're making progress! Every session counts! ⭐"
+    ],
+    milestone: [
+        "Wow! You've completed 5 sessions! That's impressive! 🏆",
+        "10 sessions done! You're on fire! 🔥",
+        "Milestone reached! Your dedication is inspiring! 🌟"
+    ]
+};
+
+function getAccountabilityMessage(type) {
+    const messages = accountabilityMessages[type];
+    return messages[Math.floor(Math.random() * messages.length)];
+}
+
+function showAccountabilityMessage(type) {
+    const message = getAccountabilityMessage(type);
+    const messageElement = document.createElement('div');
+    messageElement.className = 'accountability-message animate__animated animate__fadeIn';
+    messageElement.innerHTML = `
+        <div class="message-content">
+            <i class="fas fa-robot"></i>
+            <p>${message}</p>
+        </div>
+    `;
+    
+    // Remove any existing message
+    const existingMessage = document.querySelector('.accountability-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Add new message
+    document.querySelector('.timer-container').appendChild(messageElement);
+    
+    // Remove message after 5 seconds
+    setTimeout(() => {
+        messageElement.classList.add('animate__fadeOut');
+        setTimeout(() => messageElement.remove(), 1000);
+    }, 5000);
+}
+
 function toggleTimer() {
     if (isRunning) {
         cancelAnimationFrame(timer);
         isRunning = false;
         startBtn.innerHTML = '<i class="fas fa-play"></i>';
+        startBtn.classList.remove('active');
+        showAccountabilityMessage('pause');
     } else {
         isRunning = true;
         startBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        startBtn.classList.add('active');
         lastTimestamp = performance.now();
         timer = requestAnimationFrame(updateTimer);
+        showAccountabilityMessage('start');
     }
 }
 
@@ -133,6 +238,13 @@ function updateTimer(timestamp) {
                 timeLeft = DURATIONS.shortBreak * 60;
             }
             updateStats('pomodoro');
+            
+            // Show milestone message for every 5 sessions
+            if (sessionCount % 5 === 0) {
+                showAccountabilityMessage('milestone');
+            } else {
+                showAccountabilityMessage('complete');
+            }
         } else {
             currentMode = 'pomodoro';
             timeLeft = DURATIONS.pomodoro * 60;
@@ -144,6 +256,7 @@ function updateTimer(timestamp) {
         updateModeButtons();
         isRunning = false;
         startBtn.innerHTML = '<i class="fas fa-play"></i>';
+        startBtn.classList.remove('active');
         return;
     }
 
@@ -156,6 +269,7 @@ function resetTimer() {
     milliseconds = 0;
     isRunning = false;
     startBtn.innerHTML = '<i class="fas fa-play"></i>';
+    startBtn.classList.remove('active');
     updateTimerDisplay();
     updateSessionDisplay();
     updateModeButtons();
@@ -193,6 +307,12 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
         switchMode(btn.dataset.mode);
     });
 });
+
+// Initialize timer
+function initializeTimer() {
+    timeLeft = DURATIONS[currentMode] * 60;
+    updateTimerDisplay();
+}
 
 // Initialize timer display
 updateTimerDisplay();
@@ -439,71 +559,21 @@ settingsInputs.forEach(input => {
     }
 });
 
-// Initialize timer
-function initializeTimer() {
-    timeLeft = DURATIONS[currentMode] * 60;
-    updateDisplay();
-}
+// Add task type selector to the UI
+const taskTypeSelector = document.createElement('div');
+taskTypeSelector.className = 'task-type-selector';
+taskTypeSelector.innerHTML = `
+    <select id="taskType">
+        <option value="default">Select Task Type</option>
+        <option value="coding">Coding</option>
+        <option value="writing">Writing</option>
+        <option value="reading">Reading</option>
+    </select>
+`;
 
-// Update display
-function updateDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    minutesDisplay.textContent = minutes.toString().padStart(2, '0');
-    secondsDisplay.textContent = seconds.toString().padStart(2, '0');
-}
+document.querySelector('.timer-modes').after(taskTypeSelector);
 
-// Start timer
-function startTimer() {
-    if (!isRunning) {
-        isRunning = true;
-        startBtn.disabled = true;
-        pauseBtn.disabled = false;
-        
-        timer = setInterval(() => {
-            timeLeft--;
-            updateDisplay();
-            
-            if (timeLeft === 0) {
-                clearInterval(timer);
-                isRunning = false;
-                startBtn.disabled = false;
-                pauseBtn.disabled = true;
-                playAlarm();
-                updateStats();
-            }
-        }, 1000);
-    }
-}
-
-// Pause timer
-function pauseTimer() {
-    if (isRunning) {
-        clearInterval(timer);
-        isRunning = false;
-        startBtn.disabled = false;
-        pauseBtn.disabled = true;
-    }
-}
-
-// Change timer mode
-function changeMode(mode) {
-    currentMode = mode;
-    modeButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.mode === mode);
-    });
-    resetTimer();
-}
-
-// Event Listeners
-startBtn.addEventListener('click', startTimer);
-pauseBtn.addEventListener('click', pauseTimer);
-
-modeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        changeMode(btn.dataset.mode);
-    });
-});
-
-// Initialize timer
-initializeTimer(); 
+// Add event listener for task type changes
+document.getElementById('taskType').addEventListener('change', (e) => {
+    updateTaskType(e.target.value);
+}); 
