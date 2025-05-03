@@ -608,8 +608,9 @@ header.scrolled {
 
 /* =========== ABOUT SECTION =========== */
 .about {
-    padding: 8rem 0;
-    background-color: var(--bg-color-dark);  /* Dark blue */
+    background-color: var(--bg-color-dark);
+    padding: 100px 0;
+    position: relative;
 }
 
 .about-content {
@@ -834,7 +835,7 @@ header.scrolled {
 /* =========== PROJECTS SECTION =========== */
 .projects {
     padding: 8rem 0;
-    background-color: var(--bg-color-alt);  /* Unique color for projects */
+    background-color: var(--bg-color-alt);  /* Reverted back to original */
 }
 
 .project-filters {
@@ -992,7 +993,7 @@ header.scrolled {
 /* =========== CONTACT SECTION =========== */
 .contact {
     padding: 8rem 0;
-    background-color: var(--bg-color);  /* Lightest blue */
+    background-color: var(--bg-color);  /* Reverted back to original */
 }
 
 .contact-content {
@@ -1133,7 +1134,7 @@ header.scrolled {
 
 /* =========== FOOTER =========== */
 footer {
-    background-color: #ffffff;  /* Pure white to complete the gradient */
+    background-color: #ffffff;  /* Reverted back to original */
     padding: 5rem 0 0;
     position: relative;
 }
@@ -1176,7 +1177,25 @@ footer {
     left: 0;
     width: 30px;
     height: 2px;
-    background-color: var(--primary-color);  /* Or any color of your choice */
+    background-color: var(--primary-color);
+}
+
+.footer-links ul li a {
+    color: var(--text-color-light);  /* Ensuring links are visible on dark background */
+}
+
+.footer-links ul li a:hover {
+    color: var(--primary-color);
+}
+
+.newsletter-form input {
+    background-color: rgba(255, 255, 255, 0.1);  /* Semi-transparent input field */
+    color: var(--text-color-light);
+}
+
+.newsletter-form input::placeholder {
+    color: var(--text-color-light);
+    opacity: 0.7;
 }
 
 /* Learning Section */
