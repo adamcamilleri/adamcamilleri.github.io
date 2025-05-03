@@ -212,7 +212,7 @@ generateButton.addEventListener('click', async () => {
         const ingredientsList = [...ingredients];
         console.log('Generating recipe for ingredients:', ingredientsList);
         
-        const recipe = generateRecipe(ingredientsList, [...selectedPreferences]);
+        const recipe = await generateRecipe(ingredientsList, [...selectedPreferences]);
         console.log('Generated recipe:', recipe);
         
         if (!recipe) {
@@ -220,7 +220,7 @@ generateButton.addEventListener('click', async () => {
             return;
         }
 
-        displayRecipe(recipe);
+        await displayRecipe(recipe);
     } catch (error) {
         console.error('Error in recipe generation:', error);
         showNotification('Failed to generate recipe. Please try again.', 'error');
@@ -230,7 +230,65 @@ generateButton.addEventListener('click', async () => {
     }
 });
 
-function generateRecipe(ingredients, preferences) {
+// Image Generation
+async function generateRecipeImage(recipeTitle) {
+    // For now, just return the recipe's image if it exists
+    const recipe = recipeData.recipes.find(r => r.title === recipeTitle);
+    if (recipe && recipe.image) {
+        return recipe.image;
+    }
+    
+    // Fallback to a default image if no specific image is found
+    return "../../images/default-recipe.jpg";
+}
+
+// Update the displayRecipe function to use the new image generation
+async function displayRecipe(recipe) {
+    if (!recipe) {
+        console.error('No recipe provided to display');
+        return;
+    }
+
+    console.log('Displaying recipe:', recipe);
+    
+    // Generate or fetch image for the recipe
+    const recipeImage = await generateRecipeImage(recipe.title);
+    
+    recipeCard.innerHTML = `
+        <div class="recipe-image">
+            <img src="${recipeImage}" alt="${recipe.title}" loading="lazy">
+        </div>
+        <div class="recipe-details">
+            <h3>${recipe.title}</h3>
+            <p>${recipe.description}</p>
+            <div class="recipe-meta">
+                <span><i class="far fa-clock"></i> ${recipe.cookingTime}</span>
+                <span><i class="fas fa-fire"></i> ${recipe.calories} cal</span>
+                <span><i class="fas fa-signal"></i> ${recipe.difficulty}</span>
+            </div>
+            <div class="recipe-actions">
+                <button class="save-recipe">
+                    <i class="far fa-bookmark"></i> Save
+                </button>
+                <button class="view-recipe">
+                    <i class="fas fa-utensils"></i> View Recipe
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Add event listeners to new buttons
+    recipeCard.querySelector('.save-recipe').addEventListener('click', () => {
+        showNotification('Recipe saved to your collection!', 'success');
+    });
+
+    recipeCard.querySelector('.view-recipe').addEventListener('click', () => {
+        showRecipeDetails(recipe);
+    });
+}
+
+// Update the generateRecipe function to include image generation
+async function generateRecipe(ingredients, preferences) {
     console.log('Generating recipe with:');
     console.log('Ingredients:', ingredients);
     console.log('Preferences:', preferences);
@@ -288,48 +346,14 @@ function generateRecipe(ingredients, preferences) {
     // Select a random recipe from matching recipes
     const selectedRecipe = matchingRecipes[Math.floor(Math.random() * matchingRecipes.length)];
     console.log('Selected recipe:', selectedRecipe.title);
-    return selectedRecipe;
-}
 
-function displayRecipe(recipe) {
-    if (!recipe) {
-        console.error('No recipe provided to display');
-        return;
-    }
-
-    console.log('Displaying recipe:', recipe);
+    // Add image generation to the recipe object
+    const recipe = {
+        ...selectedRecipe,
+        image: await generateRecipeImage(selectedRecipe.title)
+    };
     
-    recipeCard.innerHTML = `
-        <div class="recipe-image">
-            <img src="${recipe.image}" alt="${recipe.title}">
-        </div>
-        <div class="recipe-details">
-            <h3>${recipe.title}</h3>
-            <p>${recipe.description}</p>
-            <div class="recipe-meta">
-                <span><i class="far fa-clock"></i> ${recipe.cookingTime}</span>
-                <span><i class="fas fa-fire"></i> ${recipe.calories} cal</span>
-                <span><i class="fas fa-signal"></i> ${recipe.difficulty}</span>
-            </div>
-            <div class="recipe-actions">
-                <button class="save-recipe">
-                    <i class="far fa-bookmark"></i> Save
-                </button>
-                <button class="view-recipe">
-                    <i class="fas fa-utensils"></i> View Recipe
-                </button>
-            </div>
-        </div>
-    `;
-
-    // Add event listeners to new buttons
-    recipeCard.querySelector('.save-recipe').addEventListener('click', () => {
-        showNotification('Recipe saved to your collection!', 'success');
-    });
-
-    recipeCard.querySelector('.view-recipe').addEventListener('click', () => {
-        showRecipeDetails(recipe);
-    });
+    return recipe;
 }
 
 // Recipe Details Modal
