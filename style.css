@@ -65,19 +65,22 @@
 }
 
 /* Base styles - adjusted for Didot */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     color: var(--text-color);
     background-color: var(--bg-color);
     line-height: 1.7;
-    overflow-x: hidden;
     font-weight: 400;
     letter-spacing: var(--letter-spacing-normal);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    position: relative;
 }
 
 h1, h2, h3, h4 {
@@ -263,6 +266,7 @@ h1, h2, h3, h4 {
     padding: 0 2rem;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .section {
@@ -270,7 +274,8 @@ h1, h2, h3, h4 {
     width: 100%;
     margin: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .section-title::after {
@@ -324,10 +329,12 @@ h1, h2, h3, h4 {
 /* =========== PARALLAX BACKGROUND =========== */
 .parallax-container {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     z-index: -1;
     overflow: hidden;
 }
@@ -342,6 +349,8 @@ h1, h2, h3, h4 {
     position: absolute;
     width: 100%;
     height: 100%;
+    left: 0;
+    right: 0;
 }
 
 .bg-gradient {
@@ -713,8 +722,12 @@ header.scrolled {
     background-color: var(--bg-color-darker);  /* Changed from var(--bg-color-dark) to var(--bg-color-darker) */
     padding: 6rem 2rem;
     position: relative;
-    width: 100%;
+    width: 100vw;
     margin: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     box-sizing: border-box;
 }
 
@@ -990,8 +1003,12 @@ header.scrolled {
 .projects {
     padding: 6rem 2rem;
     background-color: var(--bg-color-alt);
-    width: 100%;
+    width: 100vw;
     margin: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     box-sizing: border-box;
 }
 
@@ -1276,8 +1293,12 @@ header.scrolled {
 .contact {
     padding: 6rem 2rem;
     background-color: var(--bg-color);  /* Reverted back to original */
-    width: 100%;
+    width: 100vw;
     margin: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     box-sizing: border-box;
 }
 
