@@ -1009,15 +1009,12 @@ header.scrolled {
 
 /* =========== PROJECTS SECTION =========== */
 .projects {
-    padding: 6rem 2rem;
+    padding: 6rem 0;
     background-color: var(--bg-color-alt);
-    width: 100vw;
-    margin: 0;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .projects-grid {
@@ -1025,7 +1022,7 @@ header.scrolled {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin: 2rem 0;
-    padding: 0 1rem;
+    padding: 0;
 }
 
 @media (min-width: 768px) {
@@ -1608,6 +1605,8 @@ footer {
     background-color: var(--bg-color-skills);
     width: 100%;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .skills-learning-grid {
@@ -1867,7 +1866,8 @@ footer {
         display: flex;
         flex-direction: column;
         gap: 4rem;
-        padding: 0 1rem;
+        padding: 0;
+        margin: 0;
     }
     
     .learning-content,
@@ -1880,6 +1880,8 @@ footer {
     .certificates-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        padding: 0;
+        margin: 0;
     }
     
     .certificate-card {
@@ -1917,6 +1919,8 @@ footer {
     .skill-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        padding: 0;
+        margin: 0;
     }
     
     .skill-item {
@@ -1931,9 +1935,12 @@ footer {
         padding: 0 1rem;
         width: 100%;
         box-sizing: border-box;
+        margin: 0;
     }
     
     .section {
         padding: 4rem 0;
+        width: 100%;
+        margin: 0;
     }
 }
