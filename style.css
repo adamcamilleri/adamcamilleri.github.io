@@ -778,7 +778,7 @@ header.scrolled {
 
 .about-text p {
     margin-bottom: 1.5rem;
-    color: #ffffff;  /* Changing paragraph text to white */
+    color: var(--text-color);  /* Changed from #ffffff to var(--text-color) for better contrast */
 }
 
 .personal-info {
@@ -800,7 +800,7 @@ header.scrolled {
 }
 
 .info-value {
-    color: #ffffff;  /* Changing info values to white */
+    color: var(--text-color);  /* Changed from #ffffff to var(--text-color) for better contrast */
 }
 
 .social-links {
@@ -1152,9 +1152,11 @@ header.scrolled {
 }
 
 .project-description {
-    color: var(--text-color-light);
+    color: var(--text-color);  /* Changed to black text */
     margin-bottom: 1.5rem;
-    font-size: var(--normal-font-size);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    letter-spacing: var(--letter-spacing-normal);
 }
 
 .project-links {
@@ -1817,4 +1819,22 @@ footer {
     margin: 5px;
     transition: all var(--transition-fast);
     border-radius: var(--border-radius-small);
+}
+
+/* Update skills-learning section for mobile */
+@media screen and (max-width: 768px) {
+    .skills-learning-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+    }
+    
+    .learning-content,
+    .skills-content {
+        width: 100%;
+    }
+    
+    .certificates-grid {
+        grid-template-columns: 1fr;
+    }
 }
