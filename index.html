@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam Camilleri | Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=1.2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 </head>
@@ -28,9 +28,6 @@
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </div>
-            <button class="theme-toggle" aria-label="Toggle dark mode">
-                <i class="fas fa-moon"></i>
-            </button>
             <div class="burger">
                 <div class="line1"></div>
                 <div class="line2"></div>
@@ -299,63 +296,31 @@
                 </div>
                 <div class="projects-grid">
                     <div class="project-card" data-category="app">
-                        <div class="project-header">
-                            <h3>StudyBuddy</h3>
-                        </div>
-                        <div class="project-info">
-                            <p class="project-description">A productivity-focused Pomodoro timer application with customizable work/break intervals, task tracking, and ambient sound options.</p>
-                            <div class="project-tech">
-                                <span>React</span>
-                                <span>CSS3</span>
-                                <span>LocalStorage</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="./projects/studybuddy/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                <a href="https://github.com/adamcamilleri/studybuddy" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                            </div>
+                        <h3 class="project-title studybuddy-title">StudyBuddy</h3>
+                        <p class="project-description">A productivity-focused Pomodoro timer application with customizable work/break intervals, task tracking, and ambient sound options.</p>
+                        <div class="project-links">
+                            <a href="./projects/studybuddy/index.html" class="project-link" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/adamcamilleri/studybuddy" class="project-link" target="_blank">GitHub <i class="fab fa-github"></i></a>
                         </div>
                     </div>
 
                     <div class="project-card" data-category="web">
-                        <div class="project-header">
-                            <h3>Adam's Cookbook</h3>
-                        </div>
-                        <div class="project-info">
-                            <p class="project-description">Web application that generates personalized recipes based on available ingredients using AI to analyze combinations and suggest substitutions.</p>
-                            <div class="project-tech">
-                                <span>React</span>
-                                <span>Node.js</span>
-                                <span>OpenAI API</span>
-                                <span>MongoDB</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="./projects/recipeforge/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                            </div>
+                        <h3 class="project-title cookbook-title">Adam's Cookbook</h3>
+                        <p class="project-description">Web application that generates personalized recipes based on available ingredients using AI to analyze combinations and suggest substitutions.</p>
+                        <div class="project-links">
+                            <a href="./projects/recipeforge/index.html" class="project-link" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/adamcamilleri/adams-cookbook" class="project-link" target="_blank">GitHub <i class="fab fa-github"></i></a>
                         </div>
                     </div>
 
                     <div class="project-card" data-category="web">
-                        <div class="project-header">
-                            <h3>eFootprint</h3>
-                        </div>
-                        <div class="project-info">
-                            <p class="project-description">Web application that calculates carbon footprint and provides personalized recommendations for sustainable living.</p>
-                            <div class="project-tech">
-                                <span>React</span>
-                                <span>Node.js</span>
-                                <span>MongoDB</span>
-                                <span>Chart.js</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="./projects/efootprint/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                <a href="https://github.com/adamcamilleri/efootprint" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                            </div>
+                        <h3 class="project-title efootprint-title">eFootprint</h3>
+                        <p class="project-description">Web application that calculates carbon footprint and provides personalized recommendations for sustainable living.</p>
+                        <div class="project-links">
+                            <a href="./projects/efootprint/index.html" class="project-link" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/adamcamilleri/efootprint" class="project-link" target="_blank">GitHub <i class="fab fa-github"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="view-more">
-                    <a href="#" class="btn primary">View All Projects</a>
                 </div>
             </div>
         </section>
@@ -461,32 +426,58 @@
     </footer>
 
     <script>
-        // Initialize Parallax
+        // Typewriter Effect
+        const typingElement = document.querySelector('.typing');
+        const professions = ["Developer", "Thinker", "Creator", "Innovator"];
+        let i = 0;
+        let j = 0;
+        let currentProfession = "";
+        let isDeleting = false;
+        let isEnd = false;
+        
+        function typeWriter() {
+            isEnd = false;
+            if (i < professions.length) {
+                if (!isDeleting && j <= professions[i].length) {
+                    currentProfession = professions[i].substring(0, j);
+                    typingElement.textContent = currentProfession;
+                    j++;
+                    if (j > professions[i].length) {
+                        isEnd = true;
+                        isDeleting = true;
+                        setTimeout(typeWriter, 2000);
+                        return;
+                    }
+                }
+                
+                if (isDeleting && j >= 0) {
+                    currentProfession = professions[i].substring(0, j);
+                    typingElement.textContent = currentProfession;
+                    j--;
+                    if (j < 0) {
+                        isDeleting = false;
+                        i++;
+                        if (i === professions.length) {
+                            i = 0;
+                        }
+                        j = 0;
+                    }
+                }
+                
+                const spedUp = isDeleting ? 30 : 100;
+                const normalSpeed = isEnd ? 2000 : spedUp;
+                setTimeout(typeWriter, normalSpeed);
+            }
+        }
+
+        // Initialize everything when the DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Start the typewriter effect
+            setTimeout(typeWriter, 1000);
+
+            // Initialize Parallax
             var scene = document.getElementById('scene');
             var parallaxInstance = new Parallax(scene);
-            
-            // Theme switching functionality
-            const themeToggle = document.querySelector('.theme-toggle');
-            const themeIcon = themeToggle.querySelector('i');
-            
-            // Set dark theme as default
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
-            
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateThemeIcon(newTheme);
-            });
-            
-            function updateThemeIcon(theme) {
-                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            }
             
             // Mobile Navigation
             const burger = document.querySelector('.burger');
@@ -496,52 +487,6 @@
                 navLinks.classList.toggle('nav-active');
                 burger.classList.toggle('toggle');
             });
-            
-            // Typewriter Effect
-            const typingElement = document.querySelector('.typing');
-            const professions = ["Developer", "Thinker", "Creator", "Innovator"];
-            let i = 0;
-            let j = 0;
-            let currentProfession = "";
-            let isDeleting = false;
-            let isEnd = false;
-            
-            function typeWriter() {
-                isEnd = false;
-                if (i < professions.length) {
-                    if (!isDeleting && j <= professions[i].length) {
-                        currentProfession = professions[i].substring(0, j);
-                        typingElement.textContent = currentProfession;
-                        j++;
-                        if (j > professions[i].length) {
-                            isEnd = true;
-                            isDeleting = true;
-                            setTimeout(typeWriter, 2000);
-                            return;
-                        }
-                    }
-                    
-                    if (isDeleting && j >= 0) {
-                        currentProfession = professions[i].substring(0, j);
-                        typingElement.textContent = currentProfession;
-                        j--;
-                        if (j < 0) {
-                            isDeleting = false;
-                            i++;
-                            if (i === professions.length) {
-                                i = 0;
-                            }
-                            j = 0;
-                        }
-                    }
-                    
-                    const spedUp = isDeleting ? 30 : 100;
-                    const normalSpeed = isEnd ? 2000 : spedUp;
-                    setTimeout(typeWriter, normalSpeed);
-                }
-            }
-            
-            typeWriter();
             
             // Project Filtering
             const filterBtns = document.querySelectorAll('.filter-btn');
