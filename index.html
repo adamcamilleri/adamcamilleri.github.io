@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam Camilleri | Portfolio</title>
     <link rel="stylesheet" href="style.css?v=1.2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 </head>
@@ -118,7 +118,7 @@
                 <div class="skills-learning-grid">
                     <!-- Left Side - Lifelong Learning -->
                     <div class="learning-content">
-                        <h3>Professional Certificates</h3>
+                        <h2 class="section-title">Professional Certificates</h2>
                         <div class="learning-intro">
                             <p>Continuous learning is at the heart of my professional journey. Here are some of my key certifications and ongoing educational pursuits.</p>
                         </div>
@@ -148,7 +148,7 @@
 
                     <!-- Right Side - Skills -->
                     <div class="skills-content">
-                        <h3>Technical Skills</h3>
+                        <h2 class="section-title">Technical Skills</h2>
                         <div class="skills-container">
                             <div class="skill-category">
                                 <p class="hover-hint">*hover to view applications*</p>
@@ -221,29 +221,62 @@
                                 <div class="experience-timeline">
                                     <div class="experience-item">
                                         <div class="experience-date">
-                                            <span>2023 - Present</span>
+                                            <span>May 2024 - Present</span>
                                         </div>
                                         <div class="experience-content">
                                             <h4>Mortgage Specialist</h4>
-                                            <p class="company">MCAP</p>
+                                            <p class="company">MCAP - Waterloo, ON</p>
                                             <ul class="experience-details">
-                                                <li>Managing client mortgage portfolios and providing financial solutions</li>
-                                                <li>Analyzing market trends and providing strategic recommendations</li>
-                                                <li>Building and maintaining strong client relationships</li>
+                                                <li>Consistently exceeding performance metrics by handling 120+ customer interactions daily with an average resolution time of 2 minutes and 30 seconds per interaction</li>
+                                                <li>Demonstrating exceptional efficiency in managing confidential loan data, including complex calculations for penalties, rates, and balance adjustments</li>
+                                                <li>Delivering outstanding customer service by providing clear, accurate information and personalized solutions for diverse loan scenarios</li>
+                                                <li>Mastering multiple enterprise systems built with Java, C++, and Python, while maintaining proficiency in standard office applications</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="experience-item">
                                         <div class="experience-date">
-                                            <span>2022 - 2023</span>
+                                            <span>Jul 2021 - Jun 2023</span>
                                         </div>
                                         <div class="experience-content">
-                                            <h4>Web Development Intern</h4>
-                                            <p class="company">Tech Solutions Inc.</p>
+                                            <h4>Technical Support Representative</h4>
+                                            <p class="company">Transcom - Milton, ON</p>
                                             <ul class="experience-details">
-                                                <li>Developed responsive web applications using React and Node.js</li>
-                                                <li>Collaborated with team members on various projects</li>
-                                                <li>Implemented UI/UX improvements based on user feedback</li>
+                                                <li>Achieved optimal performance metrics with an average resolution time of 4 minutes while maintaining 5-star customer satisfaction ratings</li>
+                                                <li>Specialized in resolving complex technical issues including cloud storage synchronization, network connectivity, and security protocols</li>
+                                                <li>Developed and documented efficient troubleshooting procedures that reduced resolution time by 30% for common technical issues</li>
+                                                <li>Leveraged advanced diagnostic tools and knowledge base systems to provide accurate, first-call resolutions for 90% of customer inquiries</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="experience-item">
+                                        <div class="experience-date">
+                                            <span>Sept 2020 - May 2021</span>
+                                        </div>
+                                        <div class="experience-content">
+                                            <h4>Web Developer</h4>
+                                            <p class="company">PHI Society - Wilfrid Laurier University, Waterloo, ON</p>
+                                            <ul class="experience-details">
+                                                <li>Architected and implemented a modern, scalable web platform using Node.js, significantly improving the society's digital presence and member engagement</li>
+                                                <li>Engineered robust backend systems and RESTful APIs that streamlined member management and event coordination processes</li>
+                                                <li>Collaborated with cross-functional teams to deliver a responsive, user-centric interface that increased member participation by 40%</li>
+                                                <li>Implemented secure authentication systems and data encryption protocols to ensure member privacy and data protection</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="experience-item">
+                                        <div class="experience-date">
+                                            <span>Sept 2020 - June 2024</span>
+                                        </div>
+                                        <div class="experience-content">
+                                            <h4>Bachelor of Science in Computer Science</h4>
+                                            <p class="company">Wilfrid Laurier University - Waterloo, ON</p>
+                                            <ul class="experience-details">
+                                                <li>Relevant Coursework: Data Structures, Algorithms, Software Engineering, Database Systems, Web Development</li>
+                                                <li>Projects: Urban Clothing Website (E-commerce), Robotics Navigation System</li>
+                                                <li>Technical Skills: Java, Python, C/C++, SQL, HTML/CSS, JavaScript, R, PHP, MySQL</li>
+                                                <li>Frameworks: React, Node.js, WordPress, FastAPI, Flask</li>
+                                                <li>Developer Tools: Git, R Studio, Visual Studio, Eclipse, Wireshark</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -265,76 +298,58 @@
                     <button class="filter-btn" data-filter="design">Design</button>
                 </div>
                 <div class="projects-grid">
-                    <div class="project-card" data-category="app" onclick="window.open('./projects/studybuddy/index.html', '_blank')">
+                    <div class="project-card" data-category="app">
                         <div class="project-header">
                             <h3>StudyBuddy</h3>
                         </div>
-                        <div class="project-img">
-                            <div class="project-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="project-overlay">
-                                <button class="view-project-btn">
-                                    View Project <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
                         <div class="project-info">
-                            <p class="project-description">Built this Pomodoro timer to help me stay focused during study sessions. Got tired of switching between different apps, so I made one that does exactly what I need!</p>
+                            <p class="project-description">A productivity-focused Pomodoro timer application with customizable work/break intervals, task tracking, and ambient sound options.</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>CSS3</span>
                                 <span>LocalStorage</span>
                             </div>
+                            <div class="project-links">
+                                <a href="./projects/studybuddy/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                <a href="https://github.com/adamcamilleri/studybuddy" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="project-card" data-category="web" onclick="window.open('./projects/recipeforge/index.html', '_blank')">
+                    <div class="project-card" data-category="web">
                         <div class="project-header">
                             <h3>Adam's Cookbook</h3>
                         </div>
-                        <div class="project-img">
-                            <div class="project-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <div class="project-overlay">
-                                <button class="view-project-btn">
-                                    View Project <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
                         <div class="project-info">
-                            <p class="project-description">My personal collection of favorite recipes that I've been sharing on TikTok. Finally got around to putting them all in one place - no more scrolling through old videos!</p>
+                            <p class="project-description">Web application that generates personalized recipes based on available ingredients using AI to analyze combinations and suggest substitutions.</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>Node.js</span>
                                 <span>OpenAI API</span>
                                 <span>MongoDB</span>
                             </div>
+                            <div class="project-links">
+                                <a href="./projects/recipeforge/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="project-card" data-category="web" onclick="window.open('./projects/efootprint/index.html', '_blank')">
+                    <div class="project-card" data-category="web">
                         <div class="project-header">
                             <h3>eFootprint</h3>
                         </div>
-                        <div class="project-img">
-                            <div class="project-icon">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <div class="project-overlay">
-                                <button class="view-project-btn">
-                                    View Project <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
                         <div class="project-info">
-                            <p class="project-description">Started this project after realizing how much my digital habits impact the environment. Still a work in progress, but it's been eye-opening to track my own carbon footprint!</p>
+                            <p class="project-description">Web application that calculates carbon footprint and provides personalized recommendations for sustainable living.</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>Node.js</span>
                                 <span>MongoDB</span>
                                 <span>Chart.js</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="./projects/efootprint/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
+                                <a href="https://github.com/adamcamilleri/efootprint" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
