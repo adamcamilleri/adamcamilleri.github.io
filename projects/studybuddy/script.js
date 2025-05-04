@@ -466,21 +466,98 @@ const soundOptions = document.querySelector('.sound-options');
 const soundOptionsButtons = document.querySelectorAll('.sound-option');
 let currentSound = null;
 let audioContext = null;
+let previewSound = null;
 
 // Initialize Web Audio API
 function initAudio() {
     if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Resume audio context on user interaction
+            document.addEventListener('click', () => {
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }, { once: true });
+        } catch (error) {
+            console.error('Web Audio API not supported:', error);
+            alert('Your browser does not support audio playback. Please try a different browser.');
+        }
     }
+}
+
+// Play sound preview
+function playSoundPreview(sound) {
+    if (!audioContext) {
+        initAudio();
+    }
+
+    // Stop any existing preview
+    if (previewSound) {
+        previewSound.stop();
+        previewSound = null;
+    }
+
+    const soundUrls = {
+        rain: 'https://assets.mixkit.co/sfx/preview/mixkit-rain-and-thunder-storm-2393.mp3',
+        cafe: 'https://assets.mixkit.co/sfx/preview/mixkit-cafe-ambience-172.mp3',
+        nature: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3',
+        'white-noise': 'https://assets.mixkit.co/sfx/preview/mixkit-white-noise-ambience-loop-1313.mp3'
+    };
+
+    fetch(soundUrls[sound])
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        })
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        .then(audioBuffer => {
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            
+            // Create gain node for volume control
+            const gainNode = audioContext.createGain();
+            gainNode.gain.value = 0.3; // Lower volume for preview
+            
+            // Connect nodes
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Play only 3 seconds of the sound
+            source.start();
+            previewSound = source;
+            
+            // Stop after 3 seconds
+            setTimeout(() => {
+                if (previewSound) {
+                    previewSound.stop();
+                    previewSound = null;
+                }
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error playing sound preview:', error);
+        });
 }
 
 // Play ambient sound
 function playAmbientSound(sound) {
+    if (!audioContext) {
+        initAudio();
+    }
+
+    // Stop any existing preview
+    if (previewSound) {
+        previewSound.stop();
+        previewSound = null;
+    }
+
     if (currentSound) {
         currentSound.stop();
+        currentSound = null;
     }
-    
-    initAudio();
     
     const soundUrls = {
         rain: 'https://assets.mixkit.co/sfx/preview/mixkit-rain-and-thunder-storm-2393.mp3',
@@ -488,27 +565,72 @@ function playAmbientSound(sound) {
         nature: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3',
         'white-noise': 'https://assets.mixkit.co/sfx/preview/mixkit-white-noise-ambience-loop-1313.mp3'
     };
-    
+
+    // Show loading state
+    const button = document.querySelector(`[data-sound="${sound}"]`);
+    if (button) {
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    }
+
     fetch(soundUrls[sound])
-        .then(response => response.arrayBuffer())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        })
         .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
         .then(audioBuffer => {
             const source = audioContext.createBufferSource();
             source.buffer = audioBuffer;
-            source.connect(audioContext.destination);
+            
+            // Create gain node for volume control
+            const gainNode = audioContext.createGain();
+            gainNode.gain.value = 0.5; // Set initial volume to 50%
+            
+            // Connect nodes
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
             source.loop = true;
             source.start();
             currentSound = source;
+
+            // Update button state
+            if (button) {
+                button.innerHTML = `<i class="fas fa-volume-up"></i> ${sound.replace('-', ' ')}`;
+                button.classList.add('active');
+            }
+        })
+        .catch(error => {
+            console.error('Error playing sound:', error);
+            alert('Failed to play sound. Please try again.');
+            // Reset button state
+            if (button) {
+                button.innerHTML = `<i class="fas fa-volume-up"></i> ${sound.replace('-', ' ')}`;
+                button.classList.remove('active');
+            }
         });
 }
 
 // Toggle sound options
 soundToggleBtn.addEventListener('click', () => {
     soundOptions.classList.toggle('show');
+    // Initialize audio context on first interaction
+    if (!audioContext) {
+        initAudio();
+    }
 });
 
 // Sound option buttons
 soundOptionsButtons.forEach(btn => {
+    // Add hover event for preview
+    btn.addEventListener('mouseenter', () => {
+        const sound = btn.dataset.sound;
+        playSoundPreview(sound);
+    });
+
+    // Add click event for full playback
     btn.addEventListener('click', () => {
         const sound = btn.dataset.sound;
         playAmbientSound(sound);
@@ -522,7 +644,21 @@ function playAlarm() {
     if (document.getElementById('enableSound').checked) {
         const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
         audio.volume = document.getElementById('soundVolume').value / 100;
-        audio.play();
+        
+        // Handle audio loading errors
+        audio.onerror = () => {
+            console.error('Failed to load alarm sound');
+            alert('Failed to play alarm sound. Please check your internet connection.');
+        };
+        
+        // Play audio with user interaction
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.error('Error playing alarm:', error);
+                alert('Failed to play alarm sound. Please try again.');
+            });
+        }
     }
     
     if (document.getElementById('enableNotifications').checked) {

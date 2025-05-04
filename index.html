@@ -151,7 +151,6 @@
                         <h3>Technical Skills</h3>
                         <div class="skills-container">
                             <div class="skill-category">
-                                <h4>Core Technologies</h4>
                                 <p class="hover-hint">*hover to view applications*</p>
                                 <div class="skill-grid">
                                     <div class="skill-item">
@@ -161,7 +160,7 @@
                                             <div class="skill-progress" style="width: 90%"></div>
                                         </div>
                                         <div class="skill-application">
-                                            <p>Applications: StudyBuddy algorithms, RecipeForge UI</p>
+                                            <p>Applications: StudyBuddy algorithms, Adam's Cookbook UI</p>
                                         </div>
                                     </div>
                                     <div class="skill-item">
@@ -171,7 +170,7 @@
                                             <div class="skill-progress" style="width: 85%"></div>
                                         </div>
                                         <div class="skill-application">
-                                            <p>Applications: eFootprint SPA, RecipeForge components</p>
+                                            <p>Applications: eFootprint SPA, Adam's Cookbook components</p>
                                         </div>
                                     </div>
                                     <div class="skill-item">
@@ -181,7 +180,7 @@
                                             <div class="skill-progress" style="width: 80%"></div>
                                         </div>
                                         <div class="skill-application">
-                                            <p>Applications: RecipeForge API, StudyBuddy backend</p>
+                                            <p>Applications: Adam's Cookbook API, StudyBuddy backend</p>
                                         </div>
                                     </div>
                                     <div class="skill-item">
@@ -211,53 +210,41 @@
                                             <div class="skill-progress" style="width: 85%"></div>
                                         </div>
                                         <div class="skill-application">
-                                            <p>Applications: RecipeForge MongoDB, eFootprint data</p>
+                                            <p>Applications: Adam's Cookbook MongoDB, eFootprint data</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="skill-category">
-                                <h4>Development Tools</h4>
-                                <div class="skill-grid">
-                                    <div class="skill-item">
-                                        <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
-                                        <h4>Git</h4>
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" style="width: 90%"></div>
+                                <h4>Work Experience</h4>
+                                <div class="experience-timeline">
+                                    <div class="experience-item">
+                                        <div class="experience-date">
+                                            <span>2023 - Present</span>
                                         </div>
-                                        <div class="skill-application">
-                                            <p>Applications: GitHub workflow, team collaboration</p>
-                                        </div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-icon"><i class="fas fa-code-branch"></i></div>
-                                        <h4>REST APIs</h4>
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" style="width: 85%"></div>
-                                        </div>
-                                        <div class="skill-application">
-                                            <p>Applications: eFootprint endpoints, OpenAI integration</p>
+                                        <div class="experience-content">
+                                            <h4>Mortgage Specialist</h4>
+                                            <p class="company">MCAP</p>
+                                            <ul class="experience-details">
+                                                <li>Managing client mortgage portfolios and providing financial solutions</li>
+                                                <li>Analyzing market trends and providing strategic recommendations</li>
+                                                <li>Building and maintaining strong client relationships</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="skill-item">
-                                        <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
-                                        <h4>Responsive Design</h4>
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" style="width: 90%"></div>
+                                    <div class="experience-item">
+                                        <div class="experience-date">
+                                            <span>2022 - 2023</span>
                                         </div>
-                                        <div class="skill-application">
-                                            <p>Applications: Portfolio layout, mobile-first design</p>
-                                        </div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                        <h4>Performance</h4>
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" style="width: 85%"></div>
-                                        </div>
-                                        <div class="skill-application">
-                                            <p>Applications: Image optimization, load time reduction</p>
+                                        <div class="experience-content">
+                                            <h4>Web Development Intern</h4>
+                                            <p class="company">Tech Solutions Inc.</p>
+                                            <ul class="experience-details">
+                                                <li>Developed responsive web applications using React and Node.js</li>
+                                                <li>Collaborated with team members on various projects</li>
+                                                <li>Implemented UI/UX improvements based on user feedback</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -278,21 +265,22 @@
                     <button class="filter-btn" data-filter="design">Design</button>
                 </div>
                 <div class="projects-grid">
-                    <div class="project-card" data-category="app">
+                    <div class="project-card" data-category="app" onclick="window.open('./projects/studybuddy/index.html', '_blank')">
                         <div class="project-header">
                             <h3>StudyBuddy</h3>
                         </div>
                         <div class="project-img">
-                            <img src="images/studybuddy-screenshot.jpg" alt="StudyBuddy - Pomodoro Timer Screenshot">
+                            <div class="project-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
                             <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="./projects/studybuddy/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri/studybuddy" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                                </div>
+                                <button class="view-project-btn">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="project-info">
-                            <p class="project-description">A productivity-focused Pomodoro timer application with customizable work/break intervals, task tracking, and ambient sound options.</p>
+                            <p class="project-description">Built this Pomodoro timer to help me stay focused during study sessions. Got tired of switching between different apps, so I made one that does exactly what I need!</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>CSS3</span>
@@ -301,21 +289,22 @@
                         </div>
                     </div>
 
-                    <div class="project-card" data-category="web">
+                    <div class="project-card" data-category="web" onclick="window.open('./projects/recipeforge/index.html', '_blank')">
                         <div class="project-header">
-                            <h3>RecipeForge</h3>
+                            <h3>Adam's Cookbook</h3>
                         </div>
                         <div class="project-img">
-                            <img src="images/recipe-forge.png" alt="RecipeForge - AI Recipe Generator Screenshot">
+                            <div class="project-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
                             <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="./projects/recipeforge/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                                </div>
+                                <button class="view-project-btn">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="project-info">
-                            <p class="project-description">Web application that generates personalized recipes based on available ingredients using AI to analyze combinations and suggest substitutions.</p>
+                            <p class="project-description">My personal collection of favorite recipes that I've been sharing on TikTok. Finally got around to putting them all in one place - no more scrolling through old videos!</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>Node.js</span>
@@ -325,21 +314,22 @@
                         </div>
                     </div>
 
-                    <div class="project-card" data-category="web">
+                    <div class="project-card" data-category="web" onclick="window.open('./projects/efootprint/index.html', '_blank')">
                         <div class="project-header">
                             <h3>eFootprint</h3>
                         </div>
                         <div class="project-img">
-                            <img src="images/efootprint-screenshot.jpg" alt="eFootprint - Carbon Footprint Calculator Screenshot">
+                            <div class="project-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
                             <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="./projects/efootprint/index.html" class="project-link" target="_blank"><i class="fas fa-link"></i></a>
-                                    <a href="https://github.com/adamcamilleri/efootprint" class="project-github" target="_blank"><i class="fab fa-github"></i></a>
-                                </div>
+                                <button class="view-project-btn">
+                                    View Project <i class="fas fa-arrow-right"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="project-info">
-                            <p class="project-description">Web application that calculates carbon footprint and provides personalized recommendations for sustainable living.</p>
+                            <p class="project-description">Started this project after realizing how much my digital habits impact the environment. Still a work in progress, but it's been eye-opening to track my own carbon footprint!</p>
                             <div class="project-tech">
                                 <span>React</span>
                                 <span>Node.js</span>
@@ -433,7 +423,8 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <h2>Adam Camilleri</h2>
-                    <p>Full-Stack Web Developer</p>
+                    <p>Emerging Full-Stack Web Developer</p>
+                    <p class="copyright">&copy; 2025 Adam Camilleri. All Rights Reserved.</p>
                 </div>
                 <div class="footer-links">
                     <h3>Quick Links</h3>
@@ -445,19 +436,8 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-newsletter">
-                    <h3>Stay Updated</h3>
-                    <p>Subscribe to my newsletter for the latest updates.</p>
-                    <form class="newsletter-form">
-                        <div class="form-group">
-                            <input type="email" placeholder="Your Email" required>
-                            <button type="submit"><i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </form>
-                </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Adam Camilleri. All Rights Reserved.</p>
                 <div class="back-to-top">
                     <a href="#home"><i class="fas fa-chevron-up"></i></a>
                 </div>
