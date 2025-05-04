@@ -278,6 +278,14 @@ h1, h2, h3, h4 {
     overflow: hidden;
 }
 
+/* Update section backgrounds to ensure they don't overflow */
+.about, .projects, .contact, .skills-learning {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
 .section-title::after {
     content: '';
     position: absolute;
@@ -1598,6 +1606,8 @@ footer {
 .skills-learning {
     padding: 8rem 0;
     background-color: var(--bg-color-skills);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .skills-learning-grid {
@@ -1606,11 +1616,13 @@ footer {
     gap: 3rem;
 }
 
-.learning-content {
+.learning-content, .skills-content {
     background: var(--bg-color);
     padding: 2rem;
     border-radius: var(--border-radius-medium);
     box-shadow: var(--shadow-medium);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .learning-intro {
@@ -1791,11 +1803,12 @@ footer {
 
 @media (max-width: 768px) {
     .experience-timeline {
-        max-height: 500px;
+        max-height: none;
+        padding-right: 0;
     }
     
     .experience-item {
-        padding-left: 1.5rem;
+        padding-left: 1rem;
     }
     
     .experience-content h4 {
@@ -1804,6 +1817,7 @@ footer {
     
     .experience-details li {
         font-size: 0.9rem;
+        padding-left: 1rem;
     }
 }
 
@@ -1853,14 +1867,73 @@ footer {
         display: flex;
         flex-direction: column;
         gap: 4rem;
+        padding: 0 1rem;
     }
     
     .learning-content,
     .skills-content {
         width: 100%;
+        margin: 0;
+        padding: 1.5rem;
     }
     
     .certificates-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .certificate-card {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .certificate-image {
+        width: 120px;
+        height: 85px;
+    }
+    
+    .certificate-card:hover .certificate-image {
+        transform: scale(2);
+    }
+    
+    .experience-timeline {
+        max-height: none;
+        padding-right: 0;
+    }
+    
+    .experience-item {
+        padding-left: 1rem;
+    }
+    
+    .experience-content h4 {
+        font-size: 1.1rem;
+    }
+    
+    .experience-details li {
+        font-size: 0.9rem;
+        padding-left: 1rem;
+    }
+    
+    .skill-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .skill-item {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Ensure container doesn't cause overflow on mobile */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .section {
+        padding: 4rem 0;
     }
 }
