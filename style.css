@@ -76,6 +76,8 @@ body {
     letter-spacing: var(--letter-spacing-normal);
     margin: 0;
     padding: 0;
+    width: 100%;
+    position: relative;
 }
 
 h1, h2, h3, h4 {
@@ -258,14 +260,17 @@ h1, h2, h3, h4 {
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 2rem;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .section {
     padding: 6rem 0;
     width: 100%;
     margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .section-title::after {
@@ -319,8 +324,8 @@ h1, h2, h3, h4 {
 /* =========== PARALLAX BACKGROUND =========== */
 .parallax-container {
     position: fixed;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     top: 0;
     left: 0;
     z-index: -1;
