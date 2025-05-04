@@ -1,5 +1,5 @@
 /* =========== GOOGLE FONTS =========== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 /* =========== VARIABLES =========== */
 :root {
@@ -27,7 +27,7 @@
     
     /* Typography */
     --body-font: 'Poppins', sans-serif;
-    --heading-font: 'Montserrat', sans-serif;
+    --heading-font: 'Libre Baskerville', serif;
     --h1-font-size: 3.5rem;
     --h2-font-size: 2.5rem;
     --h3-font-size: 1.5rem;
