@@ -93,35 +93,34 @@ body {
 .nav-buttons {
     display: flex;
     gap: 1rem;
+    align-items: center;
 }
 
-.cta-button, .primary-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+.cta-button {
+    background: var(--primary-color);
     color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-medium);
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 50px;
     font-weight: 600;
-    letter-spacing: 0.5px;
     cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+    transition: all 0.3s ease;
 }
 
-.cta-button:hover, .primary-button:hover {
+.cta-button:hover {
+    background: var(--primary-color-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
 }
 
 .secondary-button {
     background: transparent;
-    border: 2px solid var(--primary-color);
     color: var(--primary-color);
-    padding: 1rem 2rem;
-    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-medium);
+    border: 2px solid var(--primary-color);
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
 }
 
 .secondary-button:hover {
@@ -211,31 +210,33 @@ body {
 }
 
 .feature-card {
-    background: white;
+    background: var(--bg-color);
     padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-medium);
     text-align: center;
     transition: transform 0.3s ease;
-    border: 1px solid rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--border-color);
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
-    background: var(--light-background);
 }
 
 .feature-card i {
     font-size: 2.5rem;
     color: var(--primary-color);
-    margin-bottom: 1rem;
-    background: rgba(76, 175, 80, 0.1);
-    padding: 1rem;
-    border-radius: 50%;
+    margin-bottom: 1.5rem;
 }
 
 .feature-card h3 {
+    font-size: 1.25rem;
     margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.feature-card p {
+    color: var(--text-color-light);
+    line-height: 1.6;
 }
 
 /* Dashboard Section */
@@ -250,34 +251,35 @@ body {
 }
 
 .dashboard-preview {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 2rem;
-    border: 1px solid rgba(76, 175, 80, 0.1);
+    background: var(--bg-color-alt);
+    padding: 4rem 2rem;
+    text-align: center;
 }
 
-.stats-grid {
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 2rem 0;
 }
 
 .stat-card {
-    text-align: center;
-    padding: 1.5rem;
-    background: var(--light-background);
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(76, 175, 80, 0.1);
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-small);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
 }
 
 .stat-value {
     font-size: 2.5rem;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--primary-color);
+    margin: 1rem 0;
 }
 
 .activity-feed {
@@ -405,8 +407,9 @@ body {
 
 /* Community Section */
 .community {
-    padding: 5rem 5%;
-    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-color);
 }
 
 .community h2 {
@@ -426,14 +429,14 @@ body {
 
 .community-stats {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: center;
+    gap: 4rem;
+    margin: 3rem 0;
     flex-wrap: wrap;
-    gap: 2rem;
 }
 
 .stat {
-    text-align: center;
+    flex: 1 1 100%;
 }
 
 .stat-number {
@@ -445,6 +448,12 @@ body {
 .community-cta {
     text-align: center;
     max-width: 600px;
+}
+
+.community p {
+    max-width: 600px;
+    margin: 1rem auto 2rem;
+    color: var(--text-color-light);
 }
 
 /* Footer */
@@ -519,8 +528,17 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .stats-grid {
+    .dashboard-grid {
         grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .community-stats {
+        gap: 2rem;
+    }
+
+    .stat {
+        flex: 1 1 100%;
     }
 }
 
@@ -571,4 +589,176 @@ input:focus, textarea:focus {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
+}
+
+/* Add dashboard intro style */
+.dashboard-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    color: var(--text-color-light);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Update feature cards for better clarity */
+.feature-card {
+    background: var(--bg-color);
+    padding: 2rem;
+    border-radius: var(--border-radius-medium);
+    text-align: center;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.feature-card p {
+    color: var(--text-color-light);
+    line-height: 1.6;
+}
+
+/* Remove pricing and footer styles */
+.pricing,
+.footer-content,
+.footer-bottom {
+    display: none;
+}
+
+/* Update navigation for better clarity */
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.cta-button {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-medium);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background: var(--primary-color-dark);
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-medium);
+    border: 2px solid var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Update dashboard preview for better clarity */
+.dashboard-preview {
+    background: var(--bg-color-alt);
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-small);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 1rem 0;
+}
+
+/* Update community section */
+.community {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-color);
+}
+
+.community p {
+    max-width: 600px;
+    margin: 1rem auto 2rem;
+    color: var(--text-color-light);
+}
+
+.community-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .hero-content {
+        padding: 0 1rem;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+    
+    .community-stats {
+        gap: 2rem;
+    }
+    
+    .stat {
+        flex: 1 1 100%;
+    }
 } 
