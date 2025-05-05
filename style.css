@@ -1112,27 +1112,27 @@ header.scrolled {
     background: linear-gradient(135deg, #00f2ea, #ff0050);
 }
 
-/* eFootprint - going green for the environment */
+/* Connect Four - Game theme */
 .projects-grid .project-card[data-category="web"]:nth-of-type(3) {
     background: #ffffff;
     border: 1px solid #e0e0e0;
 }
 
 .projects-grid .project-card[data-category="web"]:nth-of-type(3) .project-header {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 50%, #ffffff 100%);
 }
 
 .projects-grid .project-card[data-category="web"]:nth-of-type(3) .project-icon {
-    color: #2ecc71;
+    color: #2196F3;
 }
 
 .projects-grid .project-card[data-category="web"]:nth-of-type(3) .view-project-btn {
-    background: #2ecc71;
+    background: #2196F3;
     color: white;
 }
 
 .projects-grid .project-card[data-category="web"]:nth-of-type(3) .view-project-btn:hover {
-    background: #27ae60;
+    background: #1976D2;
 }
 
 /* Common project card styles */
@@ -1170,9 +1170,12 @@ header.scrolled {
     background-clip: text;
 }
 
-/* eFootprint - Green theme */
-.efootprint-title {
-    color: #2ecc71;
+/* Connect Four - Game theme */
+.connect-four-title {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .project-description {
