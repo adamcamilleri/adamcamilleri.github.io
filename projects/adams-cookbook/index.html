@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam's Cookbook</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Adam's Cookbook</h1>
+            <p class="subtitle">Quick and easy recipes from my TikTok page</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for recipes..." class="search-input">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
+        <main>
+            <div class="recipe-feed">
+                <!-- Recipe cards will be dynamically added here -->
+            </div>
+        </main>
+
+        <div class="recipe-modal" id="recipeModal">
+            <div class="modal-content">
+                <button class="close-modal">&times;</button>
+                <div class="recipe-details">
+                    <h2 class="recipe-title"></h2>
+                    <div class="recipe-video"></div>
+                    <div class="recipe-info">
+                        <div class="ingredients">
+                            <h3>Ingredients</h3>
+                            <ul class="ingredients-list"></ul>
+                        </div>
+                        <div class="instructions">
+                            <h3>Instructions</h3>
+                            <ol class="instructions-list"></ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
