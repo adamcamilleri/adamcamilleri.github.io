@@ -24,12 +24,12 @@
                 <div class="player-score">
                     <div class="disc red"></div>
                     <span class="player-name">Player 1</span>
-                    <span class="score">0</span>
+                    <span class="score" id="score1">0</span>
                 </div>
                 <div class="player-score">
                     <div class="disc yellow"></div>
                     <span class="player-name">Player 2</span>
-                    <span class="score">0</span>
+                    <span class="score" id="score2">0</span>
                 </div>
             </div>
         </div>
@@ -45,9 +45,9 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal">
+    <div class="modal" id="gameOverModal">
         <div class="modal-content">
-            <h2 id="modal-message"></h2>
+            <h2 id="modalMessage"></h2>
             <div class="modal-buttons">
                 <button id="playAgain">Play Again</button>
                 <button id="closeModal">Close</button>
