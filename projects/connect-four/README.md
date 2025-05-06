@@ -1,56 +1,34 @@
-# Connect Four Game
+# Connect Four
 
-A modern implementation of the classic Connect Four game with additional features and a clean, responsive design.
+A clean, ad-free implementation of the classic Connect Four game built with JavaScript. This project provides a modern, responsive interface for playing Connect Four with friends on a single device.
 
 ## Features
 
-- Classic 6x7 Connect Four gameplay
-- Two-player mode with red and yellow discs
-- Optional AI opponent
-- Score tracking
-- Undo move functionality
-- Responsive design for mobile devices
-- Smooth animations and visual feedback
-- Game state persistence
+- Clean, ad-free gaming experience
+- Responsive design for all screen sizes
+- Single-device multiplayer support
+- Intuitive user interface
+- Win condition detection
+- Turn-based gameplay
 
-## Technical Implementation
+## Technologies Used
 
-- Built with vanilla JavaScript using ES6+ features
-- Object-oriented design with a `ConnectFour` class
-- CSS Grid for the game board layout
-- CSS Custom Properties for theming
-- Responsive design using media queries
-- Simple AI implementation with win/block detection
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+
+## Getting Started
+
+1. Clone the repository
+2. Open `index.html` in your web browser
+3. Start playing!
 
 ## How to Play
 
-1. Click on any column to drop your disc
-2. Connect four discs in a row (horizontally, vertically, or diagonally) to win
-3. Use the control buttons to:
-   - Start a new game
-   - Undo your last move
-   - Toggle AI opponent
-
-## Development
-
-The game is built using modern web technologies:
-
-- HTML5 for structure
-- CSS3 for styling and animations
-- JavaScript (ES6+) for game logic
-- No external dependencies required
-
-## Browser Support
-
-The game works in all modern browsers that support:
-- CSS Grid
-- ES6+ JavaScript features
-- CSS Custom Properties
-
-## Live Demo
-
-Visit the live demo at: [Connect Four Demo](https://adamcamilleri.github.io/projects/connect-four/)
+1. Players take turns dropping their pieces into the grid
+2. The first player to connect four of their pieces horizontally, vertically, or diagonally wins
+3. If the grid fills up without a winner, the game ends in a draw
 
 ## License
 
-MIT License - feel free to use and modify for your own projects. 
+MIT License 
