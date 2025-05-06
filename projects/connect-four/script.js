@@ -249,10 +249,9 @@ class GameUI {
             }
         });
         
-        // Update player names
-        const playerNames = document.querySelectorAll('.player-name');
-        playerNames[0].textContent = 'Player 1 (Red)';
-        playerNames[1].textContent = 'Player 2 (Yellow)';
+        // Update player names in turn indicators only
+        document.getElementById('turnPlayer1').textContent = 'Player 1 (Red)';
+        document.getElementById('turnPlayer2').textContent = 'Player 2 (Yellow)';
     }
 
     updateScores() {
