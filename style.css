@@ -1178,6 +1178,14 @@ header.scrolled {
     color: transparent;
 }
 
+/* TaskMaster - Modern productivity theme */
+.taskmaster-title {
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 50%, #1B5E20 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
 .project-description {
     color: var(--text-color);  /* Changed to black text */
     margin-bottom: 1.5rem;

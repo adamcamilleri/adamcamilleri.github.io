@@ -8,13 +8,6 @@ class GameState {
         this.gameOver = false;
         this.scores = { red: 0, yellow: 0 };
         this.moveHistory = [];
-        this.aiEnabled = true;
-        this.aiPlayer = 'yellow';
-        this.difficulty = 'medium';
-        this.isMultiplayer = false;
-        this.isHost = false;
-        this.peerConnection = null;
-        this.dataChannel = null;
     }
 
     reset() {
@@ -135,7 +128,6 @@ class GameUI {
         this.gameState = gameState;
         this.initializeBoard();
         this.setupEventListeners();
-        this.setupMultiplayer();
     }
 
     initializeBoard() {
@@ -154,9 +146,9 @@ class GameUI {
     }
 
     setupEventListeners() {
-        // Use event delegation for board clicks
-        const board = document.querySelector('.board-grid');
-        board.addEventListener('click', (e) => {
+        // Add click event listeners to each slot
+        const grid = document.querySelector('.board-grid');
+        grid.addEventListener('click', (e) => {
             const slot = e.target.closest('.slot');
             if (!slot) return;
             
@@ -164,8 +156,8 @@ class GameUI {
             this.handleMove(col);
         });
 
-        // Column hover preview
-        board.addEventListener('mouseover', (e) => {
+        // Add hover effects
+        grid.addEventListener('mouseover', (e) => {
             const slot = e.target.closest('.slot');
             if (!slot) return;
             
@@ -173,251 +165,34 @@ class GameUI {
             this.showDropPreview(col);
         });
 
-        board.addEventListener('mouseout', () => {
-            this.hideDropPreview();
+        grid.addEventListener('mouseout', () => {
+            const slots = document.querySelectorAll('.slot.preview');
+            slots.forEach(slot => {
+                slot.classList.remove('preview', 'red', 'yellow');
+            });
         });
 
-        // Control buttons
-        document.getElementById('newGame').addEventListener('click', () => this.handleNewGame());
+        // Add undo button listener
         document.getElementById('undo').addEventListener('click', () => this.handleUndo());
 
-        // Modal buttons
+        // Add reset button listener
+        document.getElementById('reset').addEventListener('click', () => {
+            this.gameState.reset();
+            this.updateBoard();
+            this.updateStatus();
+        });
+
+        // Add modal button listeners
         document.getElementById('playAgain').addEventListener('click', () => {
             this.hideModal();
-            this.resetGame();
+            this.gameState.reset();
+            this.updateBoard();
+            this.updateStatus();
         });
 
         document.getElementById('closeModal').addEventListener('click', () => {
             this.hideModal();
         });
-    }
-
-    setupMultiplayer() {
-        // Create multiplayer controls
-        const controls = document.querySelector('.controls');
-        const multiplayerControls = document.createElement('div');
-        multiplayerControls.className = 'multiplayer-controls';
-        multiplayerControls.innerHTML = `
-            <div class="multiplayer-buttons">
-                <button id="hostGame">Host Game</button>
-                <button id="showJoinGame">Join Game</button>
-            </div>
-            <div class="connection-info" style="display: none;">
-                <div class="connection-code" style="display: none;">
-                    <p>Share this code with your friend:</p>
-                    <div class="code-display">
-                        <span id="connectionCode"></span>
-                        <button id="copyCode">Copy</button>
-                    </div>
-                    <p class="connection-status">Waiting for opponent to join...</p>
-                </div>
-                <div class="join-game" style="display: none;">
-                    <p>Enter the code from your friend:</p>
-                    <div class="code-input">
-                        <input type="text" id="connectionInput" placeholder="Paste code here">
-                        <button id="joinGame">Join</button>
-                    </div>
-                    <p class="connection-status">Connecting...</p>
-                </div>
-            </div>
-        `;
-        controls.insertBefore(multiplayerControls, controls.firstChild);
-
-        // Add multiplayer event listeners
-        document.getElementById('hostGame').addEventListener('click', () => this.hostGame());
-        document.getElementById('showJoinGame').addEventListener('click', () => this.showJoinGame());
-        document.getElementById('copyCode').addEventListener('click', () => this.copyConnectionCode());
-        document.getElementById('joinGame').addEventListener('click', () => this.joinGame());
-    }
-
-    showJoinGame() {
-        const connectionInfo = document.querySelector('.connection-info');
-        const joinGame = document.querySelector('.join-game');
-        const connectionCode = document.querySelector('.connection-code');
-        
-        connectionInfo.style.display = 'block';
-        joinGame.style.display = 'block';
-        connectionCode.style.display = 'none';
-    }
-
-    async hostGame() {
-        try {
-            this.gameState.isHost = true;
-            this.gameState.isMultiplayer = true;
-            
-            // Show connection UI
-            const connectionInfo = document.querySelector('.connection-info');
-            const joinGame = document.querySelector('.join-game');
-            const connectionCode = document.querySelector('.connection-code');
-            
-            connectionInfo.style.display = 'block';
-            joinGame.style.display = 'none';
-            connectionCode.style.display = 'block';
-            
-            // Create peer connection
-            this.gameState.peerConnection = new RTCPeerConnection({
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' }
-                ]
-            });
-            
-            // Create data channel
-            this.gameState.dataChannel = this.gameState.peerConnection.createDataChannel('gameData');
-            this.setupDataChannel(this.gameState.dataChannel);
-
-            // Create and set local description
-            const offer = await this.gameState.peerConnection.createOffer();
-            await this.gameState.peerConnection.setLocalDescription(offer);
-
-            // Generate a shorter, more user-friendly code
-            const shortCode = this.generateShortCode();
-            document.getElementById('connectionCode').textContent = shortCode;
-
-            // Store the full offer in a temporary map (in a real app, this would be server-side)
-            if (!window.gameCodes) window.gameCodes = new Map();
-            window.gameCodes.set(shortCode, offer);
-
-            // Handle ICE candidates
-            this.gameState.peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    this.gameState.dataChannel.send(JSON.stringify({
-                        type: 'ice-candidate',
-                        candidate: event.candidate
-                    }));
-                }
-            };
-
-            // Handle answer
-            this.gameState.dataChannel.onmessage = async (event) => {
-                const data = JSON.parse(event.data);
-                if (data.type === 'answer') {
-                    await this.gameState.peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-                    document.querySelector('.connection-status').textContent = 'Connected! Game starting...';
-                    this.resetGame();
-                } else if (data.type === 'ice-candidate') {
-                    await this.gameState.peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-                } else if (data.type === 'move') {
-                    this.handleRemoteMove(data.col);
-                }
-            };
-        } catch (error) {
-            console.error('Error hosting game:', error);
-            alert('Failed to host game. Please try again.');
-        }
-    }
-
-    generateShortCode() {
-        const words = ['RED', 'BLUE', 'GREEN', 'YELLOW', 'PURPLE', 'ORANGE', 'PINK', 'BLACK', 'WHITE', 'GRAY'];
-        const numbers = Array.from({length: 100}, (_, i) => i.toString().padStart(2, '0'));
-        const randomWord = words[Math.floor(Math.random() * words.length)];
-        const randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
-        return `${randomWord}-${randomNumber}`;
-    }
-
-    async joinGame() {
-        try {
-            this.gameState.isHost = false;
-            this.gameState.isMultiplayer = true;
-
-            const shortCode = document.getElementById('connectionInput').value.trim().toUpperCase();
-            if (!shortCode) {
-                alert('Please enter a connection code');
-                return;
-            }
-
-            // Retrieve the full offer from the temporary map
-            const offer = window.gameCodes?.get(shortCode);
-            if (!offer) {
-                alert('Invalid connection code');
-                return;
-            }
-
-            // Create peer connection
-            this.gameState.peerConnection = new RTCPeerConnection({
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' }
-                ]
-            });
-            
-            // Setup data channel
-            this.gameState.peerConnection.ondatachannel = (event) => {
-                this.gameState.dataChannel = event.channel;
-                this.setupDataChannel(this.gameState.dataChannel);
-            };
-
-            // Set remote description
-            await this.gameState.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-
-            // Create and send answer
-            const answer = await this.gameState.peerConnection.createAnswer();
-            await this.gameState.peerConnection.setLocalDescription(answer);
-
-            this.gameState.dataChannel.send(JSON.stringify({
-                type: 'answer',
-                answer: answer
-            }));
-
-            // Handle ICE candidates
-            this.gameState.peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    this.gameState.dataChannel.send(JSON.stringify({
-                        type: 'ice-candidate',
-                        candidate: event.candidate
-                    }));
-                }
-            };
-
-            document.querySelector('.connection-status').textContent = 'Connecting...';
-        } catch (error) {
-            console.error('Error joining game:', error);
-            alert('Failed to join game. Please check the connection code and try again.');
-        }
-    }
-
-    setupDataChannel(dataChannel) {
-        dataChannel.onopen = () => {
-            console.log('Data channel opened');
-            document.querySelector('.connection-status').textContent = 'Connected!';
-            this.updateStatus();
-        };
-
-        dataChannel.onclose = () => {
-            console.log('Data channel closed');
-            document.querySelector('.connection-status').textContent = 'Connection lost';
-            alert('Connection lost. Please refresh the page to start a new game.');
-        };
-
-        dataChannel.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === 'move') {
-                this.handleRemoteMove(data.col);
-            }
-        };
-    }
-
-    handleRemoteMove(col) {
-        if (this.gameState.currentPlayer === 'red' && !this.gameState.isHost) {
-            this.handleMove(col);
-        }
-    }
-
-    copyConnectionCode() {
-        const code = document.getElementById('connectionCode').textContent;
-        navigator.clipboard.writeText(code).then(() => {
-            alert('Connection code copied to clipboard!');
-        }).catch(() => {
-            alert('Failed to copy code. Please copy it manually.');
-        });
-    }
-
-    resetGame() {
-        // Reset game state
-        this.gameState.reset();
-        // Completely rebuild the board DOM
-        this.initializeBoard();
-        this.updateStatus();
     }
 
     handleMove(col) {
@@ -428,21 +203,11 @@ class GameUI {
         this.updateStatus();
         this.updateScores();
 
-        // Send move to other player in multiplayer mode
-        if (this.gameState.isMultiplayer && this.gameState.dataChannel) {
-            this.gameState.dataChannel.send(JSON.stringify({
-                type: 'move',
-                col: col
-            }));
-        }
-
         if (result.isWin) {
             this.showWinAnimation(result);
             this.showModal(`${result.player.toUpperCase()} wins!`);
         } else if (result.isDraw) {
             this.showModal("It's a draw!");
-        } else if (this.gameState.aiEnabled && this.gameState.currentPlayer === this.gameState.aiPlayer) {
-            setTimeout(() => this.makeAIMove(), 500);
         }
     }
 
@@ -470,8 +235,7 @@ class GameUI {
         });
 
         // Update undo button state
-        const undoBtn = document.getElementById('undo');
-        undoBtn.disabled = this.gameState.moveHistory.length === 0;
+        this.updateUndoButton();
     }
 
     updateStatus() {
@@ -487,13 +251,8 @@ class GameUI {
         
         // Update player names
         const playerNames = document.querySelectorAll('.player-name');
-        if (this.gameState.isMultiplayer) {
-            playerNames[0].textContent = this.gameState.isHost ? 'You (Red)' : 'Opponent (Red)';
-            playerNames[1].textContent = this.gameState.isHost ? 'Opponent (Yellow)' : 'You (Yellow)';
-        } else {
-            playerNames[0].textContent = 'Player 1 (Red)';
-            playerNames[1].textContent = 'Player 2 (Yellow)';
-        }
+        playerNames[0].textContent = 'Player 1 (Red)';
+        playerNames[1].textContent = 'Player 2 (Yellow)';
     }
 
     updateScores() {
@@ -509,12 +268,6 @@ class GameUI {
         if (slot) {
             slot.classList.add('preview', this.gameState.currentPlayer);
         }
-    }
-
-    hideDropPreview() {
-        document.querySelectorAll('.slot.preview').forEach(slot => {
-            slot.classList.remove('preview', 'red', 'yellow');
-        });
     }
 
     showWinAnimation(result) {
@@ -582,36 +335,6 @@ class GameUI {
         return slots;
     }
 
-    handleNewGame() {
-        // Reset game state without affecting scores
-        this.gameState.reset();
-        // Completely rebuild the board DOM
-        this.initializeBoard();
-        this.updateStatus();
-    }
-
-    handleUndo() {
-        if (this.gameState.moveHistory.length === 0 || this.gameState.gameOver) return;
-
-        const lastMove = this.gameState.moveHistory.pop();
-        this.gameState.board[lastMove.row][lastMove.col] = null;
-        this.gameState.currentPlayer = lastMove.player;
-        this.gameState.gameOver = false;
-        this.updateBoard();
-        this.updateStatus();
-    }
-
-    makeAIMove() {
-        if (this.gameState.gameOver) return;
-        const gameAI = new GameAI(this.gameState);
-        const col = gameAI.findBestMove();
-        this.handleMove(col);
-    }
-
-    findBestMove() {
-        return this.findMinimaxMove(4); // Always use minimax with depth 4
-    }
-
     showModal(message) {
         const modal = document.getElementById('gameOverModal');
         const messageElement = document.getElementById('modalMessage');
@@ -623,85 +346,40 @@ class GameUI {
         const modal = document.getElementById('gameOverModal');
         modal.classList.remove('show');
     }
-}
 
-// AI management
-class GameAI {
-    constructor(gameState) {
-        this.gameState = gameState;
-    }
+    handleUndo() {
+        if (this.gameState.moveHistory.length === 0 || this.gameState.gameOver) return;
 
-    findMinimaxMove(depth) {
-        let bestScore = -Infinity;
-        let bestMove = 0;
-
-        for (let col = 0; col < this.gameState.cols; col++) {
-            if (this.gameState.isColumnFull(col)) continue;
-
-            const row = this.gameState.getLowestEmptyRow(col);
-            this.gameState.board[row][col] = this.gameState.aiPlayer;
-            
-            const score = this.minimax(depth - 1, false);
-            this.gameState.board[row][col] = null;
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestMove = col;
-            }
+        // Get the last move
+        const lastMove = this.gameState.moveHistory.pop();
+        
+        // Only allow undoing if it was the other player's move
+        if (lastMove.player === this.gameState.currentPlayer) {
+            // If it was current player's move, put it back and return
+            this.gameState.moveHistory.push(lastMove);
+            return;
         }
 
-        return bestMove;
+        // Remove the move from the board
+        this.gameState.board[lastMove.row][lastMove.col] = null;
+        
+        // Switch back to the previous player
+        this.gameState.currentPlayer = lastMove.player;
+        
+        // Update game state
+        this.gameState.gameOver = false;
+        this.updateBoard();
+        this.updateStatus();
     }
 
-    minimax(depth, isMaximizing) {
-        if (depth === 0) return this.evaluateBoard();
-
-        if (isMaximizing) {
-            let bestScore = -Infinity;
-            for (let col = 0; col < this.gameState.cols; col++) {
-                if (this.gameState.isColumnFull(col)) continue;
-                
-                const row = this.gameState.getLowestEmptyRow(col);
-                this.gameState.board[row][col] = this.gameState.aiPlayer;
-                
-                const score = this.minimax(depth - 1, false);
-                this.gameState.board[row][col] = null;
-                
-                bestScore = Math.max(score, bestScore);
-            }
-            return bestScore;
-        } else {
-            let bestScore = Infinity;
-            for (let col = 0; col < this.gameState.cols; col++) {
-                if (this.gameState.isColumnFull(col)) continue;
-                
-                const row = this.gameState.getLowestEmptyRow(col);
-                this.gameState.board[row][col] = this.gameState.currentPlayer;
-                
-                const score = this.minimax(depth - 1, true);
-                this.gameState.board[row][col] = null;
-                
-                bestScore = Math.min(score, bestScore);
-            }
-            return bestScore;
-        }
+    updateUndoButton() {
+        const undoBtn = document.getElementById('undo');
+        undoBtn.disabled = this.gameState.moveHistory.length === 0;
     }
-
-    evaluateBoard() {
-        // Implement board evaluation logic
-        // Consider factors like:
-        // - Number of potential winning combinations
-        // - Center control
-        // - Connected pieces
-        return 0; // Placeholder
-    }
-
-    // ... implement other AI methods ...
 }
 
 // Main game initialization
 document.addEventListener('DOMContentLoaded', () => {
     const gameState = new GameState();
     const gameUI = new GameUI(gameState);
-    const gameAI = new GameAI(gameState);
 }); 
