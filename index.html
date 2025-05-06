@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // We'll add your key here
+        })();
+    </script>
 </head>
 <body>
     <div class="parallax-container">
@@ -75,7 +81,7 @@
                         <h3>Hello, I'm Adam Camilleri</h3>
                         <p>I am a computer science graduate with a Bachelor of Science in Computer Science from Wilfrid Laurier University. I am passionate about transforming complex issues into solutions with minimal effort, resulting in maximum efficiency. At the moment, I leverage my analytical skills as a Mortgage Specialist at MCAP while working towards transitioning into software engineering roles.</p>
                         
-                        <p>I've built several projects that showcase my programming abilities: a Pomodoro study timer that helps maximize productivity, a digital cookbook where I can store and display all my favorite recipes, and a Connect Four game I created as an ad-free alternative for game nights. These projects highlight my ability to create practical applications that solve real problems while maintaining clean code and efficient algorithms.</p>
+                        <p>I've built several projects that showcase my programming abilities: TaskMaster, a modern task management application built with Next.js and TypeScript that helps users organize their work efficiently; a Pomodoro study timer that helps maximize productivity; a digital cookbook where I can store and display all my favorite recipes; and a Connect Four game I created as an ad-free alternative for game nights. These projects highlight my ability to create practical applications that solve real problems while maintaining clean code and efficient algorithms.</p>
                         
                         <p>My unique combination of computer science knowledge and experience in the financial sector gives me a different perspective when approaching software challenges. I'm always looking to learn new technologies and improve my skills to become a valuable asset to any engineering team.</p>
                         
@@ -377,7 +383,7 @@
                         </div>
                     </div>
                     <div class="contact-form">
-                        <form id="contactForm">
+                        <form id="contactForm" action="https://formspree.io/f/xvgaawyd" method="POST" name="portfolio-contact">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" placeholder="Your Name" required>
                                 <label for="name">Your Name</label>
@@ -579,11 +585,10 @@
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    // Here you would typically handle the form submission with AJAX
-                    // For now, just show an alert
-                    alert('Thank you for your message! I will get back to you soon.');
-                    contactForm.reset();
+                    const submitBtn = this.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+                    submitBtn.disabled = true;
                 });
             }
         });
