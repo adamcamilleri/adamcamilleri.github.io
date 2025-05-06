@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskMaster - Your Productivity Platform</title>
     <script>
-        // Check if we're in development or production
-        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const redirectUrl = isDevelopment ? 'http://localhost:3000' : 'https://adamcamilleri.github.io/projects/taskmaster/out/tasks.html';
-        window.location.href = redirectUrl;
+        // Redirect to the Next.js development server
+        window.location.href = 'http://localhost:3000';
     </script>
     <style>
         body {
@@ -46,11 +44,7 @@
     <div class="container">
         <h1>TaskMaster</h1>
         <p>Redirecting to the application...</p>
-        <p>If you are not redirected automatically, <a href="#" id="redirectLink">click here</a>.</p>
+        <p>If you are not redirected automatically, <a href="http://localhost:3000">click here</a>.</p>
     </div>
-    <script>
-        // Update the link href
-        document.getElementById('redirectLink').href = redirectUrl;
-    </script>
 </body>
 </html> 
