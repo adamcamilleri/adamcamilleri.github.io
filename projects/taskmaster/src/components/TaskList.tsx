@@ -8,16 +8,16 @@ interface TaskListProps {
 }
 
 const priorityColors = {
-  high: 'text-red-600',
-  medium: 'text-yellow-600',
-  low: 'text-green-600'
+  high: 'bg-red-100 text-red-800',
+  medium: 'bg-yellow-100 text-yellow-800',
+  low: 'bg-green-100 text-green-800'
 }
 
 export default function TaskList({ tasks, onToggleComplete, onDelete }: TaskListProps) {
   if (tasks.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
-        No tasks yet. Add one to get started!
+      <div className="text-center py-12 text-gray-500 bg-gray-50 rounded-lg">
+        <p className="text-lg">No tasks yet. Add one to get started!</p>
       </div>
     )
   }
@@ -27,26 +27,28 @@ export default function TaskList({ tasks, onToggleComplete, onDelete }: TaskList
       {tasks.map((task) => (
         <div
           key={task.id}
-          className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+          className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
         >
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => onToggleComplete(task.id)}
                   className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <h3 className={`text-lg font-medium ${task.completed ? 'line-through text-gray-500' : ''}`}>
+                <h3 className={`text-lg font-medium truncate ${
+                  task.completed ? 'line-through text-gray-500' : 'text-gray-900'
+                }`}>
                   {task.title}
                 </h3>
-                <span className={`text-sm font-medium ${priorityColors[task.priority]}`}>
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityColors[task.priority]}`}>
                   {task.priority}
                 </span>
               </div>
               {task.description && (
-                <p className="mt-2 text-gray-600">{task.description}</p>
+                <p className="mt-2 text-gray-600 text-sm line-clamp-2">{task.description}</p>
               )}
               {task.dueDate && (
                 <p className="mt-2 text-sm text-gray-500">
@@ -56,7 +58,8 @@ export default function TaskList({ tasks, onToggleComplete, onDelete }: TaskList
             </div>
             <button
               onClick={() => onDelete(task.id)}
-              className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
+              className="flex-shrink-0 text-gray-400 hover:text-red-500 transition-colors p-1"
+              title="Delete task"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

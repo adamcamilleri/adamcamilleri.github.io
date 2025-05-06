@@ -16,53 +16,64 @@ export default function TasksPage() {
   const filteredTasks = filterTasks(filter)
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">TaskMaster</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
-          <TaskForm onSubmit={addTask} />
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">TaskMaster</h1>
+          <p className="text-lg text-gray-600">Organize your tasks efficiently</p>
         </div>
-
-        <div>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Tasks</h2>
-            <div className="flex gap-2">
-              <select
-                value={filter.priority || ''}
-                onChange={(e) => setFilter({
-                  ...filter,
-                  priority: e.target.value as Priority || undefined
-                })}
-                className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">All Priorities</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-
-              <select
-                value={filter.completed === undefined ? '' : filter.completed.toString()}
-                onChange={(e) => setFilter({
-                  ...filter,
-                  completed: e.target.value === '' ? undefined : e.target.value === 'true'
-                })}
-                className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">All Tasks</option>
-                <option value="false">Active</option>
-                <option value="true">Completed</option>
-              </select>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Task Form Section */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-lg p-6 sticky top-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Add New Task</h2>
+              <TaskForm onSubmit={addTask} />
             </div>
           </div>
 
-          <TaskList
-            tasks={filteredTasks}
-            onToggleComplete={toggleTaskCompletion}
-            onDelete={deleteTask}
-          />
+          {/* Task List Section */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <h2 className="text-2xl font-semibold text-gray-900">Tasks</h2>
+                <div className="flex flex-wrap gap-3">
+                  <select
+                    value={filter.priority || ''}
+                    onChange={(e) => setFilter({
+                      ...filter,
+                      priority: e.target.value as Priority || undefined
+                    })}
+                    className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="">All Priorities</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+
+                  <select
+                    value={filter.completed === undefined ? '' : filter.completed.toString()}
+                    onChange={(e) => setFilter({
+                      ...filter,
+                      completed: e.target.value === '' ? undefined : e.target.value === 'true'
+                    })}
+                    className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="">All Tasks</option>
+                    <option value="false">Active</option>
+                    <option value="true">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <TaskList
+                tasks={filteredTasks}
+                onToggleComplete={toggleTaskCompletion}
+                onDelete={deleteTask}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
