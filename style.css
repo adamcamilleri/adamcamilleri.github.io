@@ -1624,15 +1624,23 @@ footer {
 
 .skills-learning-grid {
     display: block;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.skills-learning .container {
+    display: flex;
+    justify-content: center;
 }
 
 .learning-content {
     background: var(--bg-color);
-    padding: 2rem;
+    padding: 3rem;
     border-radius: var(--border-radius-medium);
     box-shadow: var(--shadow-medium);
     width: 100%;
     box-sizing: border-box;
+    font-size: 1.2em;
 }
 
 .learning-intro {
@@ -1643,13 +1651,13 @@ footer {
 .certificates-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .certificate-card {
     background: var(--bg-color);
     border-radius: var(--border-radius-medium);
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -1670,27 +1678,27 @@ footer {
 }
 
 .certificate-details h3 {
-    font-size: 1rem;
+    font-size: 1.4rem;
     line-height: 1.4;
     margin-bottom: 0.5rem;
     color: var(--text-color);
 }
 
 .certificate-details .issuer {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     color: var(--primary-color);
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
 
 .certificate-details .date {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--text-color-light);
 }
 
 .certificate-image {
-    width: 140px;
-    height: 100px;
+    width: 210px;
+    height: 150px;
     margin: 0 auto;
     flex-shrink: 0;
     transition: transform 0.3s ease;
