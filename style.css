@@ -1623,12 +1623,10 @@ footer {
 }
 
 .skills-learning-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    display: block;
 }
 
-.learning-content, .skills-content {
+.learning-content {
     background: var(--bg-color);
     padding: 2rem;
     border-radius: var(--border-radius-medium);
