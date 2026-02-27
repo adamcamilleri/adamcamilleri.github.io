@@ -1,7 +1,7 @@
 /**
- * Vercel serverless function – proxies chat requests to OpenAI.
- * Requires OPENAI_API_KEY in Vercel environment variables.
- * New OpenAI accounts get free trial credits; gpt-4o-mini is cost-effective.
+ * Vercel serverless function – proxies chat requests to Groq.
+ * Requires GROQ_API_KEY in Vercel environment variables.
+ * Groq's free tier: no credit card, thousands of tokens/min. Sign up at console.groq.com
  */
 
 const ALLOWED_ORIGINS = [
@@ -38,9 +38,9 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const key = process.env.OPENAI_API_KEY;
+    const key = process.env.GROQ_API_KEY;
     if (!key) {
-        return res.status(500).json({ error: 'OPENAI_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
+        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
     let body;
@@ -56,14 +56,14 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + key,
             },
             body: JSON.stringify({
-                model: 'gpt-4o-mini',
+                model: 'llama-3.3-70b-versatile',
                 max_tokens: 8192,
                 messages: [
                     { role: 'system', content: system || DEFAULT_SYSTEM },
@@ -74,7 +74,7 @@ module.exports = async function handler(req, res) {
 
         if (!response.ok) {
             const err = await response.text();
-            return res.status(response.status).json({ error: 'OpenAI API error', details: err });
+            return res.status(response.status).json({ error: 'Groq API error', details: err });
         }
 
         const data = await response.json();
