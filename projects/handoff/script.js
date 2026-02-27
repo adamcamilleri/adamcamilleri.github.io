@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    // Set to your Vercel deployment URL + /api (e.g. https://your-project.vercel.app/api)
-    const API_BASE = '';
+    // Set to your Vercel deployment URL + /api (find it in Vercel → your project → Domains or deployment URL)
+    const API_BASE = 'https://adamcamilleri-github-io.vercel.app/api';
 
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
