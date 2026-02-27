@@ -75,8 +75,11 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ system, user })
         });
-        if (!res.ok) throw new Error('API request failed');
-        const data = await res.json();
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+            const msg = data.error || data.details || 'API request failed';
+            throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+        }
         return data.reply || data.text || data.message || '';
     }
 

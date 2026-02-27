@@ -6,6 +6,7 @@
 const ALLOWED_ORIGINS = [
     'https://adamcamilleri.github.io',
     'https://www.adamcamilleri.github.io',
+    'https://adamcamilleri-github-io.vercel.app',
     'http://localhost:3000',
     'http://localhost:5500',
     'http://127.0.0.1:3000',
