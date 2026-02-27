@@ -4,9 +4,9 @@ Follow these steps to connect the Handoff chat to Anthropic and make it work liv
 
 ---
 
-## 1. Get an Anthropic API key
+## 1. Get an OpenAI API key
 
-1. Go to [console.anthropic.com](https://console.anthropic.com/)
+1. Go to [platform.openai.com](https://platform.openai.com/)
 2. Sign up or log in
 3. Go to **API Keys** and create a new key
 4. Copy the key (you won’t see it again)
@@ -24,13 +24,13 @@ Follow these steps to connect the Handoff chat to Anthropic and make it work liv
 
 ---
 
-## 3. Add your Anthropic key in Vercel
+## 3. Add your OpenAI key in Vercel
 
 1. In Vercel, open your project
 2. Go to **Settings** → **Environment Variables**
 3. Add a new variable:
-   - **Name:** `ANTHROPIC_API_KEY`
-   - **Value:** your Anthropic API key
+   - **Name:** `OPENAI_API_KEY`
+   - **Value:** your OpenAI API key
    - **Environment:** Production (and Preview if you want)
 4. Click **Save**
 5. Go to **Deployments**, open the **⋮** menu on the latest deployment, and choose **Redeploy** so the new env var is used
@@ -65,5 +65,5 @@ Follow these steps to connect the Handoff chat to Anthropic and make it work liv
 | Issue | What to check |
 |-------|----------------|
 | "Demo mode: no API configured" | `API_BASE` is empty or wrong in `script.js` |
-| "ANTHROPIC_API_KEY not configured" | Add `ANTHROPIC_API_KEY` in Vercel → Settings → Environment Variables, then redeploy |
+| "OPENAI_API_KEY not configured" | Add `OPENAI_API_KEY` in Vercel → Settings → Environment Variables, then redeploy |
 | CORS errors | Your Handoff page must be served from `adamcamilleri.github.io` or `localhost` (file:// URLs won’t work) |
