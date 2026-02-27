@@ -15,7 +15,7 @@
     const DEFAULT_PREVIEW_HTML = `
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><title>Preview</title></head>
-<body style="margin:0;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f4f4f5;color:#71717a;">
+<body style="margin:0;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f0f14;color:#71717a;">
   <p>Your site preview will appear here as you chat.</p>
 </body></html>
     `.trim();
