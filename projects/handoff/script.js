@@ -107,7 +107,8 @@
 
     function fixPollinationsUrls(html) {
         if (!html || typeof html !== 'string') return html;
-        return html.replace(/src="(https:\/\/image\.pollinations\.ai\/prompt\/)([^"]*?)"/gi, function (_, base, prompt) {
+        var pollinationsBase = 'https://image.pollinations.ai/prompt/';
+        html = html.replace(/src="(https:\/\/image\.pollinations\.ai\/prompt\/)([^"]*?)"/gi, function (_, base, prompt) {
             try {
                 var parts = (prompt || '').split('?');
                 var decoded = decodeURIComponent(parts[0].replace(/\+/g, ' '));
@@ -117,6 +118,17 @@
                 return _;
             }
         });
+        html = html.replace(/<img([^>]*?)src="([^"]*)"([^>]*?)>/gi, function (m, before, src, after) {
+            var isBroken = !src || src === '#' || src === '' || !src.startsWith('http');
+            if (isBroken) {
+                var altMatch = m.match(/alt="([^"]*)"/i);
+                var alt = (altMatch && altMatch[1]) ? altMatch[1].trim() : 'image';
+                var prompt = encodeURIComponent(alt.replace(/[-_]/g, ' '));
+                return '<img' + before + 'src="' + pollinationsBase + prompt + '?width=400"' + after + '>';
+            }
+            return m;
+        });
+        return html;
     }
 
     function injectEditScript(html) {
