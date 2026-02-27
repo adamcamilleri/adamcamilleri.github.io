@@ -1,0 +1,52 @@
+# Handoff
+
+AI-powered website design in conversation. Chat to customize layout, colors, copy, and structure—then preview the live site and deploy it.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | HTML, CSS, JavaScript |
+| **API** | Node.js (Vercel serverless functions) |
+| **AI** | Groq API (Llama 3.3) |
+| **Deploy** | Vercel API |
+| **Payments** | Stripe |
+| **Hosting** | GitHub Pages + Vercel |
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|--------------|
+| `/api/chat` | POST | Design requests, multi-turn chat, element edits |
+| `/api/deploy` | POST | Deploy generated HTML to Vercel |
+| `/api/create-payment-link` | POST | Create Stripe payment links |
+
+Import `Handoff-API.postman_collection.json` into Postman to test the APIs.
+
+## Security Considerations (OWASP)
+
+- **Input validation**: Payload size limits and string length caps on user-supplied HTML and text (mitigates injection, DoS)
+- **CORS**: Restrictive origin whitelist for API access
+- **Authentication**: Deploy and payment endpoints require server-side tokens (not exposed to client)
+- **Data handling**: No persistent storage of sensitive data in the frontend; API keys stored as environment variables
+
+## Local Development
+
+**Option A – Docker (full stack)** (from repo root)
+```bash
+cp .env.example .env   # Add GROQ_API_KEY, etc.
+docker-compose up
+```
+Open http://localhost:3000/projects/handoff/ – chat, deploy, and payments work against the local API.
+
+**Option B – Node** (from repo root)
+```bash
+cp .env.example .env
+npm run dev
+```
+
+**Production** – See [HANDOFF_SETUP.md](./HANDOFF_SETUP.md) for Vercel deployment.
+
+## License
+
+MIT

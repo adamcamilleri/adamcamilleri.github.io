@@ -1,0 +1,77 @@
+# Handoff & Portfolio CI
+# Lint, validate, and run tests on push/PR
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Validate API structure
+        run: |
+          echo "Checking API endpoints exist..."
+          test -f api/chat.js && echo "✓ api/chat.js" || exit 1
+          test -f api/deploy.js && echo "✓ api/deploy.js" || exit 1
+          test -f api/create-payment-link.js && echo "✓ api/create-payment-link.js" || exit 1
+          echo "All API handlers present."
+
+      - name: Validate Handoff project
+        run: |
+          test -f projects/handoff/index.html && echo "✓ Handoff index" || exit 1
+          test -f projects/handoff/script.js && echo "✓ Handoff script" || exit 1
+          test -f projects/handoff/styles.css && echo "✓ Handoff styles" || exit 1
+          echo "Handoff project structure valid."
+
+  taskmaster:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/taskmaster
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install TaskMaster dependencies
+        run: npm ci
+
+      - name: Lint TaskMaster
+        run: npm run lint --if-present
+        continue-on-error: true
+
+      - name: Build TaskMaster
+        run: npm run build
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install E2E dependencies
+        run: npm ci
+
+      - name: Run Cypress E2E tests
+        run: npm run test:e2e

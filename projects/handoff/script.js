@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    const API_BASE = 'https://adamcamilleri-github-io.vercel.app/api';
+    const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+        ? '/api'
+        : 'https://adamcamilleri-github-io.vercel.app/api';
 
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');

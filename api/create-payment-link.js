@@ -5,6 +5,9 @@
 
 const ALLOWED_ORIGINS = [
     'https://adamcamilleri.github.io',
+    'https://www.adamcamilleri.github.io',
+    'https://adamcamilleri.com',
+    'https://www.adamcamilleri.com',
     'https://adamcamilleri-github-io.vercel.app',
     'http://localhost:3000',
     'http://localhost:5500',
@@ -52,6 +55,12 @@ module.exports = async function handler(req, res) {
 
     if (amount <= 0) {
         return res.status(400).json({ error: 'Provide a positive "amount" (in cents, e.g. 2000 for $20)' });
+    }
+    if (amount > 99999999) {
+        return res.status(400).json({ error: 'Amount exceeds maximum' });
+    }
+    if (label.length > 200) {
+        return res.status(400).json({ error: 'Label too long' });
     }
 
     try {

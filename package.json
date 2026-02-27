@@ -1,0 +1,17 @@
+{
+  "name": "adamcamilleri-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'cypress run'",
+    "test:e2e:open": "start-server-and-test 'node server.js' http://localhost:3000 'cypress open'"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0",
+    "serve": "^14.2.0",
+    "start-server-and-test": "^2.0.3"
+  }
+}

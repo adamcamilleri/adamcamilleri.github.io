@@ -7,6 +7,8 @@
 const ALLOWED_ORIGINS = [
     'https://adamcamilleri.github.io',
     'https://www.adamcamilleri.github.io',
+    'https://adamcamilleri.com',
+    'https://www.adamcamilleri.com',
     'https://adamcamilleri-github-io.vercel.app',
     'http://localhost:3000',
     'http://localhost:5500',
@@ -51,6 +53,20 @@ module.exports = async function handler(req, res) {
     }
 
     const { system, messages, currentHtml, formEmail, paymentLink, user, elementEdit, selectedElementHtml, instruction } = body;
+
+    // Input validation (OWASP – shift-left)
+    if (user && typeof user === 'string' && user.length > 10000) {
+        return res.status(400).json({ error: 'User message too long' });
+    }
+    if (currentHtml && typeof currentHtml === 'string' && currentHtml.length > 150000) {
+        return res.status(400).json({ error: 'currentHtml too large' });
+    }
+    if (selectedElementHtml && typeof selectedElementHtml === 'string' && selectedElementHtml.length > 10000) {
+        return res.status(400).json({ error: 'selectedElementHtml too large' });
+    }
+    if (instruction && typeof instruction === 'string' && instruction.length > 5000) {
+        return res.status(400).json({ error: 'Instruction too long' });
+    }
 
     if (elementEdit && selectedElementHtml && instruction && typeof instruction === 'string' && instruction.trim()) {
         const html = (currentHtml && typeof currentHtml === 'string') ? currentHtml : '';

@@ -7,6 +7,8 @@
 const ALLOWED_ORIGINS = [
     'https://adamcamilleri.github.io',
     'https://www.adamcamilleri.github.io',
+    'https://adamcamilleri.com',
+    'https://www.adamcamilleri.com',
     'https://adamcamilleri-github-io.vercel.app',
     'http://localhost:3000',
     'http://localhost:5500',
@@ -56,8 +58,14 @@ module.exports = async function handler(req, res) {
     if (!html || typeof html !== 'string') {
         return res.status(400).json({ error: 'Missing or invalid "html" in request body' });
     }
+    if (html.length > 500000) {
+        return res.status(413).json({ error: 'HTML too large', details: 'Max 500KB' });
+    }
 
     const name = (projectName && String(projectName).trim()) || slug();
+    if (name.length > 64 || !/^[a-zA-Z0-9-]+$/.test(name)) {
+        return res.status(400).json({ error: 'projectName must be alphanumeric + hyphens, max 64 chars' });
+    }
 
     const vercelJson = JSON.stringify({
         buildCommand: null,
