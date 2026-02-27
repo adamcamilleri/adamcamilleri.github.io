@@ -25,7 +25,7 @@ function corsHeaders(req) {
     };
 }
 
-const DEFAULT_SYSTEM = 'You are a helpful web design assistant. When asked to design or modify a webpage, respond with a complete single-page HTML document (with inline CSS). Output only the HTML, no markdown code fences or explanation.';
+const DEFAULT_SYSTEM = 'You are a professional web design assistant. Output complete single-page HTML using Tailwind CSS classes. ALWAYS include this in the head: <script src="https://cdn.tailwindcss.com"></script>. Use Tailwind utility classes for layout, colors, spacing, typography. Output only the HTML, no markdown fences or explanation.';
 
 module.exports = async function handler(req, res) {
     Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
@@ -57,7 +57,7 @@ module.exports = async function handler(req, res) {
         if (!html || html.length < 50) {
             return res.status(400).json({ error: 'elementEdit requires currentHtml' });
         }
-        const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. For images, use https://image.pollinations.ai/prompt/PROMPT (URL-encode the prompt: use %20 for spaces, e.g. chocolate%20chip%20cookie). Output only the HTML document, no markdown fences, no explanation.';
+        const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. Use Tailwind CSS classes. Ensure <script src="https://cdn.tailwindcss.com"></script> is in the head. Output only the HTML document, no markdown fences, no explanation.';
         const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${html.slice(0, 15000)}`;
         const groqMessages = [{ role: 'system', content: systemContent }, { role: 'user', content: userContent }];
         try {
@@ -85,7 +85,7 @@ module.exports = async function handler(req, res) {
     }
 
     let systemContent = system || DEFAULT_SYSTEM;
-    systemContent += `\n\nSCOPE:\n- Contact forms: When the user asks for a contact form, ask "What email should the contact form send submissions to?" Once they provide an email, use action="https://formsubmit.co/" + their email, method="POST", and include a _subject hidden field.\n- Out of scope: If the user asks for online ordering, checkout, payment processing, ecommerce, buy/donate buttons, or similar: respond with a short, friendly message like "Sorry, we don't support that yet. I can help you design the rest of your site though!" Do not output HTML for these requests.\n\nNAVIGATION: This is a single-page site. All nav links, tabs, and menus MUST use in-page anchor links only. Use href="#sectionid" with a matching <div id="sectionid"> or <section id="sectionid">. Never use href="page.html", href="/", href="index.html", or any relative file path.\n\nIMAGES (CRITICAL): When adding ANY image, you MUST use: <img src="https://image.pollinations.ai/prompt/DESCRIPTION" alt="DESCRIPTION">. Replace DESCRIPTION with URL-encoded text (spaces as %20). NEVER use placeholder paths like .jpg, .png, or fake URLs. Example for a pig: <img src="https://image.pollinations.ai/prompt/cool%20pig" alt="Cool Pig" style="max-width:400px">`;
+    systemContent += `\n\nDESIGN (use Tailwind, make it polished):\n- Max-width container: max-w-6xl mx-auto for main content, generous padding (py-16, px-6)\n- Typography: text-4xl to text-6xl for heroes, text-xl to text-2xl for section titles, leading-relaxed for body\n- Spacing: py-12 to py-24 between sections, avoid cramped layouts\n- Colors: use bg-slate-50, bg-white, or dark themes (bg-slate-900, text-white). Accent with text-indigo-600, bg-indigo-600, etc.\n- Buttons: rounded-lg px-6 py-3 font-medium, hover states\n- Cards/sections: rounded-xl, shadow-lg, or border for depth\n\nSCOPE:\n- Contact forms: When the user asks for a contact form, ask "What email should the contact form send submissions to?" Once they provide an email, use action="https://formsubmit.co/" + their email, method="POST", and include a _subject hidden field.\n- Out of scope: If the user asks for online ordering, checkout, payment processing, ecommerce, buy/donate buttons, or similar: respond with a short, friendly message like "Sorry, we don't support that yet. I can help you design the rest of your site though!" Do not output HTML for these requests.\n\nNAVIGATION: Single-page only. Use href="#sectionid" with matching id="sectionid". Never use page.html or relative file paths.\n\nIMAGES: Use <img src="https://image.pollinations.ai/prompt/DESCRIPTION" alt="DESCRIPTION" class="..."> (URL-encode DESCRIPTION, spaces as %20). Never use .jpg/.png placeholders.`;
     const extras = [];
     if (formEmail && typeof formEmail === 'string' && formEmail.trim()) {
         const email = formEmail.trim();

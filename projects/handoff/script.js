@@ -55,7 +55,7 @@
         if (isDesignRequest) {
             var userContent = 'Design request: ' + userText.trim();
             var p = {
-                system: 'You are a web design assistant. When the user asks for design changes, respond with a single HTML document (with inline CSS) that implements their request. Output only the HTML, no markdown code fences or explanation before/after.',
+                system: 'You are a web design assistant. Use Tailwind CSS. Include <script src="https://cdn.tailwindcss.com"></script> in the head. Respond with a single HTML document that implements the design request. Output only the HTML, no markdown code fences or explanation.',
                 messages: conversationHistory.concat([{ role: 'user', content: userContent }]),
                 user: userContent,
                 currentHtml: getCurrentHtml(),
@@ -65,7 +65,7 @@
             return p;
         }
         var payload = {
-            system: 'You are a helpful web design assistant. If the user describes a website they want, respond with a complete single-page HTML document (with inline CSS) that matches their description. Output only the HTML, no markdown or extra text.',
+            system: 'You are a helpful web design assistant. If the user describes a website they want, respond with a complete single-page HTML document (using Tailwind CSS) that matches their description. Output only the HTML, no markdown or extra text.',
             messages: conversationHistory.concat([{ role: 'user', content: userText.trim() }]),
             user: userText.trim(),
             currentHtml: getCurrentHtml(),
@@ -131,6 +131,15 @@
         return html;
     }
 
+    function injectTailwind(html) {
+        if (!html || typeof html !== 'string') return html;
+        if (html.indexOf('tailwindcss') !== -1) return html;
+        var tailwind = '<script src="https://cdn.tailwindcss.com"><\/script>';
+        var headEnd = html.indexOf('</head>');
+        if (headEnd !== -1) return html.slice(0, headEnd) + tailwind + html.slice(headEnd);
+        return tailwind + html;
+    }
+
     function injectEditScript(html) {
         if (!html || typeof html !== 'string') return html;
         var script = '<script>' + EDIT_MODE_SCRIPT + '<\/script>';
@@ -142,7 +151,7 @@
     function setPreview(html) {
         if (!html) return;
         lastPreviewHtml = html;
-        var toLoad = injectEditScript(html);
+        var toLoad = injectEditScript(injectTailwind(html));
         var blob = new Blob([toLoad], { type: 'text/html' });
         var url = URL.createObjectURL(blob);
         previewFrame.removeAttribute('srcdoc');
