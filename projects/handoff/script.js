@@ -23,10 +23,13 @@
     // Set initial iframe content
     previewFrame.srcdoc = DEFAULT_PREVIEW_HTML;
 
+    var lastPreviewHtml = '';
+
     const conversationHistory = [];
 
     function getCurrentHtml() {
-        const html = previewFrame.srcdoc || '';
+        if (lastPreviewHtml) return lastPreviewHtml;
+        var html = previewFrame.srcdoc || '';
         return (html && html !== DEFAULT_PREVIEW_HTML) ? html : '';
     }
 
@@ -96,18 +99,14 @@
         return null;
     }
 
-    function sanitizePreviewLinks(html) {
-        if (!html || typeof html !== 'string') return html;
-        var script = '<script>(function(){document.querySelectorAll("a[href]").forEach(function(a){var h=a.getAttribute("href");if(h&&!h.startsWith("#")&&!h.startsWith("http")&&!h.startsWith("mailto:")&&!h.startsWith("tel:")){a.onclick=function(e){e.preventDefault();};}});})();<\/script>';
-        var bodyClose = html.lastIndexOf('</body>');
-        if (bodyClose !== -1) {
-            return html.slice(0, bodyClose) + script + html.slice(bodyClose);
-        }
-        return html + script;
-    }
-
     function setPreview(html) {
-        if (html) previewFrame.srcdoc = sanitizePreviewLinks(html);
+        if (!html) return;
+        lastPreviewHtml = html;
+        var blob = new Blob([html], { type: 'text/html' });
+        var url = URL.createObjectURL(blob);
+        previewFrame.removeAttribute('srcdoc');
+        previewFrame.onload = function () { URL.revokeObjectURL(url); };
+        previewFrame.src = url;
     }
 
     async function sendToApi(userPrompt, context) {
@@ -169,7 +168,7 @@
     }
 
     function getPreviewHtml() {
-        return previewFrame.srcdoc || '';
+        return lastPreviewHtml || previewFrame.srcdoc || '';
     }
 
     function handleDeploy() {
