@@ -100,9 +100,23 @@
         const open = trimmed.indexOf('<');
         const close = trimmed.lastIndexOf('>');
         if (open !== -1 && close > open) {
-            return trimmed.slice(open, close + 1);
+            return fixPollinationsUrls(trimmed.slice(open, close + 1));
         }
         return null;
+    }
+
+    function fixPollinationsUrls(html) {
+        if (!html || typeof html !== 'string') return html;
+        return html.replace(/src="(https:\/\/image\.pollinations\.ai\/prompt\/)([^"]*?)"/gi, function (_, base, prompt) {
+            try {
+                var parts = (prompt || '').split('?');
+                var decoded = decodeURIComponent(parts[0].replace(/\+/g, ' '));
+                var fixed = encodeURIComponent(decoded) + (parts[1] ? '?' + parts[1] : '');
+                return 'src="' + base + fixed + '"';
+            } catch (e) {
+                return _;
+            }
+        });
     }
 
     function injectEditScript(html) {
