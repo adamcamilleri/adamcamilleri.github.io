@@ -1187,6 +1187,13 @@ header.scrolled {
     color: transparent;
 }
 
+.handoff-title {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
 .project-description {
     color: var(--text-color);  /* Changed to black text */
     margin-bottom: 1.5rem;
