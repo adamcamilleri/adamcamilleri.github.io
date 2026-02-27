@@ -118,10 +118,10 @@
                 return _;
             }
         });
-        html = html.replace(/<img([^>]*?)src="([^"]*)"([^>]*?)>/gi, function (m, before, src, after) {
+        html = html.replace(/<img([^>]*?)src=["']([^"']*)["']([^>]*?)>/gi, function (m, before, src, after) {
             var isBroken = !src || src === '#' || src === '' || !src.startsWith('http');
             if (isBroken) {
-                var altMatch = m.match(/alt="([^"]*)"/i);
+                var altMatch = m.match(/alt=["']([^"']*)["']/i);
                 var alt = (altMatch && altMatch[1]) ? altMatch[1].trim() : 'image';
                 var prompt = encodeURIComponent(alt.replace(/[-_]/g, ' '));
                 return '<img' + before + 'src="' + pollinationsBase + prompt + '?width=400"' + after + '>';
