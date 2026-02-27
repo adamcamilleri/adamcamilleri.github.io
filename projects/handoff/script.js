@@ -77,8 +77,9 @@
         });
         const data = await res.json().catch(function () { return {}; });
         if (!res.ok) {
-            const msg = data.error || data.details || 'API request failed';
-            throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+            let msg = data.error || 'API request failed';
+            if (data.details) msg += ': ' + (typeof data.details === 'string' ? data.details.slice(0, 200) : JSON.stringify(data.details).slice(0, 200));
+            throw new Error(msg);
         }
         return data.reply || data.text || data.message || '';
     }

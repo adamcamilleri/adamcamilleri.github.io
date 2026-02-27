@@ -15,7 +15,8 @@ const ALLOWED_ORIGINS = [
 
 function corsHeaders(req) {
     const origin = req.headers.origin || req.headers.Origin;
-    const allowed = ALLOWED_ORIGINS.some(o => origin && (origin === o || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')));
+    const allowed = ALLOWED_ORIGINS.some(o => origin && (origin === o || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:'))) ||
+        (origin && (origin.endsWith('.vercel.app') || origin.endsWith('.github.io')));
     return {
         'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
