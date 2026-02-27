@@ -103,6 +103,127 @@ body {
     color: var(--handoff-accent);
 }
 
+.panel-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.header-actions {
+    flex-shrink: 0;
+}
+
+.action-btn {
+    padding: 0.4rem 0.85rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: inherit;
+}
+
+.deploy-btn {
+    background: var(--handoff-accent);
+    color: #fff;
+}
+
+.deploy-btn:hover {
+    background: var(--handoff-accent-hover);
+}
+
+.deploy-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.quick-actions {
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--handoff-border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.quick-label {
+    font-size: 0.8rem;
+    color: var(--handoff-muted);
+}
+
+.quick-btn {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--handoff-border);
+    border-radius: 6px;
+    background: var(--handoff-bg);
+    color: var(--handoff-text);
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.quick-btn:hover {
+    border-color: var(--handoff-accent);
+    color: var(--handoff-accent);
+}
+
+.deploy-result {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--handoff-border);
+    background: rgba(99, 102, 241, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.deploy-result.hidden {
+    display: none !important;
+}
+
+.deploy-success {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--handoff-text);
+}
+
+.deploy-success i {
+    color: #22c55e;
+}
+
+.deploy-url {
+    color: var(--handoff-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+.deploy-url:hover {
+    text-decoration: underline;
+}
+
+.copy-btn {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--handoff-border);
+    border-radius: 6px;
+    background: var(--handoff-bg);
+    color: var(--handoff-text);
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.copy-btn:hover {
+    border-color: var(--handoff-accent);
+}
+
 /* Chat */
 .chat-panel {
     background: var(--handoff-panel);

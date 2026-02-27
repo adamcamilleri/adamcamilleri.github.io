@@ -50,9 +50,22 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid JSON' });
     }
 
-    const { system, user } = body;
+    const { system, user, formEmail, paymentLink } = body;
     if (!user || typeof user !== 'string') {
         return res.status(400).json({ error: 'Missing or invalid "user" in request body' });
+    }
+
+    let systemContent = system || DEFAULT_SYSTEM;
+    const extras = [];
+    if (formEmail && typeof formEmail === 'string' && formEmail.trim()) {
+        const email = formEmail.trim();
+        extras.push(`CONTACT FORM: The user wants a contact form. Use action="https://formsubmit.co/${encodeURIComponent(email)}" for the form. Include method="POST" and a _subject field for the email subject.`);
+    }
+    if (paymentLink && typeof paymentLink === 'string' && paymentLink.trim()) {
+        extras.push(`PAYMENT: The user wants a buy/donate button. Use this exact URL for the button href: ${paymentLink.trim()}`);
+    }
+    if (extras.length) {
+        systemContent += '\n\n' + extras.join('\n\n');
     }
 
     try {
@@ -66,7 +79,7 @@ module.exports = async function handler(req, res) {
                 model: 'llama-3.3-70b-versatile',
                 max_tokens: 8192,
                 messages: [
-                    { role: 'system', content: system || DEFAULT_SYSTEM },
+                    { role: 'system', content: systemContent },
                     { role: 'user', content: user },
                 ],
             }),

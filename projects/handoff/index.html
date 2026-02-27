@@ -25,21 +25,36 @@
                         <p>Describe the site you want: layout, colors, sections, copy. I’ll update the preview on the right as we go.</p>
                     </div>
                 </div>
+                <div class="quick-actions" id="quickActions">
+                    <span class="quick-label">Quick add:</span>
+                    <button type="button" class="quick-btn" data-type="form" title="Add contact form"><i class="fas fa-envelope"></i> Form</button>
+                    <button type="button" class="quick-btn" data-type="payment" title="Add buy/donate button"><i class="fas fa-credit-card"></i> Payment</button>
+                </div>
                 <div class="chat-input-wrap">
                     <textarea id="chatInput" placeholder="e.g. Make a one-page portfolio with a dark header, hero with my name, and a contact form..." rows="2"></textarea>
                     <button type="button" id="sendBtn" class="send-btn" title="Send">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
-                <p class="api-hint" id="apiHint">Using demo mode. Configure your Anthropic API endpoint in <code>script.js</code>.</p>
+                <p class="api-hint" id="apiHint">Chat with Groq. Deploy to your live URL. Use quick-add for forms and payments.</p>
             </aside>
 
             <section class="panel preview-panel">
-                <div class="panel-header">
+                <div class="panel-header panel-header-actions">
                     <h2><i class="fas fa-desktop"></i> Live preview</h2>
+                    <div class="header-actions">
+                        <button type="button" id="deployBtn" class="action-btn deploy-btn" title="Deploy to live URL">
+                            <i class="fas fa-rocket"></i> Deploy
+                        </button>
+                    </div>
                 </div>
                 <div class="iframe-wrap">
                     <iframe id="previewFrame" title="Website preview" srcdoc=""></iframe>
+                </div>
+                <div class="deploy-result hidden" id="deployResult">
+                    <p class="deploy-success"><i class="fas fa-check-circle"></i> Deployed! Your site is live:</p>
+                    <a id="deployUrl" href="#" target="_blank" rel="noopener" class="deploy-url"></a>
+                    <button type="button" id="copyUrlBtn" class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
                 </div>
             </section>
         </div>
