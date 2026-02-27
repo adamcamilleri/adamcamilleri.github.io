@@ -306,6 +306,55 @@ body {
     background: var(--handoff-bg);
 }
 
+.edit-mode-btn {
+    background: transparent;
+    border: 1px solid var(--handoff-border);
+    color: var(--handoff-text);
+}
+
+.edit-mode-btn:hover {
+    border-color: var(--handoff-accent);
+    color: var(--handoff-accent);
+}
+
+.edit-mode-btn.active {
+    background: var(--handoff-accent);
+    border-color: var(--handoff-accent);
+    color: #fff;
+}
+
+.edit-selection-bar {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--handoff-border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.edit-selection-bar.hidden {
+    display: none !important;
+}
+
+.edit-label {
+    font-size: 0.85rem;
+    color: var(--handoff-muted);
+}
+
+.edit-selection-bar input {
+    flex: 1;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--handoff-border);
+    border-radius: 6px;
+    background: var(--handoff-bg);
+    color: var(--handoff-text);
+    font-size: 0.9rem;
+}
+
+.edit-selection-bar input:focus {
+    outline: none;
+    border-color: var(--handoff-accent);
+}
+
 .iframe-wrap {
     flex: 1;
     min-height: 0;

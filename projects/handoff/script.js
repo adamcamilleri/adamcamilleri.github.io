@@ -8,6 +8,10 @@
     const sendBtn = document.getElementById('sendBtn');
     const previewFrame = document.getElementById('previewFrame');
     const deployBtn = document.getElementById('deployBtn');
+    const editModeBtn = document.getElementById('editModeBtn');
+    const editSelectionBar = document.getElementById('editSelectionBar');
+    const editSelectionInput = document.getElementById('editSelectionInput');
+    const editApplyBtn = document.getElementById('editApplyBtn');
     const deployResult = document.getElementById('deployResult');
     const deployUrlEl = document.getElementById('deployUrl');
     const copyUrlBtn = document.getElementById('copyUrlBtn');
@@ -19,6 +23,8 @@
   <p>Your site preview will appear here as you chat.</p>
 </body></html>
     `.trim();
+
+    var EDIT_MODE_SCRIPT = '(function(){var enabled=false;function clear(){document.querySelectorAll("[data-handoff-sel]").forEach(function(x){x.style.outline="";x.removeAttribute("data-handoff-sel");});}window.addEventListener("message",function(e){if(e.data&&e.data.type==="handoff-edit-mode"){enabled=e.data.enabled;clear();}});document.addEventListener("click",function(e){if(!enabled)return;e.preventDefault();e.stopPropagation();var el=e.target;while(el&&el.tagName&&["BODY","HTML"].indexOf(el.tagName)===-1){var r=el.getBoundingClientRect();if(r.width>20&&r.height>20)break;el=el.parentElement;}if(!el||el.tagName==="HTML")return;clear();el.style.outline="2px solid #6366f1";el.setAttribute("data-handoff-sel","1");window.parent.postMessage({type:"handoff-select",outerHTML:el.outerHTML},"*");},true);})();';
 
     // Set initial iframe content
     previewFrame.srcdoc = DEFAULT_PREVIEW_HTML;
@@ -99,14 +105,72 @@
         return null;
     }
 
+    function injectEditScript(html) {
+        if (!html || typeof html !== 'string') return html;
+        var script = '<script>' + EDIT_MODE_SCRIPT + '<\/script>';
+        var idx = html.lastIndexOf('</body>');
+        if (idx !== -1) return html.slice(0, idx) + script + html.slice(idx);
+        return html + script;
+    }
+
     function setPreview(html) {
         if (!html) return;
         lastPreviewHtml = html;
-        var blob = new Blob([html], { type: 'text/html' });
+        var toLoad = injectEditScript(html);
+        var blob = new Blob([toLoad], { type: 'text/html' });
         var url = URL.createObjectURL(blob);
         previewFrame.removeAttribute('srcdoc');
-        previewFrame.onload = function () { URL.revokeObjectURL(url); };
+        previewFrame.onload = function () {
+            URL.revokeObjectURL(url);
+            if (editModeOn) tellIframeEditMode(true);
+        };
         previewFrame.src = url;
+    }
+
+    var editModeOn = false;
+    var lastSelectedHtml = null;
+
+    function tellIframeEditMode(on) {
+        try {
+            if (previewFrame.contentWindow) previewFrame.contentWindow.postMessage({ type: 'handoff-edit-mode', enabled: on }, '*');
+        } catch (e) {}
+    }
+
+    function handleEditModeToggle() {
+        editModeOn = !editModeOn;
+        editModeBtn.classList.toggle('active', editModeOn);
+        if (!editModeOn) {
+            editSelectionBar.classList.add('hidden');
+            lastSelectedHtml = null;
+        }
+        tellIframeEditMode(editModeOn);
+    }
+
+    window.addEventListener('message', function (e) {
+        if (!e.data || e.data.type !== 'handoff-select') return;
+        if (!lastPreviewHtml || lastPreviewHtml === DEFAULT_PREVIEW_HTML) return;
+        lastSelectedHtml = e.data.outerHTML || null;
+        editSelectionBar.classList.remove('hidden');
+        editSelectionInput.value = '';
+        editSelectionInput.focus();
+    });
+
+    async function sendElementEdit(instruction) {
+        if (!lastPreviewHtml || !lastSelectedHtml || !instruction) return Promise.reject(new Error('Nothing selected or no instruction'));
+        var payload = {
+            elementEdit: true,
+            currentHtml: lastPreviewHtml,
+            selectedElementHtml: lastSelectedHtml,
+            instruction: instruction.trim()
+        };
+        var res = await fetch(API_BASE + '/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        var data = await res.json().catch(function () { return {}; });
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        return data.reply || data.text || data.message || '';
     }
 
     async function sendToApi(userPrompt, context) {
@@ -223,6 +287,36 @@
             handleSend();
         }
     });
+    function handleEditApply() {
+        var text = editSelectionInput && editSelectionInput.value ? editSelectionInput.value.trim() : '';
+        if (!text || !lastSelectedHtml || !lastPreviewHtml) return;
+        editApplyBtn.disabled = true;
+        appendTypingIndicator();
+        sendElementEdit(text)
+            .then(function (reply) {
+                var last = chatMessages.querySelector('.typing-indicator');
+                if (last) chatMessages.removeChild(last);
+                var html = extractHtmlFromResponse(reply);
+                if (html) {
+                    setPreview(html);
+                    appendMessage('assistant', 'Updated.');
+                    editSelectionBar.classList.add('hidden');
+                    lastSelectedHtml = null;
+                } else appendMessage('assistant', reply || 'No changes.');
+            })
+            .catch(function (err) {
+                var last = chatMessages.querySelector('.typing-indicator');
+                if (last) chatMessages.removeChild(last);
+                appendMessage('assistant', 'Error: ' + (err.message || 'Could not apply.'));
+            })
+            .finally(function () { editApplyBtn.disabled = false; });
+    }
+
     if (deployBtn) deployBtn.addEventListener('click', handleDeploy);
     if (copyUrlBtn) copyUrlBtn.addEventListener('click', copyDeployUrl);
+    if (editModeBtn) editModeBtn.addEventListener('click', handleEditModeToggle);
+    if (editApplyBtn) editApplyBtn.addEventListener('click', handleEditApply);
+    if (editSelectionInput) editSelectionInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); handleEditApply(); }
+    });
 })();

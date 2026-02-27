@@ -50,7 +50,33 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid JSON' });
     }
 
-    const { system, messages, currentHtml, formEmail, paymentLink, user } = body;
+    const { system, messages, currentHtml, formEmail, paymentLink, user, elementEdit, selectedElementHtml, instruction } = body;
+
+    if (elementEdit && selectedElementHtml && instruction && typeof instruction === 'string' && instruction.trim()) {
+        const html = (currentHtml && typeof currentHtml === 'string') ? currentHtml : '';
+        if (!html || html.length < 50) {
+            return res.status(400).json({ error: 'elementEdit requires currentHtml' });
+        }
+        const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. Output only the HTML document, no markdown fences, no explanation.';
+        const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${html.slice(0, 15000)}`;
+        const groqMessages = [{ role: 'system', content: systemContent }, { role: 'user', content: userContent }];
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + process.env.GROQ_API_KEY },
+                body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 8192, messages: groqMessages }),
+            });
+            if (!response.ok) {
+                const err = await response.text();
+                return res.status(response.status).json({ error: 'Groq API error', details: err });
+            }
+            const data = await response.json();
+            const text = data.choices?.[0]?.message?.content ?? '';
+            return res.status(200).json({ reply: text });
+        } catch (err) {
+            return res.status(500).json({ error: 'Server error', details: err.message });
+        }
+    }
 
     const hasHistory = Array.isArray(messages) && messages.length > 0;
     const hasUser = typeof user === 'string' && user.trim();

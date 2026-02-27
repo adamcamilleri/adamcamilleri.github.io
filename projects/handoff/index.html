@@ -40,10 +40,18 @@
                 <div class="panel-header panel-header-actions">
                     <h2><i class="fas fa-desktop"></i> Live preview</h2>
                     <div class="header-actions">
+                        <button type="button" id="editModeBtn" class="action-btn edit-mode-btn" title="Click sections to edit them">
+                            <i class="fas fa-mouse-pointer"></i> Edit mode
+                        </button>
                         <button type="button" id="deployBtn" class="action-btn deploy-btn" title="Deploy to live URL">
                             <i class="fas fa-rocket"></i> Deploy
                         </button>
                     </div>
+                </div>
+                <div class="edit-selection-bar hidden" id="editSelectionBar">
+                    <span class="edit-label">Change selected:</span>
+                    <input type="text" id="editSelectionInput" placeholder="e.g. make this blue, add a cookie image here..." />
+                    <button type="button" id="editApplyBtn" class="action-btn deploy-btn">Apply</button>
                 </div>
                 <div class="iframe-wrap">
                     <iframe id="previewFrame" title="Website preview" srcdoc=""></iframe>
