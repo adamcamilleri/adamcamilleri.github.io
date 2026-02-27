@@ -100,33 +100,17 @@
         const open = trimmed.indexOf('<');
         const close = trimmed.lastIndexOf('>');
         if (open !== -1 && close > open) {
-            return fixPollinationsUrls(trimmed.slice(open, close + 1));
+            return fixImagePlaceholders(trimmed.slice(open, close + 1));
         }
         return null;
     }
 
-    function fixPollinationsUrls(html) {
+    function fixImagePlaceholders(html) {
         if (!html || typeof html !== 'string') return html;
-        var pollinationsBase = 'https://image.pollinations.ai/prompt/';
-        html = html.replace(/src="(https:\/\/image\.pollinations\.ai\/prompt\/)([^"]*?)"/gi, function (_, base, prompt) {
-            try {
-                var parts = (prompt || '').split('?');
-                var decoded = decodeURIComponent(parts[0].replace(/\+/g, ' '));
-                var fixed = encodeURIComponent(decoded) + (parts[1] ? '?' + parts[1] : '');
-                return 'src="' + base + fixed + '"';
-            } catch (e) {
-                return _;
-            }
-        });
         html = html.replace(/<img([^>]*?)src=["']([^"']*)["']([^>]*?)>/gi, function (m, before, src, after) {
-            var isBroken = !src || src === '#' || src === '' || !src.startsWith('http');
-            if (isBroken) {
-                var altMatch = m.match(/alt=["']([^"']*)["']/i);
-                var alt = (altMatch && altMatch[1]) ? altMatch[1].trim() : 'image';
-                var prompt = encodeURIComponent(alt.replace(/[-_]/g, ' '));
-                return '<img' + before + 'src="' + pollinationsBase + prompt + '?width=400"' + after + '>';
-            }
-            return m;
+            var altMatch = m.match(/alt=["']([^"']*)["']/i);
+            var alt = (altMatch && altMatch[1]) ? altMatch[1].trim() : 'image';
+            return '<div class="flex items-center justify-center bg-slate-200 text-slate-500 rounded-lg min-h-[120px] text-sm" style="aspect-ratio:16/9">Add image: ' + alt + '</div>';
         });
         return html;
     }
