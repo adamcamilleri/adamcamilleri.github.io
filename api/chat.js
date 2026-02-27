@@ -50,22 +50,37 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid JSON' });
     }
 
-    const { system, user, formEmail, paymentLink } = body;
-    if (!user || typeof user !== 'string') {
-        return res.status(400).json({ error: 'Missing or invalid "user" in request body' });
+    const { system, messages, currentHtml, formEmail, paymentLink, user } = body;
+
+    const hasHistory = Array.isArray(messages) && messages.length > 0;
+    const hasUser = typeof user === 'string' && user.trim();
+    if (!hasHistory && !hasUser) {
+        return res.status(400).json({ error: 'Provide "user" (string) or "messages" (conversation history)' });
     }
 
     let systemContent = system || DEFAULT_SYSTEM;
+    systemContent += `\n\nSCOPE:\n- Contact forms: When the user asks for a contact form, ask "What email should the contact form send submissions to?" Once they provide an email, use action="https://formsubmit.co/" + their email, method="POST", and include a _subject hidden field.\n- Out of scope: If the user asks for online ordering, checkout, payment processing, ecommerce, buy/donate buttons, or similar: respond with a short, friendly message like "Sorry, we don't support that yet. I can help you design the rest of your site though!" Do not output HTML for these requests.`;
     const extras = [];
     if (formEmail && typeof formEmail === 'string' && formEmail.trim()) {
         const email = formEmail.trim();
-        extras.push(`CONTACT FORM: The user wants a contact form. Use action="https://formsubmit.co/${encodeURIComponent(email)}" for the form. Include method="POST" and a _subject field for the email subject.`);
-    }
-    if (paymentLink && typeof paymentLink === 'string' && paymentLink.trim()) {
-        extras.push(`PAYMENT: The user wants a buy/donate button. Use this exact URL for the button href: ${paymentLink.trim()}`);
+        extras.push(`The user provided their email for the contact form: ${email}. Use action="https://formsubmit.co/${encodeURIComponent(email)}" for the form.`);
     }
     if (extras.length) {
-        systemContent += '\n\n' + extras.join('\n\n');
+        systemContent += '\n\n' + extras.join('\n');
+    }
+    if (currentHtml && typeof currentHtml === 'string' && currentHtml.trim().length > 10) {
+        systemContent += `\n\nCURRENT PAGE HTML (modify this, do not replace entirely unless the user asks for a completely new design):\n\`\`\`html\n${currentHtml.slice(0, 12000)}\n\`\`\``;
+    }
+
+    const groqMessages = [{ role: 'system', content: systemContent }];
+    if (hasHistory) {
+        messages.forEach(function (m) {
+            if (m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string') {
+                groqMessages.push({ role: m.role, content: m.content });
+            }
+        });
+    } else if (user && typeof user === 'string') {
+        groqMessages.push({ role: 'user', content: user });
     }
 
     try {
@@ -78,10 +93,7 @@ module.exports = async function handler(req, res) {
             body: JSON.stringify({
                 model: 'llama-3.3-70b-versatile',
                 max_tokens: 8192,
-                messages: [
-                    { role: 'system', content: systemContent },
-                    { role: 'user', content: user },
-                ],
+                messages: groqMessages,
             }),
         });
 
