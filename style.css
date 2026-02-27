@@ -749,6 +749,17 @@ header.scrolled {
     margin-left: -50vw;
     margin-right: -50vw;
     box-sizing: border-box;
+    color: white;
+}
+
+.about .section-title,
+.about .about-text h3,
+.about .about-text p,
+.about .info-title,
+.about .info-value,
+.about .social-icon,
+.about .download-cv {
+    color: white;
 }
 
 .about-content {
