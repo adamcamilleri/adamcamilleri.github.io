@@ -79,7 +79,7 @@
     function appendTypingIndicator() {
         const div = document.createElement('div');
         div.className = 'message assistant typing-indicator';
-        div.innerHTML = '<p><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>';
+        div.innerHTML = '<p><span class="dot"></span><span class="dot"></span><span class="dot"></span></p>';
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         return div;
@@ -96,8 +96,18 @@
         return null;
     }
 
+    function sanitizePreviewLinks(html) {
+        if (!html || typeof html !== 'string') return html;
+        var script = '<script>(function(){document.querySelectorAll("a[href]").forEach(function(a){var h=a.getAttribute("href");if(h&&!h.startsWith("#")&&!h.startsWith("http")&&!h.startsWith("mailto:")&&!h.startsWith("tel:")){a.onclick=function(e){e.preventDefault();};}});})();<\/script>';
+        var bodyClose = html.lastIndexOf('</body>');
+        if (bodyClose !== -1) {
+            return html.slice(0, bodyClose) + script + html.slice(bodyClose);
+        }
+        return html + script;
+    }
+
     function setPreview(html) {
-        if (html) previewFrame.srcdoc = html;
+        if (html) previewFrame.srcdoc = sanitizePreviewLinks(html);
     }
 
     async function sendToApi(userPrompt, context) {

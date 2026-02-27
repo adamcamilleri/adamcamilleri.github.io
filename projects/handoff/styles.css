@@ -142,20 +142,27 @@ body {
 
 .typing-indicator p {
     display: flex;
-    gap: 0.2rem;
+    align-items: center;
+    gap: 0.35rem;
     padding: 0;
+    margin: 0;
 }
 
 .typing-indicator .dot {
-    animation: typingBounce 0.6s ease-in-out infinite;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--handoff-text);
+    animation: typingBounce 1.4s ease-in-out infinite;
 }
 
-.typing-indicator .dot:nth-child(2) { animation-delay: 0.15s; }
-.typing-indicator .dot:nth-child(3) { animation-delay: 0.3s; }
+.typing-indicator .dot:nth-child(1) { animation-delay: 0s; }
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes typingBounce {
-    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-    30% { opacity: 1; transform: translateY(-4px); }
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
 }
 
 .deploy-result {
