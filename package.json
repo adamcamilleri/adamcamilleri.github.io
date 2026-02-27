@@ -3,15 +3,21 @@
   "private": true,
   "scripts": {
     "dev": "node server.js",
+    "build": "tsc",
+    "test": "jest",
     "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'cypress run'",
     "test:e2e:open": "start-server-and-test 'node server.js' http://localhost:3000 'cypress open'"
   },
   "dependencies": {
-    "express": "^4.22.1"
+    "express": "^4.22.1",
+    "mongodb": "^6.21.0"
   },
   "devDependencies": {
     "cypress": "^13.6.0",
+    "jest": "^29.7.0",
     "serve": "^14.2.0",
-    "start-server-and-test": "^2.0.3"
+    "start-server-and-test": "^2.0.3",
+    "supertest": "^6.3.4",
+    "typescript": "^5.9.3"
   }
 }

@@ -203,6 +203,7 @@
                         <p class="project-description">AI-powered website design in conversation. Chat to fully customize layout, colors, copy, and structure—then preview the live site and purchase the design and domain. Built to scale from demo to full product.</p>
                         <div class="project-links">
                             <a href="./projects/handoff/index.html" class="project-link" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/handoff" class="project-link" target="_blank">GitHub <i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
@@ -398,10 +399,12 @@
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    const href = this.getAttribute('href');
+                    if (href && href !== '#') {
+                        history.replaceState(null, '', href);
+                    }
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
                     
                     // Close mobile menu if open
                     if (navLinks.classList.contains('nav-active')) {

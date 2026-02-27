@@ -35,14 +35,6 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const key = process.env.STRIPE_SECRET_KEY;
-    if (!key) {
-        return res.status(500).json({
-            error: 'Stripe not configured. Add STRIPE_SECRET_KEY in Vercel environment variables for payment buttons.',
-            paymentLink: null
-        });
-    }
-
     let body;
     try {
         body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
@@ -61,6 +53,14 @@ module.exports = async function handler(req, res) {
     }
     if (label.length > 200) {
         return res.status(400).json({ error: 'Label too long' });
+    }
+
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key) {
+        return res.status(500).json({
+            error: 'Stripe not configured. Add STRIPE_SECRET_KEY in Vercel environment variables for payment buttons.',
+            paymentLink: null
+        });
     }
 
     try {

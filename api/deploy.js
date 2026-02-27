@@ -42,11 +42,6 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const token = process.env.VERCEL_TOKEN;
-    if (!token) {
-        return res.status(500).json({ error: 'VERCEL_TOKEN not configured. Add it in Vercel → Settings → Environment Variables.' });
-    }
-
     let body;
     try {
         body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
@@ -65,6 +60,11 @@ module.exports = async function handler(req, res) {
     const name = (projectName && String(projectName).trim()) || slug();
     if (name.length > 64 || !/^[a-zA-Z0-9-]+$/.test(name)) {
         return res.status(400).json({ error: 'projectName must be alphanumeric + hyphens, max 64 chars' });
+    }
+
+    const token = process.env.VERCEL_TOKEN;
+    if (!token) {
+        return res.status(500).json({ error: 'VERCEL_TOKEN not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
     const vercelJson = JSON.stringify({

@@ -40,11 +40,6 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const key = process.env.GROQ_API_KEY;
-    if (!key) {
-        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
-    }
-
     let body;
     try {
         body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
@@ -98,6 +93,11 @@ module.exports = async function handler(req, res) {
     const hasUser = typeof user === 'string' && user.trim();
     if (!hasHistory && !hasUser) {
         return res.status(400).json({ error: 'Provide "user" (string) or "messages" (conversation history)' });
+    }
+
+    const key = process.env.GROQ_API_KEY;
+    if (!key) {
+        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
     let systemContent = system || DEFAULT_SYSTEM;

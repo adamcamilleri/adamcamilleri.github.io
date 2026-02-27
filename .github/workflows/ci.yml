@@ -20,13 +20,25 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Validate API structure
         run: |
           echo "Checking API endpoints exist..."
           test -f api/chat.js && echo "✓ api/chat.js" || exit 1
           test -f api/deploy.js && echo "✓ api/deploy.js" || exit 1
           test -f api/create-payment-link.js && echo "✓ api/create-payment-link.js" || exit 1
+          test -f api/save-design.js && echo "✓ api/save-design.js" || exit 1
+          test -f api/get-designs.js && echo "✓ api/get-designs.js" || exit 1
+          test -f api/get-design.js && echo "✓ api/get-design.js" || exit 1
           echo "All API handlers present."
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run unit tests
+        run: npm test
 
       - name: Validate Handoff project
         run: |

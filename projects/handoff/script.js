@@ -10,6 +10,7 @@
     const sendBtn = document.getElementById('sendBtn');
     const previewFrame = document.getElementById('previewFrame');
     const deployBtn = document.getElementById('deployBtn');
+    const saveBtn = document.getElementById('saveBtn');
     const editModeBtn = document.getElementById('editModeBtn');
     const editSelectionBar = document.getElementById('editSelectionBar');
     const editSelectionInput = document.getElementById('editSelectionInput');
@@ -290,6 +291,34 @@
             });
     }
 
+    function handleSave() {
+        var html = getPreviewHtml();
+        if (!html || html === DEFAULT_PREVIEW_HTML) {
+            appendMessage('assistant', 'Design something first, then I can save it.');
+            return;
+        }
+        if (!saveBtn) return;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
+        fetch(API_BASE + '/save-design', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ html: html, name: 'Handoff design' })
+        })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
+                if (data.id) appendMessage('assistant', 'Design saved.');
+                else appendMessage('assistant', 'Save failed: ' + (data.error || 'Unknown error'));
+            })
+            .catch(function (err) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
+                appendMessage('assistant', 'Save error: ' + (err.message || 'Could not reach API'));
+            });
+    }
+
     function copyDeployUrl() {
         const url = deployUrlEl.href;
         if (url && navigator.clipboard) {
@@ -334,6 +363,7 @@
     }
 
     if (deployBtn) deployBtn.addEventListener('click', handleDeploy);
+    if (saveBtn) saveBtn.addEventListener('click', handleSave);
     if (copyUrlBtn) copyUrlBtn.addEventListener('click', copyDeployUrl);
     if (editModeBtn) editModeBtn.addEventListener('click', handleEditModeToggle);
     if (editApplyBtn) editApplyBtn.addEventListener('click', handleEditApply);

@@ -84,6 +84,27 @@
       }
     },
     {
+      "name": "Save Design (MongoDB)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"html\": \"<!DOCTYPE html><html><body><h1>Saved design</h1></body></html>\",\n  \"name\": \"My design\"\n}"
+        },
+        "url": "{{baseUrl}}/api/save-design",
+        "description": "Saves design to MongoDB. Requires MONGODB_URI."
+      }
+    },
+    {
+      "name": "Get Designs (MongoDB)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/get-designs",
+        "description": "Lists saved designs from MongoDB."
+      }
+    },
+    {
       "name": "Create Payment Link",
       "request": {
         "method": "POST",
