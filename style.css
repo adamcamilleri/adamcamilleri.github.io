@@ -77,7 +77,18 @@ body {
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     color: var(--text-color);
-    background-color: var(--bg-color);
+    background: linear-gradient(
+        to bottom,
+        #0A192F 0%,
+        #112240 12%,
+        #1A365D 25%,
+        #2C5282 40%,
+        #4299E1 55%,
+        #63B3ED 70%,
+        #90CDF4 85%,
+        #BEE3F8 100%
+    );
+    min-height: 100vh;
     line-height: 1.7;
     font-weight: 400;
     letter-spacing: var(--letter-spacing-normal);
@@ -364,7 +375,7 @@ h1, h2, h3, h4 {
 .bg-gradient {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #0A192F 0%, #112240 50%, #1A365D 100%);
+    background: transparent;
 }
 
 .particle {
@@ -426,7 +437,7 @@ h1, h2, h3, h4 {
 /* =========== HEADER =========== */
 header {
     width: 100%;
-    background-color: var(--bg-color-darkest);
+    background: transparent;
     position: relative;
     z-index: var(--z-fixed);
 }
@@ -556,7 +567,7 @@ header.scrolled {
     justify-content: center;
     position: relative;
     padding: 0 2rem;
-    background-color: var(--bg-color-darkest);
+    background: transparent;
 }
 
 .hero-content {
@@ -728,7 +739,7 @@ header.scrolled {
 
 /* =========== ABOUT SECTION =========== */
 .about {
-    background-color: var(--bg-color-darker);  /* Changed from var(--bg-color-dark) to var(--bg-color-darker) */
+    background: transparent;
     padding: 6rem 2rem;
     position: relative;
     width: 100vw;
@@ -1008,7 +1019,7 @@ header.scrolled {
 /* =========== PROJECTS SECTION =========== */
 .projects {
     padding: 6rem 0;
-    background-color: var(--bg-color-alt);
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -1313,7 +1324,7 @@ header.scrolled {
 /* =========== CONTACT SECTION =========== */
 .contact {
     padding: 6rem 2rem;
-    background-color: var(--bg-color);  /* Reverted back to original */
+    background: transparent;
     width: 100vw;
     margin: 0;
     left: 50%;
@@ -1471,7 +1482,7 @@ header.scrolled {
 
 /* =========== FOOTER =========== */
 footer {
-    background-color: #ffffff;  /* Reverted back to original */
+    background: transparent;
     padding: 5rem 0 0;
     position: relative;
 }
@@ -1623,7 +1634,7 @@ footer {
 /* Skills & Learning Section */
 .skills-learning {
     padding: 8rem 0;
-    background-color: var(--bg-color-skills);
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
     position: relative;
