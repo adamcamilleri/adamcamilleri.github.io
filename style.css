@@ -651,7 +651,7 @@ header.scrolled {
     justify-content: flex-start;
     max-width: 1320px;
     margin: 0 auto;
-    padding: 2rem 0 4rem;
+    padding: 1.25rem 0 2rem;
     text-align: left;
     z-index: 1;
 }
@@ -669,7 +669,7 @@ header.scrolled {
     color: white;
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.4rem 0.9rem;
     background: #2d2d2d;
     border: none;
@@ -686,8 +686,8 @@ header.scrolled {
     font-size: 2.4rem;
     font-weight: 700;
     color: #2196F3 !important;
-    margin-top: 1.25rem;
-    margin-bottom: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
     margin-left: 0.9rem;
 }
 
@@ -695,8 +695,8 @@ header.scrolled {
 .hero-bottom-row {
     display: flex;
     align-items: flex-start;
-    gap: 4rem;
-    margin-top: 2rem;
+    gap: 2.5rem;
+    margin-top: 1rem;
 }
 
 /* Below fold: image + description */
@@ -706,7 +706,7 @@ header.scrolled {
     gap: 4rem;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 4rem 0 6rem;
+    padding: 2rem 0 2.5rem;
 }
 
 .hero-details {
@@ -738,7 +738,7 @@ header.scrolled {
 
 .hero-headline h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(6rem, 22vw, 12rem);
+    font-size: clamp(5rem, 18vw, 10rem);
     font-weight: 700;
     color: var(--color-neutral-light);
     margin: 0;
@@ -777,7 +777,7 @@ header.scrolled {
 
 .hero-stats {
     display: flex;
-    gap: 4rem;
+    gap: 2.5rem;
     flex-shrink: 0;
 }
 
@@ -788,7 +788,7 @@ header.scrolled {
 
 .stat-number {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.75rem, 6vw, 5rem);
+    font-size: clamp(2.25rem, 5vw, 4rem);
     font-weight: 700;
     color: var(--color-neutral-light);
 }
@@ -804,8 +804,8 @@ header.scrolled {
 }
 
 .hero-bottom-row .hero-intro {
-    font-size: 1.35rem;
-    line-height: 1.65;
+    font-size: 1.25rem;
+    line-height: 1.5;
     color: var(--color-white-60);
     max-width: 420px;
     margin: 0;
@@ -830,7 +830,7 @@ header.scrolled {
 
 .hero-below-fold .cta-buttons {
     justify-content: flex-start;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .hero-below-fold .cta-buttons .btn.primary {
@@ -1473,6 +1473,67 @@ header.scrolled {
     color: var(--text-color);
 }
 
+/* Merged projects + certificates layout */
+.projects-certificates-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .projects-certificates-layout {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 3rem;
+        align-items: start;
+    }
+}
+
+.projects-col .section-title,
+.certificates-col .section-title {
+    margin-bottom: 1.5rem;
+}
+
+.certificates-col .learning-content {
+    background: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-medium);
+    border: 1px solid #e8e8e8;
+}
+
+.certificates-col .learning-intro {
+    margin-bottom: 1.25rem;
+}
+
+.certificates-col .learning-intro p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.certificates-col .certificates-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+.certificates-col .certificate-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+}
+
+.certificates-col .certificate-card:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.certificates-col .certificate-card:hover .certificate-image {
+    transform: scale(1.8);
+}
+
+#certificates {
+    scroll-margin-top: 5rem;
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1481,14 +1542,54 @@ header.scrolled {
     padding: 0;
 }
 
+/* Compact project grid for merged layout */
+.projects-grid-compact {
+    margin: 0;
+    gap: 1.25rem;
+}
+
+.projects-grid-compact .project-card {
+    padding: 1.25rem;
+    margin-bottom: 0;
+}
+
+.projects-grid-compact .project-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+}
+
+.projects-grid-compact .project-description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.projects-grid-compact .project-links {
+    gap: 0.75rem;
+}
+
+.projects-grid-compact .project-link {
+    font-size: 1rem;
+}
+
 @media (min-width: 768px) {
     .projects-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .projects-grid-compact {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 992px) {
+    .projects-grid-compact {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (min-width: 1200px) {
-    .projects-grid {
+    .projects-grid:not(.projects-grid-compact) {
         grid-template-columns: repeat(3, 1fr);
     }
 }
@@ -1622,35 +1723,24 @@ header.scrolled {
     color: #2196F3;
 }
 
-/* Adam's Cookbook - TikTok-inspired gradient */
+/* Adam's Cookbook */
 .cookbook-title {
-    background: linear-gradient(135deg, #ff0050, #00f2ea);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #2196F3;
 }
 
-/* Connect Four - Game theme */
+/* Connect Four */
 .connect-four-title {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 50%, #ffffff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #2196F3;
 }
 
-/* TaskMaster - Modern productivity theme */
+/* TaskMaster */
 .taskmaster-title {
-    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 50%, #1B5E20 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #2196F3;
 }
 
+/* Handoff */
 .handoff-title {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #2196F3;
 }
 
 .project-description {
