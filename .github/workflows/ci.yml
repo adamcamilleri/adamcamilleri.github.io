@@ -117,23 +117,17 @@ jobs:
           curl -sL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz -o jmeter.tgz
           tar xzf jmeter.tgz
           echo "JMETER_HOME=$(pwd)/apache-jmeter-5.6.3" >> $GITHUB_ENV
-          echo "$(pwd)/apache-jmeter-5.6.3/bin" >> $GITHUB_PATH
 
-      - name: Start server
-        run: node server.js &
+      - name: Run load test
         env:
           PORT: 3000
-
-      - name: Wait for server
         run: |
-          for i in {1..30}; do
-            curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health | grep -q 200 && break
-            sleep 1
+          node server.js &
+          SERVER_PID=$!
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:3000/api/health && break || sleep 1
           done
-          curl -sf http://127.0.0.1:3000/api/health || exit 1
-
-      - name: Run jMeter load test
-        run: |
-          OUTPUT=$($JMETER_HOME/bin/jmeter -n -t jmeter/handoff-load-test-local.jmx -l jmeter-results.jtl 2>&1) || true
-          echo "$OUTPUT"
-          echo "$OUTPUT" | grep -qE "Err: 0[^0-9]|Err: 0%" || (echo "Load test had failures (Err > 0)" && exit 1)
+          curl -sf http://127.0.0.1:3000/api/health || (kill $SERVER_PID 2>/dev/null; exit 1)
+          $JMETER_HOME/bin/jmeter -n -t jmeter/handoff-load-test-local.jmx -l jmeter-results.jtl 2>&1 | tee jmeter.log
+          kill $SERVER_PID 2>/dev/null || true
+          grep -qE "Err:\s*0\s" jmeter.log || (echo "Load test had failures (Err > 0)" && cat jmeter.log && exit 1)
