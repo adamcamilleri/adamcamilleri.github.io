@@ -7,7 +7,9 @@ describe('Portfolio', () => {
   });
 
   it('loads the home page', () => {
-    cy.contains('Adam Camilleri').should('be.visible');
+    // Scroll to About so scroll-reveal triggers (section starts with opacity: 0)
+    cy.get('#about').scrollIntoView();
+    cy.contains('Adam Camilleri', { timeout: 3000 }).should('be.visible');
   });
 
   it('navigates to projects section', () => {
