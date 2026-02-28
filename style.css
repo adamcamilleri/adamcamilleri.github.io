@@ -680,9 +680,14 @@ header.scrolled {
     transform: translateZ(0);
 }
 
-.hero-greeting .hero-article {
-    font-size: 1rem;
+.hero-article {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
     color: #2196F3 !important;
+    margin-top: 1.25rem;
+    margin-bottom: 0.8rem;
+    margin-left: 0.9rem;
 }
 
 /* Bottom row: stats left, paragraph right - directly under title */
