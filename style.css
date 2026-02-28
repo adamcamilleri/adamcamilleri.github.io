@@ -1696,6 +1696,13 @@ header.scrolled {
     background: #1976D2;
 }
 
+/* TaskMaster and Handoff - match other project card borders */
+.projects-grid .project-card[data-category="web"]:nth-of-type(4),
+.projects-grid .project-card[data-category="web"]:nth-of-type(5) {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
 /* Common project card styles */
 .project-card {
     background: white;
