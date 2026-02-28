@@ -353,57 +353,67 @@
             { article: 'a', line1: 'Systems Oriented', line2: 'Developer' }
         ];
 
-        // Initialize everything when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            window.scrollTo(0, 0);
+        const CURTAIN_DURATION_MS = 250; // must match CSS transition
 
-            // Pick random phrase for this page load
+        function runCurtainAnimation() {
+            window.scrollTo(0, 0);
             const phrase = HERO_PHRASES[Math.floor(Math.random() * HERO_PHRASES.length)];
             document.getElementById('heroArticle').textContent = "I'm " + phrase.article + " ";
             document.getElementById('heroLine1').textContent = phrase.line1;
             document.getElementById('heroLine2').textContent = phrase.line2;
 
-            // 1. Curtain animation: text starts exactly when curtain reaches top
             const curtain = document.getElementById('heroCurtain');
             const overlay = document.getElementById('heroLoadOverlay');
-            const CURTAIN_DURATION_MS = 250; // must match CSS transition
-            curtain.classList.add('hero-curtain--rising');
-            setTimeout(() => {
-                overlay.style.background = '#1a1a1a';
-                curtain.classList.add('hero-curtain--done');
-                overlay.classList.add('hero-load-overlay--done');
-                document.querySelector('header').classList.add('header--revealed');
-                curtain.style.pointerEvents = 'none';
-                startHeroReveal();
-            }, CURTAIN_DURATION_MS);
+            curtain.classList.remove('hero-curtain--rising', 'hero-curtain--done');
+            overlay.classList.remove('hero-load-overlay--done');
+            overlay.style.background = '#ffffff';
+            document.querySelector('header').classList.remove('header--revealed');
+            document.querySelectorAll('.animate-reveal').forEach(el => el.classList.remove('animate-reveal--visible'));
+            document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.remove('scroll-reveal--visible'));
 
-            function startHeroReveal() {
-                const delays = { 0: 0, 1: 200, 2: 450, 3: 700, 4: 1100 };
-                document.querySelectorAll('.animate-reveal').forEach(el => {
-                    const d = parseInt(el.dataset.delay || '0', 10);
-                    setTimeout(() => el.classList.add('animate-reveal--visible'), delays[d] || 0);
-                });
-                setTimeout(startCountUp, 800);
-            }
+            requestAnimationFrame(() => {
+                curtain.classList.add('hero-curtain--rising');
+                setTimeout(() => {
+                    overlay.style.background = '#1a1a1a';
+                    curtain.classList.add('hero-curtain--done');
+                    overlay.classList.add('hero-load-overlay--done');
+                    document.querySelector('header').classList.add('header--revealed');
+                    curtain.style.pointerEvents = 'none';
+                    startHeroReveal();
+                }, CURTAIN_DURATION_MS);
+            });
+        }
 
-            function startCountUp() {
-                document.querySelectorAll('.stat-number').forEach(el => {
-                    const target = parseInt(el.dataset.count || '0', 10);
-                    const suffix = el.dataset.suffix || '';
-                    const duration = 1000;
-                    const startTime = performance.now();
-                    function update(currentTime) {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        const value = Math.floor(eased * target);
-                        el.textContent = value + suffix;
-                        if (progress < 1) requestAnimationFrame(update);
-                        else el.textContent = target + suffix;
-                    }
-                    requestAnimationFrame(update);
-                });
-            }
+        function startHeroReveal() {
+            const delays = { 0: 0, 1: 200, 2: 450, 3: 700, 4: 1100 };
+            document.querySelectorAll('.animate-reveal').forEach(el => {
+                const d = parseInt(el.dataset.delay || '0', 10);
+                setTimeout(() => el.classList.add('animate-reveal--visible'), delays[d] || 0);
+            });
+            setTimeout(startCountUp, 800);
+        }
+
+        function startCountUp() {
+            document.querySelectorAll('.stat-number').forEach(el => {
+                const target = parseInt(el.dataset.count || '0', 10);
+                const suffix = el.dataset.suffix || '';
+                const duration = 1000;
+                const startTime = performance.now();
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const value = Math.floor(eased * target);
+                    el.textContent = value + suffix;
+                    if (progress < 1) requestAnimationFrame(update);
+                    else el.textContent = target + suffix;
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            runCurtainAnimation();
 
             // Lenis smooth scroll
             const lenis = new Lenis({ lerp: 0.1, duration: 1.2 });
@@ -527,6 +537,13 @@
                     submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
                     submitBtn.disabled = true;
                 });
+            }
+        });
+
+        // Re-run curtain when page restored from bfcache (back/forward, some refreshes)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                runCurtainAnimation();
             }
         });
     </script>
