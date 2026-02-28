@@ -1,28 +1,21 @@
-/* Variables - Jon-inspired palette + legacy support */
-:root {
-    /* Jon palette */
-    --color-neutral-light: #faf9f7;
-    --color-neutral-darkest: #181818;
-    --color-neutral-medium: #646464;
-    --color-neutral-dark: #333;
-    --color-neutral-lighter: #fafafa;
-    --color-crimson: #ee4423;
-    --color-white-60: rgba(255, 255, 255, 0.6);
-    --color-white-50: rgba(255, 255, 255, 0.5);
+/* Google Fonts - using Didot for an elegant look */
+@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap');
 
-    /* Legacy / section colors */
+/* Variables - keeping these organized for easy tweaking */
+:root {
+    /* Colors - went with a blue theme but might change it up later */
     --primary-color: #2196F3;
     --primary-color-light: #64B5F6;
     --primary-color-dark: #1976D2;
     --secondary-color: #03A9F4;
     --text-color: #2b2d42;
     --text-color-light: #8d99ae;
-    --bg-color: #E3F2FD;
-    --bg-color-alt: #D1E8FF;
-    --bg-color-dark: #90CAF9;
-    --bg-color-darker: #64B5F6;
-    --bg-color-darkest: #0A192F;
-    --bg-color-skills: #A5D4FA;
+    --bg-color: #E3F2FD;  /* Light blue background */
+    --bg-color-alt: #D1E8FF;  /* Slightly different blue for projects */
+    --bg-color-dark: #90CAF9;  /* Darker blue for about section */
+    --bg-color-darker: #64B5F6;  /* Even darker for learning section */
+    --bg-color-darkest: #0A192F;  /* Navy blue for hero - looks sick */
+    --bg-color-skills: #A5D4FA;  /* Light blue for skills section */
     --border-color: #64B5F6;
     --success-color: #2ecc71;
     --warning-color: #f39c12;
@@ -32,19 +25,19 @@
     --gradient-start: #0A192F;  /* Navy blue */
     --gradient-end: #112240;    /* Slightly lighter navy */
     
-    /* Typography - Cormorant Garamond to match hero, large scale */
-    --body-font: 'Cormorant Garamond', serif;
-    --heading-font: 'Cormorant Garamond', serif;
-    --hero-font: 'Cormorant Garamond', serif;
-    --h1-font-size: 5rem;
-    --h2-font-size: 4rem;
-    --h3-font-size: 2.5rem;
-    --h4-font-size: 1.75rem;
-    --normal-font-size: 1.35rem;
-    --small-font-size: 1.15rem;
-    --smaller-font-size: 1rem;
+    /* Typography - updated for Didot */
+    --body-font: 'GFS Didot', serif;
+    --heading-font: 'GFS Didot', serif;
+    --hero-font: 'GFS Didot', serif;
+    --h1-font-size: 3.75rem;
+    --h2-font-size: 2.75rem;
+    --h3-font-size: 1.75rem;
+    --h4-font-size: 1.35rem;
+    --normal-font-size: 1.1rem;
+    --small-font-size: 0.95rem;
+    --smaller-font-size: 0.85rem;
     
-    /* Letter spacing */
+    /* Letter spacing adjustments for Didot */
     --letter-spacing-tight: -0.02em;
     --letter-spacing-normal: 0;
     --letter-spacing-wide: 0.02em;
@@ -71,7 +64,7 @@
     --z-modal: 1000;
 }
 
-/* Base styles */
+/* Base styles - adjusted for Didot */
 html, body {
     overflow-x: hidden;
     width: 100%;
@@ -84,13 +77,22 @@ body {
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     color: var(--text-color);
-    background: #ffffff;
+    background: linear-gradient(
+        to bottom,
+        #0A192F 0%,
+        #112240 12%,
+        #1A365D 25%,
+        #2C5282 40%,
+        #4299E1 55%,
+        #63B3ED 70%,
+        #90CDF4 85%,
+        #BEE3F8 100%
+    );
     min-height: 100vh;
     line-height: 1.7;
     font-weight: 400;
     letter-spacing: var(--letter-spacing-normal);
 }
-
 
 h1, h2, h3, h4 {
     font-family: var(--heading-font);
@@ -100,22 +102,21 @@ h1, h2, h3, h4 {
     letter-spacing: var(--letter-spacing-tight);
 }
 
-/* Project card typography */
+/* Adjust project card typography for Didot */
 .project-header h3 {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: 1.85rem;
     font-weight: 400;
     letter-spacing: var(--letter-spacing-tight);
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .project-description {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     letter-spacing: var(--letter-spacing-normal);
 }
 
 .project-tech span {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     letter-spacing: var(--letter-spacing-wide);
 }
 
@@ -132,21 +133,20 @@ h1, h2, h3, h4 {
     letter-spacing: var(--letter-spacing-normal);
 }
 
-/* Section titles - large, hero-style typography */
+/* Adjust section titles */
 .section-title {
     text-align: center;
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: var(--h2-font-size);
     margin-bottom: 4rem;
     position: relative;
     padding-bottom: 1rem;
     font-weight: 700;
     letter-spacing: var(--letter-spacing-tight);
-    font-family: 'Cormorant Garamond', serif;
 }
 
 /* Adjust navigation */
 .nav-links a {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     letter-spacing: var(--letter-spacing-wide);
     font-weight: 600;
     position: relative;
@@ -181,7 +181,7 @@ h1, h2, h3, h4 {
 
 /* Adjust buttons */
 .btn {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     letter-spacing: var(--letter-spacing-wide);
 }
 
@@ -294,26 +294,7 @@ h1, h2, h3, h4 {
     position: relative;
     width: 100%;
     box-sizing: border-box;
-}
-
-.projects, .contact, .skills-learning {
     overflow: hidden;
-}
-
-.about {
-    overflow: visible;
-}
-
-/* Scroll reveal */
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.scroll-reveal--visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .section-title::after {
@@ -456,20 +437,9 @@ h1, h2, h3, h4 {
 /* =========== HEADER =========== */
 header {
     width: 100%;
-    background: #1a1a1a;
+    background: transparent;
     position: relative;
-    z-index: 10002;
-}
-
-header .logo a,
-header .nav-links a {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-header.header--revealed .logo a,
-header.header--revealed .nav-links a {
-    opacity: 1;
+    z-index: var(--z-fixed);
 }
 
 /* Remove the scrolled state styles */
@@ -589,274 +559,15 @@ header.scrolled {
     }
 }
 
-/* =========== HERO LOAD OVERLAY (white while curtain rises, transitions to hero color) =========== */
-.hero-load-overlay {
-    position: fixed;
-    inset: 0;
-    background: #ffffff;
-    z-index: 9998;
-    pointer-events: none;
-    transition: none;
-}
-
-.hero-load-overlay--done {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* =========== HERO CURTAIN (Jon-style load animation) =========== */
-.hero-curtain {
-    position: fixed;
-    top: 70%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280vw;
-    height: 100vh;
-    background: #1a1a1a;
-    border-radius: 50%;
-    z-index: 9999;
-    transition: top 0.25s linear;
-    pointer-events: auto;
-}
-
-.hero-curtain--rising {
-    top: 4.5rem;
-}
-
-.hero-curtain--done {
-    visibility: hidden;
-    opacity: 0;
-    transition: none;
-}
-
 /* =========== HERO SECTION =========== */
 .hero {
     min-height: 100vh;
-    position: relative;
-    padding: 0 2rem;
-    background: #1a1a1a;
-}
-
-/* Revamp hero - Jon-style */
-.hero-revamp {
-    display: flex;
-    flex-direction: column;
-}
-
-/* First screen: Jon-style layout - title, then stats + paragraph right below */
-.hero-title-block {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 0 4rem;
-    text-align: left;
-    z-index: 1;
-}
-
-.hero-top {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Greeting - pill bubble (Jon-inspired, smooth edges) */
-.hero-greeting {
-    display: inline-block;
-    width: fit-content;
-    align-self: flex-start;
-    color: white;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    padding: 0.4rem 0.9rem;
-    background: #2d2d2d;
-    border: none;
-    border-radius: 2rem;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translateZ(0);
-}
-
-.hero-greeting .hero-article {
-    font-size: 1rem;
-    color: #2196F3 !important;
-}
-
-/* Bottom row: stats left, paragraph right - directly under title */
-.hero-bottom-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 4rem;
-    margin-top: 2rem;
-}
-
-/* Below fold: image + description */
-.hero-below-fold {
     display: flex;
     align-items: center;
-    gap: 4rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 4rem 0 6rem;
-}
-
-.hero-details {
-    flex: 1;
-}
-
-.hero-image-wrap {
-    flex-shrink: 0;
-    width: 300px;
-}
-
-.hero-image {
-    width: 100%;
-    height: auto;
-    border-radius: 16px;
-    object-fit: cover;
-}
-
-@media (max-width: 900px) {
-    .hero-below-fold {
-        flex-direction: column;
-    }
-
-    .hero-image-wrap {
-        width: 240px;
-    }
-}
-
-
-.hero-headline h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(6rem, 22vw, 12rem);
-    font-weight: 700;
-    color: var(--color-neutral-light);
-    margin: 0;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-}
-
-.hero-line1, .hero-line2 {
-    display: block;
-    overflow: hidden;
-    line-height: 1.1;
-    padding-bottom: 0.18em;
-}
-
-.hero-line1 span {
-    display: block;
-    transform: translateY(105%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-line2 span {
-    display: block;
-    transform: translateY(-105%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-line1.animate-reveal--visible span,
-.hero-line2.animate-reveal--visible span {
-    transform: translateY(0);
-}
-
-#heroLine2::after {
-    content: '.';
-    color: #2196F3;
-}
-
-.hero-stats {
-    display: flex;
-    gap: 4rem;
-    flex-shrink: 0;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.75rem, 6vw, 5rem);
-    font-weight: 700;
-    color: var(--color-neutral-light);
-}
-
-.stat-label {
-    font-size: 1rem;
-    font-family: system-ui, -apple-system, sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-white-60);
-    margin-top: 0.35rem;
-}
-
-.hero-bottom-row .hero-intro {
-    font-size: 1.35rem;
-    line-height: 1.65;
-    color: var(--color-white-60);
-    max-width: 420px;
-    margin: 0;
-}
-
-/* Hero reveal animation - initially hidden */
-.animate-reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.animate-reveal.hero-greeting { transform: translateY(32px); }
-.animate-reveal.hero-line1, .animate-reveal.hero-line2 { transform: none; opacity: 1; }
-
-.animate-reveal--visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.animate-reveal--visible.hero-line1, .animate-reveal--visible.hero-line2 { transform: none; }
-
-.hero-below-fold .cta-buttons {
-    justify-content: flex-start;
-    margin-top: 2rem;
-}
-
-.hero-below-fold .cta-buttons .btn.primary {
-    background-color: #2196F3;
-    color: white;
-}
-
-.hero-below-fold .cta-buttons .btn.primary:hover {
-    background-color: #1976D2;
-}
-
-.hero-below-fold .cta-buttons .btn.secondary {
-    background-color: transparent;
-    color: #64B5F6;
-    border: 2px solid #64B5F6;
-}
-
-.hero-below-fold .cta-buttons .btn.secondary:hover {
-    background-color: rgba(100, 181, 246, 0.2);
-    border-color: #64B5F6;
-    color: #64B5F6;
-}
-
-.hero-below-fold .cta-buttons .btn {
-    font-size: 1.25rem;
-    padding: 0.9rem 2.5rem;
-}
-
-@media (max-width: 768px) {
-    .hero-stats { flex-direction: column; gap: 1.5rem; }
-    .hero-bottom-row { flex-direction: column; gap: 2rem; }
-    .hero-bottom-row .hero-intro { max-width: none; }
+    justify-content: center;
+    position: relative;
+    padding: 0 2rem;
+    background: transparent;
 }
 
 .hero-content {
@@ -1028,7 +739,7 @@ header.scrolled {
 
 /* =========== ABOUT SECTION =========== */
 .about {
-    background: #ffffff;
+    background: transparent;
     padding: 6rem 2rem;
     position: relative;
     width: 100vw;
@@ -1038,7 +749,7 @@ header.scrolled {
     margin-left: -50vw;
     margin-right: -50vw;
     box-sizing: border-box;
-    color: var(--text-color);
+    color: white;
 }
 
 .about .section-title,
@@ -1046,122 +757,20 @@ header.scrolled {
 .about .about-text p,
 .about .info-title,
 .about .info-value,
-.about .expertise-title,
-.about .expertise-block h4,
-.about .expertise-block p {
-    color: var(--text-color);
-}
-
-.about .social-icon {
-    background-color: #2a2a2a;
-    color: #ffffff;
-}
-
-.about .social-icon:hover {
-    background-color: #333;
-    color: #ffffff;
-}
-
+.about .social-icon,
 .about .download-cv {
-    color: var(--text-color);
-    border: 2px solid var(--text-color);
+    color: white;
 }
 
-.about-split {
+.about-content {
     display: grid;
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: 4rem;
-    align-items: center;
-}
-
-/* Left: photo aligned left, shifted toward screen edge */
-.about-image-col {
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
 }
 
 .about-image {
     position: relative;
-    max-width: 840px;
-    transform: translateX(-9rem);
-    width: 100%;
-}
-
-.about-image .image-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
-/* Right: About Me + Expertise stacked */
-.about-content-col {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-}
-
-.expertise-col {
-    padding-top: 0;
-}
-
-.expertise-title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin-bottom: 2rem;
-    position: relative;
-    padding-left: 1rem;
-    font-weight: 600;
-    letter-spacing: -0.2px;
-    font-family: 'Cormorant Garamond', serif;
-}
-
-.expertise-title::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    border-radius: var(--border-radius-small);
-}
-
-.expertise-block {
-    margin-bottom: 2rem;
-}
-
-.expertise-block:last-child {
-    margin-bottom: 0;
-}
-
-.expertise-block h4 {
-    font-size: 1.15rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.75rem;
-    opacity: 0.9;
-    font-family: 'Cormorant Garamond', serif;
-}
-
-.expertise-block p {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    font-family: 'Cormorant Garamond', serif;
-}
-
-/* Social + Resume: centered below Expertise */
-.about-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    width: 100%;
-    margin-top: 3rem;
-}
-
-.about-actions .social-links {
-    margin-bottom: 0;
 }
 
 .image-container {
@@ -1196,14 +805,13 @@ header.scrolled {
 }
 
 .about-text h3 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: var(--h3-font-size);
     margin-bottom: 1.5rem;
     position: relative;
     padding-left: 1rem;
-    color: var(--text-color);
+    color: var(--text-color);  /* Keeping title black */
     font-weight: 600;
     letter-spacing: -0.2px;
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .about-text h3::before {
@@ -1219,10 +827,7 @@ header.scrolled {
 
 .about-text p {
     margin-bottom: 1.5rem;
-    font-size: 1.25rem;
-    line-height: 1.75;
-    color: var(--text-color);
-    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-color);  /* Changed from #ffffff to var(--text-color) for better contrast */
 }
 
 .personal-info {
@@ -1239,16 +844,12 @@ header.scrolled {
 
 .info-title {
     font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--text-color);
+    color: var(--text-color);  /* Keeping info titles black */
     margin-bottom: 0.5rem;
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .info-value {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-color);  /* Changed from #ffffff to var(--text-color) for better contrast */
 }
 
 .social-links {
@@ -1261,9 +862,8 @@ header.scrolled {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: var(--border-radius-circle);
@@ -1281,8 +881,6 @@ header.scrolled {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.2rem;
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .download-cv i {
@@ -1294,24 +892,13 @@ header.scrolled {
 }
 
 @media screen and (max-width: 992px) {
-    .about-split {
+    .about-content {
         grid-template-columns: 1fr;
-        align-items: start;
-    }
-    
-    .about-image-col {
-        order: 1;
-        justify-content: center;
     }
     
     .about-image {
-        transform: none;
-        max-width: 700px;
+        max-width: 500px;
         margin: 0 auto;
-    }
-    
-    .about-content-col {
-        order: 2;
     }
 }
 
@@ -1331,10 +918,8 @@ header.scrolled {
     margin-bottom: 2rem;
     position: relative;
     padding-left: 1rem;
-    font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 600;
     letter-spacing: -0.2px;
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .skill-category h3::before {
@@ -1388,7 +973,7 @@ header.scrolled {
 }
 
 .skill-application p {
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     line-height: 1.4;
     margin: 0;
     text-align: center;
@@ -1420,7 +1005,7 @@ header.scrolled {
 
 .skill-item h4 {
     margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: var(--h4-font-size);
     color: var(--text-color);
     font-weight: 500;
     letter-spacing: -0.1px;
@@ -1445,15 +1030,11 @@ header.scrolled {
 /* =========== PROJECTS SECTION =========== */
 .projects {
     padding: 6rem 0;
-    background: #ffffff;
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
-}
-
-.projects .section-title {
-    color: var(--text-color);
 }
 
 .projects-grid {
@@ -1488,12 +1069,11 @@ header.scrolled {
     background: none;
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
-    padding: 0.6rem 1.75rem;
+    padding: 0.5rem 1.5rem;
     border-radius: var(--border-radius-medium);
     cursor: pointer;
     transition: all var(--transition-fast);
-    font-size: 1.25rem;
-    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--normal-font-size);
 }
 
 .filter-btn:hover,
@@ -1537,7 +1117,7 @@ header.scrolled {
 }
 
 .projects-grid .project-card[data-category="web"]:nth-of-type(2) .project-header h3 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'GFS Didot', serif;
     font-weight: 500;
     letter-spacing: -0.5px;
 }
@@ -1637,12 +1217,11 @@ header.scrolled {
 }
 
 .project-description {
-    color: var(--text-color);
+    color: var(--text-color);  /* Changed to black text */
     margin-bottom: 1.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     letter-spacing: var(--letter-spacing-normal);
-    font-family: 'Cormorant Garamond', serif;
 }
 
 .project-links {
@@ -1756,8 +1335,7 @@ header.scrolled {
 /* =========== CONTACT SECTION =========== */
 .contact {
     padding: 6rem 2rem;
-    color: #ffffff;
-    background: #2a2a2a;
+    background: transparent;
     width: 100vw;
     margin: 0;
     left: 50%;
@@ -1798,43 +1376,15 @@ header.scrolled {
     flex-shrink: 0;
 }
 
-.contact .section-title {
-    color: #ffffff;
-}
-
-.contact .contact-icon {
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.contact .contact-details h3 {
-    color: #ffffff;
-}
-
-.contact .contact-details p {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.contact .social-icon {
-    color: #2a2a2a;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.contact .social-icon:hover {
-    background-color: #333;
-    color: #fff;
-}
-
 .contact-details h3 {
     margin-bottom: 0.5rem;
-    font-size: 1.75rem;
+    font-size: var(--h4-font-size);
     font-weight: 600;
     letter-spacing: -0.2px;
 }
 
 .contact-details p {
     color: var(--text-color-light);
-    font-size: 1.2rem;
 }
 
 .contact-details .social-links {
@@ -2095,24 +1645,11 @@ footer {
 /* Skills & Learning Section */
 .skills-learning {
     padding: 8rem 0;
-    background: #2a2a2a;
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
-}
-
-.skills-learning .section-title,
-.skills-learning .learning-intro p {
-    color: #ffffff;
-}
-
-.skills-learning .learning-content {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.skills-learning .certificate-card {
-    background: rgba(255, 255, 255, 0.95);
 }
 
 .skills-learning-grid {
@@ -2341,8 +1878,7 @@ footer {
 }
 
 .logo a {
-    font-size: 2rem;
-    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
     font-weight: 800;
     color: var(--primary-color);
     position: relative;
