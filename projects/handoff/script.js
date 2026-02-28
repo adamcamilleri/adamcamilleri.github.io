@@ -192,7 +192,7 @@
         });
         var data = await res.json().catch(function () { return {}; });
         if (!res.ok) throw new Error(data.error || 'Request failed');
-        return data.reply || data.text || data.message || '';
+        return data;
     }
 
     async function sendToApi(userPrompt, context) {
@@ -208,7 +208,7 @@
             if (data.details) msg += ': ' + (typeof data.details === 'string' ? data.details.slice(0, 200) : JSON.stringify(data.details).slice(0, 200));
             throw new Error(msg);
         }
-        return data.reply || data.text || data.message || '';
+        return data;
     }
 
     function handleSend(context) {
@@ -227,17 +227,18 @@
         appendTypingIndicator();
 
         sendToApi(text, context)
-            .then(function (reply) {
+            .then(function (data) {
                 const last = chatMessages.querySelector('.typing-indicator');
                 if (last) chatMessages.removeChild(last);
-                const html = extractHtmlFromResponse(reply);
+                const reply = data.reply || data.text || data.message || '';
+                const html = data.html || extractHtmlFromResponse(reply);
                 if (html) {
                     setPreview(html);
                     appendMessage('assistant', 'Preview updated.');
                     conversationHistory.push({ role: 'user', content: text });
                     conversationHistory.push({ role: 'assistant', content: 'Preview updated.' });
                 } else {
-                    const msg = reply || 'No response.';
+                    const msg = (reply || 'No response.').toString();
                     appendMessage('assistant', msg);
                     conversationHistory.push({ role: 'user', content: text });
                     conversationHistory.push({ role: 'assistant', content: msg });
@@ -343,10 +344,11 @@
         editApplyBtn.disabled = true;
         appendTypingIndicator();
         sendElementEdit(text)
-            .then(function (reply) {
+            .then(function (data) {
                 var last = chatMessages.querySelector('.typing-indicator');
                 if (last) chatMessages.removeChild(last);
-                var html = extractHtmlFromResponse(reply);
+                var reply = data.reply || data.text || data.message || '';
+                var html = data.html || extractHtmlFromResponse(reply);
                 if (html) {
                     setPreview(html);
                     appendMessage('assistant', 'Updated.');

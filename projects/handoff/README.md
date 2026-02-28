@@ -37,18 +37,21 @@ Import `Handoff-API.postman_collection.json` into Postman to test the APIs.
 
 ## Local Development
 
-**Option A – Docker (full stack)** (from repo root)
+**Option A – Docker (full stack, recommended)** (from repo root)
+
+Runs Express API + MongoDB in containers. Required for save-design locally.
 ```bash
 cp .env.example .env   # Add GROQ_API_KEY, etc.
 docker-compose up
 ```
-Open http://localhost:3000/projects/handoff/ – chat, deploy, and payments work against the local API.
+Open http://localhost:3000/projects/handoff/ – chat, deploy, save, and payments work against the local API. MongoDB runs in a container; no Atlas needed.
 
 **Option B – Node** (from repo root)
 ```bash
 cp .env.example .env
 npm run dev
 ```
+For save-design you need MONGODB_URI (e.g. Atlas); otherwise chat and deploy work.
 
 **Production** – See [HANDOFF_SETUP.md](./HANDOFF_SETUP.md) for Vercel deployment.
 

@@ -1,13 +1,18 @@
 {
   "info": {
     "name": "Handoff API",
-    "description": "API collection for Handoff – AI-powered website design. Set the `baseUrl` variable to your Vercel deployment (e.g. https://adamcamilleri-github-io.vercel.app).",
+    "description": "API collection for Handoff – AI-powered website design. Set baseUrl to your deployment. When API_KEYS is configured, add X-API-Key header for programmatic access.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "baseUrl",
       "value": "https://adamcamilleri-github-io.vercel.app"
+    },
+    {
+      "key": "apiKey",
+      "value": "",
+      "disabled": true
     }
   ],
   "item": [

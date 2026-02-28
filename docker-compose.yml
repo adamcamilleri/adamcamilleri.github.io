@@ -1,4 +1,4 @@
-# Full stack: portfolio + Handoff API in one container
+# Full stack: portfolio + Handoff API (Express) + MongoDB
 # Run: docker-compose up
 # Open: http://localhost:3000/projects/handoff/
 # Copy .env.example to .env and add your API keys for full functionality
@@ -11,3 +11,15 @@ services:
       - .env
     environment:
       - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/handoff
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

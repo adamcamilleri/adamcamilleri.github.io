@@ -12,6 +12,7 @@ const paymentHandler = require('./api/create-payment-link.js');
 const saveDesignHandler = require('./api/save-design.js');
 const getDesignsHandler = require('./api/get-designs.js');
 const getDesignHandler = require('./api/get-design.js');
+const healthHandler = require('./api/health.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.all('/api/create-payment-link', (req, res) => paymentHandler(req, res));
 app.post('/api/save-design', (req, res) => saveDesignHandler(req, res));
 app.get('/api/get-designs', (req, res) => getDesignsHandler(req, res));
 app.get('/api/get-design', (req, res) => getDesignHandler(req, res));
+app.get('/api/health', (req, res) => healthHandler(req, res));
 
 if (require.main === module) {
   app.listen(PORT, '0.0.0.0', () => {

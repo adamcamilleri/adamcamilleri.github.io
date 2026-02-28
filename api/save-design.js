@@ -22,7 +22,7 @@ function corsHeaders(req) {
   return {
     'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
   };
 }
 
@@ -31,6 +31,10 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { checkApiKey } = require('./lib/api-key.js');
+  const keyCheck = checkApiKey(req);
+  if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 
   let body;
   try {

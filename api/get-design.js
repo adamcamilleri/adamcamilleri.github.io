@@ -21,7 +21,7 @@ function corsHeaders(req) {
   return {
     'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
   };
 }
 
@@ -30,6 +30,10 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { checkApiKey } = require('./lib/api-key.js');
+  const keyCheck = checkApiKey(req);
+  if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 
   const id = req.query?.id ?? (typeof req.url === 'string' && req.url ? new URL(req.url, 'http://localhost').searchParams.get('id') : null);
   if (!id) return res.status(400).json({ error: 'Missing id query parameter' });

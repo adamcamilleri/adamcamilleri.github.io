@@ -32,6 +32,7 @@ jobs:
           test -f api/save-design.js && echo "✓ api/save-design.js" || exit 1
           test -f api/get-designs.js && echo "✓ api/get-designs.js" || exit 1
           test -f api/get-design.js && echo "✓ api/get-design.js" || exit 1
+          test -f api/health.js && echo "✓ api/health.js" || exit 1
           echo "All API handlers present."
 
       - name: Build TypeScript
@@ -87,3 +88,52 @@ jobs:
 
       - name: Run Cypress E2E tests
         run: npm run test:e2e
+
+  load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Download JMeter
+        run: |
+          curl -sL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz -o jmeter.tgz
+          tar xzf jmeter.tgz
+          echo "JMETER_HOME=$(pwd)/apache-jmeter-5.6.3" >> $GITHUB_ENV
+          echo "$(pwd)/apache-jmeter-5.6.3/bin" >> $GITHUB_PATH
+
+      - name: Start server
+        run: node server.js &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: |
+          for i in {1..30}; do
+            curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health | grep -q 200 && break
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:3000/api/health || exit 1
+
+      - name: Run jMeter load test
+        run: |
+          OUTPUT=$($JMETER_HOME/bin/jmeter -n -t jmeter/handoff-load-test-local.jmx -l jmeter-results.jtl 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -qE "Err: 0[^0-9]|Err: 0%" || (echo "Load test had failures (Err > 0)" && exit 1)

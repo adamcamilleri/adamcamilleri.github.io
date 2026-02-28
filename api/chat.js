@@ -23,7 +23,7 @@ function corsHeaders(req) {
     return {
         'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
     };
 }
 
@@ -39,6 +39,10 @@ module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
+
+    const { checkApiKey } = require('./lib/api-key.js');
+    const keyCheck = checkApiKey(req);
+    if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 
     let body;
     try {
@@ -83,7 +87,9 @@ module.exports = async function handler(req, res) {
             }
             const data = await response.json();
             const text = data.choices?.[0]?.message?.content ?? '';
-            return res.status(200).json({ reply: text });
+            const { extractHtmlFromResponse } = require('./lib/html-response.js');
+            const html = extractHtmlFromResponse(text);
+            return res.status(200).json(html ? { reply: text, html } : { reply: text });
         } catch (err) {
             return res.status(500).json({ error: 'Server error', details: err.message });
         }
@@ -147,7 +153,10 @@ module.exports = async function handler(req, res) {
         const data = await response.json();
         const text = data.choices?.[0]?.message?.content ?? '';
 
-        return res.status(200).json({ reply: text });
+        const { extractHtmlFromResponse } = require('./lib/html-response.js');
+        const html = extractHtmlFromResponse(text);
+
+        return res.status(200).json(html ? { reply: text, html } : { reply: text });
     } catch (err) {
         return res.status(500).json({ error: 'Server error', details: err.message });
     }
