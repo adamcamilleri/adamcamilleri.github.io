@@ -142,6 +142,22 @@ body {
     cursor: not-allowed;
 }
 
+.connect-vercel-btn {
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.connect-vercel-btn.connected {
+    color: #22c55e;
+}
+
+.connect-vercel-btn.connected:hover {
+    color: #4ade80;
+}
+
 .typing-indicator p {
     display: flex;
     align-items: center;
