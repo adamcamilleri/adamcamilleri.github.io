@@ -18,6 +18,8 @@
     const deployResult = document.getElementById('deployResult');
     const deployUrlEl = document.getElementById('deployUrl');
     const copyUrlBtn = document.getElementById('copyUrlBtn');
+    const connectVercelBtn = document.getElementById('connectVercelBtn');
+    const connectVercelLabel = document.getElementById('connectVercelLabel');
 
     const DEFAULT_PREVIEW_HTML = `
 <!DOCTYPE html>
@@ -31,6 +33,48 @@
 
     // Set initial iframe content
     previewFrame.srcdoc = DEFAULT_PREVIEW_HTML;
+
+    // OAuth: handle return from Vercel callback and check status on load
+    (function checkOAuthParams() {
+        const params = new URLSearchParams(window.location.search);
+        const connected = params.get('vercel_connected');
+        const error = params.get('error');
+        if (connected === '1') {
+            appendMessage('assistant', 'Vercel connected. Deploys will go to your account.');
+            if (connectVercelLabel) connectVercelLabel.textContent = 'Vercel connected';
+            if (connectVercelBtn) connectVercelBtn.classList.add('connected');
+            window.history.replaceState({}, '', window.location.pathname);
+        } else if (error) {
+            var msg = 'Could not connect Vercel. ';
+            if (error === 'oauth_denied') msg += 'Authorization was cancelled.';
+            else if (error === 'oauth_token_failed') msg += 'Token exchange failed. Try again.';
+            else msg += 'Error: ' + error;
+            appendMessage('assistant', msg);
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+    })();
+
+    function updateConnectVercelUI(connected) {
+        if (!connectVercelLabel || !connectVercelBtn) return;
+        if (connected) {
+            connectVercelLabel.textContent = 'Vercel connected';
+            connectVercelBtn.classList.add('connected');
+        } else {
+            connectVercelLabel.textContent = 'Connect Vercel';
+            connectVercelBtn.classList.remove('connected');
+        }
+    }
+
+    if (connectVercelBtn) {
+        connectVercelBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = API_BASE + '/auth/vercel/authorize';
+        });
+        fetch(API_BASE + '/auth/vercel/status', { credentials: 'include' })
+            .then(function (r) { return r.json(); })
+            .then(function (data) { updateConnectVercelUI(data.connected); })
+            .catch(function () {});
+    }
 
     var lastPreviewHtml = '';
 
@@ -270,6 +314,7 @@
 
         fetch(API_BASE + '/deploy', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ html })
         })

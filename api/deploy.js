@@ -24,11 +24,25 @@ function corsHeaders(req) {
         'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
+        'Access-Control-Allow-Credentials': 'true',
     };
 }
 
+function parseCookies(cookieHeader) {
+    const cookies = {};
+    if (cookieHeader) {
+        cookieHeader.split(';').forEach(c => {
+            const [k, v] = c.trim().split('=');
+            if (k && v) cookies[k.trim()] = decodeURIComponent(v.trim());
+        });
+    }
+    return cookies;
+}
+
 function slug() {
-    return 'handoff-' + Math.random().toString(36).slice(2, 10);
+    const prefix = (process.env.HANDOFF_DEPLOY_PREFIX || 'handoff').trim().replace(/[^a-zA-Z0-9-]/g, '') || 'handoff';
+    const shortId = Math.random().toString(36).slice(2, 8);
+    return prefix + '-handoff-' + shortId;
 }
 
 module.exports = async function handler(req, res) {
@@ -66,9 +80,11 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'projectName must be alphanumeric + hyphens, max 64 chars' });
     }
 
-    const token = process.env.VERCEL_TOKEN;
+    const cookies = parseCookies(req.headers.cookie);
+    const userToken = cookies.vercel_access_token;
+    const token = userToken || process.env.VERCEL_TOKEN;
     if (!token) {
-        return res.status(500).json({ error: 'VERCEL_TOKEN not configured. Add it in Vercel → Settings → Environment Variables.' });
+        return res.status(500).json({ error: 'VERCEL_TOKEN not configured. Connect your Vercel account or add VERCEL_TOKEN in Vercel → Settings → Environment Variables.' });
     }
 
     const vercelJson = JSON.stringify({
