@@ -55,7 +55,7 @@ function decodeNonce(idToken) {
 
 async function handleAuthorize(req, res, clientId) {
   const origin = getOrigin(req);
-  const redirectUri = `${origin}/api/auth-vercel-callback`;
+  const redirectUri = `${origin}/api/auth/callback`;
   const state = generateSecureRandomString(43);
   const nonce = generateSecureRandomString(43);
   const codeVerifier = crypto.randomBytes(32).toString('hex');
@@ -117,7 +117,7 @@ async function handleCallback(req, res, clientId, clientSecret) {
     client_secret: clientSecret,
     code,
     code_verifier: codeVerifier || '',
-    redirect_uri: `${origin}/api/auth-vercel-callback`,
+    redirect_uri: `${origin}/api/auth/callback`,
   });
 
   const tokenRes = await fetch('https://api.vercel.com/login/oauth/token', {

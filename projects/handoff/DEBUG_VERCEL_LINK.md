@@ -33,9 +33,7 @@ In **Vercel → Your project → Settings → Environment Variables**, ensure:
 ## 3. Vercel OAuth app configuration
 
 1. Go to [vercel.com](https://vercel.com) → **Team** (sidebar) → **Settings** → **Apps** → **Create** (or edit existing).
-2. **Callback URL** must include **exactly**:
-   - `https://adamcamilleri-github-io.vercel.app/api/auth-vercel-callback`
-   - `http://localhost:3000/api/auth-vercel-callback` (for local dev)
+2. **Callback URL:** Use the **project dropdown** – select `adamcamilleri-github-io` from the dropdown (don't manually type the URL). Path must be `/api/auth/callback` (matches Vercel tutorial). For local: `http://localhost:3000/api/auth/callback`
 3. Copy **Client ID** and **Client Secret** into the project env vars above.
 
 ---
@@ -57,7 +55,7 @@ So OAuth tokens from "Sign in with Vercel" may **not** have permission to create
 - **Handoff on GitHub Pages** (`adamcamilleri.github.io`): API is `adamcamilleri-github-io.vercel.app`. Cookies are set on `vercel.app`. After OAuth, users are redirected to `vercel.app/projects/handoff/`.
 - **Handoff on Vercel** (`adamcamilleri-github-io.vercel.app`): Same-origin; cookies work normally.
 
-If you use GitHub Pages as the main URL, the status check (`/api/auth-vercel-status`) is cross-origin. Ensure `credentials: 'include'` is used (it is) and that the status endpoint returns correct CORS headers (it does for allowed origins).
+If you use GitHub Pages as the main URL, the status check (`/api/auth/status`) is cross-origin. Ensure `credentials: 'include'` is used (it is) and that the status endpoint returns correct CORS headers (it does for allowed origins).
 
 ---
 
@@ -66,7 +64,7 @@ If you use GitHub Pages as the main URL, the status check (`/api/auth-vercel-sta
 ### Test authorize URL
 
 ```text
-https://adamcamilleri-github-io.vercel.app/api/auth-vercel-authorize
+https://adamcamilleri-github-io.vercel.app/api/auth/authorize
 ```
 
 - If env vars are missing → JSON error.
@@ -75,7 +73,7 @@ https://adamcamilleri-github-io.vercel.app/api/auth-vercel-authorize
 ### Test status (no auth)
 
 ```text
-https://adamcamilleri-github-io.vercel.app/api/auth-vercel-status
+https://adamcamilleri-github-io.vercel.app/api/auth/status
 ```
 
 - Should return `{"connected":false}` (or `true` if you have a cookie).
@@ -83,7 +81,7 @@ https://adamcamilleri-github-io.vercel.app/api/auth-vercel-status
 ### Test from browser console (on Handoff page)
 
 ```javascript
-fetch('https://adamcamilleri-github-io.vercel.app/api/auth-vercel-status', { credentials: 'include' })
+fetch('https://adamcamilleri-github-io.vercel.app/api/auth/status', { credentials: 'include' })
   .then(r => r.json())
   .then(console.log)
   .catch(console.error);

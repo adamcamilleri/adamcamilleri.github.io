@@ -2,8 +2,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/api/auth-vercel-authorize", "destination": "/api/oauth?action=authorize" },
-    { "source": "/api/auth-vercel-callback", "destination": "/api/oauth?action=callback" },
-    { "source": "/api/auth-vercel-status", "destination": "/api/oauth?action=status" }
+    { "source": "/api/auth/authorize", "destination": "/api/oauth?action=authorize" },
+    { "source": "/api/auth/callback", "destination": "/api/oauth?action=callback" },
+    { "source": "/api/auth/status", "destination": "/api/oauth?action=status" }
   ]
 }
