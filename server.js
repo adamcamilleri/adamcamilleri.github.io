@@ -29,7 +29,7 @@ app.get('/api/get-designs', (req, res) => getDesignsHandler(req, res));
 app.get('/api/get-design', (req, res) => getDesignHandler(req, res));
 app.get('/api/health', (req, res) => healthHandler(req, res));
 app.get('/api/auth/authorize', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=authorize'; oauthHandler(req, res); });
-app.get('/api/auth/callback', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=callback'; oauthHandler(req, res); });
+app.get('/callback', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=callback'; oauthHandler(req, res); });
 app.get('/api/auth/status', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=status'; oauthHandler(req, res); });
 
 if (require.main === module) {

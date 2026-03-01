@@ -3,7 +3,7 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/auth/authorize", "destination": "/api/oauth?action=authorize" },
-    { "source": "/api/auth/callback", "destination": "/api/oauth?action=callback" },
+    { "source": "/callback", "destination": "/api/oauth?action=callback" },
     { "source": "/api/auth/status", "destination": "/api/oauth?action=status" }
   ]
 }

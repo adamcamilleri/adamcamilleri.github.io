@@ -33,7 +33,7 @@ In **Vercel → Your project → Settings → Environment Variables**, ensure:
 ## 3. Vercel OAuth app configuration
 
 1. Go to [vercel.com](https://vercel.com) → **Team** (sidebar) → **Settings** → **Apps** → **Create** (or edit existing).
-2. **Callback URL:** Use the **project dropdown** – select `adamcamilleri-github-io` from the dropdown (don't manually type the URL). Path must be `/api/auth/callback` (matches Vercel tutorial). For local: `http://localhost:3000/api/auth/callback`
+2. **Callback URL:** Select project `adamcamilleri-github-io` from the dropdown – it uses `/callback`. For local: `http://localhost:3000/callback`
 3. Copy **Client ID** and **Client Secret** into the project env vars above.
 
 ---
