@@ -53,7 +53,7 @@ function decodeNonce(idToken) {
   }
 }
 
-async function handleAuthorize(req, res) {
+async function handleAuthorize(req, res, clientId) {
   const origin = getOrigin(req);
   const redirectUri = `${origin}/api/auth-vercel-callback`;
   const state = generateSecureRandomString(43);
@@ -68,7 +68,7 @@ async function handleAuthorize(req, res) {
   ]);
 
   const params = new URLSearchParams({
-    client_id: process.env.VERCEL_OAUTH_CLIENT_ID,
+    client_id: clientId,
     redirect_uri: redirectUri,
     response_type: 'code',
     scope: 'openid email profile offline_access',
@@ -82,7 +82,7 @@ async function handleAuthorize(req, res) {
   res.end();
 }
 
-async function handleCallback(req, res) {
+async function handleCallback(req, res, clientId, clientSecret) {
   const url = new URL(req.url || '', `http://${req.headers.host}`);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
@@ -113,8 +113,8 @@ async function handleCallback(req, res) {
 
   const params = new URLSearchParams({
     grant_type: 'authorization_code',
-    client_id: process.env.VERCEL_OAUTH_CLIENT_ID,
-    client_secret: process.env.VERCEL_OAUTH_CLIENT_SECRET,
+    client_id: clientId,
+    client_secret: clientSecret,
     code,
     code_verifier: codeVerifier || '',
     redirect_uri: `${origin}/api/auth-vercel-callback`,
@@ -166,11 +166,12 @@ function handleStatus(req, res) {
 }
 
 module.exports = async function handler(req, res) {
-  const clientId = process.env.VERCEL_OAUTH_CLIENT_ID;
-  const clientSecret = process.env.VERCEL_OAUTH_CLIENT_SECRET;
+  // Support both our names and Vercel Sign-in tutorial names
+  const clientId = process.env.VERCEL_OAUTH_CLIENT_ID || process.env.NEXT_PUBLIC_VERCEL_APP_CLIENT_ID;
+  const clientSecret = process.env.VERCEL_OAUTH_CLIENT_SECRET || process.env.VERCEL_APP_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
     res.setHeader('Content-Type', 'application/json');
-    return res.status(500).json({ error: 'VERCEL_OAUTH_CLIENT_ID and VERCEL_OAUTH_CLIENT_SECRET must be set' });
+    return res.status(500).json({ error: 'Set VERCEL_OAUTH_CLIENT_ID and VERCEL_OAUTH_CLIENT_SECRET (or NEXT_PUBLIC_VERCEL_APP_CLIENT_ID and VERCEL_APP_CLIENT_SECRET)' });
   }
 
   if (req.method !== 'GET') {
@@ -181,8 +182,8 @@ module.exports = async function handler(req, res) {
   const url = new URL(req.url || '', `http://${req.headers.host}`);
   const action = url.searchParams.get('action');
 
-  if (action === 'authorize') return handleAuthorize(req, res);
-  if (action === 'callback') return handleCallback(req, res);
+  if (action === 'authorize') return handleAuthorize(req, res, clientId);
+  if (action === 'callback') return handleCallback(req, res, clientId, clientSecret);
   if (action === 'status') return handleStatus(req, res);
 
   res.setHeader('Content-Type', 'application/json');

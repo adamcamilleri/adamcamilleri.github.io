@@ -23,8 +23,10 @@ Visitors can **Connect Vercel** so deploys go to *their* Vercel account. You nee
    - `http://localhost:3000/api/auth-vercel-callback` (for local dev)
 4. Copy **Client ID** and **Client Secret**
 5. In Vercel project: **Settings** → **Environment Variables**
-   - **Name:** `VERCEL_OAUTH_CLIENT_ID` | **Value:** your client ID
-   - **Name:** `VERCEL_OAUTH_CLIENT_SECRET` | **Value:** your client secret
+   - **Name:** `VERCEL_OAUTH_CLIENT_ID` | **Value:** your client ID  
+     (or `NEXT_PUBLIC_VERCEL_APP_CLIENT_ID` per Vercel Sign-in tutorial)
+   - **Name:** `VERCEL_OAUTH_CLIENT_SECRET` | **Value:** your client secret  
+     (or `VERCEL_APP_CLIENT_SECRET` per Vercel Sign-in tutorial)
 6. **Redeploy**
 
 > **Note:** OAuth tokens may have limited permissions. If users get "forbidden" on deploy, they can use Option B (your token) instead.
