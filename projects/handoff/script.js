@@ -66,8 +66,8 @@
     }
 
     if (connectVercelBtn) {
-        connectVercelBtn.href = API_BASE + '/auth/vercel/authorize';
-        fetch(API_BASE + '/auth/vercel/status', { credentials: 'include' })
+        connectVercelBtn.href = API_BASE + '/auth-vercel-authorize';
+        fetch(API_BASE + '/auth-vercel-status', { credentials: 'include' })
             .then(function (r) { return r.json(); })
             .then(function (data) { updateConnectVercelUI(data.connected); })
             .catch(function () {});

@@ -1,5 +1,6 @@
 /**
  * Vercel OAuth status – returns whether the user has a valid access token cookie.
+ * Path: /api/auth-vercel-status (flat path for Vercel deployment)
  */
 const ALLOWED_ORIGINS = [
     'https://adamcamilleri.github.io',

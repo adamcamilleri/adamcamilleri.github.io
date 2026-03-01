@@ -1,6 +1,7 @@
 /**
  * Vercel OAuth – redirect user to authorize Handoff to deploy to their Vercel account.
  * Requires VERCEL_OAUTH_CLIENT_ID and VERCEL_OAUTH_CLIENT_SECRET in env.
+ * Path: /api/auth-vercel-authorize (flat path for Vercel deployment)
  */
 const crypto = require('crypto');
 
@@ -43,7 +44,7 @@ module.exports = async function handler(req, res) {
   }
 
   const origin = getOrigin(req);
-  const redirectUri = `${origin}/api/auth/vercel/callback`;
+  const redirectUri = `${origin}/api/auth-vercel-callback`;
   const state = generateSecureRandomString(43);
   const nonce = generateSecureRandomString(43);
   const codeVerifier = crypto.randomBytes(32).toString('hex');

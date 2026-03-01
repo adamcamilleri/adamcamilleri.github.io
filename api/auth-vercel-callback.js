@@ -1,5 +1,6 @@
 /**
  * Vercel OAuth callback – exchange code for tokens, set cookie, redirect back to Handoff.
+ * Path: /api/auth-vercel-callback (flat path for Vercel deployment)
  */
 const crypto = require('crypto');
 
@@ -92,7 +93,7 @@ module.exports = async function handler(req, res) {
     client_secret: clientSecret,
     code,
     code_verifier: codeVerifier || '',
-    redirect_uri: `${origin}/api/auth/vercel/callback`,
+    redirect_uri: `${origin}/api/auth-vercel-callback`,
   });
 
   const tokenRes = await fetch('https://api.vercel.com/login/oauth/token', {

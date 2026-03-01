@@ -18,9 +18,9 @@ Visitors can **Connect Vercel** so deploys go to *their* Vercel account. You nee
 
 1. Go to [vercel.com](https://vercel.com) → your **team** (sidebar) → **Settings** → scroll to **Apps** → **Create**
 2. **Application Name:** Handoff
-3. **Callback URL:** Add both:
-   - `https://adamcamilleri-github-io.vercel.app/api/auth/vercel/callback`
-   - `http://localhost:3000/api/auth/vercel/callback` (for local dev)
+3. **Callback URL:** Add both (use these exact paths; nested `/api/auth/vercel/callback` returns 404 on Vercel):
+   - `https://adamcamilleri-github-io.vercel.app/api/auth-vercel-callback`
+   - `http://localhost:3000/api/auth-vercel-callback` (for local dev)
 4. Copy **Client ID** and **Client Secret**
 5. In Vercel project: **Settings** → **Environment Variables**
    - **Name:** `VERCEL_OAUTH_CLIENT_ID` | **Value:** your client ID
