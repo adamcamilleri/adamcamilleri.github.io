@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { checkApiKey } = require('./lib/api-key.js');
+    const { checkApiKey } = require('./_lib/api-key.js');
     const keyCheck = checkApiKey(req);
     if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 
@@ -87,7 +87,7 @@ module.exports = async function handler(req, res) {
             }
             const data = await response.json();
             const text = data.choices?.[0]?.message?.content ?? '';
-            const { extractHtmlFromResponse } = require('./lib/html-response.js');
+            const { extractHtmlFromResponse } = require('./_lib/html-response.js');
             const html = extractHtmlFromResponse(text);
             return res.status(200).json(html ? { reply: text, html } : { reply: text });
         } catch (err) {
@@ -153,7 +153,7 @@ module.exports = async function handler(req, res) {
         const data = await response.json();
         const text = data.choices?.[0]?.message?.content ?? '';
 
-        const { extractHtmlFromResponse } = require('./lib/html-response.js');
+        const { extractHtmlFromResponse } = require('./_lib/html-response.js');
         const html = extractHtmlFromResponse(text);
 
         return res.status(200).json(html ? { reply: text, html } : { reply: text });

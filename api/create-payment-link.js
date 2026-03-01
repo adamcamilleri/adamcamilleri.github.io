@@ -35,7 +35,7 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { checkApiKey } = require('./lib/api-key.js');
+    const { checkApiKey } = require('./_lib/api-key.js');
     const keyCheck = checkApiKey(req);
     if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 

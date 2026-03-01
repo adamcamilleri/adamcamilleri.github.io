@@ -13,9 +13,7 @@ const saveDesignHandler = require('./api/save-design.js');
 const getDesignsHandler = require('./api/get-designs.js');
 const getDesignHandler = require('./api/get-design.js');
 const healthHandler = require('./api/health.js');
-const authAuthorizeHandler = require('./api/auth-vercel-authorize.js');
-const authCallbackHandler = require('./api/auth-vercel-callback.js');
-const authStatusHandler = require('./api/auth-vercel-status.js');
+const oauthHandler = require('./api/oauth.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,9 +28,9 @@ app.post('/api/save-design', (req, res) => saveDesignHandler(req, res));
 app.get('/api/get-designs', (req, res) => getDesignsHandler(req, res));
 app.get('/api/get-design', (req, res) => getDesignHandler(req, res));
 app.get('/api/health', (req, res) => healthHandler(req, res));
-app.get('/api/auth-vercel-authorize', (req, res) => authAuthorizeHandler(req, res));
-app.get('/api/auth-vercel-callback', (req, res) => authCallbackHandler(req, res));
-app.get('/api/auth-vercel-status', (req, res) => authStatusHandler(req, res));
+app.get('/api/auth-vercel-authorize', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=authorize'; oauthHandler(req, res); });
+app.get('/api/auth-vercel-callback', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=callback'; oauthHandler(req, res); });
+app.get('/api/auth-vercel-status', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=status'; oauthHandler(req, res); });
 
 if (require.main === module) {
   app.listen(PORT, '0.0.0.0', () => {

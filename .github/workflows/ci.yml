@@ -33,9 +33,7 @@ jobs:
           test -f api/get-designs.js && echo "✓ api/get-designs.js" || exit 1
           test -f api/get-design.js && echo "✓ api/get-design.js" || exit 1
           test -f api/health.js && echo "✓ api/health.js" || exit 1
-          test -f api/auth-vercel-authorize.js && echo "✓ api/auth-vercel-authorize.js" || exit 1
-          test -f api/auth-vercel-callback.js && echo "✓ api/auth-vercel-callback.js" || exit 1
-          test -f api/auth-vercel-status.js && echo "✓ api/auth-vercel-status.js" || exit 1
+          test -f api/oauth.js && echo "✓ api/oauth.js" || exit 1
           echo "All API handlers present."
 
       - name: Build TypeScript

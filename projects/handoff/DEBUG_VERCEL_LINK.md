@@ -91,7 +91,14 @@ fetch('https://adamcamilleri-github-io.vercel.app/api/auth-vercel-status', { cre
 
 ---
 
-## 7. Common fixes
+## 7. Vercel project settings (if APIs return 404)
+
+If `/api/health` works but `/api/oauth` or auth routes return 404:
+
+1. **Root Directory** – Vercel → Project → Settings → General. Ensure **Root Directory** is empty or `.` so the repo root (with the `api/` folder) is used.
+2. **Build output** – If Root Directory is set to a subfolder (e.g. `projects/handoff`), the `api/` folder at the repo root is excluded. Move `api/` into that folder or clear Root Directory.
+
+## 8. Common fixes
 
 1. **Redeploy** after adding/updating env vars.
 2. **Check callback URL** in the OAuth app matches exactly (no trailing slash).

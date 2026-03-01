@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { checkApiKey } = require('./lib/api-key.js');
+  const { checkApiKey } = require('./_lib/api-key.js');
   const keyCheck = checkApiKey(req);
   if (!keyCheck.ok) return res.status(401).json({ error: keyCheck.error });
 
@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { getDb } = require('./lib/mongodb.js');
+    const { getDb } = require('./_lib/mongodb.js');
     const db = await getDb();
     const designs = await db.collection('designs')
       .find({})
