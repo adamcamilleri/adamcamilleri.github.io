@@ -1734,16 +1734,17 @@ header.scrolled {
 
 .wip-badge {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  font-size: 0.7rem;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  padding: 0.2rem 0.5rem;
-  background: var(--warning-color);
-  color: white;
+  padding: 0.15rem 0.4rem;
+  background: #facc15;
+  color: #1f2937;
   border-radius: 4px;
   text-transform: uppercase;
+  line-height: 1;
 }
 
 .project-title {
