@@ -17,19 +17,19 @@
 
   function safeText(el, text) {
     try {
-      if (el && Object.prototype.hasOwnProperty.call(el, 'textContent')) el.textContent = text;
+      if (el && 'textContent' in el) el.textContent = text;
     } catch (e) {}
   }
 
   function safeClass(el, className) {
     try {
-      if (el && Object.prototype.hasOwnProperty.call(el, 'className')) el.className = className;
+      if (el && 'className' in el) el.className = className;
     } catch (e) {}
   }
 
   function safeDisabled(el, disabled) {
     try {
-      if (el && Object.prototype.hasOwnProperty.call(el, 'disabled')) el.disabled = !!disabled;
+      if (el && 'disabled' in el) el.disabled = !!disabled;
     } catch (e) {}
   }
 
