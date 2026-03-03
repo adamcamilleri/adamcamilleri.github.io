@@ -92,6 +92,31 @@ function getDailyIndex(total, dateStr) {
   return hash % total;
 }
 
+/** Shared: get today's track (and optional token for streaming). Used by JSON API and stream proxy. */
+async function getDailyTrackData(options) {
+  const dateStr = (options && options.date) || new Date().toISOString().slice(0, 10);
+  const playlistId = (options && options.playlistId) || process.env.SOUNDCLOUD_PLAYLIST_ID;
+  let tracks = [];
+  let token = null;
+
+  if (playlistId) {
+    try {
+      token = await getToken();
+      const id = await resolvePlaylistId(token, playlistId);
+      tracks = await getPlaylistTracks(token, id);
+    } catch (err) {
+      console.error('SoundCloud API error:', err);
+      tracks = loadSongsFromFile();
+    }
+  }
+  if (tracks.length === 0) tracks = loadSongsFromFile();
+  if (tracks.length === 0) return null;
+
+  const idx = getDailyIndex(tracks.length, dateStr);
+  const daily = tracks[idx];
+  return { dateStr, daily, token, total: tracks.length };
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json');
@@ -99,34 +124,13 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    let tracks = [];
-    const playlistId = process.env.SOUNDCLOUD_PLAYLIST_ID || req.query.playlist;
-
-    if (playlistId) {
-      try {
-        const token = await getToken();
-        const id = await resolvePlaylistId(token, playlistId);
-        tracks = await getPlaylistTracks(token, id);
-      } catch (err) {
-        console.error('SoundCloud API error:', err);
-        tracks = loadSongsFromFile();
-      }
-    }
-
-    if (tracks.length === 0) {
-      tracks = loadSongsFromFile();
-    }
-
-    if (tracks.length === 0) {
+    const data = await getDailyTrackData({ date: req.query.date, playlistId: req.query.playlist });
+    if (!data) {
       return res.status(404).json({
         error: 'No songs. Add SOUNDCLOUD_PLAYLIST_ID or populate songs.json (see README)',
       });
     }
-
-    const dateStr = req.query.date || new Date().toISOString().slice(0, 10);
-    const idx = getDailyIndex(tracks.length, dateStr);
-    const daily = tracks[idx];
-
+    const { dateStr, daily, total } = data;
     return res.status(200).json({
       date: dateStr,
       song: {
@@ -135,10 +139,12 @@ module.exports = async function handler(req, res) {
         artist: daily.artist,
         preview_url: daily.preview_url,
       },
-      total: tracks.length,
+      total,
     });
   } catch (err) {
     console.error('Songdle API error:', err);
     return res.status(500).json({ error: err.message || 'API error' });
   }
 };
+
+module.exports.getDailyTrackData = getDailyTrackData;

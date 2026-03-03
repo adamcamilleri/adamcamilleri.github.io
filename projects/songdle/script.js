@@ -68,9 +68,11 @@
       audio.pause();
       audio.currentTime = 0;
     }
+    // Use our stream proxy so the browser gets audio from our domain (avoids CORS/SoundCloud blocking)
+    const streamUrl = API_BASE ? API_BASE + '/api/songdle-stream?date=' + today : song.preview_url;
     playBtn.disabled = true;
     playBtn.textContent = ' Loading…';
-    audio = new Audio(song.preview_url);
+    audio = new Audio(streamUrl);
     audio.play()
       .then(() => {
         playBtn.disabled = false;
@@ -90,8 +92,9 @@
       if (playBtn.textContent === ' Loading…') {
         playBtn.disabled = false;
         updateUI();
+        showFeedback('Playback didn’t start. Try again.', false);
       }
-    }, 5000);
+    }, 4000);
   }
 
   function updateUI() {
