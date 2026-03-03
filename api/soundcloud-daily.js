@@ -99,17 +99,19 @@ async function getDailyTrackData(options) {
   let tracks = [];
   let token = null;
 
-  if (playlistId) {
+  // Prefer static songs.json — no API calls, no expiring URLs.
+  // Only fall back to SoundCloud if songs.json is empty.
+  tracks = loadSongsFromFile();
+
+  if (tracks.length === 0 && playlistId) {
     try {
       token = await getToken();
       const id = await resolvePlaylistId(token, playlistId);
       tracks = await getPlaylistTracks(token, id);
     } catch (err) {
       console.error('SoundCloud API error:', err);
-      tracks = loadSongsFromFile();
     }
   }
-  if (tracks.length === 0) tracks = loadSongsFromFile();
   if (tracks.length === 0) return null;
 
   const idx = getDailyIndex(tracks.length, dateStr);
