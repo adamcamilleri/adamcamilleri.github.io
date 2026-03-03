@@ -10,6 +10,7 @@
   var timelineEl    = document.getElementById('timeline');
   var labelEl       = document.getElementById('timelineLabel');
   var playBtn       = document.getElementById('playBtn');
+  var volumeSlider  = document.getElementById('volumeSlider');
   var searchInput   = document.getElementById('searchInput');
   var dropdownEl    = document.getElementById('autocompleteList');
   var skipBtn       = document.getElementById('skipBtn');
@@ -17,6 +18,7 @@
   var resultBanner  = document.getElementById('resultBanner');
   var resultTitle   = document.getElementById('resultTitle');
   var resultSong    = document.getElementById('resultSong');
+  var spotifyEmbedEl = document.getElementById('spotifyEmbed');
   var nextSongBtn   = document.getElementById('nextSongBtn');
   var genreTabs     = document.querySelectorAll('.tab');
   var statsBtn      = document.getElementById('statsBtn');
@@ -28,8 +30,8 @@
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
     genre:           'all',
-    song:            null,   // { id, name, artist }
-    songs:           [],     // [{id, name, artist, genre}] for autocomplete
+    song:            null,   // { id, name, artist, spotifyId }
+    songs:           [],     // [{id, name, artist, genre, spotifyId}] for autocomplete
     level:           0,      // 0–5
     guesses:         [],     // [{text, status}]
     done:            false,
@@ -40,6 +42,10 @@
     highlighted:     -1,
     // Unlimited mode
     sessionPlayed:   [],     // ids played this session (to avoid repeats)
+    // Audio resolution + silence detection
+    resolvedAudioUrl:   null,   // Spotify CDN URL if available, else null (use stream proxy)
+    silenceScanPromise: null,   // Promise<trueStartTime> — resolves when silence scan finishes
+    scanCache:          {},     // songId -> trueStartTime (seconds)
   };
 
   function isUnlimited() { return state.genre === 'unlimited'; }
@@ -246,6 +252,19 @@
       : 'Better luck tomorrow!';
     resultSong.innerHTML = 'The song was <strong>' + escHtml(songArtist) + ' \u2013 ' + escHtml(songName) + '</strong>';
     nextSongBtn.hidden = !isUnlimited();
+
+    // Show Spotify embed if song has a spotifyId (not in unlimited mode to keep it clean)
+    if (state.song && state.song.spotifyId && !isUnlimited()) {
+      spotifyEmbedEl.innerHTML = '<iframe'
+        + ' src="https://open.spotify.com/embed/track/' + encodeURIComponent(state.song.spotifyId) + '?utm_source=generator"'
+        + ' width="100%" height="152" frameborder="0"'
+        + ' allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"'
+        + ' loading="lazy"></iframe>';
+      spotifyEmbedEl.hidden = false;
+    } else {
+      spotifyEmbedEl.innerHTML = '';
+      spotifyEmbedEl.hidden = true;
+    }
   }
 
   // ── Autocomplete ──────────────────────────────────────────────────────────────
@@ -428,6 +447,104 @@
     setStatus('');
     renderSlots();
     renderTimeline();
+    initAudioForSong(state.song);
+  }
+
+  // ── Spotify preview + silence detection ───────────────────────────────────────
+
+  /** Try to get a Spotify preview URL for the song. Returns null on failure. */
+  function resolveAudioUrl(song) {
+    if (!song || !song.spotifyId) {
+      return Promise.resolve(null);
+    }
+    return fetch(API_BASE + '/api/spotify-preview?trackId=' + encodeURIComponent(song.spotifyId))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) { return (data && data.previewUrl) ? data.previewUrl : null; })
+      .catch(function (e) {
+        console.warn('Spotify preview lookup failed, using iTunes:', e.message);
+        return null;
+      });
+  }
+
+  /** Reusable AudioContext for decoding buffers (not for playback). */
+  var _audioCtx = null;
+  function getAudioCtx() {
+    if (!_audioCtx || _audioCtx.state === 'closed') {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return _audioCtx;
+  }
+
+  /** Scan audio at `url` for the first non-silent moment. Returns Promise<seconds>. */
+  function scanForSilence(url, songId) {
+    if (state.scanCache[songId] !== undefined) {
+      return Promise.resolve(state.scanCache[songId]);
+    }
+    return fetch(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('fetch failed: ' + r.status);
+        return r.arrayBuffer();
+      })
+      .then(function (buf) {
+        return new Promise(function (resolve) {
+          var ctx = getAudioCtx();
+          ctx.decodeAudioData(buf, function (audioBuffer) {
+            var t = findFirstNonSilent(audioBuffer);
+            state.scanCache[songId] = t;
+            resolve(t);
+          }, function (err) {
+            console.error('Silence scan: decodeAudioData failed:', err);
+            state.scanCache[songId] = 0;
+            resolve(0);
+          });
+        });
+      })
+      .catch(function (err) {
+        console.error('Silence scan failed:', err.message);
+        state.scanCache[songId] = 0;
+        return 0;
+      });
+  }
+
+  /** Walk 100ms RMS chunks; return timestamp of first chunk above threshold. */
+  function findFirstNonSilent(audioBuffer) {
+    var CHUNK_DURATION = 0.1; // seconds
+    var THRESHOLD = 0.02;
+    var sampleRate = audioBuffer.sampleRate;
+    var chunkSize = Math.floor(sampleRate * CHUNK_DURATION);
+    var channelData = audioBuffer.getChannelData(0);
+
+    for (var offset = 0; offset + chunkSize <= channelData.length; offset += chunkSize) {
+      var sumSq = 0;
+      for (var i = offset; i < offset + chunkSize; i++) {
+        sumSq += channelData[i] * channelData[i];
+      }
+      var rms = Math.sqrt(sumSq / chunkSize);
+      if (rms > THRESHOLD) {
+        return offset / sampleRate;
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * Called whenever a new song is set on state.song.
+   * Kicks off (in parallel, non-blocking):
+   *   1. Spotify preview URL lookup
+   *   2. Silence scan of the resolved audio
+   * Sets state.silenceScanPromise which resolves to trueStartTime (seconds).
+   */
+  function initAudioForSong(song) {
+    if (!song) return;
+    state.resolvedAudioUrl = null;
+    // Capture stream URL now while state is correct
+    var streamUrl = getStreamUrl();
+
+    state.silenceScanPromise = resolveAudioUrl(song).then(function (spotifyUrl) {
+      state.resolvedAudioUrl = spotifyUrl;
+      var audioUrl = spotifyUrl || streamUrl;
+      return scanForSilence(audioUrl, song.id);
+    });
   }
 
   // ── Audio ─────────────────────────────────────────────────────────────────────
@@ -447,6 +564,10 @@
       : '<svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   }
 
+  function getVolume() {
+    return volumeSlider ? parseFloat(volumeSlider.value) : 1;
+  }
+
   function playClip() {
     if (!state.song) return;
     if (state.playing && state.audio) {
@@ -455,37 +576,52 @@
       return;
     }
 
-    var url = getStreamUrl();
-    var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
-    var stopTimer;
+    var songId = state.song.id;
 
-    if (!state.audio) {
-      state.audio = new Audio(url);
-    }
-    state.audio.currentTime = 0;
-
+    // Show loading indicator while awaiting silence scan
     playBtn.disabled = true;
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
 
-    state.audio.play()
-      .then(function () {
-        playBtn.disabled = false;
-        setPlayIcon(true);
-        stopTimer = setTimeout(function () {
-          if (state.audio) state.audio.pause();
-          setPlayIcon(false);
-        }, dur * 1000);
-      })
-      .catch(function () {
+    var scanReady = state.silenceScanPromise || Promise.resolve(0);
+
+    scanReady.then(function (trueStartTime) {
+      // Guard: song may have changed while the scan was running
+      if (!state.song || state.song.id !== songId) {
         playBtn.disabled = false;
         setPlayIcon(false);
-        setStatus('Could not play audio. Try again.', true);
-      });
+        return;
+      }
 
-    state.audio.onended = function () {
-      clearTimeout(stopTimer);
-      setPlayIcon(false);
-    };
+      var audioUrl = state.resolvedAudioUrl || getStreamUrl();
+      var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
+      var stopTimer;
+
+      if (!state.audio) {
+        state.audio = new Audio(audioUrl);
+        state.audio.volume = getVolume();
+      }
+      state.audio.currentTime = trueStartTime;
+
+      state.audio.play()
+        .then(function () {
+          playBtn.disabled = false;
+          setPlayIcon(true);
+          stopTimer = setTimeout(function () {
+            if (state.audio) state.audio.pause();
+            setPlayIcon(false);
+          }, dur * 1000);
+        })
+        .catch(function () {
+          playBtn.disabled = false;
+          setPlayIcon(false);
+          setStatus('Could not play audio. Try again.', true);
+        });
+
+      state.audio.onended = function () {
+        clearTimeout(stopTimer);
+        setPlayIcon(false);
+      };
+    });
   }
 
   // ── Genre switching ───────────────────────────────────────────────────────────
@@ -554,6 +690,7 @@
           setInputEnabled(true);
         }
         setStatus('');
+        initAudioForSong(state.song);
       })
       .catch(function (err) {
         setStatus('Could not load today\'s song. ' + (err && err.message ? err.message : ''), true);
@@ -563,6 +700,10 @@
   // ── Event listeners ───────────────────────────────────────────────────────────
   playBtn.addEventListener('click', playClip);
   skipBtn.addEventListener('click', skipGuess);
+
+  volumeSlider.addEventListener('input', function () {
+    if (state.audio) state.audio.volume = getVolume();
+  });
 
   genreTabs.forEach(function (tab) {
     tab.addEventListener('click', function () { switchGenre(tab.dataset.genre); });

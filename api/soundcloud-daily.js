@@ -148,6 +148,7 @@ module.exports = async function handler(req, res) {
         name: daily.name,
         artist: daily.artist,
         preview_url: daily.preview_url,
+        spotifyId: daily.spotifyId || null,
       },
       total,
     });

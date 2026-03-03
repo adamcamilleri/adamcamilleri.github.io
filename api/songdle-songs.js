@@ -22,6 +22,7 @@ module.exports = async function handler(req, res) {
       name: s.name,
       artist: s.artist,
       genre: s.genre || 'other',
+      spotifyId: s.spotifyId || null,
     }));
     return res.status(200).json(result);
   } catch (err) {

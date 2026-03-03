@@ -264,6 +264,36 @@ header {
   margin-left: 3px; /* optical center for triangle */
 }
 
+/* ── Volume ──────────────────────────────── */
+
+.volume-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: -16px;
+  margin-bottom: 24px;
+}
+
+.vol-icon {
+  width: 16px;
+  height: 16px;
+  fill: var(--text-muted);
+  flex-shrink: 0;
+}
+
+#volumeSlider {
+  width: 120px;
+  accent-color: var(--green);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+#volumeSlider:hover {
+  opacity: 1;
+}
+
 /* ── Search + Skip ───────────────────────── */
 
 .search-area {
@@ -407,6 +437,23 @@ header {
 
 .result-song strong {
   color: var(--text);
+}
+
+/* ── Spotify Embed ───────────────────────── */
+
+.spotify-embed {
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.spotify-embed[hidden] {
+  display: none;
+}
+
+.spotify-embed iframe {
+  display: block;
+  border-radius: 12px;
 }
 
 .next-song-btn {
