@@ -25,7 +25,17 @@
   var statsModal    = document.getElementById('statsModal');
   var statsCloseBtn = document.getElementById('statsClose');
   var statsNumbers  = document.getElementById('statsNumbers');
-  var statsDistEl   = document.getElementById('statsDistribution');
+  var statsDistEl      = document.getElementById('statsDistribution');
+  var artistFilterBar  = document.getElementById('artistFilterBar');
+  var artistFilterBtn  = document.getElementById('artistFilterBtn');
+  var hintBtn          = document.getElementById('hintBtn');
+  var hintDisplay      = document.getElementById('hintDisplay');
+  var shareBtn         = document.getElementById('shareBtn');
+  var modeSubtitle     = document.getElementById('modeSubtitle');
+  var artistPickerModal = document.getElementById('artistPickerModal');
+  var artistPickerClose = document.getElementById('artistPickerClose');
+  var artistSearchInput = document.getElementById('artistSearchInput');
+  var artistPickerList  = document.getElementById('artistPickerList');
 
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
@@ -46,6 +56,9 @@
     resolvedAudioUrl:   null,   // Spotify CDN URL if available, else null (use stream proxy)
     silenceScanPromise: null,   // Promise<trueStartTime> — resolves when silence scan finishes
     scanCache:          {},     // songId -> trueStartTime (seconds)
+    // Artist filter & hint
+    artistFilter:    null,   // null = all artists, string = filter to one artist
+    hintUsed:        false,
   };
 
   function isUnlimited() { return state.genre === 'unlimited'; }
@@ -242,7 +255,126 @@
   function setInputEnabled(enabled) {
     searchInput.disabled = !enabled;
     skipBtn.disabled     = !enabled;
+    hintBtn.disabled     = !enabled || state.hintUsed;
     if (!enabled) hideDropdown();
+  }
+
+  function resetHint() {
+    state.hintUsed = false;
+    hintDisplay.hidden = true;
+    hintDisplay.textContent = '';
+    hintBtn.disabled = false;
+  }
+
+  function revealHint() {
+    if (state.hintUsed || state.done || !state.song) return;
+    state.hintUsed = true;
+    hintBtn.disabled = true;
+    hintDisplay.textContent = 'Artist: ' + state.song.artist;
+    hintDisplay.hidden = false;
+  }
+
+  function shareResult() {
+    var emojiMap = { correct: '\uD83D\uDFE9', close: '\uD83D\uDFE8', wrong: '\uD83D\uDFE5', skipped: '\u2B1B' };
+    var grid = state.guesses.map(function (g) { return emojiMap[g.status] || '\u2B1B'; }).join('');
+    var context;
+    if (isUnlimited()) {
+      context = state.artistFilter ? ('Unlimited \u00B7 ' + state.artistFilter) : 'Unlimited';
+    } else {
+      var label = state.genre === 'all' ? 'All' : (state.genre.charAt(0).toUpperCase() + state.genre.slice(1));
+      context = label + ' \u00B7 ' + state.today;
+    }
+    var result = state.won ? (state.guesses.length + '/6') : 'X/6';
+    var text = 'Songdle \uD83C\uDFB5 ' + context + '\n' + grid + ' ' + result + '\nadamcamilleri.com/songdle';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        var orig = shareBtn.textContent;
+        shareBtn.textContent = 'Copied!';
+        setTimeout(function () { shareBtn.textContent = orig; }, 2000);
+      }).catch(function () { setStatus('Could not copy to clipboard', true); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      shareBtn.textContent = 'Copied!';
+      setTimeout(function () { shareBtn.textContent = 'Share Result'; }, 2000);
+    }
+  }
+
+  function updateArtistFilterBtn() {
+    if (state.artistFilter) {
+      artistFilterBtn.textContent = state.artistFilter + ' \u00D7';
+      artistFilterBtn.classList.add('active');
+      modeSubtitle.textContent = state.artistFilter;
+      modeSubtitle.hidden = false;
+      document.title = state.artistFilter + ' \u2013 Songdle';
+    } else {
+      artistFilterBtn.textContent = 'All Artists \u25BE';
+      artistFilterBtn.classList.remove('active');
+      modeSubtitle.hidden = true;
+      document.title = 'Songdle \u2013 Guess the Song';
+    }
+  }
+
+  function buildArtistList(filter) {
+    var artistCounts = {};
+    state.songs.forEach(function (s) {
+      artistCounts[s.artist] = (artistCounts[s.artist] || 0) + 1;
+    });
+    var artists = Object.keys(artistCounts).sort();
+    var q = filter ? filter.toLowerCase() : '';
+    var filtered = q ? artists.filter(function (a) { return a.toLowerCase().indexOf(q) !== -1; }) : artists;
+
+    artistPickerList.innerHTML = '';
+
+    var allLi = document.createElement('li');
+    allLi.className = 'all-artists-item' + (!state.artistFilter ? ' selected' : '');
+    var allSpan = document.createElement('span');
+    allSpan.textContent = 'All Artists';
+    var allCount = document.createElement('span');
+    allCount.className = 'artist-count';
+    allCount.textContent = state.songs.length + ' songs';
+    allLi.appendChild(allSpan);
+    allLi.appendChild(allCount);
+    allLi.addEventListener('click', function () { selectArtist(null); });
+    artistPickerList.appendChild(allLi);
+
+    filtered.forEach(function (artist) {
+      var li = document.createElement('li');
+      if (state.artistFilter === artist) li.classList.add('selected');
+      var nameSpan = document.createElement('span');
+      nameSpan.textContent = artist;
+      var countSpan = document.createElement('span');
+      countSpan.className = 'artist-count';
+      countSpan.textContent = artistCounts[artist] + (artistCounts[artist] === 1 ? ' song' : ' songs');
+      li.appendChild(nameSpan);
+      li.appendChild(countSpan);
+      li.addEventListener('click', (function (a) { return function () { selectArtist(a); }; })(artist));
+      artistPickerList.appendChild(li);
+    });
+  }
+
+  function openArtistPicker() {
+    artistSearchInput.value = '';
+    buildArtistList('');
+    artistPickerModal.hidden = false;
+    setTimeout(function () { artistSearchInput.focus(); }, 50);
+  }
+
+  function closeArtistPicker() {
+    artistPickerModal.hidden = true;
+  }
+
+  function selectArtist(artist) {
+    state.artistFilter = artist;
+    state.sessionPlayed = [];
+    closeArtistPicker();
+    updateArtistFilterBtn();
+    startUnlimitedSong();
   }
 
   function showResult(won, songName, songArtist) {
@@ -271,10 +403,12 @@
   function getFilteredPool() {
     var q = searchInput.value.trim().toLowerCase();
     if (!q) return [];
-    // Unlimited uses all songs (same as 'all')
     var pool = (state.genre === 'all' || isUnlimited())
       ? state.songs
       : state.songs.filter(function (s) { return s.genre === state.genre; });
+    if (isUnlimited() && state.artistFilter) {
+      pool = pool.filter(function (s) { return s.artist === state.artistFilter; });
+    }
     return pool.filter(function (s) {
       return s.name.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q);
     }).slice(0, 8);
@@ -411,13 +545,13 @@
 
   // ── Unlimited mode ────────────────────────────────────────────────────────────
   function pickUnlimitedSong() {
-    var pool = state.songs.filter(function (s) {
-      return state.sessionPlayed.indexOf(s.id) === -1;
-    });
-    // If all songs played this session, reset and replay the full pool
+    var allInPool = state.artistFilter
+      ? state.songs.filter(function (s) { return s.artist === state.artistFilter; })
+      : state.songs;
+    var pool = allInPool.filter(function (s) { return state.sessionPlayed.indexOf(s.id) === -1; });
     if (pool.length === 0) {
       state.sessionPlayed = [];
-      pool = state.songs.slice();
+      pool = allInPool.slice();
     }
     var idx = Math.floor(Math.random() * pool.length);
     return pool[idx];
@@ -431,6 +565,7 @@
     state.guesses = [];
     state.done    = false;
     state.won     = false;
+    resetHint();
 
     var song = pickUnlimitedSong();
     if (!song) {
@@ -440,6 +575,7 @@
     state.song = song;
     state.sessionPlayed.push(song.id);
 
+    artistFilterBar.hidden = false;
     resultBanner.hidden = true;
     nextSongBtn.hidden = true;
     playBtn.disabled = false;
@@ -635,9 +771,17 @@
     resultBanner.hidden = true;
     nextSongBtn.hidden = true;
     state.genre = genre;
+    if (genre !== 'unlimited') {
+      state.artistFilter = null;
+      artistFilterBar.hidden = true;
+      modeSubtitle.hidden = true;
+      document.title = 'Songdle \u2013 Guess the Song';
+    }
+    resetHint();
     renderTabs();
 
     if (genre === 'unlimited') {
+      updateArtistFilterBtn();
       if (state.songs.length === 0) {
         setStatus('Loading...');
         fetchSongs().then(function () { startUnlimitedSong(); });
@@ -717,6 +861,18 @@
 
   nextSongBtn.addEventListener('click', function () {
     startUnlimitedSong();
+  });
+
+  hintBtn.addEventListener('click', revealHint);
+  shareBtn.addEventListener('click', shareResult);
+
+  artistFilterBtn.addEventListener('click', openArtistPicker);
+  artistPickerClose.addEventListener('click', closeArtistPicker);
+  artistPickerModal.addEventListener('click', function (e) {
+    if (e.target === artistPickerModal) closeArtistPicker();
+  });
+  artistSearchInput.addEventListener('input', function () {
+    buildArtistList(artistSearchInput.value);
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────────

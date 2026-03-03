@@ -634,6 +634,179 @@ header {
   background: var(--green);
 }
 
+/* ── Mode Subtitle ───────────────────────── */
+
+.mode-subtitle {
+  font-size: 0.8rem;
+  color: var(--yellow);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+
+.mode-subtitle[hidden] { display: none; }
+
+/* ── Artist Filter Bar ───────────────────── */
+
+.artist-filter-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.artist-filter-bar[hidden] { display: none; }
+
+.artist-filter-btn {
+  padding: 6px 16px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.artist-filter-btn:hover {
+  border-color: #555;
+  color: var(--text);
+}
+
+.artist-filter-btn.active {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+/* ── Hint Button ─────────────────────────── */
+
+.hint-btn {
+  padding: 12px 14px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.hint-btn:hover:not(:disabled) {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.hint-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Hint Display ────────────────────────── */
+
+.hint-display {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(240, 180, 41, 0.1);
+  border: 1.5px solid rgba(240, 180, 41, 0.3);
+  border-radius: 8px;
+  color: var(--yellow);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hint-display[hidden] { display: none; }
+
+/* ── Share Button ────────────────────────── */
+
+.share-btn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 9px 24px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.share-btn:hover {
+  border-color: #555;
+  color: var(--text);
+}
+
+/* ── Artist Picker Modal ─────────────────── */
+
+.artist-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.875rem;
+  outline: none;
+  margin-bottom: 10px;
+  transition: border-color 0.15s;
+}
+
+.artist-search-input:focus {
+  border-color: #4a4a4a;
+}
+
+.artist-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.artist-list {
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.artist-list li {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: background 0.1s;
+}
+
+.artist-list li:hover {
+  background: var(--surface-2);
+}
+
+.artist-list li.selected {
+  color: var(--yellow);
+}
+
+.artist-list .artist-count {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.artist-list .all-artists-item {
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--border);
+  border-radius: 0;
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+}
+
 /* ── Responsive ──────────────────────────── */
 
 @media (max-width: 360px) {
