@@ -253,8 +253,8 @@
     resultSong.innerHTML = 'The song was <strong>' + escHtml(songArtist) + ' \u2013 ' + escHtml(songName) + '</strong>';
     nextSongBtn.hidden = !isUnlimited();
 
-    // Show Spotify embed if song has a spotifyId (not in unlimited mode to keep it clean)
-    if (state.song && state.song.spotifyId && !isUnlimited()) {
+    // Show Spotify embed if song has a spotifyId
+    if (state.song && state.song.spotifyId) {
       spotifyEmbedEl.innerHTML = '<iframe'
         + ' src="https://open.spotify.com/embed/track/' + encodeURIComponent(state.song.spotifyId) + '?utm_source=generator"'
         + ' width="100%" height="152" frameborder="0"'
