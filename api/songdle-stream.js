@@ -26,17 +26,33 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const streamRes = await fetch(data.daily.preview_url, {
-      headers: data.token ? { Authorization: 'OAuth ' + data.token } : {},
+    let streamUrl = data.daily.preview_url;
+    const clientId = process.env.SOUNDCLOUD_CLIENT_ID;
+    if (clientId && streamUrl && streamUrl.indexOf('client_id=') === -1) {
+      streamUrl = streamUrl + (streamUrl.indexOf('?') >= 0 ? '&' : '?') + 'client_id=' + encodeURIComponent(clientId);
+    }
+    const streamRes = await fetch(streamUrl, {
+      redirect: 'follow',
+      headers: {
+        'Accept': 'audio/mpeg,audio/*,*/*',
+        'User-Agent': 'Songdle/1.0 (https://github.com/adamcamilleri/adamcamilleri.github.io)',
+        ...(data.token ? { Authorization: 'OAuth ' + data.token } : {}),
+      },
     });
 
     if (!streamRes.ok) {
+      const errBody = await streamRes.text().catch(() => '');
+      console.error('SoundCloud stream fetch failed:', streamRes.status, errBody.slice(0, 200));
       res.status(502).end();
       return;
     }
 
     const contentType = streamRes.headers.get('content-type') || 'audio/mpeg';
     const buf = await streamRes.arrayBuffer();
+    if (buf.byteLength === 0) {
+      res.status(502).end();
+      return;
+    }
     res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Length', buf.byteLength);
     res.end(Buffer.from(buf));

@@ -7,7 +7,6 @@
  */
 
 const http = require('http');
-const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
@@ -102,13 +101,13 @@ async function main() {
   console.log('   The script will capture the redirect and export your playlist.\n');
 
   const server = http.createServer(async (req, res) => {
-    const { pathname, query } = url.parse(req.url, true);
-    if (pathname !== '/callback') {
+    const u = new URL(req.url || '', 'http://localhost');
+    if (u.pathname !== '/callback') {
       res.writeHead(404);
       res.end('Not found');
       return;
     }
-    const code = query.code;
+    const code = u.searchParams.get('code');
     if (!code) {
       res.writeHead(400);
       res.end('No code in URL. Make sure you pasted the full redirect URL.');

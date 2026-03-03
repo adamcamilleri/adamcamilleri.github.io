@@ -106,6 +106,12 @@
     safeDisabled(playBtn, true);
     safeText(playBtn, 'Loading…');
     audio = new Audio(streamUrl);
+    audio.addEventListener('error', function onErr() {
+      audio.removeEventListener('error', onErr);
+      safeDisabled(playBtn, false);
+      updateUI();
+      showFeedback('Audio failed to load. SoundCloud may be restricted or slow.', false);
+    }, { once: true });
     audio.play()
       .then(function () {
         safeDisabled(playBtn, false);
@@ -123,9 +129,9 @@
       if (playBtn && playBtn.textContent === 'Loading…') {
         safeDisabled(playBtn, false);
         updateUI();
-        showFeedback('Playback didn\'t start. Try again.', false);
+        showFeedback('Playback didn\'t start. Check connection or try again.', false);
       }
-    }, 5000);
+    }, 10000);
   }
 
   function win() {
