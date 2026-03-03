@@ -31,14 +31,22 @@ module.exports = async function handler(req, res) {
     if (clientId && streamUrl && streamUrl.indexOf('client_id=') === -1) {
       streamUrl = streamUrl + (streamUrl.indexOf('?') >= 0 ? '&' : '?') + 'client_id=' + encodeURIComponent(clientId);
     }
-    const streamRes = await fetch(streamUrl, {
-      redirect: 'follow',
-      headers: {
-        'Accept': 'audio/mpeg,audio/*,*/*',
-        'User-Agent': 'Songdle/1.0 (https://github.com/adamcamilleri/adamcamilleri.github.io)',
-        ...(data.token ? { Authorization: 'OAuth ' + data.token } : {}),
-      },
-    });
+
+    const authHeaders = {
+      'Accept': 'audio/mpeg,audio/*,*/*',
+      'User-Agent': 'Songdle/1.0 (https://github.com/adamcamilleri/adamcamilleri.github.io)',
+      ...(data.token ? { Authorization: 'OAuth ' + data.token } : {}),
+    };
+
+    let streamRes = await fetch(streamUrl, { redirect: 'manual', headers: authHeaders });
+
+    if (streamRes.status >= 300 && streamRes.status < 400 && streamRes.headers.get('location')) {
+      const location = streamRes.headers.get('location');
+      streamRes = await fetch(location, {
+        redirect: 'follow',
+        headers: { 'Accept': 'audio/mpeg,audio/*,*/*', 'User-Agent': authHeaders['User-Agent'] },
+      });
+    }
 
     if (!streamRes.ok) {
       const errBody = await streamRes.text().catch(() => '');
