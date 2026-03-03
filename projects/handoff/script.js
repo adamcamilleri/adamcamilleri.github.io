@@ -255,9 +255,12 @@
     hideWelcome();
     var div = document.createElement('div');
     div.className = 'message ' + role;
-    var p = document.createElement('p');
-    p.textContent = text;
-    div.appendChild(p);
+    text.split('\n\n').forEach(function (part) {
+      if (!part.trim()) return;
+      var p = document.createElement('p');
+      p.textContent = part.trim();
+      div.appendChild(p);
+    });
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     return div;
@@ -319,12 +322,15 @@
         var html = data.html || null;
         var reply = data.reply || '';
         var summary = data.summary || null;
+        var followup = data.followup || null;
 
         if (html) {
           setPreview(html);
           state.history.push({ role: 'user', content: text });
           state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
-          appendMessage('assistant', summary || defaultReply(text));
+          var botReply = summary || defaultReply(text);
+          if (followup) botReply += '\n\n' + followup;
+          appendMessage('assistant', botReply);
           incrementUsage();
         } else if (reply) {
           // Non-HTML response (e.g. feature not supported message)
