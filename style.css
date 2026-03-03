@@ -1767,7 +1767,8 @@ header.scrolled {
   box-shadow: var(--shadow-large);
 }
 
-.project-card-handoff {
+.project-card-handoff,
+.project-card-songdle {
   position: relative;
 }
 
@@ -1784,6 +1785,11 @@ header.scrolled {
   border-radius: 4px;
   text-transform: uppercase;
   line-height: 1;
+}
+
+.project-card-songdle .wip-badge {
+  opacity: 1;
+  visibility: visible;
 }
 
 .project-title {

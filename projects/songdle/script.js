@@ -59,16 +59,23 @@
     return String(s).toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, ' ').trim();
   }
 
+  // Strip parenthetical suffixes like "(Live)", "(Remix)", "(feat. ...)", "(Original Version)"
+  function stripParens(s) {
+    return String(s).replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
   function checkGuess(guess, track) {
     var g = normalize(guess);
     var artist = normalize(track.artist || '');
     var title = normalize(track.name || '');
+    var baseTitle = normalize(stripParens(track.name || ''));
     var full = normalize((track.artist || '') + ' - ' + (track.name || ''));
     var fullReverse = normalize((track.name || '') + ' - ' + (track.artist || ''));
     if (g === full || g === fullReverse) return true;
     if (g === title && artist.length > 0) return true;
-    if (g.includes(artist) && g.includes(title)) return true;
-    if (g.includes(title) && (g.includes(artist) || artist.split(',')[0].trim().toLowerCase().split(' ').some(function (w) { return g.includes(w); }))) return true;
+    if (g === baseTitle && artist.length > 0) return true;
+    if (g.includes(artist) && (g.includes(title) || g.includes(baseTitle))) return true;
+    if ((g.includes(title) || g.includes(baseTitle)) && (g.includes(artist) || artist.split(',')[0].trim().toLowerCase().split(' ').some(function (w) { return g.includes(w); }))) return true;
     return false;
   }
 

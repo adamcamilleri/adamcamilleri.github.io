@@ -38,7 +38,8 @@ module.exports = async function handler(req, res) {
 
     let streamUrl = data.daily.preview_url;
     const clientId = process.env.SOUNDCLOUD_CLIENT_ID;
-    if (clientId && streamUrl && streamUrl.indexOf('client_id=') === -1) {
+    const isSoundCloud = streamUrl && (streamUrl.includes('soundcloud.com') || streamUrl.includes('sndcdn.com'));
+    if (clientId && isSoundCloud && streamUrl.indexOf('client_id=') === -1) {
       streamUrl = streamUrl + (streamUrl.indexOf('?') >= 0 ? '&' : '?') + 'client_id=' + encodeURIComponent(clientId);
     }
 
