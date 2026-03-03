@@ -77,11 +77,13 @@ async function getPlaylistTracks(token, playlistId) {
   return tracks;
 }
 
-function loadSongsFromFile() {
+function loadSongsFromFile(genre) {
   try {
     const raw = fs.readFileSync(SONGS_PATH, 'utf8');
     const tracks = JSON.parse(raw);
-    return Array.isArray(tracks) ? tracks.filter((t) => t.preview_url) : [];
+    const all = Array.isArray(tracks) ? tracks.filter((t) => t.preview_url) : [];
+    if (!genre || genre === 'all') return all;
+    return all.filter((t) => t.genre === genre);
   } catch {
     return [];
   }
@@ -95,13 +97,14 @@ function getDailyIndex(total, dateStr) {
 /** Shared: get today's track (and optional token for streaming). Used by JSON API and stream proxy. */
 async function getDailyTrackData(options) {
   const dateStr = (options && options.date) || new Date().toISOString().slice(0, 10);
+  const genre = (options && options.genre) || 'all';
   const playlistId = (options && options.playlistId) || process.env.SOUNDCLOUD_PLAYLIST_ID;
   let tracks = [];
   let token = null;
 
   // Prefer static songs.json — no API calls, no expiring URLs.
   // Only fall back to SoundCloud if songs.json is empty.
-  tracks = loadSongsFromFile();
+  tracks = loadSongsFromFile(genre);
 
   if (tracks.length === 0 && playlistId) {
     try {
@@ -114,7 +117,9 @@ async function getDailyTrackData(options) {
   }
   if (tracks.length === 0) return null;
 
-  const idx = getDailyIndex(tracks.length, dateStr);
+  // Salt the date with genre so each genre produces its own daily song
+  const saltedDate = dateStr + '_' + genre;
+  const idx = getDailyIndex(tracks.length, saltedDate);
   const daily = tracks[idx];
   return { dateStr, daily, token, total: tracks.length };
 }
@@ -127,7 +132,8 @@ module.exports = async function handler(req, res) {
 
   try {
     const q = req.query || {};
-    const data = await getDailyTrackData({ date: q.date, playlistId: q.playlist });
+    const genre = q.genre || 'all';
+    const data = await getDailyTrackData({ date: q.date, playlistId: q.playlist, genre });
     if (!data) {
       return res.status(404).json({
         error: 'No songs. Add SOUNDCLOUD_PLAYLIST_ID or populate songs.json (see README)',
@@ -136,6 +142,7 @@ module.exports = async function handler(req, res) {
     const { dateStr, daily, total } = data;
     return res.status(200).json({
       date: dateStr,
+      genre,
       song: {
         id: daily.id,
         name: daily.name,

@@ -1,7 +1,7 @@
 /**
  * Stream proxy for Songdle: fetches today's track preview from SoundCloud server-side
  * and sends it to the client so the browser doesn't hit CORS/blocked direct URLs.
- * GET /api/songdle-stream?date=YYYY-MM-DD
+ * GET /api/songdle-stream?date=YYYY-MM-DD&genre=all|rock|hip-hop
  */
 const soundcloudDaily = require('./soundcloud-daily.js');
 const getDailyTrackData = soundcloudDaily.getDailyTrackData;
@@ -14,14 +14,17 @@ module.exports = async function handler(req, res) {
 
   try {
     let dateStr = (req.query && req.query.date) || null;
-    if (!dateStr && req.url) {
+    let genreStr = (req.query && req.query.genre) || null;
+    if ((!dateStr || !genreStr) && req.url) {
       try {
         const u = new URL(req.url, 'http://localhost');
-        dateStr = u.searchParams.get('date');
+        if (!dateStr) dateStr = u.searchParams.get('date');
+        if (!genreStr) genreStr = u.searchParams.get('genre');
       } catch (e) {}
     }
     dateStr = dateStr || new Date().toISOString().slice(0, 10);
-    const data = await getDailyTrackData({ date: dateStr });
+    genreStr = genreStr || 'all';
+    const data = await getDailyTrackData({ date: dateStr, genre: genreStr });
     if (!data || !data.daily || !data.daily.preview_url) {
       res.status(404).end();
       return;

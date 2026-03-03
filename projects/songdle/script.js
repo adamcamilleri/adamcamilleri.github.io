@@ -1,193 +1,430 @@
 (function () {
   'use strict';
 
-  var REVEAL_DURATIONS = [0.1, 0.5, 2, 4, 8, 16, 30];
-  var API_BASE = window.SONGDLE_API || (window.location.hostname === 'localhost' ? 'http://localhost:3000' : '');
+  var CLIP_DURATIONS = [1, 2, 4, 8, 16, 30]; // seconds per level
+  var MAX_GUESSES = 6;
+  var API_BASE = window.SONGDLE_API || (location.hostname === 'localhost' ? 'http://localhost:3000' : '');
 
-  var playBtn = document.getElementById('playBtn');
-  var guessInput = document.getElementById('guessInput');
-  var submitBtn = document.getElementById('submitBtn');
-  var feedbackEl = document.getElementById('feedback');
-  var revealInfo = document.getElementById('revealInfo');
+  // ── DOM refs ─────────────────────────────────────────────────────────────────
+  var slotsEl      = document.getElementById('guessSlots');
+  var timelineEl   = document.getElementById('timeline');
+  var labelEl      = document.getElementById('timelineLabel');
+  var playBtn      = document.getElementById('playBtn');
+  var searchInput  = document.getElementById('searchInput');
+  var dropdownEl   = document.getElementById('autocompleteList');
+  var skipBtn      = document.getElementById('skipBtn');
+  var statusMsg    = document.getElementById('statusMsg');
+  var resultBanner = document.getElementById('resultBanner');
+  var resultTitle  = document.getElementById('resultTitle');
+  var resultSong   = document.getElementById('resultSong');
+  var genreTabs    = document.querySelectorAll('.tab');
 
-  var song = null;
-  var revealLevel = 0;
-  var audio = null;
-  var today = '';
+  // ── State ─────────────────────────────────────────────────────────────────────
+  var state = {
+    genre:       'all',
+    song:        null,   // { name, artist }
+    songs:       [],     // [{name, artist, genre}] for autocomplete
+    level:       0,      // 0–5
+    guesses:     [],     // [{text, status}]
+    done:        false,
+    won:         false,
+    today:       '',
+    audio:       null,
+    playing:     false,
+    highlighted: -1,
+  };
 
-  function safeText(el, text) {
-    try {
-      if (el && 'textContent' in el) el.textContent = text;
-    } catch (e) {}
-  }
-
-  function safeClass(el, className) {
-    try {
-      if (el && 'className' in el) el.className = className;
-    } catch (e) {}
-  }
-
-  function safeDisabled(el, disabled) {
-    try {
-      if (el && 'disabled' in el) el.disabled = !!disabled;
-    } catch (e) {}
-  }
-
+  // ── Helpers ───────────────────────────────────────────────────────────────────
   function getToday() {
     return new Date().toISOString().slice(0, 10);
   }
 
-  function loadState() {
-    var key = 'songdle_' + today;
-    var raw = localStorage.getItem(key);
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw);
-    } catch (e) {
-      return null;
-    }
+  function storageKey(genre) {
+    return 'songdle_' + genre + '_' + state.today;
   }
 
-  function saveState(state) {
-    var key = 'songdle_' + today;
+  function saveState() {
     try {
-      localStorage.setItem(key, JSON.stringify(state));
+      localStorage.setItem(storageKey(state.genre), JSON.stringify({
+        level:      state.level,
+        guesses:    state.guesses,
+        done:       state.done,
+        won:        state.won,
+        songName:   state.song ? state.song.name   : null,
+        songArtist: state.song ? state.song.artist : null,
+      }));
     } catch (e) {}
+  }
+
+  function loadSavedState(genre) {
+    try {
+      var raw = localStorage.getItem('songdle_' + genre + '_' + state.today);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
   }
 
   function normalize(s) {
     return String(s).toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, ' ').trim();
   }
 
-  // Strip parenthetical suffixes like "(Live)", "(Remix)", "(feat. ...)", "(Original Version)"
-  function stripParens(s) {
-    return String(s).replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
-  function checkGuess(guess, track) {
-    var g = normalize(guess);
-    var artist = normalize(track.artist || '');
-    var title = normalize(track.name || '');
-    var baseTitle = normalize(stripParens(track.name || ''));
-    var full = normalize((track.artist || '') + ' - ' + (track.name || ''));
-    var fullReverse = normalize((track.name || '') + ' - ' + (track.artist || ''));
-    if (g === full || g === fullReverse) return true;
-    if (g === title && artist.length > 0) return true;
-    if (g === baseTitle && artist.length > 0) return true;
-    if (g.includes(artist) && (g.includes(title) || g.includes(baseTitle))) return true;
-    if ((g.includes(title) || g.includes(baseTitle)) && (g.includes(artist) || artist.split(',')[0].trim().toLowerCase().split(' ').some(function (w) { return g.includes(w); }))) return true;
-    return false;
+  function isCorrect(selected) {
+    if (!state.song) return false;
+    return normalize(selected.name)   === normalize(state.song.name) &&
+           normalize(selected.artist) === normalize(state.song.artist);
   }
 
-  function fetchDailySong() {
-    return fetch(API_BASE + '/api/soundcloud-daily')
-      .then(function (res) {
-        if (!res.ok) return res.json().catch(function () { return {}; }).then(function (err) { throw new Error(err.error || 'Failed to load today\'s song'); });
-        return res.json();
-      });
+  function isCloseArtist(selected) {
+    if (!state.song) return false;
+    return normalize(selected.artist) === normalize(state.song.artist);
   }
 
-  function updateUI() {
-    var dur = REVEAL_DURATIONS[revealLevel] !== undefined ? REVEAL_DURATIONS[revealLevel] : 30;
-    safeText(playBtn, '\u25B6 Play (' + dur + 's)');
-    safeDisabled(playBtn, !song);
-    safeText(revealInfo, 'Attempt ' + (revealLevel + 1) + ': ' + dur + ' second' + (dur === 1 ? '' : 's'));
-  }
-
-  function showFeedback(msg, correct) {
-    safeText(feedbackEl, msg || '');
-    safeClass(feedbackEl, 'feedback ' + (correct ? 'correct' : 'wrong'));
-  }
-
-  function playClip() {
-    if (!song) return;
-    var streamUrl = API_BASE ? (API_BASE + '/api/songdle-stream?date=' + encodeURIComponent(today)) : (song.preview_url || '');
-    if (!streamUrl) {
-      showFeedback('No preview available.', false);
-      return;
-    }
-    var duration = REVEAL_DURATIONS[revealLevel] !== undefined ? REVEAL_DURATIONS[revealLevel] : 30;
-    if (audio) {
-      try { audio.pause(); audio.currentTime = 0; } catch (e) {}
-    }
-    safeDisabled(playBtn, true);
-    safeText(playBtn, 'Loading…');
-    audio = new Audio(streamUrl);
-    audio.addEventListener('error', function onErr() {
-      audio.removeEventListener('error', onErr);
-      safeDisabled(playBtn, false);
-      updateUI();
-      showFeedback('Audio failed to load. SoundCloud may be restricted or slow.', false);
-    }, { once: true });
-    audio.play()
-      .then(function () {
-        safeDisabled(playBtn, false);
-        updateUI();
-        setTimeout(function () {
-          try { if (audio) audio.pause(); } catch (e) {}
-        }, duration * 1000);
-      })
-      .catch(function (e) {
-        safeDisabled(playBtn, false);
-        updateUI();
-        showFeedback('Could not play audio. Try again.', false);
-      });
-    setTimeout(function () {
-      if (playBtn && playBtn.textContent === 'Loading…') {
-        safeDisabled(playBtn, false);
-        updateUI();
-        showFeedback('Playback didn\'t start. Check connection or try again.', false);
+  // ── Render ────────────────────────────────────────────────────────────────────
+  function renderSlots() {
+    slotsEl.innerHTML = '';
+    for (var i = 0; i < MAX_GUESSES; i++) {
+      var div = document.createElement('div');
+      var g = state.guesses[i];
+      if (g) {
+        div.className = 'slot ' + g.status;
+        div.textContent = g.text;
+      } else {
+        div.className = 'slot';
       }
-    }, 10000);
+      slotsEl.appendChild(div);
+    }
+  }
+
+  function renderTimeline() {
+    var total = CLIP_DURATIONS.reduce(function (a, b) { return a + b; }, 0);
+    timelineEl.innerHTML = '';
+    for (var i = 0; i < CLIP_DURATIONS.length; i++) {
+      var seg = document.createElement('div');
+      seg.className = 'timeline-seg' + (i < state.level ? ' unlocked' : '');
+      seg.style.flexGrow = String(CLIP_DURATIONS[i]);
+      timelineEl.appendChild(seg);
+    }
+    var played = 0;
+    for (var j = 0; j < state.level; j++) played += CLIP_DURATIONS[j];
+    var pct = (played / total) * 100;
+    labelEl.style.left = pct + '%';
+    var dur = CLIP_DURATIONS[Math.min(state.level, CLIP_DURATIONS.length - 1)];
+    labelEl.textContent = dur + 's';
+  }
+
+  function renderTabs() {
+    genreTabs.forEach(function (tab) {
+      tab.classList.toggle('active', tab.dataset.genre === state.genre);
+    });
+  }
+
+  function setStatus(msg, isError) {
+    statusMsg.textContent = msg || '';
+    statusMsg.className = 'status-msg' + (isError ? ' error' : '');
+  }
+
+  function setInputEnabled(enabled) {
+    searchInput.disabled = !enabled;
+    skipBtn.disabled     = !enabled;
+    if (!enabled) hideDropdown();
+  }
+
+  function showResult(won, songName, songArtist) {
+    resultBanner.hidden = false;
+    resultTitle.textContent = won
+      ? 'You got it in ' + state.guesses.length + (state.guesses.length === 1 ? ' guess!' : ' guesses!')
+      : 'Better luck tomorrow!';
+    resultSong.innerHTML = 'The song was <strong>' + escHtml(songArtist) + ' \u2013 ' + escHtml(songName) + '</strong>';
+  }
+
+  // ── Autocomplete ──────────────────────────────────────────────────────────────
+  function getFilteredPool() {
+    var q = searchInput.value.trim().toLowerCase();
+    if (!q) return [];
+    var pool = state.genre === 'all'
+      ? state.songs
+      : state.songs.filter(function (s) { return s.genre === state.genre; });
+    return pool.filter(function (s) {
+      return s.name.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q);
+    }).slice(0, 8);
+  }
+
+  function showDropdown(items) {
+    dropdownEl.innerHTML = '';
+    if (items.length === 0) { dropdownEl.hidden = true; return; }
+    items.forEach(function (item) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      var nameEl = document.createElement('span');
+      nameEl.className = 'song-name';
+      nameEl.textContent = item.name;
+      var artistEl = document.createElement('span');
+      artistEl.className = 'song-artist';
+      artistEl.textContent = item.artist;
+      li.appendChild(nameEl);
+      li.appendChild(artistEl);
+      li.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        submitGuess(item);
+      });
+      dropdownEl.appendChild(li);
+    });
+    state.highlighted = -1;
+    dropdownEl.hidden = false;
+  }
+
+  function hideDropdown() {
+    dropdownEl.hidden = true;
+    state.highlighted = -1;
+  }
+
+  function highlightItem(idx) {
+    var items = dropdownEl.querySelectorAll('li');
+    items.forEach(function (li, i) {
+      li.classList.toggle('highlighted', i === idx);
+    });
+    if (idx >= 0 && items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
+  }
+
+  searchInput.addEventListener('input', function () {
+    showDropdown(getFilteredPool());
+  });
+
+  searchInput.addEventListener('keydown', function (e) {
+    var items = dropdownEl.querySelectorAll('li');
+    if (dropdownEl.hidden || items.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      state.highlighted = Math.min(state.highlighted + 1, items.length - 1);
+      highlightItem(state.highlighted);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      state.highlighted = Math.max(state.highlighted - 1, -1);
+      highlightItem(state.highlighted);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (state.highlighted >= 0) {
+        var pool = getFilteredPool();
+        if (pool[state.highlighted]) submitGuess(pool[state.highlighted]);
+      }
+    } else if (e.key === 'Escape') {
+      hideDropdown();
+    }
+  });
+
+  searchInput.addEventListener('blur', function () {
+    setTimeout(hideDropdown, 150);
+  });
+
+  // ── Game Logic ────────────────────────────────────────────────────────────────
+  function submitGuess(selected) {
+    hideDropdown();
+    searchInput.value = '';
+    if (state.done) return;
+
+    var status = isCorrect(selected) ? 'correct' : (isCloseArtist(selected) ? 'close' : 'wrong');
+    var text = selected.artist + ' \u2013 ' + selected.name;
+    state.guesses.push({ text: text, status: status });
+    state.level = Math.min(state.level + 1, CLIP_DURATIONS.length - 1);
+
+    // Invalidate cached audio so next play fetches the new duration
+    if (state.audio) {
+      state.audio.pause();
+      state.audio = null;
+    }
+    setPlayIcon(false);
+
+    renderSlots();
+    renderTimeline();
+    setStatus('');
+
+    if (status === 'correct') {
+      win();
+    } else if (state.guesses.length >= MAX_GUESSES) {
+      lose();
+    } else {
+      saveState();
+    }
+  }
+
+  function skipGuess() {
+    if (state.done) return;
+    state.guesses.push({ text: 'Skipped', status: 'skipped' });
+    state.level = Math.min(state.level + 1, CLIP_DURATIONS.length - 1);
+    if (state.audio) { state.audio.pause(); state.audio = null; }
+    setPlayIcon(false);
+    renderSlots();
+    renderTimeline();
+    if (state.guesses.length >= MAX_GUESSES) {
+      lose();
+    } else {
+      saveState();
+    }
   }
 
   function win() {
-    safeDisabled(playBtn, true);
-    safeText(playBtn, '\u2713 Solved');
-    safeDisabled(guessInput, true);
-    safeDisabled(submitBtn, true);
-    showFeedback('Correct! It was ' + (song && song.artist) + ' – ' + (song && song.name), true);
-    saveState({ revealLevel: revealLevel, won: true, song: { artist: song && song.artist, name: song && song.name } });
+    state.done = true; state.won = true;
+    setInputEnabled(false);
+    playBtn.disabled = false;
+    saveState();
+    showResult(true, state.song.name, state.song.artist);
   }
 
-  function handleGuess() {
-    var guess = guessInput ? guessInput.value.trim() : '';
-    if (!guess || !song) return;
-    if (checkGuess(guess, song)) {
-      win();
-      return;
-    }
-    revealLevel = Math.min(revealLevel + 1, REVEAL_DURATIONS.length - 1);
-    updateUI();
-    showFeedback('Not quite – play again for a longer clip', false);
-    saveState({ revealLevel: revealLevel, won: false });
+  function lose() {
+    state.done = true; state.won = false;
+    setInputEnabled(false);
+    playBtn.disabled = false;
+    saveState();
+    showResult(false, state.song.name, state.song.artist);
   }
 
-  if (playBtn) playBtn.addEventListener('click', playClip);
-  if (submitBtn) submitBtn.addEventListener('click', handleGuess);
-  if (guessInput) guessInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleGuess(); });
+  // ── Audio ─────────────────────────────────────────────────────────────────────
+  function getStreamUrl() {
+    return API_BASE + '/api/songdle-stream'
+      + '?date='  + encodeURIComponent(state.today)
+      + '&genre=' + encodeURIComponent(state.genre);
+  }
 
-  function init() {
-    today = getToday();
-    var state = loadState();
-    if (state && state.won && state.song) {
-      showFeedback('You already solved today\'s puzzle! It was ' + (state.song.artist || '') + ' – ' + (state.song.name || ''), true);
+  function setPlayIcon(playing) {
+    state.playing = playing;
+    playBtn.innerHTML = playing
+      ? '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'
+      : '<svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  }
+
+  function playClip() {
+    if (!state.song) return;
+    if (state.playing && state.audio) {
+      state.audio.pause();
+      setPlayIcon(false);
       return;
     }
-    fetchDailySong()
+
+    var url = getStreamUrl();
+    var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
+    var stopTimer;
+
+    if (!state.audio) {
+      state.audio = new Audio(url);
+    }
+    state.audio.currentTime = 0;
+
+    // Loading indicator
+    playBtn.disabled = true;
+    playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
+
+    state.audio.play()
+      .then(function () {
+        playBtn.disabled = false;
+        setPlayIcon(true);
+        stopTimer = setTimeout(function () {
+          if (state.audio) state.audio.pause();
+          setPlayIcon(false);
+        }, dur * 1000);
+      })
+      .catch(function () {
+        playBtn.disabled = false;
+        setPlayIcon(false);
+        setStatus('Could not play audio. Try again.', true);
+      });
+
+    state.audio.onended = function () {
+      clearTimeout(stopTimer);
+      setPlayIcon(false);
+    };
+  }
+
+  // ── Genre switching ───────────────────────────────────────────────────────────
+  function switchGenre(genre) {
+    if (genre === state.genre) return;
+    saveState();
+    if (state.audio) { state.audio.pause(); state.audio = null; }
+    setPlayIcon(false);
+    playBtn.disabled = true;
+    setInputEnabled(false);
+    resultBanner.hidden = true;
+    state.genre = genre;
+    renderTabs();
+
+    var saved = loadSavedState(genre);
+    state.level   = saved ? (saved.level   || 0) : 0;
+    state.guesses = saved ? (saved.guesses || []) : [];
+    state.done    = saved ? (saved.done    || false) : false;
+    state.won     = saved ? (saved.won     || false) : false;
+    state.song    = null;
+
+    renderSlots();
+    renderTimeline();
+    setStatus('Loading...');
+    fetchDailySong();
+  }
+
+  // ── Data fetching ─────────────────────────────────────────────────────────────
+  function fetchSongs() {
+    return fetch(API_BASE + '/api/songdle-songs')
+      .then(function (r) { return r.json(); })
+      .then(function (data) { state.songs = Array.isArray(data) ? data : []; })
+      .catch(function () { state.songs = []; });
+  }
+
+  function fetchDailySong() {
+    var url = API_BASE + '/api/soundcloud-daily'
+      + '?date='  + encodeURIComponent(state.today)
+      + '&genre=' + encodeURIComponent(state.genre);
+
+    return fetch(url)
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
       .then(function (data) {
-        song = data && data.song;
-        if (!song || !song.preview_url) {
-          showFeedback('No preview available for today\'s song.', false);
-          return;
+        if (!data || !data.song) throw new Error('No song data');
+        state.song = data.song;
+        playBtn.disabled = false;
+
+        if (state.done) {
+          showResult(state.won, state.song.name, state.song.artist);
+          setInputEnabled(false);
+        } else {
+          setInputEnabled(true);
         }
-        if (state && !state.won && state.revealLevel != null) revealLevel = state.revealLevel;
-        updateUI();
+        setStatus('');
       })
       .catch(function (err) {
-        showFeedback(err && err.message ? err.message : 'Could not load song.', false);
+        setStatus('Could not load today\'s song. ' + (err && err.message ? err.message : ''), true);
       });
   }
 
-  init();
+  // ── Event listeners ───────────────────────────────────────────────────────────
+  playBtn.addEventListener('click', playClip);
+  skipBtn.addEventListener('click', skipGuess);
+
+  genreTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { switchGenre(tab.dataset.genre); });
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────────────────
+  state.today = getToday();
+  state.genre = 'all';
+
+  var saved = loadSavedState('all');
+  state.level   = saved ? (saved.level   || 0) : 0;
+  state.guesses = saved ? (saved.guesses || []) : [];
+  state.done    = saved ? (saved.done    || false) : false;
+  state.won     = saved ? (saved.won     || false) : false;
+
+  renderSlots();
+  renderTimeline();
+  renderTabs();
+  setStatus('Loading...');
+
+  fetchSongs().then(function () { return fetchDailySong(); });
+
 })();
