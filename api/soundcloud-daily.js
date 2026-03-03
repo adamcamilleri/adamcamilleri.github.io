@@ -124,7 +124,8 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const data = await getDailyTrackData({ date: req.query.date, playlistId: req.query.playlist });
+    const q = req.query || {};
+    const data = await getDailyTrackData({ date: q.date, playlistId: q.playlist });
     if (!data) {
       return res.status(404).json({
         error: 'No songs. Add SOUNDCLOUD_PLAYLIST_ID or populate songs.json (see README)',

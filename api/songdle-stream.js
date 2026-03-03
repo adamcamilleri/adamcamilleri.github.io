@@ -12,7 +12,14 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end();
 
   try {
-    const dateStr = (req.query && req.query.date) || new Date().toISOString().slice(0, 10);
+    let dateStr = (req.query && req.query.date) || null;
+    if (!dateStr && req.url) {
+      try {
+        const u = new URL(req.url, 'http://localhost');
+        dateStr = u.searchParams.get('date');
+      } catch (e) {}
+    }
+    dateStr = dateStr || new Date().toISOString().slice(0, 10);
     const data = await getDailyTrackData({ date: dateStr });
     if (!data || !data.daily || !data.daily.preview_url) {
       res.status(404).end();
