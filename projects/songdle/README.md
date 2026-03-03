@@ -32,7 +32,7 @@ If you want to use a SoundCloud playlist, set `SOUNDCLOUD_PLAYLIST_ID` in Vercel
 
 ### 4. Fallback: static songs.json
 
-If no playlist is configured, the API reads `projects/songless/songs.json`. Add entries like:
+If no playlist is configured, the API reads `projects/songdle/songs.json`. Add entries like:
 
 ```json
 [
@@ -41,7 +41,7 @@ If no playlist is configured, the API reads `projects/songless/songs.json`. Add 
 ]
 ```
 
-You can export tracks from a playlist once and save them to this file, or maintain the list manually.
+You can export tracks from a playlist once and save them to this file, or maintain the list manually. Put the file at `projects/songdle/songs.json`.
 
 ## Run locally
 
@@ -54,7 +54,7 @@ $env:SOUNDCLOUD_PLAYLIST_ID = "optional_playlist_id"
 npx vercel dev
 ```
 
-Open http://localhost:3000/projects/songless/
+Open http://localhost:3000/projects/songdle/
 
 ## GitHub Pages
 

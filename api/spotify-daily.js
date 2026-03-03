@@ -2,7 +2,7 @@
  * Songdle API – returns today's song for the game.
  *
  * Uses static songs.json (recommended) – export your playlist once with:
- *   cd projects/songless && node export-playlist.js
+ *   cd projects/songdle && node export-playlist.js
  *
  * Client Credentials cannot access playlists (user resource). The export script
  * uses OAuth so you log in once and save the tracks locally.
@@ -11,7 +11,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songless', 'songs.json');
+const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songdle', 'songs.json');
 
 function getDailyIndex(total, dateStr) {
   const hash = dateStr.split('').reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0);
@@ -38,7 +38,7 @@ module.exports = async function handler(req, res) {
     const tracks = loadSongsFromFile().filter((t) => t.preview_url);
     if (tracks.length === 0) {
       return res.status(404).json({
-        error: 'No songs. Run: cd projects/songless && node export-playlist.js (see README)',
+        error: 'No songs. Run: cd projects/songdle && node export-playlist.js (see README)',
       });
     }
 

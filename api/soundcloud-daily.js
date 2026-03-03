@@ -3,13 +3,13 @@
  * Returns today's song with stream URL for the game.
  * Uses Client Credentials. Requires SOUNDCLOUD_CLIENT_ID, SOUNDCLOUD_CLIENT_SECRET.
  * Optional: SOUNDCLOUD_PLAYLIST_ID or ?playlist=xxx – can be a numeric ID or a full playlist URL.
- * Fallback: reads from projects/songless/songs.json (static list with stream URLs).
+ * Fallback: reads from projects/songdle/songs.json (static list with stream URLs).
  */
 
 const path = require('path');
 const fs = require('fs');
 
-const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songless', 'songs.json');
+const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songdle', 'songs.json');
 
 function isNumericId(value) {
   return /^\d+$/.test(String(value).trim());
