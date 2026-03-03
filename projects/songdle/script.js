@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CLIP_DURATIONS = [1, 2, 4, 8, 16, 30]; // seconds per level
+  var CLIP_DURATIONS = [0.1, 0.5, 2, 4, 8, 16]; // seconds per level
   var MAX_GUESSES = 6;
   var API_BASE = window.SONGDLE_API || (location.hostname === 'localhost' ? 'http://localhost:3000' : '');
 
