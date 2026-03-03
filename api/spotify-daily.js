@@ -1,65 +1,31 @@
 /**
- * Spotify Daily – fetches playlist tracks and returns today's song for the game.
- * Uses Client Credentials flow (no user auth).
+ * Songdle API – returns today's song for the game.
  *
- * Env vars: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_PLAYLIST_ID
+ * Uses static songs.json (recommended) – export your playlist once with:
+ *   cd projects/songless && node export-playlist.js
+ *
+ * Client Credentials cannot access playlists (user resource). The export script
+ * uses OAuth so you log in once and save the tracks locally.
  */
 
-const PLAYLIST_ID = process.env.SPOTIFY_PLAYLIST_ID || '';
+const path = require('path');
+const fs = require('fs');
 
-async function getAccessToken() {
-  const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-  if (!clientId || !clientSecret) {
-    throw new Error('Missing SPOTIFY_CLIENT_ID or SPOTIFY_CLIENT_SECRET');
-  }
-  const res = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-    },
-    body: 'grant_type=client_credentials',
-  });
-  if (!res.ok) {
-    const txt = await res.text();
-    throw new Error('Spotify token failed: ' + txt);
-  }
-  const data = await res.json();
-  return data.access_token;
-}
-
-async function getPlaylistTracks(token, playlistId) {
-  const tracks = [];
-  let url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=100`;
-  while (url) {
-    const res = await fetch(url, {
-      headers: { Authorization: 'Bearer ' + token },
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error('Playlist fetch failed: ' + txt);
-    }
-    const data = await res.json();
-    for (const item of data.items || []) {
-      const t = item.track;
-      if (!t || t.type !== 'track') continue;
-      if (!t.preview_url) continue; // Skip tracks without preview
-      tracks.push({
-        id: t.id,
-        name: t.name,
-        artist: (t.artists || []).map((a) => a.name).join(', '),
-        preview_url: t.preview_url,
-      });
-    }
-    url = data.next || null;
-  }
-  return tracks;
-}
+const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songless', 'songs.json');
 
 function getDailyIndex(total, dateStr) {
   const hash = dateStr.split('').reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0);
   return hash % total;
+}
+
+function loadSongsFromFile() {
+  try {
+    const raw = fs.readFileSync(SONGS_PATH, 'utf8');
+    const tracks = JSON.parse(raw);
+    return Array.isArray(tracks) ? tracks : [];
+  } catch {
+    return [];
+  }
 }
 
 module.exports = async function handler(req, res) {
@@ -69,18 +35,10 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const playlistId = PLAYLIST_ID || req.query.playlist;
-    if (!playlistId) {
-      return res.status(400).json({
-        error: 'Missing playlist. Set SPOTIFY_PLAYLIST_ID or use ?playlist=xxx',
-      });
-    }
-
-    const token = await getAccessToken();
-    const tracks = await getPlaylistTracks(token, playlistId);
+    const tracks = loadSongsFromFile().filter((t) => t.preview_url);
     if (tracks.length === 0) {
       return res.status(404).json({
-        error: 'No tracks with previews in this playlist',
+        error: 'No songs. Run: cd projects/songless && node export-playlist.js (see README)',
       });
     }
 
@@ -99,9 +57,9 @@ module.exports = async function handler(req, res) {
       total: tracks.length,
     });
   } catch (err) {
-    console.error('Spotify daily error:', err);
+    console.error('Songdle API error:', err);
     return res.status(500).json({
-      error: err.message || 'Spotify API error',
+      error: err.message || 'API error',
     });
   }
 };

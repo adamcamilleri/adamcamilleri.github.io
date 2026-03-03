@@ -2,50 +2,64 @@
 
 A daily game where you guess the song from short audio clips. Wrong guess = longer clip.
 
-Uses Spotify's 30-second preview API. Same song for everyone each day.
+Same song for everyone each day. Uses SoundCloud stream URLs from a playlist or static `songs.json`.
 
 ## Setup
 
-### 1. Spotify App (you did this)
+### 1. Create a SoundCloud app
 
-You have Client ID and Client Secret.
+1. Go to [soundcloud.com/you/apps](https://soundcloud.com/you/apps)
+2. Create an app and note your **Client ID** and **Client Secret**
 
-### 2. Create a Spotify playlist
+### 2. Configure Vercel environment variables
 
-1. In Spotify, create a playlist
-2. Add songs you want in the game (only tracks with previews will be used)
-3. Copy the playlist ID from the share link: `spotify.com/playlist/`**`xxx123`** ← that part
-
-### 3. Environment variables
-
-In your **Vercel** project (or `.env.local` for local):
+In Vercel → Project → Settings → Environment Variables, add:
 
 | Variable | Value |
 |----------|-------|
-| `SPOTIFY_CLIENT_ID` | Your Client ID |
-| `SPOTIFY_CLIENT_SECRET` | Your Client Secret |
-| `SPOTIFY_PLAYLIST_ID` | Your playlist ID |
+| `SOUNDCLOUD_CLIENT_ID` | Your Client ID |
+| `SOUNDCLOUD_CLIENT_SECRET` | Your Client Secret |
+| `SOUNDCLOUD_PLAYLIST_ID` | (Optional) Playlist **ID** (numeric) or full **playlist URL** – the game will use its tracks as the daily pool |
 
-Or pass playlist in the URL: `/api/spotify-daily?playlist=YOUR_PLAYLIST_ID`
+**Important:** Never commit these to git. Use Vercel’s env vars only.
 
-### 4. Run locally
+### 3. Set your playlist (optional)
+
+If you want to use a SoundCloud playlist, set `SOUNDCLOUD_PLAYLIST_ID` in Vercel to either:
+
+- The **full playlist URL**, e.g. `https://soundcloud.com/user-241515664/sets/hip-hop-r-b-hits-2013`  
+- Or the **numeric playlist ID** (if you already have it)
+
+### 4. Fallback: static songs.json
+
+If no playlist is configured, the API reads `projects/songless/songs.json`. Add entries like:
+
+```json
+[
+  { "id": "1", "name": "Track Title", "artist": "Artist Name", "preview_url": "https://..." },
+  ...
+]
+```
+
+You can export tracks from a playlist once and save them to this file, or maintain the list manually.
+
+## Run locally
 
 ```bash
-# From repo root
+# Set env vars (PowerShell)
+$env:SOUNDCLOUD_CLIENT_ID = "your_client_id"
+$env:SOUNDCLOUD_CLIENT_SECRET = "your_client_secret"
+$env:SOUNDCLOUD_PLAYLIST_ID = "optional_playlist_id"
+
 npx vercel dev
 ```
 
 Open http://localhost:3000/projects/songless/
 
-### 5. Deploy
+## GitHub Pages
 
-Deploy to Vercel (same repo). The API at `/api/spotify-daily` will work on your Vercel domain.
-
-**If the game is on GitHub Pages** (adamcamilleri.github.io), add this before the script in `index.html`:
+If the game is on GitHub Pages, set the API URL in `index.html`:
 
 ```html
-<script>window.SONGDLE_API = 'https://your-vercel-project.vercel.app';</script>
-<script src="script.js"></script>
+<script>window.SONGDLE_API = 'https://adamcamilleri-github-io.vercel.app';</script>
 ```
-
-Replace with your actual Vercel URL.

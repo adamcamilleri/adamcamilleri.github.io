@@ -14,6 +14,7 @@ const getDesignsHandler = require('./api/get-designs.js');
 const getDesignHandler = require('./api/get-design.js');
 const healthHandler = require('./api/health.js');
 const oauthHandler = require('./api/oauth.js');
+const soundcloudDailyHandler = require('./api/soundcloud-daily.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.post('/api/save-design', (req, res) => saveDesignHandler(req, res));
 app.get('/api/get-designs', (req, res) => getDesignsHandler(req, res));
 app.get('/api/get-design', (req, res) => getDesignHandler(req, res));
 app.get('/api/health', (req, res) => healthHandler(req, res));
+app.get('/api/soundcloud-daily', (req, res) => soundcloudDailyHandler(req, res));
 app.get('/api/auth/authorize', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=authorize'; oauthHandler(req, res); });
 app.get('/callback', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=callback'; oauthHandler(req, res); });
 app.get('/api/auth/status', (req, res) => { req.url = (req.url || '') + (req.url && req.url.includes('?') ? '&' : '?') + 'action=status'; oauthHandler(req, res); });

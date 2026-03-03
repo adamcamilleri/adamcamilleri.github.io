@@ -3,6 +3,7 @@ node_modules/
 
 # Environment
 .env
+projects/songless/.env
 
 # Cypress
 cypress/videos/
