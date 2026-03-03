@@ -140,8 +140,7 @@
     today = getToday();
     const state = loadState();
     if (state && state.won && state.song) {
-      feedback.textContent = `You already solved today's puzzle! It was ${state.song.artist} – ${state.song.name}`;
-      feedback.className = 'feedback correct';
+      showFeedback(`You already solved today's puzzle! It was ${state.song.artist} – ${state.song.name}`, true);
       return;
     }
 
@@ -158,10 +157,14 @@
       }
 
       updateUI();
-      submitBtn.addEventListener('click', handleGuess);
-      guessInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleGuess();
-      });
+      if (submitBtn) {
+        submitBtn.addEventListener('click', handleGuess);
+      }
+      if (guessInput) {
+        guessInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') handleGuess();
+        });
+      }
     } catch (err) {
       showFeedback(err.message || 'Could not load song.', false);
     }
