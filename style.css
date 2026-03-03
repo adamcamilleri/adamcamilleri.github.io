@@ -1743,9 +1743,10 @@ header.scrolled {
     background: #1976D2;
 }
 
-/* TaskMaster and Handoff - match other project card borders */
+/* TaskMaster, Handoff, Songdle - match other project card borders */
 .projects-grid .project-card[data-category="web"]:nth-of-type(4),
-.projects-grid .project-card[data-category="web"]:nth-of-type(5) {
+.projects-grid .project-card[data-category="web"]:nth-of-type(5),
+.projects-grid .project-card[data-category="web"]:nth-of-type(6) {
     background: #ffffff;
     border: 1px solid #e0e0e0;
 }
@@ -1813,6 +1814,11 @@ header.scrolled {
 
 /* Handoff */
 .handoff-title {
+    color: #2196F3;
+}
+
+/* Songdle */
+.songdle-title {
     color: #2196F3;
 }
 

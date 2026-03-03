@@ -1,7 +1,7 @@
 (function () {
   const REVEAL_DURATIONS = [0.1, 0.5, 2, 4, 8, 16, 30]; // seconds
   // Same-origin when on Vercel. For GitHub Pages, set window.SONGLESS_API before script loads, e.g. 'https://your-project.vercel.app'
-  const API_BASE = window.SONGLESS_API || (window.location.hostname === 'localhost' ? 'http://localhost:3000' : '');
+  const API_BASE = window.SONGDLE_API || (window.location.hostname === 'localhost' ? 'http://localhost:3000' : '');
 
   const playBtn = document.getElementById('playBtn');
   const guessInput = document.getElementById('guessInput');
@@ -19,7 +19,7 @@
   }
 
   function loadState() {
-    const key = 'songless_' + today;
+    const key = 'songdle_' + today;
     const raw = localStorage.getItem(key);
     if (!raw) return null;
     try {
@@ -30,7 +30,7 @@
   }
 
   function saveState(state) {
-    const key = 'songless_' + today;
+    const key = 'songdle_' + today;
     localStorage.setItem(key, JSON.stringify(state));
   }
 

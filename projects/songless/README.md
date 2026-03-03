@@ -1,4 +1,4 @@
-# Songless
+# Songdle
 
 A daily game where you guess the song from short audio clips. Wrong guess = longer clip.
 
@@ -44,7 +44,7 @@ Deploy to Vercel (same repo). The API at `/api/spotify-daily` will work on your 
 **If the game is on GitHub Pages** (adamcamilleri.github.io), add this before the script in `index.html`:
 
 ```html
-<script>window.SONGLESS_API = 'https://your-vercel-project.vercel.app';</script>
+<script>window.SONGDLE_API = 'https://your-vercel-project.vercel.app';</script>
 <script src="script.js"></script>
 ```
 
