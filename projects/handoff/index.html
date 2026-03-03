@@ -1,75 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handoff – AI Website Design</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handoff – Build your website with AI</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="handoff-app">
-        <header class="handoff-header">
-            <a href="../../index.html#projects" class="back-link"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
-            <h1>Handoff</h1>
-            <p class="tagline">Describe your ideal website below and watch it come to life.</p>
-        </header>
+  <div id="app">
 
-        <div class="two-panel">
-            <aside class="panel chat-panel">
-                <div class="panel-header">
-                    <h2><i class="fas fa-comments"></i> Chat with your personal website editor</h2>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message assistant">
-                        <p>Describe the site you want: layout, colors, sections, copy. I’ll update the preview on the right as we go.</p>
-                    </div>
-                </div>
-                <div class="chat-input-wrap">
-                    <textarea id="chatInput" placeholder="e.g. Make a one-page portfolio with a dark header, hero with my name, and a contact form..." rows="2"></textarea>
-                    <button type="button" id="sendBtn" class="send-btn" title="Send">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </aside>
+    <!-- Header -->
+    <header id="appHeader">
+      <div class="header-brand">
+        <span class="logo">Handoff</span>
+        <span class="logo-tag">beta</span>
+      </div>
+      <div class="header-actions">
+        <span class="usage-counter" id="usageCounter"></span>
+        <button class="btn-upgrade" id="upgradeBtn">Get Pro</button>
+      </div>
+    </header>
 
-            <section class="panel preview-panel">
-                <div class="panel-header panel-header-actions">
-                    <h2><i class="fas fa-desktop"></i> Live preview</h2>
-                    <div class="header-actions">
-                        <a href="#" id="connectVercelBtn" class="action-btn connect-vercel-btn" title="Deploy to your Vercel account">
-                            <i class="fas fa-link"></i> <span id="connectVercelLabel">Connect Vercel</span>
-                        </a>
-                        <button type="button" id="editModeBtn" class="action-btn edit-mode-btn" title="Click sections to edit them">
-                            <i class="fas fa-mouse-pointer"></i> Edit mode
-                        </button>
-                        <button type="button" id="saveBtn" class="action-btn" title="Save design to database">
-                            <i class="fas fa-save"></i> Save
-                        </button>
-                        <button type="button" id="deployBtn" class="action-btn deploy-btn" title="Deploy to live URL">
-                            <i class="fas fa-rocket"></i> Deploy
-                        </button>
-                    </div>
-                </div>
-                <div class="edit-selection-bar hidden" id="editSelectionBar">
-                    <span class="edit-label">Change selected:</span>
-                    <input type="text" id="editSelectionInput" placeholder="e.g. make this blue, add a cookie image here..." />
-                    <button type="button" id="editApplyBtn" class="action-btn deploy-btn">Apply</button>
-                </div>
-                <div class="iframe-wrap">
-                    <iframe id="previewFrame" title="Website preview" srcdoc=""></iframe>
-                </div>
-                <div class="deploy-result hidden" id="deployResult">
-                    <p class="deploy-success"><i class="fas fa-check-circle"></i> Deployed! Your site is live:</p>
-                    <a id="deployUrl" href="#" target="_blank" rel="noopener" class="deploy-url"></a>
-                    <button type="button" id="copyUrlBtn" class="copy-btn"><i class="fas fa-copy"></i> Copy</button>
-                </div>
-            </section>
+    <!-- Workspace -->
+    <div class="workspace">
+
+      <!-- Chat Panel -->
+      <aside class="chat-panel">
+        <div class="messages" id="messages">
+          <div class="welcome" id="welcomeState">
+            <h2 class="welcome-title">What kind of website do you need?</h2>
+            <p class="welcome-sub">Describe it in plain English — or pick a starting point below.</p>
+            <div class="starters" id="starters"></div>
+          </div>
         </div>
+        <div class="chat-footer">
+          <div class="input-wrap">
+            <textarea
+              id="chatInput"
+              placeholder="Describe your website in detail..."
+              rows="1"
+            ></textarea>
+            <button class="send-btn" id="sendBtn" aria-label="Send">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+              </svg>
+            </button>
+          </div>
+          <p class="chat-hint">Enter to send &nbsp;·&nbsp; Shift+Enter for new line</p>
+        </div>
+      </aside>
+
+      <!-- Preview Panel -->
+      <section class="preview-panel">
+        <div class="preview-toolbar">
+          <div class="toolbar-info">
+            <span class="preview-label" id="previewLabel">Live Preview</span>
+          </div>
+          <div class="toolbar-actions">
+            <button class="toolbar-btn" id="editModeBtn" title="Click elements to edit them">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+              </svg>
+              Edit
+            </button>
+            <button class="toolbar-btn download-btn" id="downloadBtn" disabled>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+              Download
+            </button>
+            <button class="toolbar-btn deploy-btn" id="deployBtn" disabled>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+              Deploy
+            </button>
+          </div>
+        </div>
+
+        <!-- Edit bar (shown when element is selected in edit mode) -->
+        <div class="edit-bar hidden" id="editBar">
+          <input
+            type="text"
+            id="editInput"
+            placeholder="What should I change about this? e.g. Make this button red, enlarge this heading..."
+          >
+          <button class="edit-apply-btn" id="editApplyBtn">Apply</button>
+          <button class="edit-cancel-btn" id="editCancelBtn" aria-label="Cancel">&#215;</button>
+        </div>
+
+        <div class="frame-wrap">
+          <iframe id="previewFrame" title="Website preview"></iframe>
+        </div>
+      </section>
+
     </div>
-    <script src="script.js"></script>
+  </div>
+
+  <!-- Upgrade Modal -->
+  <div class="modal-overlay hidden" id="upgradeModal">
+    <div class="modal upgrade-modal">
+      <button class="modal-close-btn" id="upgradeClose" aria-label="Close">&#215;</button>
+      <div class="upgrade-icon">&#10022;</div>
+      <h2>Unlock Handoff Pro</h2>
+      <p>You've used your free designs for today.</p>
+      <ul class="upgrade-features">
+        <li><span class="feature-check">&#10003;</span> Unlimited designs per day</li>
+        <li><span class="feature-check">&#10003;</span> Priority AI — faster &amp; higher quality</li>
+        <li><span class="feature-check">&#10003;</span> Save and revisit your designs</li>
+        <li><span class="feature-check">&#10003;</span> Custom subdomain for deployed sites</li>
+      </ul>
+      <button class="btn-upgrade-cta" id="upgradeCta">Get Pro — Coming Soon</button>
+      <p class="upgrade-note">Pro is launching soon. <a href="mailto:adam@adamcamilleri.com">Get notified early &rarr;</a></p>
+    </div>
+  </div>
+
+  <!-- Deploy Modal -->
+  <div class="modal-overlay hidden" id="deployModal">
+    <div class="modal deploy-modal">
+      <button class="modal-close-btn" id="deployModalClose" aria-label="Close">&#215;</button>
+      <h2>Deploy Your Site</h2>
+      <p class="deploy-modal-sub">Your site will be live in seconds at a free URL. No sign-up required.</p>
+
+      <button class="deploy-option-btn primary" id="deployInstantBtn">
+        <span class="deploy-option-title">Deploy instantly</span>
+        <span class="deploy-option-desc">Live at handoff&#8209;xxxxx.vercel.app &mdash; free, no account needed</span>
+      </button>
+
+      <div class="deploy-divider">or</div>
+
+      <button class="deploy-option-btn" id="deployOwnVercelBtn">
+        <span class="deploy-option-title">Connect your Vercel account</span>
+        <span class="deploy-option-desc">Deploy to your own account so you own the URL</span>
+      </button>
+
+      <div class="deploy-status hidden" id="deployStatus">
+        <div class="deploy-spinner"></div>
+        <span id="deployStatusText">Deploying your site...</span>
+      </div>
+
+      <div class="deploy-result hidden" id="deployResult">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <div class="deploy-result-info">
+          <p>Your site is live!</p>
+          <a id="deployResultUrl" href="#" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+        <button class="copy-btn" id="deployResultCopy">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>window.HANDOFF_API = 'https://adamcamilleri-github-io.vercel.app';</script>
+  <script src="script.js"></script>
 </body>
 </html>

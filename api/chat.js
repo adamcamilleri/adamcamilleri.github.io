@@ -27,7 +27,78 @@ function corsHeaders(req) {
     };
 }
 
-const DEFAULT_SYSTEM = 'You are a professional web design assistant. Output complete single-page HTML using Tailwind CSS classes. ALWAYS include this in the head: <script src="https://cdn.tailwindcss.com"></script>. Use Tailwind utility classes for layout, colors, spacing, typography. Output only the HTML, no markdown fences or explanation.';
+const DEFAULT_SYSTEM = `You are a world-class web designer who builds beautiful, conversion-focused websites for small businesses. You write complete, polished single-page HTML using Tailwind CSS.
+
+TECHNICAL REQUIREMENTS:
+- ALWAYS include in <head>: <script src="https://cdn.tailwindcss.com"><\/script>
+- Return a SUMMARY line first (BEFORE the HTML), then the full HTML. Format: SUMMARY: [one sentence describing what you built or changed]
+- Output only: SUMMARY line + HTML. No markdown fences. No extra explanation.
+- Self-contained — no external JS dependencies
+- Forms: use action="https://formsubmit.co/[email]" method="POST" if email provided, otherwise placeholder action="#"
+- Images: NEVER use real image URLs. Use styled placeholder divs (see pattern below)
+
+DESIGN SYSTEM — follow these rules strictly:
+
+Typography:
+- Hero headline: text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-none
+- Section titles: text-3xl md:text-4xl font-bold tracking-tight
+- Card titles: text-xl font-semibold
+- Body: text-base md:text-lg text-gray-600 leading-relaxed
+- Overline labels: text-sm font-semibold tracking-widest uppercase text-[accent-color]
+
+Layout:
+- Content container: max-w-6xl mx-auto px-6 md:px-8
+- Section spacing: py-16 md:py-24
+- Hero: min-h-screen flex flex-col justify-center (or min-h-[85vh])
+- Always fully mobile-responsive — use sm:, md:, lg: prefixes throughout
+
+Color palette — choose ONE that fits the business type. Apply it consistently:
+- Warm/Food/Hospitality: white/stone-50 bg, gray-900 text, orange-500 or amber-600 accent
+- Modern/Tech/SaaS: slate-900 bg, white text, violet-500 or indigo-500 accent
+- Luxury/High-end: black bg, white text, yellow-400 or rose-300 accent
+- Fresh/Health/Wellness: white bg, gray-900 text, emerald-500 or teal-500 accent
+- Bold/Creative: gray-950 bg, white text, fuchsia-500 or cyan-400 accent
+
+Navigation (include on EVERY page):
+<nav class="fixed top-0 w-full z-50 bg-[base-color]/90 backdrop-blur-md border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    [Logo — bold wordmark]
+    [Desktop nav links — 4-5 items, hidden on mobile: hidden md:flex]
+    [CTA button — accent color, rounded-lg px-5 py-2.5 text-sm font-semibold]
+    [Mobile hamburger or simple stacked links]
+  </div>
+</nav>
+<div class="h-16"></div> <!-- spacer for fixed nav -->
+
+Standard page structure:
+1. Fixed Nav
+2. Hero — punchy headline + subtext + 2 CTAs + large placeholder for key image
+3. Social proof bar — "X years in business · X+ clients · X★ average rating" (use plausible numbers)
+4. Services/Features — 3-column card grid
+5. About section — text + image placeholder, visually interesting layout
+6. Testimonials — 3 quote cards in a grid
+7. CTA banner — solid accent-color background, centered headline + button
+8. Contact/Footer — form (if needed) + address/hours + copyright
+
+Image placeholders (ALWAYS use this pattern, never <img> with real URLs):
+<div class="bg-gray-100 rounded-2xl flex flex-col items-center justify-center text-gray-400 gap-2" style="min-height:280px">
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v13.5a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+  <span class="text-sm font-medium">[Description of image]</span>
+</div>
+
+COPY RULES:
+- Write REAL, specific, compelling copy. NOT Lorem ipsum.
+- Hero headline must be specific to the business: "Hand-Crafted Italian in the Heart of [City]" not "Welcome to Our Restaurant"
+- Every section needs a punchy title + 1-2 supporting sentences
+- Use realistic business details (address, hours, phone) as placeholders
+
+OUT OF SCOPE — respond with a friendly short message only (no HTML):
+- Online payments, checkout, ecommerce purchase flows
+- User accounts/login
+- Real-time features
+
+When MODIFYING an existing site: change ONLY what was requested. Preserve all other sections exactly.`;
+
 
 module.exports = async function handler(req, res) {
     Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
@@ -89,7 +160,9 @@ module.exports = async function handler(req, res) {
             const text = data.choices?.[0]?.message?.content ?? '';
             const { extractHtmlFromResponse } = require('./_lib/html-response.js');
             const html = extractHtmlFromResponse(text);
-            return res.status(200).json(html ? { reply: text, html } : { reply: text });
+            const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
+            const summary = summaryMatch ? summaryMatch[1].trim() : null;
+            return res.status(200).json(html ? { reply: text, html, summary } : { reply: text });
         } catch (err) {
             return res.status(500).json({ error: 'Server error', details: err.message });
         }
@@ -106,18 +179,14 @@ module.exports = async function handler(req, res) {
         return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
-    let systemContent = system || DEFAULT_SYSTEM;
-    systemContent += `\n\nDESIGN (use Tailwind, make it polished):\n- Max-width container: max-w-6xl mx-auto for main content, generous padding (py-16, px-6)\n- Typography: text-4xl to text-6xl for heroes, text-xl to text-2xl for section titles, leading-relaxed for body\n- Spacing: py-12 to py-24 between sections, avoid cramped layouts\n- Colors: use bg-slate-50, bg-white, or dark themes (bg-slate-900, text-white). Accent with text-indigo-600, bg-indigo-600, etc.\n- Buttons: rounded-lg px-6 py-3 font-medium, hover states\n- Cards/sections: rounded-xl, shadow-lg, or border for depth\n\nSCOPE:\n- Contact forms: When the user asks for a contact form, ask "What email should the contact form send submissions to?" Once they provide an email, use action="https://formsubmit.co/" + their email, method="POST", and include a _subject hidden field.\n- Out of scope: If the user asks for online ordering, checkout, payment processing, ecommerce, buy/donate buttons, or similar: respond with a short, friendly message like "Sorry, we don't support that yet. I can help you design the rest of your site though!" Do not output HTML for these requests.\n\nNAVIGATION: Single-page only. Use href="#sectionid" with matching id="sectionid". Never use page.html or relative file paths.\n\nIMAGES: Do NOT add real image URLs. Instead add placeholder boxes where images would go. Use: <div class="flex items-center justify-center bg-slate-200 text-slate-500 rounded-lg min-h-[200px]" style="aspect-ratio:16/9">Add image: DESCRIPTION</div> or similar. The user will add their own images later. Never use img src with .jpg, .png, pollinations.ai, or any image URL.`;
-    const extras = [];
+    // Always use the full DEFAULT_SYSTEM; ignore any client-provided system override
+    let systemContent = DEFAULT_SYSTEM;
     if (formEmail && typeof formEmail === 'string' && formEmail.trim()) {
         const email = formEmail.trim();
-        extras.push(`The user provided their email for the contact form: ${email}. Use action="https://formsubmit.co/${encodeURIComponent(email)}" for the form.`);
-    }
-    if (extras.length) {
-        systemContent += '\n\n' + extras.join('\n');
+        systemContent += `\n\nThe user provided their email for the contact form: ${email}. Use action="https://formsubmit.co/${encodeURIComponent(email)}" method="POST" on the form.`;
     }
     if (currentHtml && typeof currentHtml === 'string' && currentHtml.trim().length > 10) {
-        systemContent += `\n\nCURRENT PAGE HTML (modify this, do not replace entirely unless the user asks for a completely new design):\n\`\`\`html\n${currentHtml.slice(0, 12000)}\n\`\`\``;
+        systemContent += `\n\nCURRENT PAGE HTML (modify this — do not replace entirely unless the user explicitly asks for a fresh design):\n\`\`\`html\n${currentHtml.slice(0, 14000)}\n\`\`\``;
     }
 
     const groqMessages = [{ role: 'system', content: systemContent }];
@@ -155,8 +224,10 @@ module.exports = async function handler(req, res) {
 
         const { extractHtmlFromResponse } = require('./_lib/html-response.js');
         const html = extractHtmlFromResponse(text);
+        const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
+        const summary = summaryMatch ? summaryMatch[1].trim() : null;
 
-        return res.status(200).json(html ? { reply: text, html } : { reply: text });
+        return res.status(200).json(html ? { reply: text, html, summary } : { reply: text });
     } catch (err) {
         return res.status(500).json({ error: 'Server error', details: err.message });
     }

@@ -1,417 +1,515 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
-        ? '/api'
-        : 'https://adamcamilleri-github-io.vercel.app/api';
+  var API_BASE = window.HANDOFF_API || (
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000'
+      : ''
+  );
 
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const previewFrame = document.getElementById('previewFrame');
-    const deployBtn = document.getElementById('deployBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const editModeBtn = document.getElementById('editModeBtn');
-    const editSelectionBar = document.getElementById('editSelectionBar');
-    const editSelectionInput = document.getElementById('editSelectionInput');
-    const editApplyBtn = document.getElementById('editApplyBtn');
-    const deployResult = document.getElementById('deployResult');
-    const deployUrlEl = document.getElementById('deployUrl');
-    const copyUrlBtn = document.getElementById('copyUrlBtn');
-    const connectVercelBtn = document.getElementById('connectVercelBtn');
-    const connectVercelLabel = document.getElementById('connectVercelLabel');
+  var FREE_LIMIT = 3;
 
-    const DEFAULT_PREVIEW_HTML = `
-<!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Preview</title></head>
-<body style="margin:0;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f0f14;color:#71717a;">
-  <p>Your site preview will appear here as you chat.</p>
-</body></html>
-    `.trim();
+  // ── DOM Refs ──────────────────────────────────────────────────────────────────
+  var messagesEl      = document.getElementById('messages');
+  var welcomeState    = document.getElementById('welcomeState');
+  var startersEl      = document.getElementById('starters');
+  var chatInput       = document.getElementById('chatInput');
+  var sendBtn         = document.getElementById('sendBtn');
+  var previewFrame    = document.getElementById('previewFrame');
+  var previewLabel    = document.getElementById('previewLabel');
+  var downloadBtn     = document.getElementById('downloadBtn');
+  var deployBtn       = document.getElementById('deployBtn');
+  var editModeBtn     = document.getElementById('editModeBtn');
+  var editBar         = document.getElementById('editBar');
+  var editInput       = document.getElementById('editInput');
+  var editApplyBtn    = document.getElementById('editApplyBtn');
+  var editCancelBtn   = document.getElementById('editCancelBtn');
+  var usageCounter    = document.getElementById('usageCounter');
+  var upgradeModal    = document.getElementById('upgradeModal');
+  var upgradeBtn      = document.getElementById('upgradeBtn');
+  var upgradeClose    = document.getElementById('upgradeClose');
+  var upgradeCta      = document.getElementById('upgradeCta');
+  var deployModal     = document.getElementById('deployModal');
+  var deployModalClose    = document.getElementById('deployModalClose');
+  var deployInstantBtn    = document.getElementById('deployInstantBtn');
+  var deployOwnVercelBtn  = document.getElementById('deployOwnVercelBtn');
+  var deployStatus        = document.getElementById('deployStatus');
+  var deployStatusText    = document.getElementById('deployStatusText');
+  var deployResult        = document.getElementById('deployResult');
+  var deployResultUrl     = document.getElementById('deployResultUrl');
+  var deployResultCopy    = document.getElementById('deployResultCopy');
 
-    var EDIT_MODE_SCRIPT = '(function(){var enabled=false;function clear(){document.querySelectorAll("[data-handoff-sel]").forEach(function(x){x.style.outline="";x.removeAttribute("data-handoff-sel");});}window.addEventListener("message",function(e){if(e.data&&e.data.type==="handoff-edit-mode"){enabled=e.data.enabled;clear();}});document.addEventListener("click",function(e){if(!enabled)return;e.preventDefault();e.stopPropagation();var el=e.target;while(el&&el.tagName&&["BODY","HTML"].indexOf(el.tagName)===-1){var r=el.getBoundingClientRect();if(r.width>20&&r.height>20)break;el=el.parentElement;}if(!el||el.tagName==="HTML")return;clear();el.style.outline="2px solid #6366f1";el.setAttribute("data-handoff-sel","1");window.parent.postMessage({type:"handoff-select",outerHTML:el.outerHTML},"*");},true);})();';
+  // ── State ─────────────────────────────────────────────────────────────────────
+  var state = {
+    previewHtml:  null,
+    history:      [],   // [{role, content}] conversation history
+    editModeOn:   false,
+    selectedHtml: null,
+    generating:   false,
+  };
 
-    // Set initial iframe content
-    previewFrame.srcdoc = DEFAULT_PREVIEW_HTML;
+  // ── Starter prompts ────────────────────────────────────────────────────────────
+  var STARTERS = [
+    {
+      icon: '🍕', label: 'Restaurant',
+      prompt: 'Build a website for my Italian restaurant. Include a stunning hero section, a menu highlights section with 6 dishes, an about us story, and contact details with a reservation form at the bottom.'
+    },
+    {
+      icon: '✂️', label: 'Barbershop',
+      prompt: 'Build a barbershop website with a dark masculine design. Include a bold hero, services and pricing, a team section with 3 barbers, a photo gallery, and a booking CTA.'
+    },
+    {
+      icon: '🎨', label: 'Portfolio',
+      prompt: 'Build a personal portfolio site for a UI/UX designer. Clean minimal design with a hero showing name and title, a featured projects grid (6 projects), a skills section, and a contact form.'
+    },
+    {
+      icon: '🚀', label: 'Startup',
+      prompt: 'Build a SaaS landing page for a productivity app. Include a hero with a bold headline and app mockup placeholder, 3 key features, how it works (3 steps), pricing with 3 tiers, and a footer.'
+    },
+    {
+      icon: '📸', label: 'Photographer',
+      prompt: 'Build an elegant portfolio website for a wedding photographer. Full-width hero, photo gallery in a grid layout, testimonials from 3 clients, photography packages, and a contact form.'
+    },
+    {
+      icon: '🏋️', label: 'Gym',
+      prompt: 'Build a gym website with a bold, energetic design. Include a strong hero, class schedule, personal trainers (3), membership pricing with 3 tiers, and a sign-up form.'
+    },
+    {
+      icon: '🛍️', label: 'Boutique',
+      prompt: 'Build a website for a small boutique clothing store. Warm minimal aesthetic. Include featured products (6 items with placeholder images), an about the brand section, and contact/location.'
+    },
+    {
+      icon: '🏠', label: 'Real Estate',
+      prompt: 'Build a professional real estate agent website. Include a hero, featured property listings (4 properties), about the agent, services offered, client testimonials, and a contact form.'
+    },
+  ];
 
-    // OAuth: handle return from Vercel callback and check status on load
-    (function checkOAuthParams() {
-        const params = new URLSearchParams(window.location.search);
-        const connected = params.get('vercel_connected');
-        const error = params.get('error');
-        if (connected === '1') {
-            appendMessage('assistant', 'Vercel connected. Deploys will go to your account.');
-            if (connectVercelLabel) connectVercelLabel.textContent = 'Vercel connected';
-            if (connectVercelBtn) connectVercelBtn.classList.add('connected');
-            window.history.replaceState({}, '', window.location.pathname);
-        } else if (error) {
-            var msg = 'Could not connect Vercel. ';
-            if (error === 'oauth_denied') msg += 'Authorization was cancelled.';
-            else if (error === 'oauth_token_failed') msg += 'Token exchange failed. Try again.';
-            else msg += 'Error: ' + error;
-            appendMessage('assistant', msg);
-            window.history.replaceState({}, '', window.location.pathname);
-        }
-    })();
+  // ── Usage Tracking ─────────────────────────────────────────────────────────────
+  function getUsage() {
+    var today = new Date().toISOString().slice(0, 10);
+    try {
+      var stored = JSON.parse(localStorage.getItem('handoff_usage') || '{}');
+      return stored.date === today ? stored : { date: today, count: 0 };
+    } catch (e) {
+      return { date: today, count: 0 };
+    }
+  }
 
-    function updateConnectVercelUI(connected) {
-        if (!connectVercelLabel || !connectVercelBtn) return;
-        if (connected) {
-            connectVercelLabel.textContent = 'Vercel connected';
-            connectVercelBtn.classList.add('connected');
+  function incrementUsage() {
+    var usage = getUsage();
+    usage.count = (usage.count || 0) + 1;
+    try { localStorage.setItem('handoff_usage', JSON.stringify(usage)); } catch (e) {}
+    renderUsageUI();
+  }
+
+  function canGenerate() {
+    return getUsage().count < FREE_LIMIT;
+  }
+
+  function renderUsageUI() {
+    if (!usageCounter) return;
+    var remaining = Math.max(0, FREE_LIMIT - getUsage().count);
+    if (remaining === 0) {
+      usageCounter.textContent = 'Free limit reached';
+      usageCounter.className = 'usage-counter exhausted';
+    } else {
+      usageCounter.textContent = remaining + ' free ' + (remaining === 1 ? 'design' : 'designs') + ' left today';
+      usageCounter.className = 'usage-counter';
+    }
+  }
+
+  // ── Preview ───────────────────────────────────────────────────────────────────
+  // Edit-mode script injected into preview iframes
+  var EDIT_MODE_SCRIPT = '(function(){var on=false;function clear(){document.querySelectorAll("[data-hsel]").forEach(function(el){el.style.outline="";el.removeAttribute("data-hsel");});}window.addEventListener("message",function(e){if(e.data&&e.data.type==="handoff-edit"){on=e.data.enabled;clear();}});document.addEventListener("click",function(e){if(!on)return;e.preventDefault();e.stopPropagation();var el=e.target;while(el&&["BODY","HTML"].indexOf(el.tagName)===-1){var r=el.getBoundingClientRect();if(r.width>20&&r.height>20)break;el=el.parentElement;}if(!el||el.tagName==="HTML")return;clear();el.style.outline="2px solid #6366f1";el.setAttribute("data-hsel","1");window.parent.postMessage({type:"handoff-selected",html:el.outerHTML},"*");},true);})();';
+
+  function setPreview(html) {
+    if (!html) return;
+    state.previewHtml = html;
+
+    // Inject Tailwind if not already present
+    var augmented = html;
+    if (augmented.indexOf('tailwindcss') === -1) {
+      var tw = '<script src="https://cdn.tailwindcss.com"><\/script>';
+      var headEnd = augmented.indexOf('</head>');
+      augmented = headEnd !== -1
+        ? augmented.slice(0, headEnd) + tw + augmented.slice(headEnd)
+        : tw + augmented;
+    }
+    // Inject edit mode script
+    var editScript = '<script>' + EDIT_MODE_SCRIPT + '<\/script>';
+    var bodyEnd = augmented.lastIndexOf('</body>');
+    augmented = bodyEnd !== -1
+      ? augmented.slice(0, bodyEnd) + editScript + augmented.slice(bodyEnd)
+      : augmented + editScript;
+
+    var blob = new Blob([augmented], { type: 'text/html' });
+    var url = URL.createObjectURL(blob);
+    previewFrame.removeAttribute('srcdoc');
+    previewFrame.onload = function () {
+      URL.revokeObjectURL(url);
+      if (state.editModeOn) tellEditMode(true);
+    };
+    previewFrame.src = url;
+
+    downloadBtn.disabled = false;
+    deployBtn.disabled = false;
+    previewLabel.textContent = 'Live Preview';
+  }
+
+  function showBuildingState() {
+    var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#0f0f18;font-family:system-ui;color:#60607a;font-size:13px}@keyframes spin{to{transform:rotate(360deg)}}.s{width:28px;height:28px;border:2px solid #1e1e30;border-top-color:#6366f1;border-radius:50%;animation:spin 0.8s linear infinite}</style></head><body><div class="s"></div><span>Building your site&hellip;</span></body></html>';
+    previewFrame.srcdoc = html;
+  }
+
+  function showEmptyState() {
+    var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0f0f18;font-family:system-ui;text-align:center;padding:32px}p{color:#60607a;font-size:13px;max-width:200px;line-height:1.6}</style></head><body><p>Your site will appear here &rarr;<br>Start chatting to build it.</p></body></html>';
+    previewFrame.srcdoc = html;
+  }
+
+  // ── Edit Mode ─────────────────────────────────────────────────────────────────
+  function tellEditMode(on) {
+    try {
+      if (previewFrame.contentWindow) {
+        previewFrame.contentWindow.postMessage({ type: 'handoff-edit', enabled: on }, '*');
+      }
+    } catch (e) {}
+  }
+
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.type !== 'handoff-selected') return;
+    state.selectedHtml = e.data.html || null;
+    editBar.classList.remove('hidden');
+    editInput.value = '';
+    editInput.focus();
+  });
+
+  editModeBtn.addEventListener('click', function () {
+    state.editModeOn = !state.editModeOn;
+    editModeBtn.classList.toggle('active', state.editModeOn);
+    if (!state.editModeOn) {
+      editBar.classList.add('hidden');
+      state.selectedHtml = null;
+    }
+    tellEditMode(state.editModeOn);
+  });
+
+  editCancelBtn.addEventListener('click', function () {
+    editBar.classList.add('hidden');
+    state.selectedHtml = null;
+  });
+
+  function applyEdit() {
+    var instruction = editInput.value.trim();
+    if (!instruction || !state.selectedHtml || !state.previewHtml) return;
+
+    editApplyBtn.disabled = true;
+    appendTyping();
+    showBuildingState();
+
+    fetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        elementEdit: true,
+        currentHtml: state.previewHtml,
+        selectedElementHtml: state.selectedHtml,
+        instruction: instruction,
+      }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        removeTyping();
+        if (data.html) {
+          setPreview(data.html);
+          editBar.classList.add('hidden');
+          state.selectedHtml = null;
+          appendMessage('assistant', 'Done! ' + (data.summary || 'Updated that section.'));
         } else {
-            connectVercelLabel.textContent = 'Connect Vercel';
-            connectVercelBtn.classList.remove('connected');
+          setPreview(state.previewHtml); // restore
+          appendMessage('assistant', 'Couldn\'t apply that change — try rephrasing it.');
         }
+      })
+      .catch(function (err) {
+        removeTyping();
+        setPreview(state.previewHtml);
+        appendMessage('assistant', 'Error: ' + (err.message || 'Could not reach server.'));
+      })
+      .finally(function () {
+        editApplyBtn.disabled = false;
+      });
+  }
+
+  editApplyBtn.addEventListener('click', applyEdit);
+  editInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); applyEdit(); }
+  });
+
+  // ── Chat ──────────────────────────────────────────────────────────────────────
+  function hideWelcome() {
+    if (welcomeState && !welcomeState.classList.contains('hidden')) {
+      welcomeState.classList.add('hidden');
+    }
+  }
+
+  function appendMessage(role, text) {
+    hideWelcome();
+    var div = document.createElement('div');
+    div.className = 'message ' + role;
+    var p = document.createElement('p');
+    p.textContent = text;
+    div.appendChild(p);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  var _typingEl = null;
+
+  function appendTyping() {
+    hideWelcome();
+    if (_typingEl) return;
+    _typingEl = document.createElement('div');
+    _typingEl.className = 'message assistant typing';
+    _typingEl.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    messagesEl.appendChild(_typingEl);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function removeTyping() {
+    if (_typingEl && _typingEl.parentNode) {
+      messagesEl.removeChild(_typingEl);
+    }
+    _typingEl = null;
+  }
+
+  function sendMessage() {
+    var text = chatInput.value.trim();
+    if (!text || state.generating) return;
+
+    if (!canGenerate()) {
+      upgradeModal.classList.remove('hidden');
+      return;
     }
 
-    if (connectVercelBtn) {
-        connectVercelBtn.href = API_BASE + '/auth/authorize';
-        fetch(API_BASE + '/auth/status', { credentials: 'include' })
-            .then(function (r) { return r.json(); })
-            .then(function (data) { updateConnectVercelUI(data.connected); })
-            .catch(function () {});
-    }
+    appendMessage('user', text);
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+    state.generating = true;
+    sendBtn.disabled = true;
+    appendTyping();
+    showBuildingState();
 
-    var lastPreviewHtml = '';
+    var payload = {
+      user: text,
+      messages: state.history.slice(),
+      currentHtml: state.previewHtml || '',
+    };
 
-    const conversationHistory = [];
+    fetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Server error ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        removeTyping();
+        var html = data.html || null;
+        var reply = data.reply || '';
+        var summary = data.summary || null;
 
-    function getCurrentHtml() {
-        if (lastPreviewHtml) return lastPreviewHtml;
-        var html = previewFrame.srcdoc || '';
-        return (html && html !== DEFAULT_PREVIEW_HTML) ? html : '';
-    }
-
-    function looksLikeEmail(s) {
-        return typeof s === 'string' && s.indexOf('@') > 0 && s.indexOf('.') > 0;
-    }
-
-    /**
-     * Map raw user input to chat API payload.
-     */
-    function toChatPayload(userText, context) {
-        const t = userText.trim().toLowerCase();
-        const isDesignRequest =
-            /\b(header|footer|hero|section|color|font|layout|button|form|nav|menu|blue|red|dark|light)\b/.test(t) ||
-            /\b(make|change|add|update|design|style)\b/.test(t);
-
-        if (isDesignRequest) {
-            var userContent = 'Design request: ' + userText.trim();
-            var p = {
-                system: 'You are a web design assistant. Use Tailwind CSS. Include <script src="https://cdn.tailwindcss.com"></script> in the head. Respond with a single HTML document that implements the design request. Output only the HTML, no markdown code fences or explanation.',
-                messages: conversationHistory.concat([{ role: 'user', content: userContent }]),
-                user: userContent,
-                currentHtml: getCurrentHtml(),
-                formEmail: context && context.formEmail
-            };
-            if (looksLikeEmail(userText.trim())) p.formEmail = userText.trim();
-            return p;
+        if (html) {
+          setPreview(html);
+          state.history.push({ role: 'user', content: text });
+          state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
+          appendMessage('assistant', summary || defaultReply(text));
+          incrementUsage();
+        } else if (reply) {
+          // Non-HTML response (e.g. feature not supported message)
+          appendMessage('assistant', reply.slice(0, 400));
+          showEmptyState();
+        } else {
+          appendMessage('assistant', 'Something went wrong. Try rephrasing your request.');
+          showEmptyState();
         }
-        var payload = {
-            system: 'You are a helpful web design assistant. If the user describes a website they want, respond with a complete single-page HTML document (using Tailwind CSS) that matches their description. Output only the HTML, no markdown or extra text.',
-            messages: conversationHistory.concat([{ role: 'user', content: userText.trim() }]),
-            user: userText.trim(),
-            currentHtml: getCurrentHtml(),
-            formEmail: context && context.formEmail
-        };
-        if (looksLikeEmail(userText.trim())) payload.formEmail = userText.trim();
-        return payload;
+      })
+      .catch(function (err) {
+        removeTyping();
+        appendMessage('assistant', 'Connection error — check your internet and try again.');
+        showEmptyState();
+        console.error('Handoff API error:', err);
+      })
+      .finally(function () {
+        state.generating = false;
+        sendBtn.disabled = false;
+      });
+  }
+
+  function defaultReply(userText) {
+    var t = userText.toLowerCase();
+    if (t.indexOf('change') !== -1 || t.indexOf('update') !== -1 || t.indexOf('make') !== -1) {
+      return 'Done! I\'ve applied your changes. What else would you like to adjust?';
     }
+    return 'Here\'s your site! Take a look at the preview. What would you like to change?';
+  }
 
-    function appendMessage(role, text) {
-        const div = document.createElement('div');
-        div.className = 'message ' + role;
-        const p = document.createElement('p');
-        p.textContent = text;
-        div.appendChild(p);
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+  sendBtn.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
+  });
 
-    function appendTypingIndicator() {
-        const div = document.createElement('div');
-        div.className = 'message assistant typing-indicator';
-        div.innerHTML = '<p><span class="dot"></span><span class="dot"></span><span class="dot"></span></p>';
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        return div;
-    }
+  // Auto-resize textarea
+  chatInput.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
 
-    function extractHtmlFromResponse(text) {
-        if (!text || typeof text !== 'string') return null;
-        const trimmed = text.trim();
-        const open = trimmed.indexOf('<');
-        const close = trimmed.lastIndexOf('>');
-        if (open !== -1 && close > open) {
-            return fixImagePlaceholders(trimmed.slice(open, close + 1));
-        }
-        return null;
-    }
-
-    function fixImagePlaceholders(html) {
-        if (!html || typeof html !== 'string') return html;
-        html = html.replace(/<img([^>]*?)src=["']([^"']*)["']([^>]*?)>/gi, function (m, before, src, after) {
-            var altMatch = m.match(/alt=["']([^"']*)["']/i);
-            var alt = (altMatch && altMatch[1]) ? altMatch[1].trim() : 'image';
-            return '<div class="flex items-center justify-center bg-slate-200 text-slate-500 rounded-lg min-h-[120px] text-sm" style="aspect-ratio:16/9">Add image: ' + alt + '</div>';
-        });
-        return html;
-    }
-
-    function injectTailwind(html) {
-        if (!html || typeof html !== 'string') return html;
-        if (html.indexOf('tailwindcss') !== -1) return html;
-        var tailwind = '<script src="https://cdn.tailwindcss.com"><\/script>';
-        var headEnd = html.indexOf('</head>');
-        if (headEnd !== -1) return html.slice(0, headEnd) + tailwind + html.slice(headEnd);
-        return tailwind + html;
-    }
-
-    function injectEditScript(html) {
-        if (!html || typeof html !== 'string') return html;
-        var script = '<script>' + EDIT_MODE_SCRIPT + '<\/script>';
-        var idx = html.lastIndexOf('</body>');
-        if (idx !== -1) return html.slice(0, idx) + script + html.slice(idx);
-        return html + script;
-    }
-
-    function setPreview(html) {
-        if (!html) return;
-        lastPreviewHtml = html;
-        var toLoad = injectEditScript(injectTailwind(html));
-        var blob = new Blob([toLoad], { type: 'text/html' });
-        var url = URL.createObjectURL(blob);
-        previewFrame.removeAttribute('srcdoc');
-        previewFrame.onload = function () {
-            URL.revokeObjectURL(url);
-            if (editModeOn) tellIframeEditMode(true);
-        };
-        previewFrame.src = url;
-    }
-
-    var editModeOn = false;
-    var lastSelectedHtml = null;
-
-    function tellIframeEditMode(on) {
-        try {
-            if (previewFrame.contentWindow) previewFrame.contentWindow.postMessage({ type: 'handoff-edit-mode', enabled: on }, '*');
-        } catch (e) {}
-    }
-
-    function handleEditModeToggle() {
-        editModeOn = !editModeOn;
-        editModeBtn.classList.toggle('active', editModeOn);
-        if (!editModeOn) {
-            editSelectionBar.classList.add('hidden');
-            lastSelectedHtml = null;
-        }
-        tellIframeEditMode(editModeOn);
-    }
-
-    window.addEventListener('message', function (e) {
-        if (!e.data || e.data.type !== 'handoff-select') return;
-        if (!lastPreviewHtml || lastPreviewHtml === DEFAULT_PREVIEW_HTML) return;
-        lastSelectedHtml = e.data.outerHTML || null;
-        editSelectionBar.classList.remove('hidden');
-        editSelectionInput.value = '';
-        editSelectionInput.focus();
+  // ── Starters ──────────────────────────────────────────────────────────────────
+  function renderStarters() {
+    startersEl.innerHTML = '';
+    STARTERS.forEach(function (s) {
+      var btn = document.createElement('button');
+      btn.className = 'starter-chip';
+      btn.innerHTML = '<span class="starter-icon">' + s.icon + '</span>'
+        + '<span class="starter-label">' + s.label + '</span>';
+      btn.addEventListener('click', function () {
+        chatInput.value = s.prompt;
+        chatInput.style.height = 'auto';
+        sendMessage();
+      });
+      startersEl.appendChild(btn);
     });
+  }
 
-    async function sendElementEdit(instruction) {
-        if (!lastPreviewHtml || !lastSelectedHtml || !instruction) return Promise.reject(new Error('Nothing selected or no instruction'));
-        var payload = {
-            elementEdit: true,
-            currentHtml: lastPreviewHtml,
-            selectedElementHtml: lastSelectedHtml,
-            instruction: instruction.trim()
-        };
-        var res = await fetch(API_BASE + '/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        var data = await res.json().catch(function () { return {}; });
-        if (!res.ok) throw new Error(data.error || 'Request failed');
-        return data;
-    }
+  // ── Download ──────────────────────────────────────────────────────────────────
+  downloadBtn.addEventListener('click', function () {
+    if (!state.previewHtml) return;
+    var blob = new Blob([state.previewHtml], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'my-website.html';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    }, 100);
+  });
 
-    async function sendToApi(userPrompt, context) {
-        const payload = toChatPayload(userPrompt, context);
-        const res = await fetch(API_BASE + '/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const data = await res.json().catch(function () { return {}; });
-        if (!res.ok) {
-            let msg = data.error || 'API request failed';
-            if (data.details) msg += ': ' + (typeof data.details === 'string' ? data.details.slice(0, 200) : JSON.stringify(data.details).slice(0, 200));
-            throw new Error(msg);
+  // ── Deploy ────────────────────────────────────────────────────────────────────
+  deployBtn.addEventListener('click', function () {
+    if (!state.previewHtml) return;
+    // Reset modal state
+    deployStatus.classList.add('hidden');
+    deployResult.classList.add('hidden');
+    deployInstantBtn.disabled = false;
+    deployOwnVercelBtn.disabled = false;
+    deployModal.classList.remove('hidden');
+  });
+
+  deployModalClose.addEventListener('click', function () {
+    deployModal.classList.add('hidden');
+  });
+
+  deployModal.addEventListener('click', function (e) {
+    if (e.target === deployModal) deployModal.classList.add('hidden');
+  });
+
+  deployInstantBtn.addEventListener('click', function () {
+    if (!state.previewHtml) return;
+    deployInstantBtn.disabled = true;
+    deployOwnVercelBtn.disabled = true;
+    deployStatus.classList.remove('hidden');
+    deployStatusText.textContent = 'Deploying your site\u2026';
+
+    fetch(API_BASE + '/api/deploy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ html: state.previewHtml }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        deployStatus.classList.add('hidden');
+        if (data.url) {
+          deployResultUrl.href = data.url;
+          deployResultUrl.textContent = data.url;
+          deployResult.classList.remove('hidden');
+          appendMessage('assistant', 'Your site is live! \u2192 ' + data.url);
+        } else {
+          deployStatus.classList.remove('hidden');
+          deployStatusText.textContent = 'Deploy failed: ' + (data.error || 'Unknown error');
+          deployInstantBtn.disabled = false;
+          deployOwnVercelBtn.disabled = false;
         }
-        return data;
+      })
+      .catch(function (err) {
+        deployStatus.classList.remove('hidden');
+        deployStatusText.textContent = 'Error: ' + (err.message || 'Could not reach server');
+        deployInstantBtn.disabled = false;
+        deployOwnVercelBtn.disabled = false;
+      });
+  });
+
+  deployResultCopy.addEventListener('click', function () {
+    var url = deployResultUrl.href;
+    if (!url) return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () {
+        var orig = deployResultCopy.textContent;
+        deployResultCopy.textContent = 'Copied!';
+        setTimeout(function () { deployResultCopy.textContent = orig; }, 1500);
+      });
     }
+  });
 
-    function handleSend(context) {
-        const text = chatInput.value.trim();
-        if (!text) return;
+  deployOwnVercelBtn.addEventListener('click', function () {
+    window.location.href = API_BASE + '/api/auth/authorize';
+  });
 
-        appendMessage('user', text);
-        chatInput.value = '';
+  // ── Upgrade Modal ─────────────────────────────────────────────────────────────
+  upgradeBtn.addEventListener('click', function () {
+    upgradeModal.classList.remove('hidden');
+  });
 
-        if (!API_BASE) {
-            appendMessage('assistant', 'Demo mode: no API configured. Set API_BASE in script.js.');
-            return;
-        }
+  upgradeClose.addEventListener('click', function () {
+    upgradeModal.classList.add('hidden');
+  });
 
-        sendBtn.disabled = true;
-        appendTypingIndicator();
+  upgradeModal.addEventListener('click', function (e) {
+    if (e.target === upgradeModal) upgradeModal.classList.add('hidden');
+  });
 
-        sendToApi(text, context)
-            .then(function (data) {
-                const last = chatMessages.querySelector('.typing-indicator');
-                if (last) chatMessages.removeChild(last);
-                const reply = data.reply || data.text || data.message || '';
-                const html = data.html || extractHtmlFromResponse(reply);
-                if (html) {
-                    setPreview(html);
-                    appendMessage('assistant', 'Preview updated.');
-                    conversationHistory.push({ role: 'user', content: text });
-                    conversationHistory.push({ role: 'assistant', content: 'Preview updated.' });
-                } else {
-                    const msg = (reply || 'No response.').toString();
-                    appendMessage('assistant', msg);
-                    conversationHistory.push({ role: 'user', content: text });
-                    conversationHistory.push({ role: 'assistant', content: msg });
-                }
-            })
-            .catch(function (err) {
-                const last = chatMessages.querySelector('.typing-indicator');
-                if (last) chatMessages.removeChild(last);
-                appendMessage('assistant', 'Error: ' + (err.message || 'Could not reach API.'));
-            })
-            .finally(function () {
-                sendBtn.disabled = false;
-            });
+  upgradeCta.addEventListener('click', function () {
+    upgradeModal.classList.add('hidden');
+    appendMessage('assistant', 'Pro plan is on the way! You\'ll be the first to know when it launches.');
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────────────────
+  renderStarters();
+  renderUsageUI();
+  showEmptyState();
+
+  // Handle Vercel OAuth return
+  (function handleOAuthReturn() {
+    var params = new URLSearchParams(window.location.search);
+    var connected = params.get('vercel_connected');
+    var error = params.get('error');
+    if (connected === '1') {
+      appendMessage('assistant', 'Vercel connected! Your next deploy will go to your own account. Hit Deploy when you\'re ready.');
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (error) {
+      var msg = 'Could not connect Vercel. ';
+      if (error === 'oauth_denied') msg += 'You cancelled the authorization.';
+      else if (error === 'oauth_token_failed') msg += 'Token exchange failed — try again.';
+      else msg += '(Error: ' + error + ')';
+      appendMessage('assistant', msg);
+      window.history.replaceState({}, '', window.location.pathname);
     }
+  })();
 
-    function getPreviewHtml() {
-        return lastPreviewHtml || previewFrame.srcdoc || '';
-    }
-
-    function handleDeploy() {
-        const html = getPreviewHtml();
-        if (!html || html === DEFAULT_PREVIEW_HTML) {
-            appendMessage('assistant', 'Design something first, then I can deploy it.');
-            return;
-        }
-
-        deployBtn.disabled = true;
-        deployBtn.textContent = '… Deploying';
-
-        fetch(API_BASE + '/deploy', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ html })
-        })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                deployBtn.disabled = false;
-                deployBtn.innerHTML = '<i class="fas fa-rocket"></i> Deploy';
-                if (data.url) {
-                    deployUrlEl.href = data.url;
-                    deployUrlEl.textContent = data.url;
-                    deployResult.classList.remove('hidden');
-                } else {
-                    appendMessage('assistant', 'Deploy failed: ' + (data.error || 'Unknown error'));
-                }
-            })
-            .catch(function (err) {
-                deployBtn.disabled = false;
-                deployBtn.innerHTML = '<i class="fas fa-rocket"></i> Deploy';
-                appendMessage('assistant', 'Deploy error: ' + (err.message || 'Could not reach API'));
-            });
-    }
-
-    function handleSave() {
-        var html = getPreviewHtml();
-        if (!html || html === DEFAULT_PREVIEW_HTML) {
-            appendMessage('assistant', 'Design something first, then I can save it.');
-            return;
-        }
-        if (!saveBtn) return;
-        saveBtn.disabled = true;
-        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
-        fetch(API_BASE + '/save-design', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ html: html, name: 'Handoff design' })
-        })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
-                if (data.id) appendMessage('assistant', 'Design saved.');
-                else appendMessage('assistant', 'Save failed: ' + (data.error || 'Unknown error'));
-            })
-            .catch(function (err) {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
-                appendMessage('assistant', 'Save error: ' + (err.message || 'Could not reach API'));
-            });
-    }
-
-    function copyDeployUrl() {
-        const url = deployUrlEl.href;
-        if (url && navigator.clipboard) {
-            navigator.clipboard.writeText(url).then(function () {
-                const orig = copyUrlBtn.innerHTML;
-                copyUrlBtn.innerHTML = '<i class="fas fa-check"></i> Copied';
-                setTimeout(function () { copyUrlBtn.innerHTML = orig; }, 1500);
-            });
-        }
-    }
-
-    sendBtn.addEventListener('click', function () { handleSend(); });
-    chatInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSend();
-        }
-    });
-    function handleEditApply() {
-        var text = editSelectionInput && editSelectionInput.value ? editSelectionInput.value.trim() : '';
-        if (!text || !lastSelectedHtml || !lastPreviewHtml) return;
-        editApplyBtn.disabled = true;
-        appendTypingIndicator();
-        sendElementEdit(text)
-            .then(function (data) {
-                var last = chatMessages.querySelector('.typing-indicator');
-                if (last) chatMessages.removeChild(last);
-                var reply = data.reply || data.text || data.message || '';
-                var html = data.html || extractHtmlFromResponse(reply);
-                if (html) {
-                    setPreview(html);
-                    appendMessage('assistant', 'Updated.');
-                    editSelectionBar.classList.add('hidden');
-                    lastSelectedHtml = null;
-                } else appendMessage('assistant', reply || 'No changes.');
-            })
-            .catch(function (err) {
-                var last = chatMessages.querySelector('.typing-indicator');
-                if (last) chatMessages.removeChild(last);
-                appendMessage('assistant', 'Error: ' + (err.message || 'Could not apply.'));
-            })
-            .finally(function () { editApplyBtn.disabled = false; });
-    }
-
-    if (deployBtn) deployBtn.addEventListener('click', handleDeploy);
-    if (saveBtn) saveBtn.addEventListener('click', handleSave);
-    if (copyUrlBtn) copyUrlBtn.addEventListener('click', copyDeployUrl);
-    if (editModeBtn) editModeBtn.addEventListener('click', handleEditModeToggle);
-    if (editApplyBtn) editApplyBtn.addEventListener('click', handleEditApply);
-    if (editSelectionInput) editSelectionInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') { e.preventDefault(); handleEditApply(); }
-    });
 })();
