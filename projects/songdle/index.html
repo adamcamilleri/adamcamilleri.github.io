@@ -9,7 +9,13 @@
 <body>
   <div id="app">
     <header>
-      <h1 class="title">Songdle</h1>
+      <div class="header-row">
+        <span class="header-spacer"></span>
+        <h1 class="title">Songdle</h1>
+        <button class="stats-btn" id="statsBtn" aria-label="Statistics">
+          <svg viewBox="0 0 24 24"><path d="M5 20h2V9H5v11zm4 0h2V4H9v16zm4 0h2v-8h-2v8zm4 0h2v-5h-2v5z"/></svg>
+        </button>
+      </div>
       <div class="genre-tabs">
         <button class="tab active" data-genre="all">All</button>
         <button class="tab" data-genre="rock">Rock</button>
@@ -21,7 +27,7 @@
       <div class="guess-slots" id="guessSlots"></div>
 
       <div class="timeline-wrapper">
-        <div class="timeline-label" id="timelineLabel">1s</div>
+        <div class="timeline-label" id="timelineLabel">0.1s</div>
         <div class="timeline" id="timeline"></div>
       </div>
 
@@ -52,6 +58,21 @@
     <div class="result-banner" id="resultBanner" hidden>
       <p class="result-title" id="resultTitle"></p>
       <p class="result-song" id="resultSong"></p>
+    </div>
+  </div>
+
+  <!-- Stats Modal -->
+  <div class="modal-overlay" id="statsModal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Statistics</h2>
+        <button class="modal-close" id="statsClose" aria-label="Close">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+      <div class="stats-numbers" id="statsNumbers"></div>
+      <p class="dist-heading">Guess Distribution</p>
+      <div class="distribution" id="statsDistribution"></div>
     </div>
   </div>
 

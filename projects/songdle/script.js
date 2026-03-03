@@ -18,6 +18,11 @@
   var resultTitle  = document.getElementById('resultTitle');
   var resultSong   = document.getElementById('resultSong');
   var genreTabs    = document.querySelectorAll('.tab');
+  var statsBtn      = document.getElementById('statsBtn');
+  var statsModal    = document.getElementById('statsModal');
+  var statsCloseBtn = document.getElementById('statsClose');
+  var statsNumbers  = document.getElementById('statsNumbers');
+  var statsDistEl   = document.getElementById('statsDistribution');
 
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
@@ -84,6 +89,97 @@
   function isCloseArtist(selected) {
     if (!state.song) return false;
     return normalize(selected.artist) === normalize(state.song.artist);
+  }
+
+  // ── Stats ─────────────────────────────────────────────────────────────────────
+  function defaultStats() {
+    return { played: 0, wins: 0, streak: 0, maxStreak: 0, lastDate: '', distribution: {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0} };
+  }
+
+  function loadStats(genre) {
+    try {
+      var raw = localStorage.getItem('songdle_stats_' + genre);
+      var s = raw ? JSON.parse(raw) : {};
+      var d = defaultStats();
+      return {
+        played:       s.played    || 0,
+        wins:         s.wins      || 0,
+        streak:       s.streak    || 0,
+        maxStreak:    s.maxStreak || 0,
+        lastDate:     s.lastDate  || '',
+        distribution: Object.assign({}, d.distribution, s.distribution || {}),
+      };
+    } catch (e) { return defaultStats(); }
+  }
+
+  function saveStats(genre, stats) {
+    try {
+      localStorage.setItem('songdle_stats_' + genre, JSON.stringify(stats));
+    } catch (e) {}
+  }
+
+  function updateStats(genre, won, numGuesses) {
+    var stats = loadStats(genre);
+    // Only record once per day per genre
+    if (stats.lastDate === state.today) return;
+    stats.played += 1;
+    var prev = new Date();
+    prev.setDate(prev.getDate() - 1);
+    var yesterday = prev.toISOString().slice(0, 10);
+    if (won) {
+      stats.wins += 1;
+      var key = String(numGuesses);
+      stats.distribution[key] = (stats.distribution[key] || 0) + 1;
+      stats.streak = (stats.lastDate === yesterday) ? stats.streak + 1 : 1;
+      stats.maxStreak = Math.max(stats.maxStreak, stats.streak);
+    } else {
+      stats.streak = 0;
+    }
+    stats.lastDate = state.today;
+    saveStats(genre, stats);
+  }
+
+  function renderStats() {
+    var stats = loadStats(state.genre);
+    var winPct = stats.played > 0 ? Math.round((stats.wins / stats.played) * 100) : 0;
+
+    statsNumbers.innerHTML = [
+      ['Played', stats.played],
+      ['Win %', winPct],
+      ['Streak', stats.streak],
+      ['Max', stats.maxStreak],
+    ].map(function (item) {
+      return '<div class="stat-item">'
+        + '<div class="stat-value">' + item[1] + '</div>'
+        + '<div class="stat-label">' + item[0] + '</div>'
+        + '</div>';
+    }).join('');
+
+    var distVals = [1, 2, 3, 4, 5, 6].map(function (i) { return stats.distribution[String(i)] || 0; });
+    var max = Math.max.apply(null, [1].concat(distVals));
+    var currentGuesses = (state.done && state.won) ? state.guesses.length : -1;
+
+    statsDistEl.innerHTML = '';
+    for (var i = 1; i <= 6; i++) {
+      var count = stats.distribution[String(i)] || 0;
+      var pct = Math.max(Math.round((count / max) * 100), 6);
+      var row = document.createElement('div');
+      row.className = 'dist-row';
+      row.innerHTML = '<span class="dist-num">' + i + '</span>'
+        + '<div class="dist-bar-wrap">'
+        + '<div class="dist-bar' + (i === currentGuesses ? ' highlight' : '') + '" style="width:' + pct + '%">' + count + '</div>'
+        + '</div>';
+      statsDistEl.appendChild(row);
+    }
+  }
+
+  function showStats() {
+    renderStats();
+    statsModal.hidden = false;
+  }
+
+  function hideStats() {
+    statsModal.hidden = true;
   }
 
   // ── Render ────────────────────────────────────────────────────────────────────
@@ -273,16 +369,20 @@
     state.done = true; state.won = true;
     setInputEnabled(false);
     playBtn.disabled = false;
+    updateStats(state.genre, true, state.guesses.length);
     saveState();
     showResult(true, state.song.name, state.song.artist);
+    setTimeout(showStats, 1800);
   }
 
   function lose() {
     state.done = true; state.won = false;
     setInputEnabled(false);
     playBtn.disabled = false;
+    updateStats(state.genre, false, state.guesses.length);
     saveState();
     showResult(false, state.song.name, state.song.artist);
+    setTimeout(showStats, 1800);
   }
 
   // ── Audio ─────────────────────────────────────────────────────────────────────
@@ -408,6 +508,12 @@
 
   genreTabs.forEach(function (tab) {
     tab.addEventListener('click', function () { switchGenre(tab.dataset.genre); });
+  });
+
+  statsBtn.addEventListener('click', showStats);
+  statsCloseBtn.addEventListener('click', hideStats);
+  statsModal.addEventListener('click', function (e) {
+    if (e.target === statsModal) hideStats();
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────────
