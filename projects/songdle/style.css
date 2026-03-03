@@ -409,6 +409,28 @@ header {
   color: var(--text);
 }
 
+.next-song-btn {
+  margin-top: 16px;
+  padding: 10px 28px;
+  background: var(--green);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s;
+}
+
+.next-song-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+.next-song-btn[hidden] {
+  display: none;
+}
+
 /* ── Loading / Error states ──────────────── */
 
 .status-msg {

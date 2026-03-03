@@ -6,18 +6,19 @@
   var API_BASE = window.SONGDLE_API || (location.hostname === 'localhost' ? 'http://localhost:3000' : '');
 
   // ── DOM refs ─────────────────────────────────────────────────────────────────
-  var slotsEl      = document.getElementById('guessSlots');
-  var timelineEl   = document.getElementById('timeline');
-  var labelEl      = document.getElementById('timelineLabel');
-  var playBtn      = document.getElementById('playBtn');
-  var searchInput  = document.getElementById('searchInput');
-  var dropdownEl   = document.getElementById('autocompleteList');
-  var skipBtn      = document.getElementById('skipBtn');
-  var statusMsg    = document.getElementById('statusMsg');
-  var resultBanner = document.getElementById('resultBanner');
-  var resultTitle  = document.getElementById('resultTitle');
-  var resultSong   = document.getElementById('resultSong');
-  var genreTabs    = document.querySelectorAll('.tab');
+  var slotsEl       = document.getElementById('guessSlots');
+  var timelineEl    = document.getElementById('timeline');
+  var labelEl       = document.getElementById('timelineLabel');
+  var playBtn       = document.getElementById('playBtn');
+  var searchInput   = document.getElementById('searchInput');
+  var dropdownEl    = document.getElementById('autocompleteList');
+  var skipBtn       = document.getElementById('skipBtn');
+  var statusMsg     = document.getElementById('statusMsg');
+  var resultBanner  = document.getElementById('resultBanner');
+  var resultTitle   = document.getElementById('resultTitle');
+  var resultSong    = document.getElementById('resultSong');
+  var nextSongBtn   = document.getElementById('nextSongBtn');
+  var genreTabs     = document.querySelectorAll('.tab');
   var statsBtn      = document.getElementById('statsBtn');
   var statsModal    = document.getElementById('statsModal');
   var statsCloseBtn = document.getElementById('statsClose');
@@ -26,18 +27,22 @@
 
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
-    genre:       'all',
-    song:        null,   // { name, artist }
-    songs:       [],     // [{name, artist, genre}] for autocomplete
-    level:       0,      // 0–5
-    guesses:     [],     // [{text, status}]
-    done:        false,
-    won:         false,
-    today:       '',
-    audio:       null,
-    playing:     false,
-    highlighted: -1,
+    genre:           'all',
+    song:            null,   // { id, name, artist }
+    songs:           [],     // [{id, name, artist, genre}] for autocomplete
+    level:           0,      // 0–5
+    guesses:         [],     // [{text, status}]
+    done:            false,
+    won:             false,
+    today:           '',
+    audio:           null,
+    playing:         false,
+    highlighted:     -1,
+    // Unlimited mode
+    sessionPlayed:   [],     // ids played this session (to avoid repeats)
   };
+
+  function isUnlimited() { return state.genre === 'unlimited'; }
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
   function getToday() {
@@ -49,6 +54,7 @@
   }
 
   function saveState() {
+    if (isUnlimited()) return; // unlimited mode is session-only, not persisted
     try {
       localStorage.setItem(storageKey(state.genre), JSON.stringify({
         level:      state.level,
@@ -62,6 +68,7 @@
   }
 
   function loadSavedState(genre) {
+    if (genre === 'unlimited') return null;
     try {
       var raw = localStorage.getItem('songdle_' + genre + '_' + state.today);
       return raw ? JSON.parse(raw) : null;
@@ -120,7 +127,6 @@
 
   function updateStats(genre, won, numGuesses) {
     var stats = loadStats(genre);
-    // Only record once per day per genre
     if (stats.lastDate === state.today) return;
     stats.played += 1;
     var prev = new Date();
@@ -140,7 +146,8 @@
   }
 
   function renderStats() {
-    var stats = loadStats(state.genre);
+    var genre = isUnlimited() ? 'all' : state.genre;
+    var stats = loadStats(genre);
     var winPct = stats.played > 0 ? Math.round((stats.wins / stats.played) * 100) : 0;
 
     statsNumbers.innerHTML = [
@@ -238,13 +245,15 @@
       ? 'You got it in ' + state.guesses.length + (state.guesses.length === 1 ? ' guess!' : ' guesses!')
       : 'Better luck tomorrow!';
     resultSong.innerHTML = 'The song was <strong>' + escHtml(songArtist) + ' \u2013 ' + escHtml(songName) + '</strong>';
+    nextSongBtn.hidden = !isUnlimited();
   }
 
   // ── Autocomplete ──────────────────────────────────────────────────────────────
   function getFilteredPool() {
     var q = searchInput.value.trim().toLowerCase();
     if (!q) return [];
-    var pool = state.genre === 'all'
+    // Unlimited uses all songs (same as 'all')
+    var pool = (state.genre === 'all' || isUnlimited())
       ? state.songs
       : state.songs.filter(function (s) { return s.genre === state.genre; });
     return pool.filter(function (s) {
@@ -330,11 +339,7 @@
     state.guesses.push({ text: text, status: status });
     state.level = Math.min(state.level + 1, CLIP_DURATIONS.length - 1);
 
-    // Invalidate cached audio so next play fetches the new duration
-    if (state.audio) {
-      state.audio.pause();
-      state.audio = null;
-    }
+    if (state.audio) { state.audio.pause(); state.audio = null; }
     setPlayIcon(false);
 
     renderSlots();
@@ -369,24 +374,67 @@
     state.done = true; state.won = true;
     setInputEnabled(false);
     playBtn.disabled = false;
-    updateStats(state.genre, true, state.guesses.length);
+    if (!isUnlimited()) updateStats(state.genre, true, state.guesses.length);
     saveState();
     showResult(true, state.song.name, state.song.artist);
-    setTimeout(showStats, 1800);
+    if (!isUnlimited()) setTimeout(showStats, 1800);
   }
 
   function lose() {
     state.done = true; state.won = false;
     setInputEnabled(false);
     playBtn.disabled = false;
-    updateStats(state.genre, false, state.guesses.length);
+    if (!isUnlimited()) updateStats(state.genre, false, state.guesses.length);
     saveState();
     showResult(false, state.song.name, state.song.artist);
-    setTimeout(showStats, 1800);
+    if (!isUnlimited()) setTimeout(showStats, 1800);
+  }
+
+  // ── Unlimited mode ────────────────────────────────────────────────────────────
+  function pickUnlimitedSong() {
+    var pool = state.songs.filter(function (s) {
+      return state.sessionPlayed.indexOf(s.id) === -1;
+    });
+    // If all songs played this session, reset and replay the full pool
+    if (pool.length === 0) {
+      state.sessionPlayed = [];
+      pool = state.songs.slice();
+    }
+    var idx = Math.floor(Math.random() * pool.length);
+    return pool[idx];
+  }
+
+  function startUnlimitedSong() {
+    if (state.audio) { state.audio.pause(); state.audio = null; }
+    setPlayIcon(false);
+
+    state.level   = 0;
+    state.guesses = [];
+    state.done    = false;
+    state.won     = false;
+
+    var song = pickUnlimitedSong();
+    if (!song) {
+      setStatus('No songs available.', true);
+      return;
+    }
+    state.song = song;
+    state.sessionPlayed.push(song.id);
+
+    resultBanner.hidden = true;
+    nextSongBtn.hidden = true;
+    playBtn.disabled = false;
+    setInputEnabled(true);
+    setStatus('');
+    renderSlots();
+    renderTimeline();
   }
 
   // ── Audio ─────────────────────────────────────────────────────────────────────
   function getStreamUrl() {
+    if (isUnlimited() && state.song && state.song.id) {
+      return API_BASE + '/api/songdle-stream?id=' + encodeURIComponent(state.song.id);
+    }
     return API_BASE + '/api/songdle-stream'
       + '?date='  + encodeURIComponent(state.today)
       + '&genre=' + encodeURIComponent(state.genre);
@@ -416,7 +464,6 @@
     }
     state.audio.currentTime = 0;
 
-    // Loading indicator
     playBtn.disabled = true;
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
 
@@ -450,8 +497,19 @@
     playBtn.disabled = true;
     setInputEnabled(false);
     resultBanner.hidden = true;
+    nextSongBtn.hidden = true;
     state.genre = genre;
     renderTabs();
+
+    if (genre === 'unlimited') {
+      if (state.songs.length === 0) {
+        setStatus('Loading...');
+        fetchSongs().then(function () { startUnlimitedSong(); });
+      } else {
+        startUnlimitedSong();
+      }
+      return;
+    }
 
     var saved = loadSavedState(genre);
     state.level   = saved ? (saved.level   || 0) : 0;
@@ -514,6 +572,10 @@
   statsCloseBtn.addEventListener('click', hideStats);
   statsModal.addEventListener('click', function (e) {
     if (e.target === statsModal) hideStats();
+  });
+
+  nextSongBtn.addEventListener('click', function () {
+    startUnlimitedSong();
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────────

@@ -18,6 +18,7 @@ module.exports = async function handler(req, res) {
     const raw = fs.readFileSync(SONGS_PATH, 'utf8');
     const songs = JSON.parse(raw);
     const result = (Array.isArray(songs) ? songs : []).map((s) => ({
+      id: s.id,
       name: s.name,
       artist: s.artist,
       genre: s.genre || 'other',
