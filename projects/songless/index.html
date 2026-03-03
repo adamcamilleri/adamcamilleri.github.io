@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songless – Guess the Song</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Songless</h1>
+        <p class="subtitle">Guess the song from short clips. Wrong guess = longer clip.</p>
+
+        <div class="game-area">
+            <div class="play-section">
+                <button id="playBtn" class="play-btn" disabled>
+                    <span class="play-icon">▶</span> Play (0.1s)
+                </button>
+                <p class="reveal-info" id="revealInfo">Attempt 1: 0.1 second</p>
+            </div>
+
+            <div class="guess-section">
+                <input type="text" id="guessInput" placeholder="Artist – Song" autocomplete="off">
+                <button id="submitBtn" class="submit-btn">Guess</button>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
