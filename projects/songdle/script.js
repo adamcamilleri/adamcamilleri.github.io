@@ -68,11 +68,30 @@
       audio.pause();
       audio.currentTime = 0;
     }
+    playBtn.disabled = true;
+    playBtn.textContent = ' Loading…';
     audio = new Audio(song.preview_url);
-    audio.play();
+    audio.play()
+      .then(() => {
+        playBtn.disabled = false;
+        updateUI();
+        setTimeout(() => {
+          if (audio) audio.pause();
+        }, duration * 1000);
+      })
+      .catch((e) => {
+        console.error('Playback failed:', e);
+        playBtn.disabled = false;
+        updateUI();
+        showFeedback('Could not play audio. The track may be restricted or blocked.', false);
+      });
+    // If play() never resolves (e.g. slow network), re-enable after a timeout
     setTimeout(() => {
-      if (audio) audio.pause();
-    }, duration * 1000);
+      if (playBtn.textContent === ' Loading…') {
+        playBtn.disabled = false;
+        updateUI();
+      }
+    }, 5000);
   }
 
   function updateUI() {
