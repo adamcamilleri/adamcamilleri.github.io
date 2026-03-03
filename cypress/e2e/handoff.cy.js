@@ -10,11 +10,11 @@ describe('Handoff', () => {
 
   it('loads the Handoff page', () => {
     cy.contains('Handoff').should('be.visible');
-    cy.contains('Describe your ideal website').should('be.visible');
+    cy.contains('Describe your website in detail').should('be.visible');
   });
 
   it('shows chat panel and preview panel', () => {
-    cy.get('#chatMessages').should('be.visible');
+    cy.get('#messages').should('be.visible');
     cy.get('#chatInput').should('be.visible');
     cy.get('#sendBtn').should('be.visible');
     cy.get('#previewFrame').should('exist');
