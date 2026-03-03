@@ -5,6 +5,7 @@
  */
 const soundcloudDaily = require('./soundcloud-daily.js');
 const getDailyTrackData = soundcloudDaily.getDailyTrackData;
+const getToken = soundcloudDaily.getToken;
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,6 +27,15 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    let token = data.token;
+    if (!token && getToken) {
+      try {
+        token = await getToken();
+      } catch (e) {
+        console.error('Songdle stream: could not get token', e.message);
+      }
+    }
+
     let streamUrl = data.daily.preview_url;
     const clientId = process.env.SOUNDCLOUD_CLIENT_ID;
     if (clientId && streamUrl && streamUrl.indexOf('client_id=') === -1) {
@@ -35,7 +45,7 @@ module.exports = async function handler(req, res) {
     const authHeaders = {
       'Accept': 'audio/mpeg,audio/*,*/*',
       'User-Agent': 'Songdle/1.0 (https://github.com/adamcamilleri/adamcamilleri.github.io)',
-      ...(data.token ? { Authorization: 'OAuth ' + data.token } : {}),
+      ...(token ? { Authorization: 'OAuth ' + token } : {}),
     };
 
     let streamRes = await fetch(streamUrl, { redirect: 'manual', headers: authHeaders });
@@ -44,7 +54,7 @@ module.exports = async function handler(req, res) {
       const location = streamRes.headers.get('location');
       streamRes = await fetch(location, {
         redirect: 'follow',
-        headers: { 'Accept': 'audio/mpeg,audio/*,*/*', 'User-Agent': authHeaders['User-Agent'] },
+        headers: authHeaders,
       });
     }
 

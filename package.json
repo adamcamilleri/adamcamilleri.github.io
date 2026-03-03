@@ -2,7 +2,7 @@
   "name": "adamcamilleri-portfolio",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node --no-deprecation server.js",
     "build": "tsc",
     "test": "jest",
     "test:e2e": "start-server-and-test 'node server.js' http://localhost:3000 'cypress run'",

@@ -149,3 +149,4 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports.getDailyTrackData = getDailyTrackData;
+module.exports.getToken = getToken;
