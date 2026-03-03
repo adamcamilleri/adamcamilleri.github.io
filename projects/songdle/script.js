@@ -71,7 +71,7 @@
     // Use our stream proxy so the browser gets audio from our domain (avoids CORS/SoundCloud blocking)
     const streamUrl = API_BASE ? API_BASE + '/api/songdle-stream?date=' + today : song.preview_url;
     playBtn.disabled = true;
-    playBtn.textContent = ' Loading…';
+    playBtn.textContent = 'Loading…';
     audio = new Audio(streamUrl);
     audio.play()
       .then(() => {
@@ -89,7 +89,7 @@
       });
     // If play() never resolves (e.g. slow network), re-enable after a timeout
     setTimeout(() => {
-      if (playBtn.textContent === ' Loading…') {
+      if (playBtn.textContent === 'Loading…') {
         playBtn.disabled = false;
         updateUI();
         showFeedback('Playback didn’t start. Try again.', false);
@@ -98,16 +98,18 @@
   }
 
   function updateUI() {
+    if (!playBtn) return;
     const dur = REVEAL_DURATIONS[revealLevel] ?? 30;
-    playBtn.querySelector('.play-icon').textContent = '▶';
-    playBtn.textContent = ' Play (' + dur + 's)';
+    playBtn.textContent = '▶ Play (' + dur + 's)';
     playBtn.disabled = !song;
-    revealInfo.textContent = `Attempt ${revealLevel + 1}: ${dur} second${dur === 1 ? '' : 's'}`;
+    if (revealInfo) revealInfo.textContent = 'Attempt ' + (revealLevel + 1) + ': ' + dur + ' second' + (dur === 1 ? '' : 's');
   }
 
   function showFeedback(msg, correct) {
-    feedback.textContent = msg;
-    feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+    if (feedback) {
+      feedback.textContent = msg;
+      feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+    }
   }
 
   function win() {
@@ -156,7 +158,6 @@
       }
 
       updateUI();
-      playBtn.addEventListener('click', playClip);
       submitBtn.addEventListener('click', handleGuess);
       guessInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') handleGuess();
@@ -166,5 +167,6 @@
     }
   }
 
+  if (playBtn) playBtn.addEventListener('click', playClip);
   init();
 })();

@@ -1,10 +1,10 @@
 /**
  * Stream proxy for Songdle: fetches today's track preview from SoundCloud server-side
- * and pipes it to the client so the browser doesn't hit CORS/blocked direct URLs.
+ * and sends it to the client so the browser doesn't hit CORS/blocked direct URLs.
  * GET /api/songdle-stream?date=YYYY-MM-DD
  */
-const { Readable } = require('stream');
-const { getDailyTrackData } = require('./soundcloud-daily.js');
+const soundcloudDaily = require('./soundcloud-daily.js');
+const getDailyTrackData = soundcloudDaily.getDailyTrackData;
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -29,13 +29,10 @@ module.exports = async function handler(req, res) {
     }
 
     const contentType = streamRes.headers.get('content-type') || 'audio/mpeg';
+    const buf = await streamRes.arrayBuffer();
     res.setHeader('Content-Type', contentType);
-    if (streamRes.headers.get('content-length')) {
-      res.setHeader('Content-length', streamRes.headers.get('content-length'));
-    }
-
-    const nodeStream = Readable.fromWeb(streamRes.body);
-    nodeStream.pipe(res);
+    res.setHeader('Content-Length', buf.byteLength);
+    res.end(Buffer.from(buf));
   } catch (err) {
     console.error('Songdle stream error:', err);
     if (!res.headersSent) res.status(500).end();
