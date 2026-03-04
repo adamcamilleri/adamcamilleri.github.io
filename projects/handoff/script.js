@@ -306,10 +306,10 @@
       body: JSON.stringify(payload),
     })
       .then(function (r) {
-        if (!r.ok) return r.json().then(function (e) {
-          throw new Error(e.error || e.details || ('Server error ' + r.status));
-        }).catch(function () { throw new Error('Server error ' + r.status); });
-        return r.json();
+        return r.json().then(function (data) {
+          if (!r.ok) throw new Error(data.error || ('Server error ' + r.status));
+          return data;
+        });
       })
       .then(function (data) {
         removeTyping();

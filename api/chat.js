@@ -150,7 +150,7 @@ module.exports = async function handler(req, res) {
         const editKey = process.env.GEMINI_API_KEY;
         try {
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${editKey}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${editKey}`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -162,8 +162,9 @@ module.exports = async function handler(req, res) {
                 }
             );
             if (!response.ok) {
-                const err = await response.text();
-                return res.status(response.status).json({ error: 'Gemini API error', details: err });
+                const errData = await response.json().catch(() => ({}));
+                const msg = errData?.error?.message || errData?.error || ('Gemini error ' + response.status);
+                return res.status(response.status).json({ error: msg });
             }
             const data = await response.json();
             const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
@@ -213,7 +214,7 @@ module.exports = async function handler(req, res) {
 
     try {
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -226,8 +227,9 @@ module.exports = async function handler(req, res) {
         );
 
         if (!response.ok) {
-            const err = await response.text();
-            return res.status(response.status).json({ error: 'Gemini API error', details: err });
+            const errData = await response.json().catch(() => ({}));
+            const msg = errData?.error?.message || errData?.error || ('Gemini error ' + response.status);
+            return res.status(response.status).json({ error: msg });
         }
 
         const data = await response.json();
