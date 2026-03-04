@@ -35,7 +35,7 @@ TECHNICAL REQUIREMENTS:
 - Output only: REPLY line + HTML. No markdown fences. No extra explanation.
 - Self-contained — no external JS dependencies
 - Forms: use action="https://formsubmit.co/[email]" method="POST" if email provided, otherwise placeholder action="#"
-- Images: NEVER use real image URLs. Use styled placeholder divs (see pattern below). CRITICAL EXCEPTION: when the user message starts with "The user has uploaded" and provides img tags with {{img_N}} tokens, you MUST copy those exact img tags into the HTML at the specified location. The tokens look like {{img_1}}, {{img_2}} etc. — copy the src value verbatim, they are replaced with real images client-side. Do NOT replace them with placeholder divs.
+- Images: NEVER use external image URLs. Use styled placeholder divs for any new images. EXCEPTION: if the current HTML contains `<img>` tags with src values like `[img1]`, `[img2]` etc., preserve them exactly — these are user-uploaded images embedded by the client. Do NOT replace them with placeholder divs.
 
 DESIGN SYSTEM — follow these rules strictly:
 

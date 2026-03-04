@@ -95,17 +95,48 @@
   // Edit-mode script injected into preview iframes
   var EDIT_MODE_SCRIPT = '(function(){var on=false;function clear(){document.querySelectorAll("[data-hsel]").forEach(function(el){el.style.outline="";el.removeAttribute("data-hsel");});}window.addEventListener("message",function(e){if(e.data&&e.data.type==="handoff-edit"){on=e.data.enabled;clear();}});document.addEventListener("click",function(e){if(!on)return;e.preventDefault();e.stopPropagation();var el=e.target;while(el&&["BODY","HTML"].indexOf(el.tagName)===-1){var r=el.getBoundingClientRect();if(r.width>20&&r.height>20)break;el=el.parentElement;}if(!el||el.tagName==="HTML")return;clear();el.style.outline="2px solid #6366f1";el.setAttribute("data-hsel","1");window.parent.postMessage({type:"handoff-selected",html:el.outerHTML},"*");},true);})();';
 
+  // Tracks base64 data URLs stripped by prepareCurrentHtml, in DOM order
+  var embeddedImages = [];
+
   function prepareCurrentHtml(html) {
     if (!html) return '';
-    // Strip base64 image data before sending to API to keep payload small
-    return html.replace(/src="data:[^"]{50,}"/g, 'src="[embedded-image]"');
+    embeddedImages = [];
+    // Strip base64 data, replace with indexed placeholders so we can restore them later
+    return html.replace(/src="data:[^"]{50,}"/g, function (match) {
+      embeddedImages.push(match.slice(5, -1)); // store the data URL
+      return 'src="[img' + embeddedImages.length + ']"';
+    });
+  }
+
+  // Find and replace the first image placeholder div (bg-gray-100 rounded-2xl pattern)
+  // using a depth counter to handle nested tags safely
+  function replacePlaceholderDiv(html, replacement) {
+    var markers = ['bg-gray-100 rounded-2xl', 'rounded-2xl bg-gray-100'];
+    var idx = -1;
+    for (var m = 0; m < markers.length; m++) {
+      idx = html.indexOf(markers[m]);
+      if (idx !== -1) break;
+    }
+    if (idx === -1) return null;
+    var divStart = html.lastIndexOf('<div', idx);
+    if (divStart === -1) return null;
+    var depth = 0, pos = divStart;
+    while (pos < html.length) {
+      if (html.substr(pos, 4) === '<div') { depth++; pos += 4; }
+      else if (html.substr(pos, 6) === '</div>') {
+        depth--;
+        if (depth === 0) return html.slice(0, divStart) + replacement + html.slice(pos + 6);
+        pos += 6;
+      } else pos++;
+    }
+    return null;
   }
 
   function setPreview(html) {
     if (!html) return;
-    // Replace image placeholder tokens with actual base64 data URLs
-    Object.keys(state.images).forEach(function (id) {
-      html = html.split('{{' + id + '}}').join(state.images[id]);
+    // Restore any [imgN] placeholders created by prepareCurrentHtml
+    embeddedImages.forEach(function (dataUrl, i) {
+      html = html.split('[img' + (i + 1) + ']').join(dataUrl);
     });
     state.previewHtml = html;
 
@@ -278,46 +309,55 @@
     }
 
     var isFirstBuild = state.history.length === 0;
-
-    // Capture images before clearing
     var sentImages = state.pendingImages.slice();
+    state.pendingImages = [];
+    renderPendingImages();
 
-    // Build full message — image instruction comes FIRST so the AI sees it immediately
-    var fullText = text;
-    if (sentImages.length > 0) {
-      var imgBlock = 'The user has uploaded ' + sentImages.length + ' image(s). You MUST place them in the HTML using these exact img tags — do NOT substitute placeholder divs:\n';
-      sentImages.forEach(function (img, i) {
-        imgBlock += '  Image ' + (i + 1) + ': <img src="{{' + img.id + '}}" class="w-full h-full object-cover rounded-xl" alt="photo">\n';
-      });
-      imgBlock += 'These tokens are replaced with real image data client-side — copy the src value exactly as shown.\n\nUser placement instruction: ' + text;
-      fullText = imgBlock;
-      state.pendingImages = [];
-      renderPendingImages();
-    }
-
+    // Show user message + image thumbnails
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
     var msgEl = appendMessage('user', text);
-    // Show image thumbnails inside the chat message bubble
     if (sentImages.length > 0) {
       var thumbRow = document.createElement('div');
       thumbRow.className = 'msg-image-row';
       sentImages.forEach(function (img) {
         var t = document.createElement('img');
-        t.src = img.dataUrl;
-        t.className = 'msg-thumb';
-        t.alt = img.name;
+        t.src = img.dataUrl; t.className = 'msg-thumb'; t.alt = img.name;
         thumbRow.appendChild(t);
       });
       msgEl.appendChild(thumbRow);
     }
-    chatInput.value = '';
-    chatInput.style.height = 'auto';
+
+    // ── Client-side image placement (bypass AI — it can't reliably handle tokens) ──
+    if (sentImages.length > 0 && state.previewHtml) {
+      var modified = state.previewHtml;
+      var placed = 0;
+      sentImages.forEach(function (img) {
+        var imgTag = '<img src="' + img.dataUrl + '" class="w-full h-full object-cover rounded-2xl" alt="photo" style="min-height:280px">';
+        var result = replacePlaceholderDiv(modified, imgTag);
+        if (result !== null) { modified = result; placed++; }
+      });
+      if (placed > 0) {
+        setPreview(modified);
+        appendMessage('assistant', placed === sentImages.length
+          ? 'Done! Your ' + (placed > 1 ? 'images are' : 'image is') + ' in. Let me know if you\'d like to adjust the layout or anything else.'
+          : 'Placed ' + placed + ' of ' + sentImages.length + ' images — ran out of placeholder slots. Add more sections and try again.');
+        state.history.push({ role: 'user', content: text + ' [' + placed + ' image(s) added client-side]' });
+        state.history.push({ role: 'assistant', content: 'Image placed.' });
+        incrementUsage();
+        return;
+      }
+      // No placeholder found — fall through to API
+    }
+
+    // ── API call for text-based changes ──────────────────────────────────────────
     state.generating = true;
     sendBtn.disabled = true;
     appendTyping();
     showBuildingState();
 
     var payload = {
-      messages: state.history.concat([{ role: 'user', content: fullText }]),
+      messages: state.history.concat([{ role: 'user', content: text }]),
       currentHtml: prepareCurrentHtml(state.previewHtml || ''),
     };
 
@@ -341,7 +381,7 @@
 
         if (html) {
           setPreview(html);
-          state.history.push({ role: 'user', content: fullText });
+          state.history.push({ role: 'user', content: text });
           state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
           appendMessage('assistant', summary || defaultReply());
           if (isFirstBuild) {
