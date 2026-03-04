@@ -1,92 +1,39 @@
 # Handoff – Setup Guide
 
-Follow these steps to get chat, save, and deploy working.
+## Environment Variables
+
+| Variable | Required for | Where to get it |
+|----------|-------------|-----------------|
+| `GEMINI_API_KEY` | Chat (required) | [aistudio.google.com](https://aistudio.google.com) → Get API key |
+| `VERCEL_TOKEN` | Deploy button | Vercel → Account Settings → Tokens → Create |
+| `VERCEL_OAUTH_CLIENT_ID` | "Connect Vercel" OAuth | Vercel → Team → Settings → Apps → Create |
+| `VERCEL_OAUTH_CLIENT_SECRET` | "Connect Vercel" OAuth | Same as above |
+
+Add all vars in **Vercel → Your project → Settings → Environment Variables**, then **Redeploy**.
+For local dev, add to `.env` (copy from `.env.example`).
 
 ---
 
-## Chat (required)
+## Deploy Button Setup
 
-**GROQ_API_KEY** – Get a free key at [console.groq.com](https://console.groq.com). Add it in Vercel → Settings → Environment Variables (and in `.env` for local dev).
+**Option A – Your Vercel token** (recommended): Set `VERCEL_TOKEN`. Deploys go to your account, no OAuth needed.
 
----
+**Option B – User OAuth**: Lets visitors deploy to their own Vercel account. Create a Vercel OAuth app (Team → Settings → Apps → Create), set callback URL to your project's `/callback`, then add `VERCEL_OAUTH_CLIENT_ID` and `VERCEL_OAUTH_CLIENT_SECRET`. Note: Vercel OAuth deploy permissions are in private beta and may return "forbidden" — fall back to Option A if so.
 
-## Deploy button
-
-### Option A: User OAuth (recommended for portfolio visitors)
-
-Visitors can **Connect Vercel** so deploys go to *their* Vercel account. You need a Vercel OAuth app:
-
-1. Go to [vercel.com](https://vercel.com) → your **team** (sidebar) → **Settings** → scroll to **Apps** → **Create**
-2. **Application Name:** Handoff
-3. **Callback URL:** In "Authorization Callback URLs":
-   - **Select project `adamcamilleri-github-io` from the dropdown** – it defaults to `/callback` (use that)
-   - For local dev, add manually: `http://localhost:3000/callback`
-4. Copy **Client ID** and **Client Secret**
-5. In Vercel project: **Settings** → **Environment Variables**
-   - **Name:** `VERCEL_OAUTH_CLIENT_ID` | **Value:** your client ID  
-     (or `NEXT_PUBLIC_VERCEL_APP_CLIENT_ID` per Vercel Sign-in tutorial)
-   - **Name:** `VERCEL_OAUTH_CLIENT_SECRET` | **Value:** your client secret  
-     (or `VERCEL_APP_CLIENT_SECRET` per Vercel Sign-in tutorial)
-6. **Redeploy**
-
-> **Note:** OAuth tokens may have limited permissions. If users get "forbidden" on deploy, they can use Option B (your token) instead.
-
-### Option B: Your token (deploys to your account)
-
-**VERCEL_TOKEN** – Lets Handoff deploy to *your* Vercel account (no OAuth needed).
-
-1. Go to [vercel.com](https://vercel.com) → **Account Settings** (click your avatar) → **Tokens**
-2. Click **Create Token**
-3. Name it (e.g. "Handoff deploy"), set expiration, click **Create**
-4. **Copy the token immediately** (it's only shown once)
-5. In your Vercel project: **Settings** → **Environment Variables**
-6. Add:
-   - **Name:** `VERCEL_TOKEN`
-   - **Value:** your token
-   - **Environment:** Production (and Preview if you want)
-7. **Redeploy** (Deployments → ⋮ on latest → Redeploy)
-
-**Cleaner deploy URLs** – Add `HANDOFF_DEPLOY_PREFIX` (e.g. `adamcamilleri-site`) in Vercel env vars. Deployed URLs will look like `adamcamilleri-site-handoff-x7k2m9.vercel.app` instead of long random names.
-
----
-
-## Save design button
-
-**MONGODB_URI** – Lets Handoff save designs to a database.
-
-### Option A: MongoDB Atlas (free tier)
-
-1. Go to [mongodb.com/atlas](https://www.mongodb.com/atlas) and create a free account
-2. Create a **free cluster** (M0)
-3. Click **Connect** → **Drivers** → copy the connection string (looks like `mongodb+srv://user:pass@cluster.mongodb.net/`)
-4. Replace `<password>` with your database user password
-5. Add `handoff` to the end: `mongodb+srv://user:pass@cluster.mongodb.net/handoff`
-6. In Vercel: **Settings** → **Environment Variables**
-   - **Name:** `MONGODB_URI`
-   - **Value:** your connection string
-7. **Redeploy**
-
-### Option B: Local Docker
-
-When you run `docker compose up`, MongoDB runs in a container. The API uses `mongodb://mongo:27017/handoff` automatically. No Atlas needed for local dev.
-
----
-
-## Where to add env vars
-
-| Where you use Handoff | Where to add vars |
-|----------------------|-------------------|
-| **Live site** (adamcamilleri.github.io) | Vercel → your project → Settings → Environment Variables |
-| **Local** (npm run dev or Docker) | `.env` file in repo root (copy from `.env.example`) |
+**Custom deploy URL prefix**: Set `HANDOFF_DEPLOY_PREFIX` (e.g. `myname-site`) to get cleaner URLs like `myname-site-handoff-x7k2m9.vercel.app`.
 
 ---
 
 ## Troubleshooting
 
-| Issue | What to check |
-|-------|----------------|
-| "Demo mode: no API configured" | `API_BASE` is empty or wrong in `script.js` |
-| "GROQ_API_KEY not configured" | Add in Vercel → Environment Variables, then redeploy |
-| "VERCEL_TOKEN not configured" | Add token in Vercel → Environment Variables, redeploy |
-| "MONGODB_URI not configured" | Add Atlas URI in Vercel, or use Docker locally |
-| CORS errors | Your Handoff page must be served from `adamcamilleri.github.io` or `localhost` |
+| Symptom | Fix |
+|---------|-----|
+| "GEMINI_API_KEY not configured" | Add key in Vercel env vars, redeploy |
+| "VERCEL_TOKEN not configured" | Add token in Vercel env vars, redeploy |
+| "Connect Vercel" button does nothing | Check `API_BASE` in script.js; check CORS |
+| OAuth redirect fails | Verify callback URL in OAuth app matches `/callback` exactly |
+| Deploy fails with "forbidden" | OAuth permissions issue — use `VERCEL_TOKEN` (Option A) instead |
+| API routes return 404 | Vercel → Project → Settings → General: ensure Root Directory is empty or `.` |
+| CORS errors | Page must be served from `adamcamilleri.github.io` or `localhost` |
+
+**After any env var change, redeploy.** Check Vercel function logs for detailed errors.

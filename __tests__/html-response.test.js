@@ -1,5 +1,5 @@
 /**
- * Unit tests for AI response HTML extraction and sanitization (shift-left, XSS prevention)
+ * Unit tests for HTML extraction and sanitization from API responses (shift-left, XSS prevention)
  * Run: npm test
  */
 const { extractHtmlFromResponse, fixImagePlaceholders } = require('../api/_lib/html-response.js');
