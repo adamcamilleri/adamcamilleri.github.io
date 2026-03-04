@@ -294,6 +294,7 @@
       return;
     }
 
+    var isFirstBuild = state.history.length === 0;
     appendMessage('user', text);
     chatInput.value = '';
     chatInput.style.height = 'auto';
@@ -303,8 +304,7 @@
     showBuildingState();
 
     var payload = {
-      user: text,
-      messages: state.history.slice(),
+      messages: state.history.concat([{ role: 'user', content: text }]),
       currentHtml: state.previewHtml || '',
     };
 
@@ -328,9 +328,10 @@
           setPreview(html);
           state.history.push({ role: 'user', content: text });
           state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
-          var botReply = summary || defaultReply(text);
-          if (followup) botReply += '\n\n' + followup;
-          appendMessage('assistant', botReply);
+          appendMessage('assistant', summary || defaultReply(text));
+          if (isFirstBuild) {
+            appendMessage('assistant', followup || buildFollowupQuestion(text));
+          }
           incrementUsage();
         } else if (reply) {
           // Non-HTML response (e.g. feature not supported message)
@@ -359,6 +360,29 @@
       return 'Done! I\'ve applied your changes. What else would you like to adjust?';
     }
     return 'Here\'s your site! Take a look at the preview. What would you like to change?';
+  }
+
+  function buildFollowupQuestion(userText) {
+    var t = (userText || '').toLowerCase();
+    if (/restaurant|cafe|caf[eé]|pizza|food|diner|bistro|eatery|menu/.test(t))
+      return 'What\'s the restaurant\'s name, address, and phone number? What are your opening hours, and do you have any signature dishes with prices to add?';
+    if (/barbershop|barber|salon|haircut|grooming|spa/.test(t))
+      return 'What\'s the shop\'s name and address? What are your hours and the prices for your main services?';
+    if (/gym|fitness|yoga|pilates|crossfit|training|workout/.test(t))
+      return 'What\'s the gym\'s name and location? What classes do you offer, and what are your membership prices?';
+    if (/photographer|photography|wedding photo|portrait/.test(t))
+      return 'What\'s your name and the areas you serve? What packages do you offer and at what prices?';
+    if (/portfolio|designer|developer|freelancer|ux|ui/.test(t))
+      return 'What\'s your name and job title? What are your top 3–4 skills or specialties you\'d like to highlight?';
+    if (/startup|saas|app|software|product|tech|platform/.test(t))
+      return 'What\'s the product called and what problem does it solve? What are your pricing tiers called and how much do they cost?';
+    if (/boutique|shop|store|clothing|retail|fashion/.test(t))
+      return 'What\'s the store\'s name and location? What kinds of products do you carry?';
+    if (/law|lawyer|attorney|legal/.test(t))
+      return 'What\'s the firm\'s name and location? What areas of law do you specialise in, and what\'s the best way for clients to contact you?';
+    if (/clinic|dentist|doctor|medical|health|therapy/.test(t))
+      return 'What\'s the practice\'s name and address? What services do you offer, and what are your hours?';
+    return 'To make this feel real — what\'s the business name, address, phone number, and opening hours?';
   }
 
   sendBtn.addEventListener('click', sendMessage);
