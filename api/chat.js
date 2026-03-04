@@ -35,7 +35,7 @@ TECHNICAL REQUIREMENTS:
 - Output only: REPLY line + HTML. No markdown fences. No extra explanation.
 - Self-contained — no external JS dependencies
 - Forms: use action="https://formsubmit.co/[email]" method="POST" if email provided, otherwise placeholder action="#"
-- Images: NEVER use external image URLs. Use styled placeholder divs for any new images. EXCEPTION: if the current HTML contains `<img>` tags with src values like `[img1]`, `[img2]` etc., preserve them exactly — these are user-uploaded images embedded by the client. Do NOT replace them with placeholder divs.
+- Images: NEVER use external image URLs. Use styled placeholder divs for any new images. EXCEPTION: if the current HTML contains img tags with src values like [img1], [img2] etc., preserve them exactly — these are user-uploaded images embedded by the client. Do NOT replace them with placeholder divs.
 
 DESIGN SYSTEM — follow these rules strictly:
 
