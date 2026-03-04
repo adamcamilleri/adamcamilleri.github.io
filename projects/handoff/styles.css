@@ -835,11 +835,10 @@ header {
 #onboardingOverlay {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 24px;
+  flex-direction: column;
   overflow-y: auto;
   background: var(--bg);
+  padding: 48px 24px;
 }
 
 #onboardingOverlay.hidden { display: none; }
@@ -847,9 +846,14 @@ header {
 .ob-inner {
   width: 100%;
   max-width: 540px;
+  margin: auto;
 }
 
-.ob-step { width: 100%; }
+.ob-step {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 .ob-icons {
   display: flex;
@@ -900,6 +904,7 @@ header {
 .ob-back-btn:hover { color: var(--text); }
 
 .ob-textarea {
+  display: block;
   width: 100%;
   padding: 18px 20px;
   background: var(--surface-2);
@@ -919,6 +924,7 @@ header {
 .ob-textarea--sm { min-height: 90px; }
 
 .ob-input {
+  display: block;
   width: 100%;
   padding: 18px 20px;
   background: var(--surface-2);
