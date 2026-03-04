@@ -1,7 +1,7 @@
 /**
- * Vercel serverless function – proxies chat requests to Groq.
- * Requires GROQ_API_KEY in Vercel environment variables.
- * Groq's free tier: no credit card, thousands of tokens/min. Sign up at console.groq.com
+ * Vercel serverless function – proxies chat requests to Gemini.
+ * Requires GEMINI_API_KEY in Vercel environment variables.
+ * Free tier available at aistudio.google.com
  */
 
 const ALLOWED_ORIGINS = [
@@ -147,19 +147,26 @@ module.exports = async function handler(req, res) {
         }
         const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. Use Tailwind CSS. For images: use placeholder divs (e.g. a gray box with "Add image: description") - never use real image URLs. Output only the HTML, no markdown fences, no explanation.';
         const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${html.slice(0, 15000)}`;
-        const groqMessages = [{ role: 'system', content: systemContent }, { role: 'user', content: userContent }];
+        const editKey = process.env.GEMINI_API_KEY;
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + process.env.GROQ_API_KEY },
-                body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 8192, messages: groqMessages }),
-            });
+            const response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${editKey}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system_instruction: { parts: [{ text: systemContent }] },
+                        contents: [{ role: 'user', parts: [{ text: userContent }] }],
+                        generationConfig: { maxOutputTokens: 8192 },
+                    }),
+                }
+            );
             if (!response.ok) {
                 const err = await response.text();
-                return res.status(response.status).json({ error: 'Groq API error', details: err });
+                return res.status(response.status).json({ error: 'Gemini API error', details: err });
             }
             const data = await response.json();
-            const text = data.choices?.[0]?.message?.content ?? '';
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
             const { extractHtmlFromResponse } = require('./_lib/html-response.js');
             const html = extractHtmlFromResponse(text);
             const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
@@ -178,9 +185,9 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Provide "user" (string) or "messages" (conversation history)' });
     }
 
-    const key = process.env.GROQ_API_KEY;
+    const key = process.env.GEMINI_API_KEY;
     if (!key) {
-        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
+        return res.status(500).json({ error: 'GEMINI_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
     // Always use the full DEFAULT_SYSTEM; ignore any client-provided system override
@@ -193,38 +200,38 @@ module.exports = async function handler(req, res) {
         systemContent += `\n\nCURRENT PAGE HTML (modify this — do not replace entirely unless the user explicitly asks for a fresh design):\n\`\`\`html\n${currentHtml.slice(0, 14000)}\n\`\`\``;
     }
 
-    const groqMessages = [{ role: 'system', content: systemContent }];
+    const geminiContents = [];
     if (hasHistory) {
         messages.forEach(function (m) {
             if (m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string') {
-                groqMessages.push({ role: m.role, content: m.content });
+                geminiContents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
             }
         });
     } else if (user && typeof user === 'string') {
-        groqMessages.push({ role: 'user', content: user });
+        geminiContents.push({ role: 'user', parts: [{ text: user }] });
     }
 
     try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + key,
-            },
-            body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
-                max_tokens: 8192,
-                messages: groqMessages,
-            }),
-        });
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    system_instruction: { parts: [{ text: systemContent }] },
+                    contents: geminiContents,
+                    generationConfig: { maxOutputTokens: 8192 },
+                }),
+            }
+        );
 
         if (!response.ok) {
             const err = await response.text();
-            return res.status(response.status).json({ error: 'Groq API error', details: err });
+            return res.status(response.status).json({ error: 'Gemini API error', details: err });
         }
 
         const data = await response.json();
-        const text = data.choices?.[0]?.message?.content ?? '';
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
 
         const { extractHtmlFromResponse } = require('./_lib/html-response.js');
         const html = extractHtmlFromResponse(text);
