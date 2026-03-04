@@ -101,6 +101,23 @@ OUT OF SCOPE — respond with a friendly short message only (no HTML):
 
 When MODIFYING an existing site: change ONLY what was requested. Preserve all other sections exactly.`;
 
+const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_URL = (key) => `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
+
+async function callGemini(key, systemText, contents) {
+    const body = JSON.stringify({
+        system_instruction: { parts: [{ text: systemText }] },
+        contents,
+        generationConfig: { maxOutputTokens: 8192 },
+    });
+    const opts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body };
+    let response = await fetch(GEMINI_URL(key), opts);
+    if (response.status === 429) {
+        await new Promise(r => setTimeout(r, 2000));
+        response = await fetch(GEMINI_URL(key), opts);
+    }
+    return response;
+}
 
 module.exports = async function handler(req, res) {
     Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
@@ -149,18 +166,7 @@ module.exports = async function handler(req, res) {
         const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${html.slice(0, 15000)}`;
         const editKey = process.env.GEMINI_API_KEY;
         try {
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${editKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        system_instruction: { parts: [{ text: systemContent }] },
-                        contents: [{ role: 'user', parts: [{ text: userContent }] }],
-                        generationConfig: { maxOutputTokens: 8192 },
-                    }),
-                }
-            );
+            const response = await callGemini(editKey, systemContent, [{ role: 'user', parts: [{ text: userContent }] }]);
             if (!response.ok) {
                 const errData = await response.json().catch(() => ({}));
                 const msg = errData?.error?.message || errData?.error || ('Gemini error ' + response.status);
@@ -213,18 +219,7 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    system_instruction: { parts: [{ text: systemContent }] },
-                    contents: geminiContents,
-                    generationConfig: { maxOutputTokens: 8192 },
-                }),
-            }
-        );
+        const response = await callGemini(key, systemContent, geminiContents);
 
         if (!response.ok) {
             const errData = await response.json().catch(() => ({}));
