@@ -49,31 +49,16 @@
   };
 
   // ── Onboarding data ────────────────────────────────────────────────────────────
-  var BUSINESS_TYPES = [
-    { emoji: '🍕', label: 'Restaurant' },
-    { emoji: '✂️', label: 'Barbershop' },
-    { emoji: '🎨', label: 'Portfolio' },
-    { emoji: '🚀', label: 'Startup' },
-    { emoji: '📸', label: 'Photographer' },
-    { emoji: '🏋️', label: 'Gym' },
-    { emoji: '🛍️', label: 'Boutique' },
-    { emoji: '🏠', label: 'Real Estate' },
-    { emoji: '🏨', label: 'Hotel' },
-    { emoji: '🐾', label: 'Pet Care' },
-    { emoji: '💆', label: 'Spa & Wellness' },
-    { emoji: '💻', label: 'Freelancer' },
-  ];
-
   var REVENUE_OPTIONS = [
     'Just starting out',
-    '$1 – $1,000 / mo',
-    '$1,001 – $5,000 / mo',
-    '$5,001 – $15,000 / mo',
-    '$15,000+ / mo',
+    '$1 to $1,000',
+    '$1,001 to $5,000',
+    '$5,001 to $15,000',
+    '$15,000+',
     'Prefer not to say',
   ];
 
-  var onboarding = { type: null, revenue: null, location: null, name: null };
+  var onboarding = { businessDesc: null, revenue: null, location: null, name: null };
 
   // ── Usage Tracking ─────────────────────────────────────────────────────────────
   function getUsage() {
@@ -386,75 +371,128 @@
   });
 
   // ── Onboarding ────────────────────────────────────────────────────────────────
-  function showStep(n) {
+  function showObStep(n) {
     [1, 2, 3, 4, 5].forEach(function (i) {
-      document.getElementById('onboardingStep' + i).classList.toggle('hidden', i !== n);
+      document.getElementById('obStep' + i).classList.toggle('hidden', i !== n);
     });
   }
 
   function initOnboarding() {
-    var grid = document.getElementById('bizGrid');
-    BUSINESS_TYPES.forEach(function (bt) {
-      var card = document.createElement('button');
-      card.className = 'biz-card';
-      card.innerHTML = '<span class="biz-emoji">' + bt.emoji + '</span><span class="biz-label">' + bt.label + '</span>';
-      card.addEventListener('click', function () {
-        onboarding.type = bt.label;
-        showStep(2);
-      });
-      grid.appendChild(card);
+    // Step 1 — business description textarea
+    var bizInput = document.getElementById('bizDescInput');
+    var step1Btn = document.getElementById('step1Next');
+    bizInput.addEventListener('input', function () {
+      step1Btn.disabled = !this.value.trim();
+    });
+    step1Btn.addEventListener('click', function () {
+      var val = bizInput.value.trim();
+      if (!val) return;
+      onboarding.businessDesc = val;
+      showObStep(2);
+    });
+    bizInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey && !step1Btn.disabled) {
+        e.preventDefault();
+        step1Btn.click();
+      }
     });
 
-    var pills = document.getElementById('revenuePills');
+    // Step 2 — revenue pills
+    var revenueGrid = document.getElementById('revenueGrid');
+    var step2Btn = document.getElementById('step2Next');
     REVENUE_OPTIONS.forEach(function (opt) {
       var pill = document.createElement('button');
-      pill.className = 'revenue-pill';
+      pill.className = 'ob-revenue-pill';
       pill.textContent = opt;
       pill.addEventListener('click', function () {
+        revenueGrid.querySelectorAll('.ob-revenue-pill').forEach(function (p) {
+          p.classList.remove('selected');
+        });
+        pill.classList.add('selected');
         onboarding.revenue = opt;
-        showStep(3);
-        document.getElementById('locationInput').focus();
+        step2Btn.disabled = false;
       });
-      pills.appendChild(pill);
+      revenueGrid.appendChild(pill);
+    });
+    step2Btn.addEventListener('click', function () {
+      if (!onboarding.revenue) return;
+      showObStep(3);
+      document.getElementById('locationInput').focus();
     });
 
-    document.getElementById('locationNext').addEventListener('click', advanceFromLocation);
-    document.getElementById('locationInput').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') advanceFromLocation();
+    // Step 3 — location
+    var locationInput = document.getElementById('locationInput');
+    var step3Btn = document.getElementById('step3Next');
+    locationInput.addEventListener('input', function () {
+      step3Btn.disabled = !this.value.trim();
+    });
+    locationInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !step3Btn.disabled) step3Btn.click();
+    });
+    step3Btn.addEventListener('click', function () {
+      var val = locationInput.value.trim();
+      if (!val) return;
+      onboarding.location = val;
+      showObStep(4);
+      document.getElementById('nameInput').focus();
     });
 
-    document.getElementById('nameNext').addEventListener('click', advanceFromName);
-    document.getElementById('nameInput').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') advanceFromName();
+    // Step 4 — business name
+    var nameInput = document.getElementById('nameInput');
+    var step4Btn = document.getElementById('step4Next');
+    nameInput.addEventListener('input', function () {
+      step4Btn.disabled = !this.value.trim();
+    });
+    nameInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !step4Btn.disabled) step4Btn.click();
+    });
+    step4Btn.addEventListener('click', function () {
+      var val = nameInput.value.trim();
+      if (!val) return;
+      onboarding.name = val;
+      var revenuePhrase = revenueToPhrase(onboarding.revenue);
+      document.getElementById('summaryText').innerHTML =
+        'You\'re building <strong>' + onboarding.name + '</strong>, a <strong>' + onboarding.businessDesc + '</strong> in <strong>' + onboarding.location + '</strong>' +
+        (revenuePhrase ? ', and ' + revenuePhrase : '') + '.';
+      showObStep(5);
     });
 
-    document.getElementById('generateBtn').addEventListener('click', triggerGenerate);
+    // Step 5 — extras + progress bar
+    var extrasInput = document.getElementById('extrasInput');
+    var progressBar = document.getElementById('progressBar');
+    extrasInput.addEventListener('input', function () {
+      var pct = 15 + Math.min(85, (this.value.length / 150) * 85);
+      progressBar.style.width = pct + '%';
+    });
+    document.getElementById('buildBtn').addEventListener('click', triggerGenerate);
+
+    // Back buttons
+    document.getElementById('back2').addEventListener('click', function () { showObStep(1); });
+    document.getElementById('back3').addEventListener('click', function () { showObStep(2); });
+    document.getElementById('back4').addEventListener('click', function () { showObStep(3); });
+    document.getElementById('back5').addEventListener('click', function () { showObStep(4); });
   }
 
-  function advanceFromLocation() {
-    var val = document.getElementById('locationInput').value.trim();
-    if (!val) return;
-    onboarding.location = val;
-    showStep(4);
-    document.getElementById('nameInput').focus();
-  }
-
-  function advanceFromName() {
-    var val = document.getElementById('nameInput').value.trim();
-    if (!val) return;
-    onboarding.name = val;
-    document.getElementById('summaryCard').innerHTML =
-      'You\'re building <strong>' + onboarding.name + '</strong>, a <strong>' + onboarding.type + '</strong> in <strong>' + onboarding.location + '</strong>.';
-    showStep(5);
+  function revenueToPhrase(revenue) {
+    if (!revenue || revenue === 'Prefer not to say') return '';
+    if (revenue === 'Just starting out') return 'you\'re just getting started';
+    return 'you\'re making ' + revenue + '/mo';
   }
 
   function triggerGenerate() {
     var extras = document.getElementById('extrasInput').value.trim();
-    var prompt = 'Build a website for ' + onboarding.type + ' called "' + onboarding.name + '" based in ' + onboarding.location + '.';
+    var prompt = 'Build a professional website for a ' + onboarding.businessDesc +
+      ' called "' + onboarding.name + '", based in ' + onboarding.location + '.';
+    if (onboarding.revenue && onboarding.revenue !== 'Prefer not to say') {
+      prompt += ' Business revenue: ' + onboarding.revenue + '/mo.';
+    }
     if (extras) prompt += ' Additional details: ' + extras;
+
+    document.getElementById('onboardingOverlay').classList.add('hidden');
+    document.querySelector('.workspace').classList.remove('hidden');
+    chatFooter.classList.remove('hidden');
     chatInput.value = prompt;
     chatInput.style.height = 'auto';
-    chatFooter.classList.remove('hidden');
     sendMessage();
   }
 

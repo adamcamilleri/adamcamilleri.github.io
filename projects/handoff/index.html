@@ -21,41 +21,97 @@
       </div>
     </header>
 
+    <!-- Onboarding Overlay -->
+    <div id="onboardingOverlay">
+      <div class="ob-inner">
+
+        <!-- Step 1: Business Type -->
+        <div id="obStep1" class="ob-step">
+          <div class="ob-icons ob-icons--amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4.9 11.8L16 16H8l-.9-2.2A7 7 0 0 1 12 2z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
+          </div>
+          <h2 class="ob-question">What type of business are you building?</h2>
+          <textarea class="ob-textarea" id="bizDescInput" placeholder="Eg. personal training and nutrition planning" rows="3"></textarea>
+          <button class="ob-next-btn" id="step1Next" disabled>Next</button>
+        </div>
+
+        <!-- Step 2: Revenue -->
+        <div id="obStep2" class="ob-step hidden">
+          <div class="ob-icons ob-icons--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7a2 2 0 0 0-2-2H5a1 1 0 0 1 0-2h13"/><rect x="2" y="7" width="20" height="13" rx="2"/><circle cx="16" cy="13.5" r="1.5"/></svg>
+          </div>
+          <div class="ob-question-row">
+            <button class="ob-back-btn" id="back2">&#8249;</button>
+            <h2 class="ob-question">What is your current monthly revenue?</h2>
+          </div>
+          <div class="ob-revenue-grid" id="revenueGrid"></div>
+          <button class="ob-next-btn" id="step2Next" disabled>Next</button>
+        </div>
+
+        <!-- Step 3: Location -->
+        <div id="obStep3" class="ob-step hidden">
+          <div class="ob-icons ob-icons--purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          </div>
+          <div class="ob-question-row">
+            <button class="ob-back-btn" id="back3">&#8249;</button>
+            <h2 class="ob-question">Where is your business located?</h2>
+          </div>
+          <input type="text" class="ob-input" id="locationInput" placeholder="e.g. Brooklyn, New York">
+          <button class="ob-next-btn" id="step3Next" disabled>Next</button>
+        </div>
+
+        <!-- Step 4: Business Name -->
+        <div id="obStep4" class="ob-step hidden">
+          <div class="ob-icons ob-icons--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+          </div>
+          <div class="ob-question-row">
+            <button class="ob-back-btn" id="back4">&#8249;</button>
+            <h2 class="ob-question">What is the name of your business?</h2>
+          </div>
+          <input type="text" class="ob-input" id="nameInput" placeholder="Enter your business name">
+          <button class="ob-next-btn" id="step4Next" disabled>Next</button>
+        </div>
+
+        <!-- Step 5: Summary -->
+        <div id="obStep5" class="ob-step hidden">
+          <div class="ob-icons ob-icons--amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4.9 11.8L16 16H8l-.9-2.2A7 7 0 0 1 12 2z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          </div>
+          <div class="ob-question-row">
+            <button class="ob-back-btn" id="back5">&#8249;</button>
+            <h2 class="ob-question">Here's our summary:</h2>
+          </div>
+          <p class="ob-summary-text" id="summaryText"></p>
+          <textarea class="ob-textarea ob-textarea--sm" id="extrasInput" rows="3" placeholder="Tell us more about your services, target customers, or any other details..."></textarea>
+          <div class="ob-progress-wrap">
+            <div class="ob-progress-bar" id="progressBar"></div>
+          </div>
+          <p class="ob-progress-hint">Add more details to help AI generate you better results</p>
+          <button class="ob-next-btn ob-build-btn" id="buildBtn">Start building</button>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Workspace -->
-    <div class="workspace">
+    <div class="workspace hidden">
 
       <!-- Chat Panel -->
       <aside class="chat-panel">
         <div class="messages" id="messages">
-          <div class="welcome" id="welcomeState">
-            <div id="onboardingStep1" class="onboarding-step">
-              <h2 class="welcome-title">What kind of business is it?</h2>
-              <div class="biz-grid" id="bizGrid"></div>
-            </div>
-            <div id="onboardingStep2" class="onboarding-step hidden">
-              <h2 class="welcome-title">How's business going?</h2>
-              <div class="revenue-pills" id="revenuePills"></div>
-            </div>
-            <div id="onboardingStep3" class="onboarding-step hidden">
-              <h2 class="welcome-title">Where is your business based?</h2>
-              <div class="onboarding-input-row">
-                <input type="text" id="locationInput" placeholder="e.g. Brooklyn, New York" class="onboarding-text-input">
-                <button class="onboarding-next-btn" id="locationNext">Next &rarr;</button>
-              </div>
-            </div>
-            <div id="onboardingStep4" class="onboarding-step hidden">
-              <h2 class="welcome-title">What's your business called?</h2>
-              <div class="onboarding-input-row">
-                <input type="text" id="nameInput" placeholder="e.g. Mario's Pizzeria" class="onboarding-text-input">
-                <button class="onboarding-next-btn" id="nameNext">Next &rarr;</button>
-              </div>
-            </div>
-            <div id="onboardingStep5" class="onboarding-step hidden">
-              <div class="summary-card" id="summaryCard"></div>
-              <textarea id="extrasInput" class="onboarding-extras" placeholder="Anything else? (optional — hours, colours, tagline…)" rows="3"></textarea>
-              <button class="generate-btn" id="generateBtn">Generate My Website &rarr;</button>
-            </div>
-          </div>
+          <div class="welcome" id="welcomeState"></div>
         </div>
         <div class="chat-footer hidden" id="chatFooter">
           <div class="input-wrap">
