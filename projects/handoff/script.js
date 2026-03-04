@@ -38,14 +38,19 @@
   var deployResult        = document.getElementById('deployResult');
   var deployResultUrl     = document.getElementById('deployResultUrl');
   var deployResultCopy    = document.getElementById('deployResultCopy');
+  var imageStrip          = document.getElementById('imageStrip');
+  var imageInput          = document.getElementById('imageInput');
 
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
-    previewHtml:  null,
-    history:      [],   // [{role, content}] conversation history
-    editModeOn:   false,
-    selectedHtml: null,
-    generating:   false,
+    previewHtml:   null,
+    history:       [],   // [{role, content}] conversation history
+    editModeOn:    false,
+    selectedHtml:  null,
+    generating:    false,
+    images:        {},   // { 'img_1': 'data:...' } all uploaded images
+    imageCount:    0,
+    pendingImages: [],   // [{ id, dataUrl, name }] attached to next outgoing message
   };
 
   // ── Onboarding data ────────────────────────────────────────────────────────────
@@ -90,8 +95,18 @@
   // Edit-mode script injected into preview iframes
   var EDIT_MODE_SCRIPT = '(function(){var on=false;function clear(){document.querySelectorAll("[data-hsel]").forEach(function(el){el.style.outline="";el.removeAttribute("data-hsel");});}window.addEventListener("message",function(e){if(e.data&&e.data.type==="handoff-edit"){on=e.data.enabled;clear();}});document.addEventListener("click",function(e){if(!on)return;e.preventDefault();e.stopPropagation();var el=e.target;while(el&&["BODY","HTML"].indexOf(el.tagName)===-1){var r=el.getBoundingClientRect();if(r.width>20&&r.height>20)break;el=el.parentElement;}if(!el||el.tagName==="HTML")return;clear();el.style.outline="2px solid #6366f1";el.setAttribute("data-hsel","1");window.parent.postMessage({type:"handoff-selected",html:el.outerHTML},"*");},true);})();';
 
+  function prepareCurrentHtml(html) {
+    if (!html) return '';
+    // Strip base64 image data before sending to API to keep payload small
+    return html.replace(/src="data:[^"]{50,}"/g, 'src="[embedded-image]"');
+  }
+
   function setPreview(html) {
     if (!html) return;
+    // Replace image placeholder tokens with actual base64 data URLs
+    Object.keys(state.images).forEach(function (id) {
+      html = html.split('{{' + id + '}}').join(state.images[id]);
+    });
     state.previewHtml = html;
 
     // Inject Tailwind if not already present
@@ -263,6 +278,19 @@
     }
 
     var isFirstBuild = state.history.length === 0;
+
+    // Build full message content — append image instructions if images are attached
+    var fullText = text;
+    if (state.pendingImages.length > 0) {
+      fullText += '\n\n[Attached images:';
+      state.pendingImages.forEach(function (img, i) {
+        fullText += ' Image ' + (i + 1) + ' token={{' + img.id + '}}.';
+      });
+      fullText += ' For each image use <img src="{{token}}" class="w-full h-full object-cover" alt="..."> with the exact token string as the src. Place them where the user described above.]';
+      state.pendingImages = [];
+      renderPendingImages();
+    }
+
     appendMessage('user', text);
     chatInput.value = '';
     chatInput.style.height = 'auto';
@@ -272,8 +300,8 @@
     showBuildingState();
 
     var payload = {
-      messages: state.history.concat([{ role: 'user', content: text }]),
-      currentHtml: state.previewHtml || '',
+      messages: state.history.concat([{ role: 'user', content: fullText }]),
+      currentHtml: prepareCurrentHtml(state.previewHtml || ''),
     };
 
     fetch(API_BASE + '/api/chat', {
@@ -296,7 +324,7 @@
 
         if (html) {
           setPreview(html);
-          state.history.push({ role: 'user', content: text });
+          state.history.push({ role: 'user', content: fullText });
           state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
           appendMessage('assistant', summary || defaultReply(text));
           if (isFirstBuild) {
@@ -479,21 +507,90 @@
     return 'you\'re making ' + revenue + '/mo';
   }
 
+  function generateFromOnboarding(prompt) {
+    if (state.generating) return;
+    state.generating = true;
+    sendBtn.disabled = true;
+    appendTyping();
+    showBuildingState();
+
+    fetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: prompt }],
+        currentHtml: '',
+      }),
+    })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          if (!r.ok) throw new Error(data.error || ('Server error ' + r.status));
+          return data;
+        });
+      })
+      .then(function (data) {
+        removeTyping();
+        if (data.html) {
+          setPreview(data.html);
+          state.history.push({ role: 'user', content: prompt });
+          state.history.push({ role: 'assistant', content: data.summary || 'Site built.' });
+          appendMessage('assistant', 'Your site has been built based on the data provided. If you would like to add more details please describe them below. If you would like to add images, please upload them and describe where you would like them placed.');
+          incrementUsage();
+        } else {
+          appendMessage('assistant', data.reply || 'Something went wrong — please try again.');
+          showEmptyState();
+        }
+      })
+      .catch(function (err) {
+        removeTyping();
+        var msg = (err && err.message && err.message.length < 200) ? err.message : 'Connection error — check your internet and try again.';
+        appendMessage('assistant', msg);
+        showEmptyState();
+      })
+      .finally(function () {
+        state.generating = false;
+        sendBtn.disabled = false;
+      });
+  }
+
   function triggerGenerate() {
     var extras = document.getElementById('extrasInput').value.trim();
     var prompt = 'Build a professional website for a ' + onboarding.businessDesc +
       ' called "' + onboarding.name + '", based in ' + onboarding.location + '.';
     if (onboarding.revenue && onboarding.revenue !== 'Prefer not to say') {
-      prompt += ' Business revenue: ' + onboarding.revenue + '/mo.';
+      prompt += ' Revenue: ' + onboarding.revenue + '/mo.';
     }
     if (extras) prompt += ' Additional details: ' + extras;
+    prompt += ' Do not ask for any more information — build the full site now using the details provided.';
 
     document.getElementById('onboardingOverlay').classList.add('hidden');
     document.querySelector('.workspace').classList.remove('hidden');
     chatFooter.classList.remove('hidden');
-    chatInput.value = prompt;
-    chatInput.style.height = 'auto';
-    sendMessage();
+    generateFromOnboarding(prompt);
+  }
+
+  function renderPendingImages() {
+    if (!imageStrip) return;
+    imageStrip.innerHTML = '';
+    imageStrip.classList.toggle('hidden', state.pendingImages.length === 0);
+    state.pendingImages.forEach(function (img) {
+      var thumb = document.createElement('div');
+      thumb.className = 'image-thumb';
+      var imgEl = document.createElement('img');
+      imgEl.src = img.dataUrl;
+      imgEl.alt = img.name;
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-thumb';
+      removeBtn.innerHTML = '&#215;';
+      removeBtn.setAttribute('data-id', img.id);
+      removeBtn.addEventListener('click', function () {
+        state.pendingImages = state.pendingImages.filter(function (i) { return i.id !== img.id; });
+        renderPendingImages();
+      });
+      thumb.appendChild(imgEl);
+      thumb.appendChild(removeBtn);
+      imageStrip.appendChild(thumb);
+    });
   }
 
   // ── Download ──────────────────────────────────────────────────────────────────
@@ -598,6 +695,23 @@
     upgradeModal.classList.add('hidden');
     appendMessage('assistant', 'Pro plan is on the way! You\'ll be the first to know when it launches.');
   });
+
+  // ── Image Upload ──────────────────────────────────────────────────────────────
+  if (imageInput) {
+    imageInput.addEventListener('change', function (e) {
+      Array.from(e.target.files).forEach(function (file) {
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          var id = 'img_' + (++state.imageCount);
+          state.images[id] = ev.target.result;
+          state.pendingImages.push({ id: id, dataUrl: ev.target.result, name: file.name });
+          renderPendingImages();
+        };
+        reader.readAsDataURL(file);
+      });
+      imageInput.value = '';
+    });
+  }
 
   // ── Init ──────────────────────────────────────────────────────────────────────
   initOnboarding();
