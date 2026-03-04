@@ -9,8 +9,10 @@ describe('Handoff', () => {
   });
 
   it('loads the Handoff page', () => {
-    cy.contains('Handoff').should('be.visible');
-    cy.contains('Describe your website in detail').should('be.visible');
+    cy.get('header').should('be.visible');
+    cy.get('.logo').should('contain', 'Handoff');
+    cy.get('#welcomeState').should('be.visible');
+    cy.get('#chatInput').should('be.visible');
   });
 
   it('shows chat panel and preview panel', () => {
