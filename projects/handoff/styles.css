@@ -417,6 +417,22 @@ header {
 .upload-label:hover { color: var(--text); }
 .upload-label input[type="file"] { display: none; }
 
+.msg-image-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.msg-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
 /* ── Preview Panel ─────────────────────────────── */
 .preview-panel {
   display: flex;

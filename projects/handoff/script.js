@@ -279,19 +279,36 @@
 
     var isFirstBuild = state.history.length === 0;
 
-    // Build full message content — append image instructions if images are attached
+    // Capture images before clearing
+    var sentImages = state.pendingImages.slice();
+
+    // Build full message — image instruction comes FIRST so the AI sees it immediately
     var fullText = text;
-    if (state.pendingImages.length > 0) {
-      fullText += '\n\n[User has attached image(s). Embed each one using the exact img tag shown below — do not change the token strings, they will be replaced with real image data on the client:';
-      state.pendingImages.forEach(function (img, i) {
-        fullText += '\n  Image ' + (i + 1) + ': <img src="{{' + img.id + '}}" class="w-full h-full object-cover rounded-xl" alt="photo">';
+    if (sentImages.length > 0) {
+      var imgBlock = 'The user has uploaded ' + sentImages.length + ' image(s). You MUST place them in the HTML using these exact img tags — do NOT substitute placeholder divs:\n';
+      sentImages.forEach(function (img, i) {
+        imgBlock += '  Image ' + (i + 1) + ': <img src="{{' + img.id + '}}" class="w-full h-full object-cover rounded-xl" alt="photo">\n';
       });
-      fullText += '\nPlace the image(s) where described above.]';
+      imgBlock += 'These tokens are replaced with real image data client-side — copy the src value exactly as shown.\n\nUser placement instruction: ' + text;
+      fullText = imgBlock;
       state.pendingImages = [];
       renderPendingImages();
     }
 
-    appendMessage('user', text);
+    var msgEl = appendMessage('user', text);
+    // Show image thumbnails inside the chat message bubble
+    if (sentImages.length > 0) {
+      var thumbRow = document.createElement('div');
+      thumbRow.className = 'msg-image-row';
+      sentImages.forEach(function (img) {
+        var t = document.createElement('img');
+        t.src = img.dataUrl;
+        t.className = 'msg-thumb';
+        t.alt = img.name;
+        thumbRow.appendChild(t);
+      });
+      msgEl.appendChild(thumbRow);
+    }
     chatInput.value = '';
     chatInput.style.height = 'auto';
     state.generating = true;
