@@ -306,7 +306,9 @@
       body: JSON.stringify(payload),
     })
       .then(function (r) {
-        if (!r.ok) throw new Error('Server error ' + r.status);
+        if (!r.ok) return r.json().then(function (e) {
+          throw new Error(e.error || e.details || ('Server error ' + r.status));
+        }).catch(function () { throw new Error('Server error ' + r.status); });
         return r.json();
       })
       .then(function (data) {
@@ -336,7 +338,8 @@
       })
       .catch(function (err) {
         removeTyping();
-        appendMessage('assistant', 'Connection error — check your internet and try again.');
+        var msg = (err && err.message && err.message.length < 200) ? err.message : 'Connection error — check your internet and try again.';
+        appendMessage('assistant', msg);
         showEmptyState();
         console.error('Handoff API error:', err);
       })
