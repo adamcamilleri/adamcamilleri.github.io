@@ -12,7 +12,7 @@
   // ── DOM Refs ──────────────────────────────────────────────────────────────────
   var messagesEl      = document.getElementById('messages');
   var welcomeState    = document.getElementById('welcomeState');
-  var startersEl      = document.getElementById('starters');
+  var chatFooter      = document.getElementById('chatFooter');
   var chatInput       = document.getElementById('chatInput');
   var sendBtn         = document.getElementById('sendBtn');
   var previewFrame    = document.getElementById('previewFrame');
@@ -48,41 +48,32 @@
     generating:   false,
   };
 
-  // ── Starter prompts ────────────────────────────────────────────────────────────
-  var STARTERS = [
-    {
-      icon: '🍕', label: 'Restaurant',
-      prompt: 'Build a website for my Italian restaurant. Include a stunning hero section, a menu highlights section with 6 dishes, an about us story, and contact details with a reservation form at the bottom.'
-    },
-    {
-      icon: '✂️', label: 'Barbershop',
-      prompt: 'Build a barbershop website with a dark masculine design. Include a bold hero, services and pricing, a team section with 3 barbers, a photo gallery, and a booking CTA.'
-    },
-    {
-      icon: '🎨', label: 'Portfolio',
-      prompt: 'Build a personal portfolio site for a UI/UX designer. Clean minimal design with a hero showing name and title, a featured projects grid (6 projects), a skills section, and a contact form.'
-    },
-    {
-      icon: '🚀', label: 'Startup',
-      prompt: 'Build a SaaS landing page for a productivity app. Include a hero with a bold headline and app mockup placeholder, 3 key features, how it works (3 steps), pricing with 3 tiers, and a footer.'
-    },
-    {
-      icon: '📸', label: 'Photographer',
-      prompt: 'Build an elegant portfolio website for a wedding photographer. Full-width hero, photo gallery in a grid layout, testimonials from 3 clients, photography packages, and a contact form.'
-    },
-    {
-      icon: '🏋️', label: 'Gym',
-      prompt: 'Build a gym website with a bold, energetic design. Include a strong hero, class schedule, personal trainers (3), membership pricing with 3 tiers, and a sign-up form.'
-    },
-    {
-      icon: '🛍️', label: 'Boutique',
-      prompt: 'Build a website for a small boutique clothing store. Warm minimal aesthetic. Include featured products (6 items with placeholder images), an about the brand section, and contact/location.'
-    },
-    {
-      icon: '🏠', label: 'Real Estate',
-      prompt: 'Build a professional real estate agent website. Include a hero, featured property listings (4 properties), about the agent, services offered, client testimonials, and a contact form.'
-    },
+  // ── Onboarding data ────────────────────────────────────────────────────────────
+  var BUSINESS_TYPES = [
+    { emoji: '🍕', label: 'Restaurant' },
+    { emoji: '✂️', label: 'Barbershop' },
+    { emoji: '🎨', label: 'Portfolio' },
+    { emoji: '🚀', label: 'Startup' },
+    { emoji: '📸', label: 'Photographer' },
+    { emoji: '🏋️', label: 'Gym' },
+    { emoji: '🛍️', label: 'Boutique' },
+    { emoji: '🏠', label: 'Real Estate' },
+    { emoji: '🏨', label: 'Hotel' },
+    { emoji: '🐾', label: 'Pet Care' },
+    { emoji: '💆', label: 'Spa & Wellness' },
+    { emoji: '💻', label: 'Freelancer' },
   ];
+
+  var REVENUE_OPTIONS = [
+    'Just starting out',
+    '$1 – $1,000 / mo',
+    '$1,001 – $5,000 / mo',
+    '$5,001 – $15,000 / mo',
+    '$15,000+ / mo',
+    'Prefer not to say',
+  ];
+
+  var onboarding = { type: null, revenue: null, location: null, name: null };
 
   // ── Usage Tracking ─────────────────────────────────────────────────────────────
   function getUsage() {
@@ -394,21 +385,77 @@
     this.style.height = Math.min(this.scrollHeight, 120) + 'px';
   });
 
-  // ── Starters ──────────────────────────────────────────────────────────────────
-  function renderStarters() {
-    startersEl.innerHTML = '';
-    STARTERS.forEach(function (s) {
-      var btn = document.createElement('button');
-      btn.className = 'starter-chip';
-      btn.innerHTML = '<span class="starter-icon">' + s.icon + '</span>'
-        + '<span class="starter-label">' + s.label + '</span>';
-      btn.addEventListener('click', function () {
-        chatInput.value = s.prompt;
-        chatInput.style.height = 'auto';
-        sendMessage();
-      });
-      startersEl.appendChild(btn);
+  // ── Onboarding ────────────────────────────────────────────────────────────────
+  function showStep(n) {
+    [1, 2, 3, 4, 5].forEach(function (i) {
+      document.getElementById('onboardingStep' + i).classList.toggle('hidden', i !== n);
     });
+  }
+
+  function initOnboarding() {
+    var grid = document.getElementById('bizGrid');
+    BUSINESS_TYPES.forEach(function (bt) {
+      var card = document.createElement('button');
+      card.className = 'biz-card';
+      card.innerHTML = '<span class="biz-emoji">' + bt.emoji + '</span><span class="biz-label">' + bt.label + '</span>';
+      card.addEventListener('click', function () {
+        onboarding.type = bt.label;
+        showStep(2);
+      });
+      grid.appendChild(card);
+    });
+
+    var pills = document.getElementById('revenuePills');
+    REVENUE_OPTIONS.forEach(function (opt) {
+      var pill = document.createElement('button');
+      pill.className = 'revenue-pill';
+      pill.textContent = opt;
+      pill.addEventListener('click', function () {
+        onboarding.revenue = opt;
+        showStep(3);
+        document.getElementById('locationInput').focus();
+      });
+      pills.appendChild(pill);
+    });
+
+    document.getElementById('locationNext').addEventListener('click', advanceFromLocation);
+    document.getElementById('locationInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') advanceFromLocation();
+    });
+
+    document.getElementById('nameNext').addEventListener('click', advanceFromName);
+    document.getElementById('nameInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') advanceFromName();
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', triggerGenerate);
+  }
+
+  function advanceFromLocation() {
+    var val = document.getElementById('locationInput').value.trim();
+    if (!val) return;
+    onboarding.location = val;
+    showStep(4);
+    document.getElementById('nameInput').focus();
+  }
+
+  function advanceFromName() {
+    var val = document.getElementById('nameInput').value.trim();
+    if (!val) return;
+    onboarding.name = val;
+    document.getElementById('summaryCard').innerHTML =
+      'You\'re building <strong>' + onboarding.name + '</strong>, a <strong>' + onboarding.type + '</strong> in <strong>' + onboarding.location + '</strong>.';
+    showStep(5);
+  }
+
+  function triggerGenerate() {
+    var extras = document.getElementById('extrasInput').value.trim();
+    var prompt = 'Build a website for ' + onboarding.type + ' called "' + onboarding.name + '" based in ' + onboarding.location + '.';
+    if (extras) prompt += ' Additional details: ' + extras;
+    chatInput.value = prompt;
+    chatInput.style.height = 'auto';
+    chatFooter.classList.remove('hidden');
+    sendMessage();
   }
 
   // ── Download ──────────────────────────────────────────────────────────────────
@@ -515,7 +562,7 @@
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────────
-  renderStarters();
+  initOnboarding();
   renderUsageUI();
   showEmptyState();
 

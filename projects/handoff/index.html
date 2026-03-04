@@ -28,12 +28,36 @@
       <aside class="chat-panel">
         <div class="messages" id="messages">
           <div class="welcome" id="welcomeState">
-            <h2 class="welcome-title">What kind of website do you need?</h2>
-            <p class="welcome-sub">Describe it in plain English — or pick a starting point below.</p>
-            <div class="starters" id="starters"></div>
+            <div id="onboardingStep1" class="onboarding-step">
+              <h2 class="welcome-title">What kind of business is it?</h2>
+              <div class="biz-grid" id="bizGrid"></div>
+            </div>
+            <div id="onboardingStep2" class="onboarding-step hidden">
+              <h2 class="welcome-title">How's business going?</h2>
+              <div class="revenue-pills" id="revenuePills"></div>
+            </div>
+            <div id="onboardingStep3" class="onboarding-step hidden">
+              <h2 class="welcome-title">Where is your business based?</h2>
+              <div class="onboarding-input-row">
+                <input type="text" id="locationInput" placeholder="e.g. Brooklyn, New York" class="onboarding-text-input">
+                <button class="onboarding-next-btn" id="locationNext">Next &rarr;</button>
+              </div>
+            </div>
+            <div id="onboardingStep4" class="onboarding-step hidden">
+              <h2 class="welcome-title">What's your business called?</h2>
+              <div class="onboarding-input-row">
+                <input type="text" id="nameInput" placeholder="e.g. Mario's Pizzeria" class="onboarding-text-input">
+                <button class="onboarding-next-btn" id="nameNext">Next &rarr;</button>
+              </div>
+            </div>
+            <div id="onboardingStep5" class="onboarding-step hidden">
+              <div class="summary-card" id="summaryCard"></div>
+              <textarea id="extrasInput" class="onboarding-extras" placeholder="Anything else? (optional — hours, colours, tagline…)" rows="3"></textarea>
+              <button class="generate-btn" id="generateBtn">Generate My Website &rarr;</button>
+            </div>
           </div>
         </div>
-        <div class="chat-footer">
+        <div class="chat-footer hidden" id="chatFooter">
           <div class="input-wrap">
             <textarea
               id="chatInput"
