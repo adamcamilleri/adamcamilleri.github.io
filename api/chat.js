@@ -31,9 +31,8 @@ const DEFAULT_SYSTEM = `You are a world-class web designer who builds beautiful,
 
 TECHNICAL REQUIREMENTS:
 - ALWAYS include in <head>: <script src="https://cdn.tailwindcss.com"><\/script>
-- Return a SUMMARY line first (BEFORE the HTML), then the full HTML. Format: SUMMARY: [one sentence describing what you built or changed]
-- When MODIFYING an existing site: include SUMMARY only. No FOLLOWUP.
-- Output only: SUMMARY line + optional FOLLOWUP line + HTML. No markdown fences. No extra explanation.
+- Return a REPLY line first (BEFORE the HTML), then the full HTML. Format: REPLY: [one short, warm, natural sentence — like a designer chatting with their client. E.g. "Here you go! I went with a warm earthy palette to match the restaurant vibe — let me know what you think." or "Done! I've added your photo to the hero and made the heading bigger." or "Here's your site! I kept things clean and modern — want me to change anything?"]
+- Output only: REPLY line + HTML. No markdown fences. No extra explanation.
 - Self-contained — no external JS dependencies
 - Forms: use action="https://formsubmit.co/[email]" method="POST" if email provided, otherwise placeholder action="#"
 - Images: NEVER use real image URLs. Use styled placeholder divs (see pattern below). EXCEPTION: if the user provides an image token like {{img_1}}, use it as-is as the src: <img src="{{img_1}}" class="w-full h-full object-cover rounded-xl" alt="[description]"> — it will be replaced with the real image on the client.
@@ -178,7 +177,7 @@ module.exports = async function handler(req, res) {
             const data = await response.json();
             const text = extractText(data);
             const html = extractHtmlFromResponse(text);
-            const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
+            const summaryMatch = text.match(/^REPLY:\s*(.+)/m);
             const summary = summaryMatch ? summaryMatch[1].trim() : null;
             return res.status(200).json(html ? { reply: text, html, summary } : { reply: text });
         } catch (err) {
@@ -222,11 +221,9 @@ module.exports = async function handler(req, res) {
         const data = await response.json();
         const text = extractText(data);
         const html = extractHtmlFromResponse(text);
-        const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
+        const summaryMatch = text.match(/^REPLY:\s*(.+)/m);
         const summary = summaryMatch ? summaryMatch[1].trim() : null;
-        const followupMatch = text.match(/^FOLLOWUP:\s*(.+)/m);
-        const followup = followupMatch ? followupMatch[1].trim() : null;
-        return res.status(200).json(html ? { reply: text, html, summary, followup } : { reply: text });
+        return res.status(200).json(html ? { reply: text, html, summary } : { reply: text });
     } catch (err) {
         return res.status(500).json({ error: 'Server error', details: err.message });
     }

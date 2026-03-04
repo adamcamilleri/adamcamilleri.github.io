@@ -282,11 +282,11 @@
     // Build full message content — append image instructions if images are attached
     var fullText = text;
     if (state.pendingImages.length > 0) {
-      fullText += '\n\n[Attached images:';
+      fullText += '\n\n[User has attached image(s). Embed each one using the exact img tag shown below — do not change the token strings, they will be replaced with real image data on the client:';
       state.pendingImages.forEach(function (img, i) {
-        fullText += ' Image ' + (i + 1) + ' token={{' + img.id + '}}.';
+        fullText += '\n  Image ' + (i + 1) + ': <img src="{{' + img.id + '}}" class="w-full h-full object-cover rounded-xl" alt="photo">';
       });
-      fullText += ' For each image use <img src="{{token}}" class="w-full h-full object-cover" alt="..."> with the exact token string as the src. Place them where the user described above.]';
+      fullText += '\nPlace the image(s) where described above.]';
       state.pendingImages = [];
       renderPendingImages();
     }
@@ -326,7 +326,7 @@
           setPreview(html);
           state.history.push({ role: 'user', content: fullText });
           state.history.push({ role: 'assistant', content: summary || reply || 'Site updated.' });
-          appendMessage('assistant', summary || defaultReply(text));
+          appendMessage('assistant', summary || defaultReply());
           if (isFirstBuild) {
             appendMessage('assistant', followup || buildFollowupQuestion(text));
           }
@@ -353,12 +353,14 @@
       });
   }
 
-  function defaultReply(userText) {
-    var t = userText.toLowerCase();
-    if (t.indexOf('change') !== -1 || t.indexOf('update') !== -1 || t.indexOf('make') !== -1) {
-      return 'Done! I\'ve applied your changes. What else would you like to adjust?';
-    }
-    return 'Here\'s your site! Take a look at the preview. What would you like to change?';
+  function defaultReply() {
+    var replies = [
+      'Done! Take a look — let me know if you want to tweak anything.',
+      'There you go! Happy to keep refining it.',
+      'All done! How does that look?',
+      'Made that change — anything else you\'d like to adjust?',
+    ];
+    return replies[Math.floor(Math.random() * replies.length)];
   }
 
   function buildFollowupQuestion(userText) {
