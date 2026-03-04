@@ -103,19 +103,11 @@
   }
 
   function canGenerate() {
-    return getUsage().count < FREE_LIMIT;
+    return true; // limit disabled until app is ready
   }
 
   function renderUsageUI() {
-    if (!usageCounter) return;
-    var remaining = Math.max(0, FREE_LIMIT - getUsage().count);
-    if (remaining === 0) {
-      usageCounter.textContent = 'Free limit reached';
-      usageCounter.className = 'usage-counter exhausted';
-    } else {
-      usageCounter.textContent = remaining + ' free ' + (remaining === 1 ? 'design' : 'designs') + ' left today';
-      usageCounter.className = 'usage-counter';
-    }
+    // usage counter hidden until limit is re-enabled
   }
 
   // ── Preview ───────────────────────────────────────────────────────────────────
