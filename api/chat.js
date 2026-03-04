@@ -1,7 +1,7 @@
 /**
- * Vercel serverless function – proxies chat requests to Gemini.
- * Requires GEMINI_API_KEY in Vercel environment variables.
- * Free tier available at aistudio.google.com
+ * Vercel serverless function – proxies chat requests to Groq.
+ * Requires GROQ_API_KEY in Vercel environment variables.
+ * Free tier at console.groq.com — no credit card required.
  */
 
 const ALLOWED_ORIGINS = [
@@ -101,22 +101,17 @@ OUT OF SCOPE — respond with a friendly short message only (no HTML):
 
 When MODIFYING an existing site: change ONLY what was requested. Preserve all other sections exactly.`;
 
-const GEMINI_MODEL = 'gemini-2.0-flash';
-const GEMINI_URL = (key) => `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
-
-async function callGemini(key, systemText, contents) {
-    const body = JSON.stringify({
-        system_instruction: { parts: [{ text: systemText }] },
-        contents,
-        generationConfig: { maxOutputTokens: 8192 },
+async function callGroq(key, messages) {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 8192, messages }),
     });
-    const opts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body };
-    let response = await fetch(GEMINI_URL(key), opts);
-    if (response.status === 429) {
-        await new Promise(r => setTimeout(r, 2000));
-        response = await fetch(GEMINI_URL(key), opts);
-    }
     return response;
+}
+
+function extractText(data) {
+    return data.choices?.[0]?.message?.content ?? '';
 }
 
 module.exports = async function handler(req, res) {
@@ -141,9 +136,9 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid JSON' });
     }
 
-    const { system, messages, currentHtml, formEmail, paymentLink, user, elementEdit, selectedElementHtml, instruction } = body;
+    const { messages, currentHtml, formEmail, user, elementEdit, selectedElementHtml, instruction } = body;
 
-    // Input validation (OWASP – shift-left)
+    // Input validation
     if (user && typeof user === 'string' && user.length > 10000) {
         return res.status(400).json({ error: 'User message too long' });
     }
@@ -157,47 +152,48 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Instruction too long' });
     }
 
+    const key = process.env.GROQ_API_KEY;
+    if (!key) {
+        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
+    }
+
+    const { extractHtmlFromResponse } = require('./_lib/html-response.js');
+
+    // Element edit path
     if (elementEdit && selectedElementHtml && instruction && typeof instruction === 'string' && instruction.trim()) {
-        const html = (currentHtml && typeof currentHtml === 'string') ? currentHtml : '';
-        if (!html || html.length < 50) {
+        const pageHtml = (currentHtml && typeof currentHtml === 'string') ? currentHtml : '';
+        if (!pageHtml || pageHtml.length < 50) {
             return res.status(400).json({ error: 'elementEdit requires currentHtml' });
         }
         const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. Use Tailwind CSS. For images: use placeholder divs (e.g. a gray box with "Add image: description") - never use real image URLs. Output only the HTML, no markdown fences, no explanation.';
-        const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${html.slice(0, 15000)}`;
-        const editKey = process.env.GEMINI_API_KEY;
+        const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${pageHtml.slice(0, 15000)}`;
         try {
-            const response = await callGemini(editKey, systemContent, [{ role: 'user', parts: [{ text: userContent }] }]);
+            const response = await callGroq(key, [
+                { role: 'system', content: systemContent },
+                { role: 'user', content: userContent },
+            ]);
             if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                const msg = errData?.error?.message || errData?.error || ('Gemini error ' + response.status);
-                return res.status(response.status).json({ error: msg });
+                const err = await response.text();
+                return res.status(response.status).json({ error: 'Groq API error', details: err });
             }
             const data = await response.json();
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-            const { extractHtmlFromResponse } = require('./_lib/html-response.js');
+            const text = extractText(data);
             const html = extractHtmlFromResponse(text);
             const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
             const summary = summaryMatch ? summaryMatch[1].trim() : null;
-            const followupMatch = text.match(/^FOLLOWUP:\s*(.+)/m);
-            const followup = followupMatch ? followupMatch[1].trim() : null;
-            return res.status(200).json(html ? { reply: text, html, summary, followup } : { reply: text });
+            return res.status(200).json(html ? { reply: text, html, summary } : { reply: text });
         } catch (err) {
             return res.status(500).json({ error: 'Server error', details: err.message });
         }
     }
 
+    // Main chat path
     const hasHistory = Array.isArray(messages) && messages.length > 0;
     const hasUser = typeof user === 'string' && user.trim();
     if (!hasHistory && !hasUser) {
-        return res.status(400).json({ error: 'Provide "user" (string) or "messages" (conversation history)' });
+        return res.status(400).json({ error: 'Provide "messages" array or "user" string' });
     }
 
-    const key = process.env.GEMINI_API_KEY;
-    if (!key) {
-        return res.status(500).json({ error: 'GEMINI_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
-    }
-
-    // Always use the full DEFAULT_SYSTEM; ignore any client-provided system override
     let systemContent = DEFAULT_SYSTEM;
     if (formEmail && typeof formEmail === 'string' && formEmail.trim()) {
         const email = formEmail.trim();
@@ -207,36 +203,30 @@ module.exports = async function handler(req, res) {
         systemContent += `\n\nCURRENT PAGE HTML (modify this — do not replace entirely unless the user explicitly asks for a fresh design):\n\`\`\`html\n${currentHtml.slice(0, 14000)}\n\`\`\``;
     }
 
-    const geminiContents = [];
+    const groqMessages = [{ role: 'system', content: systemContent }];
     if (hasHistory) {
         messages.forEach(function (m) {
             if (m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string') {
-                geminiContents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
+                groqMessages.push({ role: m.role, content: m.content });
             }
         });
-    } else if (user && typeof user === 'string') {
-        geminiContents.push({ role: 'user', parts: [{ text: user }] });
+    } else {
+        groqMessages.push({ role: 'user', content: user });
     }
 
     try {
-        const response = await callGemini(key, systemContent, geminiContents);
-
+        const response = await callGroq(key, groqMessages);
         if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            const msg = errData?.error?.message || errData?.error || ('Gemini error ' + response.status);
-            return res.status(response.status).json({ error: msg });
+            const err = await response.text();
+            return res.status(response.status).json({ error: 'Groq API error', details: err });
         }
-
         const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-
-        const { extractHtmlFromResponse } = require('./_lib/html-response.js');
+        const text = extractText(data);
         const html = extractHtmlFromResponse(text);
         const summaryMatch = text.match(/^SUMMARY:\s*(.+)/m);
         const summary = summaryMatch ? summaryMatch[1].trim() : null;
         const followupMatch = text.match(/^FOLLOWUP:\s*(.+)/m);
         const followup = followupMatch ? followupMatch[1].trim() : null;
-
         return res.status(200).json(html ? { reply: text, html, summary, followup } : { reply: text });
     } catch (err) {
         return res.status(500).json({ error: 'Server error', details: err.message });
