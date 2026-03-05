@@ -27,46 +27,44 @@ export default function TaskForm({ onSubmit, initialData }: TaskFormProps) {
     }
   }
 
+  const inputClass = "block w-full bg-[#0f0f0f] border border-[#2a2a2a] text-white placeholder-[#3a3a3a] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-violet-500 transition-colors"
+  const labelClass = "block text-xs font-medium text-[#555] mb-1.5 uppercase tracking-wide"
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-          Title
-        </label>
+        <label htmlFor="title" className={labelClass}>Title</label>
         <input
           type="text"
           id="title"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
-          placeholder="Enter task title"
+          className={inputClass}
+          placeholder="What needs to be done?"
+          autoFocus
         />
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-          Description
-        </label>
+        <label htmlFor="description" className={labelClass}>Description</label>
         <textarea
           id="description"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           rows={3}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
-          placeholder="Enter task description"
+          className={`${inputClass} resize-none`}
+          placeholder="Add details (optional)"
         />
       </div>
 
       <div>
-        <label htmlFor="priority" className="block text-sm font-medium text-gray-700 mb-1">
-          Priority
-        </label>
+        <label htmlFor="priority" className={labelClass}>Priority</label>
         <select
           id="priority"
           value={formData.priority}
           onChange={(e) => setFormData({ ...formData, priority: e.target.value as Priority })}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+          className={inputClass}
         >
           <option value="low">Low</option>
           <option value="medium">Medium</option>
@@ -75,9 +73,7 @@ export default function TaskForm({ onSubmit, initialData }: TaskFormProps) {
       </div>
 
       <div>
-        <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 mb-1">
-          Due Date
-        </label>
+        <label htmlFor="dueDate" className={labelClass}>Due Date</label>
         <input
           type="date"
           id="dueDate"
@@ -86,15 +82,15 @@ export default function TaskForm({ onSubmit, initialData }: TaskFormProps) {
             ...formData,
             dueDate: e.target.value ? new Date(e.target.value) : undefined,
           })}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+          className={inputClass}
         />
       </div>
 
       <button
         type="submit"
-        className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+        className="w-full bg-violet-600 hover:bg-violet-500 text-white rounded-xl px-4 py-3 text-sm font-semibold transition-colors mt-2"
       >
-        {initialData ? 'Update Task' : 'Add Task'}
+        {initialData ? 'Update task' : 'Add task'}
       </button>
     </form>
   )

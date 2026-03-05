@@ -3,34 +3,30 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-  }
-
   body {
-    @apply antialiased;
-  }
-}
-
-@layer components {
-  .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors;
+    @apply antialiased bg-[#0a0a0a] text-white;
   }
 
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2a #0a0a0a;
   }
 
-  .btn-secondary {
-    @apply bg-secondary-200 text-secondary-800 hover:bg-secondary-300;
+  *::-webkit-scrollbar {
+    width: 6px;
   }
 
-  .card {
-    @apply bg-white rounded-xl shadow-md p-6;
+  *::-webkit-scrollbar-track {
+    background: #0a0a0a;
   }
 
-  .input {
-    @apply w-full px-4 py-2 rounded-lg border border-secondary-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  *::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 3px;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.4);
+    cursor: pointer;
   }
 } 
