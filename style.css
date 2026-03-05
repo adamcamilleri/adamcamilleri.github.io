@@ -660,6 +660,7 @@ header.scrolled {
 .hero-top {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 /* Greeting - pill bubble (Jon-inspired, smooth edges) */
@@ -739,7 +740,7 @@ header.scrolled {
 
 .hero-headline h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(5rem, 18vw, 10rem);
+    font-size: clamp(4rem, 9vw, 8rem);
     font-weight: 700;
     color: var(--color-neutral-light);
     margin: 0;
@@ -756,12 +757,14 @@ header.scrolled {
 
 .hero-line1 span {
     display: block;
+    white-space: nowrap;
     transform: translateY(105%);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-line2 span {
     display: block;
+    white-space: nowrap;
     transform: translateY(-105%);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
