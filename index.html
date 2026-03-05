@@ -393,11 +393,14 @@
             { article: 'a', line1: 'Methodical Data', line2: 'Analyst' }
         ];
 
+        let heroCurrentIndex = 0;
+
         const CURTAIN_DURATION_MS = 250; // must match CSS transition
 
         function runCurtainAnimation() {
             window.scrollTo(0, 0);
-            const phrase = HERO_PHRASES[Math.floor(Math.random() * HERO_PHRASES.length)];
+            heroCurrentIndex = Math.floor(Math.random() * HERO_PHRASES.length);
+            const phrase = HERO_PHRASES[heroCurrentIndex];
             document.getElementById('heroArticle').textContent = "I'm " + phrase.article + " ";
             document.getElementById('heroLine1').textContent = phrase.line1;
             document.getElementById('heroLine2').textContent = phrase.line2;
@@ -452,8 +455,34 @@
             });
         }
 
+        function shuffleHeroTitle() {
+            heroCurrentIndex = (heroCurrentIndex + 1) % HERO_PHRASES.length;
+            const phrase = HERO_PHRASES[heroCurrentIndex];
+
+            const articleEl = document.getElementById('heroArticle');
+            const line1El = document.querySelector('.hero-line1');
+            const line2El = document.querySelector('.hero-line2');
+
+            articleEl.classList.remove('animate-reveal--visible');
+            line1El.classList.remove('animate-reveal--visible');
+            line2El.classList.remove('animate-reveal--visible');
+
+            articleEl.textContent = "I'm " + phrase.article + " ";
+            document.getElementById('heroLine1').textContent = phrase.line1;
+            document.getElementById('heroLine2').textContent = phrase.line2;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    articleEl.classList.add('animate-reveal--visible');
+                    setTimeout(() => line1El.classList.add('animate-reveal--visible'), 150);
+                    setTimeout(() => line2El.classList.add('animate-reveal--visible'), 300);
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             runCurtainAnimation();
+            setInterval(shuffleHeroTitle, 5000);
 
             // Lenis smooth scroll
             const lenis = new Lenis({ lerp: 0.1, duration: 1.2 });
