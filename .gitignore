@@ -4,6 +4,11 @@ node_modules/
 # Environment
 .env
 projects/songless/.env
+projects/songdle/.env
+
+# Songdle build artifacts
+projects/songdle/temp-audio/
+projects/songdle/youtube-review.txt
 
 # Cypress
 cypress/videos/

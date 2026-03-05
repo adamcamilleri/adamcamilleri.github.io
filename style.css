@@ -757,13 +757,13 @@ header.scrolled {
 .hero-line1 span {
     display: block;
     transform: translateY(105%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-line2 span {
     display: block;
     transform: translateY(-105%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-line1.animate-reveal--visible span,
@@ -823,7 +823,7 @@ header.scrolled {
 .animate-reveal {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .animate-reveal.hero-greeting { transform: translateY(32px); }

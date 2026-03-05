@@ -23,6 +23,8 @@ module.exports = async function handler(req, res) {
       artist: s.artist,
       genre: s.genre || 'other',
       spotifyId: s.spotifyId || null,
+      youtubeId: s.youtubeId || null,
+      startOffset: s.startOffset || 0,
     }));
     return res.status(200).json(result);
   } catch (err) {

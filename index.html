@@ -456,28 +456,31 @@
         }
 
         function shuffleHeroTitle() {
-            heroCurrentIndex = (heroCurrentIndex + 1) % HERO_PHRASES.length;
-            const phrase = HERO_PHRASES[heroCurrentIndex];
-
             const articleEl = document.getElementById('heroArticle');
-            const line1El = document.querySelector('.hero-line1');
-            const line2El = document.querySelector('.hero-line2');
+            const line1El   = document.querySelector('.hero-line1');
+            const line2El   = document.querySelector('.hero-line2');
 
+            // Phase 1: animate out
             articleEl.classList.remove('animate-reveal--visible');
             line1El.classList.remove('animate-reveal--visible');
             line2El.classList.remove('animate-reveal--visible');
 
-            articleEl.textContent = "I'm " + phrase.article + " ";
-            document.getElementById('heroLine1').textContent = phrase.line1;
-            document.getElementById('heroLine2').textContent = phrase.line2;
+            // Phase 2: swap text once fully hidden, then animate in
+            setTimeout(function() {
+                heroCurrentIndex = (heroCurrentIndex + 1) % HERO_PHRASES.length;
+                const phrase = HERO_PHRASES[heroCurrentIndex];
+                articleEl.textContent = "I'm " + phrase.article + " ";
+                document.getElementById('heroLine1').textContent = phrase.line1;
+                document.getElementById('heroLine2').textContent = phrase.line2;
 
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    articleEl.classList.add('animate-reveal--visible');
-                    setTimeout(() => line1El.classList.add('animate-reveal--visible'), 150);
-                    setTimeout(() => line2El.classList.add('animate-reveal--visible'), 300);
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        articleEl.classList.add('animate-reveal--visible');
+                        setTimeout(function() { line1El.classList.add('animate-reveal--visible'); }, 120);
+                        setTimeout(function() { line2El.classList.add('animate-reveal--visible'); }, 240);
+                    });
                 });
-            });
+            }, 700);
         }
 
         document.addEventListener('DOMContentLoaded', function() {

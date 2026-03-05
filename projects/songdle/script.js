@@ -40,25 +40,66 @@
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
     genre:           'all',
-    song:            null,   // { id, name, artist, spotifyId }
-    songs:           [],     // [{id, name, artist, genre, spotifyId}] for autocomplete
+    song:            null,   // { id, name, artist, spotifyId, youtubeId, startOffset }
+    songs:           [],     // [{id, name, artist, genre, spotifyId, youtubeId, startOffset}]
     level:           0,      // 0–5
     guesses:         [],     // [{text, status}]
     done:            false,
     won:             false,
     today:           '',
-    audio:           null,
+    audio:           null,   // fallback HTMLAudioElement (songs without youtubeId)
     playing:         false,
     highlighted:     -1,
     // Unlimited mode
     sessionPlayed:   [],     // ids played this session (to avoid repeats)
-    // Audio resolution + silence detection
-    resolvedAudioUrl:   null,   // Spotify CDN URL if available, else null (use stream proxy)
-    silenceScanPromise: null,   // Promise<trueStartTime> — resolves when silence scan finishes
-    scanCache:          {},     // songId -> trueStartTime (seconds)
     // Artist filter & hint
     artistFilter:    null,   // null = all artists, string = filter to one artist
     hintUsed:        false,
+  };
+
+  // ── YouTube IFrame player ─────────────────────────────────────────────────────
+  var ytPlayer       = null;
+  var ytReady        = false;
+  var ytCurrentSongId = null;  // song.id currently loaded in the player
+  var ytClipTimer    = null;
+  var ytIntentPlay   = false;  // true = we initiated playback, suppress accidental autoplay
+
+  window.onYouTubeIframeAPIReady = function () {
+    ytPlayer = new YT.Player('ytPlayer', {
+      height: '1', width: '1', videoId: '',
+      playerVars: { autoplay: 0, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, rel: 0 },
+      events: {
+        onReady: function () {
+          ytReady = true;
+          ytPlayer.setVolume(getVolume() * 100);
+        },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) {
+            if (!ytIntentPlay) { ytPlayer.pauseVideo(); return; }
+            playBtn.disabled = false;
+            setPlayIcon(true);
+            // Start the clip timer from when audio actually begins
+            clearTimeout(ytClipTimer);
+            var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
+            var guardId = state.song ? state.song.id : null;
+            ytClipTimer = setTimeout(function () {
+              if (state.song && state.song.id === guardId) stopCurrentClip();
+            }, dur * 1000);
+          }
+          if (e.data === YT.PlayerState.ENDED) {
+            clearTimeout(ytClipTimer);
+            setPlayIcon(false);
+            ytIntentPlay = false;
+          }
+        },
+        onError: function () {
+          setStatus('Could not play audio. Try again.', true);
+          setPlayIcon(false);
+          playBtn.disabled = false;
+          ytIntentPlay = false;
+        }
+      }
+    });
   };
 
   function isUnlimited() { return state.genre === 'unlimited'; }
@@ -492,8 +533,7 @@
     state.guesses.push({ text: text, status: status });
     state.level = Math.min(state.level + 1, CLIP_DURATIONS.length - 1);
 
-    if (state.audio) { state.audio.pause(); state.audio = null; }
-    setPlayIcon(false);
+    stopCurrentClip();
 
     renderSlots();
     renderTimeline();
@@ -512,8 +552,7 @@
     if (state.done) return;
     state.guesses.push({ text: 'Skipped', status: 'skipped' });
     state.level = Math.min(state.level + 1, CLIP_DURATIONS.length - 1);
-    if (state.audio) { state.audio.pause(); state.audio = null; }
-    setPlayIcon(false);
+    stopCurrentClip();
     renderSlots();
     renderTimeline();
     if (state.guesses.length >= MAX_GUESSES) {
@@ -558,8 +597,7 @@
   }
 
   function startUnlimitedSong() {
-    if (state.audio) { state.audio.pause(); state.audio = null; }
-    setPlayIcon(false);
+    stopCurrentClip();
 
     state.level   = 0;
     state.guesses = [];
@@ -586,104 +624,8 @@
     initAudioForSong(state.song);
   }
 
-  // ── Spotify preview + silence detection ───────────────────────────────────────
+  // ── Audio helpers ─────────────────────────────────────────────────────────────
 
-  /** Try to get a Spotify preview URL for the song. Returns null on failure. */
-  function resolveAudioUrl(song) {
-    if (!song || !song.spotifyId) {
-      return Promise.resolve(null);
-    }
-    return fetch(API_BASE + '/api/spotify-preview?trackId=' + encodeURIComponent(song.spotifyId))
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) { return (data && data.previewUrl) ? data.previewUrl : null; })
-      .catch(function (e) {
-        console.warn('Spotify preview lookup failed, using iTunes:', e.message);
-        return null;
-      });
-  }
-
-  /** Reusable AudioContext for decoding buffers (not for playback). */
-  var _audioCtx = null;
-  function getAudioCtx() {
-    if (!_audioCtx || _audioCtx.state === 'closed') {
-      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    return _audioCtx;
-  }
-
-  /** Scan audio at `url` for the first non-silent moment. Returns Promise<seconds>. */
-  function scanForSilence(url, songId) {
-    if (state.scanCache[songId] !== undefined) {
-      return Promise.resolve(state.scanCache[songId]);
-    }
-    return fetch(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error('fetch failed: ' + r.status);
-        return r.arrayBuffer();
-      })
-      .then(function (buf) {
-        return new Promise(function (resolve) {
-          var ctx = getAudioCtx();
-          ctx.decodeAudioData(buf, function (audioBuffer) {
-            var t = findFirstNonSilent(audioBuffer);
-            state.scanCache[songId] = t;
-            resolve(t);
-          }, function (err) {
-            console.error('Silence scan: decodeAudioData failed:', err);
-            state.scanCache[songId] = 0;
-            resolve(0);
-          });
-        });
-      })
-      .catch(function (err) {
-        console.error('Silence scan failed:', err.message);
-        state.scanCache[songId] = 0;
-        return 0;
-      });
-  }
-
-  /** Walk 100ms RMS chunks; return timestamp of first chunk above threshold. */
-  function findFirstNonSilent(audioBuffer) {
-    var CHUNK_DURATION = 0.1; // seconds
-    var THRESHOLD = 0.02;
-    var sampleRate = audioBuffer.sampleRate;
-    var chunkSize = Math.floor(sampleRate * CHUNK_DURATION);
-    var channelData = audioBuffer.getChannelData(0);
-
-    for (var offset = 0; offset + chunkSize <= channelData.length; offset += chunkSize) {
-      var sumSq = 0;
-      for (var i = offset; i < offset + chunkSize; i++) {
-        sumSq += channelData[i] * channelData[i];
-      }
-      var rms = Math.sqrt(sumSq / chunkSize);
-      if (rms > THRESHOLD) {
-        return offset / sampleRate;
-      }
-    }
-    return 0;
-  }
-
-  /**
-   * Called whenever a new song is set on state.song.
-   * Kicks off (in parallel, non-blocking):
-   *   1. Spotify preview URL lookup
-   *   2. Silence scan of the resolved audio
-   * Sets state.silenceScanPromise which resolves to trueStartTime (seconds).
-   */
-  function initAudioForSong(song) {
-    if (!song) return;
-    state.resolvedAudioUrl = null;
-    // Capture stream URL now while state is correct
-    var streamUrl = getStreamUrl();
-
-    state.silenceScanPromise = resolveAudioUrl(song).then(function (spotifyUrl) {
-      state.resolvedAudioUrl = spotifyUrl;
-      var audioUrl = spotifyUrl || streamUrl;
-      return scanForSilence(audioUrl, song.id);
-    });
-  }
-
-  // ── Audio ─────────────────────────────────────────────────────────────────────
   function getStreamUrl() {
     if (isUnlimited() && state.song && state.song.id) {
       return API_BASE + '/api/songdle-stream?id=' + encodeURIComponent(state.song.id);
@@ -704,68 +646,93 @@
     return volumeSlider ? parseFloat(volumeSlider.value) : 1;
   }
 
+  /** Stop whatever is currently playing (YouTube or fallback audio). */
+  function stopCurrentClip() {
+    clearTimeout(ytClipTimer);
+    ytIntentPlay = false;
+    if (ytPlayer && ytReady) ytPlayer.pauseVideo();
+    if (state.audio) { state.audio.pause(); state.audio = null; }
+    setPlayIcon(false);
+  }
+
+  /** Called when a new song is loaded — cue it in the YouTube player without playing. */
+  function initAudioForSong(song) {
+    if (!song) return;
+    stopCurrentClip();
+    if (song.youtubeId && ytPlayer && ytReady) {
+      ytCurrentSongId = song.id;
+      ytPlayer.cueVideoById({ videoId: song.youtubeId, startSeconds: song.startOffset || 0 });
+    }
+  }
+
   function playClip() {
     if (!state.song) return;
-    if (state.playing && state.audio) {
-      state.audio.pause();
-      setPlayIcon(false);
+
+    // Toggle off if already playing
+    if (state.playing) { stopCurrentClip(); return; }
+
+    var song = state.song;
+
+    // ── YouTube path ──────────────────────────────────────────────────────────
+    if (song.youtubeId && ytPlayer && ytReady) {
+      playBtn.disabled = true;
+      playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
+      ytIntentPlay = true;
+
+      if (ytCurrentSongId !== song.id) {
+        // New video — loadVideoById triggers autoplay which onStateChange handles
+        ytCurrentSongId = song.id;
+        ytPlayer.loadVideoById({ videoId: song.youtubeId, startSeconds: song.startOffset || 0 });
+      } else {
+        // Same video — seek and play; onStateChange(PLAYING) starts the clip timer
+        ytPlayer.seekTo(song.startOffset || 0, true);
+        ytPlayer.setVolume(getVolume() * 100);
+        ytPlayer.playVideo();
+      }
       return;
     }
 
-    var songId = state.song.id;
-
-    // Show loading indicator while awaiting silence scan
+    // ── Fallback: stream proxy (songs without youtubeId yet) ──────────────────
     playBtn.disabled = true;
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
 
-    var scanReady = state.silenceScanPromise || Promise.resolve(0);
+    var audioUrl = getStreamUrl();
+    var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
+    var guardId = song.id;
 
-    scanReady.then(function (trueStartTime) {
-      // Guard: song may have changed while the scan was running
-      if (!state.song || state.song.id !== songId) {
+    if (!state.audio) {
+      state.audio = new Audio(audioUrl);
+      state.audio.volume = getVolume();
+    }
+    state.audio.currentTime = 0;
+
+    state.audio.play()
+      .then(function () {
+        if (!state.song || state.song.id !== guardId) return;
+        playBtn.disabled = false;
+        setPlayIcon(true);
+        ytClipTimer = setTimeout(function () {
+          if (state.audio) state.audio.pause();
+          setPlayIcon(false);
+        }, dur * 1000);
+      })
+      .catch(function () {
         playBtn.disabled = false;
         setPlayIcon(false);
-        return;
-      }
+        setStatus('Could not play audio. Try again.', true);
+      });
 
-      var audioUrl = state.resolvedAudioUrl || getStreamUrl();
-      var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
-      var stopTimer;
-
-      if (!state.audio) {
-        state.audio = new Audio(audioUrl);
-        state.audio.volume = getVolume();
-      }
-      state.audio.currentTime = trueStartTime;
-
-      state.audio.play()
-        .then(function () {
-          playBtn.disabled = false;
-          setPlayIcon(true);
-          stopTimer = setTimeout(function () {
-            if (state.audio) state.audio.pause();
-            setPlayIcon(false);
-          }, dur * 1000);
-        })
-        .catch(function () {
-          playBtn.disabled = false;
-          setPlayIcon(false);
-          setStatus('Could not play audio. Try again.', true);
-        });
-
-      state.audio.onended = function () {
-        clearTimeout(stopTimer);
-        setPlayIcon(false);
-      };
-    });
+    state.audio.onended = function () {
+      clearTimeout(ytClipTimer);
+      setPlayIcon(false);
+    };
   }
 
   // ── Genre switching ───────────────────────────────────────────────────────────
   function switchGenre(genre) {
     if (genre === state.genre) return;
     saveState();
-    if (state.audio) { state.audio.pause(); state.audio = null; }
-    setPlayIcon(false);
+    stopCurrentClip();
     playBtn.disabled = true;
     setInputEnabled(false);
     resultBanner.hidden = true;
@@ -846,7 +813,9 @@
   skipBtn.addEventListener('click', skipGuess);
 
   volumeSlider.addEventListener('input', function () {
-    if (state.audio) state.audio.volume = getVolume();
+    var v = getVolume();
+    if (ytPlayer && ytReady) ytPlayer.setVolume(v * 100);
+    if (state.audio) state.audio.volume = v;
   });
 
   genreTabs.forEach(function (tab) {

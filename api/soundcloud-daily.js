@@ -65,6 +65,8 @@ module.exports = async function handler(req, res) {
         artist:      daily.artist,
         preview_url: daily.preview_url,
         spotifyId:   daily.spotifyId || null,
+        youtubeId:   daily.youtubeId || null,
+        startOffset: daily.startOffset || 0,
       },
       total,
     });
