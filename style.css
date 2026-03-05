@@ -693,6 +693,12 @@ header.scrolled {
     margin-left: 0.9rem;
 }
 
+.hero-n {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+.hero-n.visible { opacity: 1; }
+
 /* Bottom row: stats left, paragraph right - directly under title */
 .hero-bottom-row {
     display: flex;

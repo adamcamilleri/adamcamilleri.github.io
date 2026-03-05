@@ -50,7 +50,7 @@
             <div class="hero-title-block">
                 <div class="hero-top">
                     <span class="hero-greeting animate-reveal" data-delay="0">Hey there, I'm Adam!</span>
-                    <span class="hero-article animate-reveal" id="heroArticle" data-delay="0"></span>
+                    <span class="hero-article animate-reveal" id="heroArticle" data-delay="0">I'm a<span id="heroN" class="hero-n">n</span></span>
                     <div class="hero-headline">
                         <h1 class="hero-line1 animate-reveal" data-delay="1"><span id="heroLine1"></span></h1>
                         <h1 class="hero-line2 animate-reveal" data-delay="2"><span id="heroLine2"></span></h1>
@@ -59,15 +59,15 @@
                 <div class="hero-bottom-row animate-reveal" data-delay="3">
                     <div class="hero-stats">
                         <div class="stat-item">
-                            <span class="stat-number" data-count="3" data-suffix="+">0</span>
+                            <span class="stat-number" data-count="2" data-suffix="+">0</span>
                             <span class="stat-label">Years of experience</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" data-count="7">0</span>
+                            <span class="stat-number" data-count="10" data-suffix="+">0</span>
                             <span class="stat-label">Languages & frameworks</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" data-count="5">0</span>
+                            <span class="stat-number" data-count="6">0</span>
                             <span class="stat-label">Projects shipped</span>
                         </div>
                     </div>
@@ -386,7 +386,6 @@
     <script>
         // Rotating hero phrases (random on each refresh) - article is "a" or "an"
         const HERO_PHRASES = [
-            { article: 'a', line1: 'Problem Solving', line2: 'Data Engineer' },
             { article: 'an', line1: 'Analytical', line2: 'API Builder' },
             { article: 'a', line1: 'Systems Oriented', line2: 'Developer' },
             { article: 'a', line1: 'Passionate Software', line2: 'Engineer' },
@@ -401,7 +400,7 @@
             window.scrollTo(0, 0);
             heroCurrentIndex = Math.floor(Math.random() * HERO_PHRASES.length);
             const phrase = HERO_PHRASES[heroCurrentIndex];
-            document.getElementById('heroArticle').textContent = "I'm " + phrase.article + " ";
+            document.getElementById('heroN').classList.toggle('visible', phrase.article === 'an');
             document.getElementById('heroLine1').textContent = phrase.line1;
             document.getElementById('heroLine2').textContent = phrase.line2;
 
@@ -456,27 +455,26 @@
         }
 
         function shuffleHeroTitle() {
-            const articleEl = document.getElementById('heroArticle');
-            const line1El   = document.querySelector('.hero-line1');
-            const line2El   = document.querySelector('.hero-line2');
+            const line1El = document.querySelector('.hero-line1');
+            const line2El = document.querySelector('.hero-line2');
+            const nEl     = document.getElementById('heroN');
 
-            // Phase 1: animate out
-            articleEl.classList.remove('animate-reveal--visible');
+            // Phase 1: slide lines out + fade the "n" if present
             line1El.classList.remove('animate-reveal--visible');
             line2El.classList.remove('animate-reveal--visible');
+            if (nEl) nEl.classList.remove('visible');
 
-            // Phase 2: swap text once fully hidden, then animate in
+            // Phase 2: swap text, toggle "n", slide lines back in
             setTimeout(function() {
                 heroCurrentIndex = (heroCurrentIndex + 1) % HERO_PHRASES.length;
                 const phrase = HERO_PHRASES[heroCurrentIndex];
-                articleEl.textContent = "I'm " + phrase.article + " ";
                 document.getElementById('heroLine1').textContent = phrase.line1;
                 document.getElementById('heroLine2').textContent = phrase.line2;
 
                 requestAnimationFrame(function() {
                     requestAnimationFrame(function() {
-                        articleEl.classList.add('animate-reveal--visible');
-                        setTimeout(function() { line1El.classList.add('animate-reveal--visible'); }, 120);
+                        if (nEl && phrase.article === 'an') nEl.classList.add('visible');
+                        line1El.classList.add('animate-reveal--visible');
                         setTimeout(function() { line2El.classList.add('animate-reveal--visible'); }, 240);
                     });
                 });
