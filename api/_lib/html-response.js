@@ -1,11 +1,11 @@
 /**
- * HTML extraction and sanitization from AI responses.
+ * HTML extraction and sanitization from API responses.
  * Used server-side for safe preview; unit-tested to prevent XSS and bad image URLs.
  */
 
 /**
- * Extract HTML from AI response text (handles markdown fences, stray text).
- * @param {string} text - Raw AI response
+ * Extract HTML from response text (handles markdown fences, stray text).
+ * @param {string} text - Raw response text
  * @returns {string|null} Extracted HTML or null if none found
  */
 function extractHtmlFromResponse(text) {

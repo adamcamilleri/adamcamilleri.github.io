@@ -8,7 +8,7 @@ Website design via conversation. Chat to build and refine a site, preview it liv
 |-------|------------|
 | **Frontend** | HTML, CSS, JavaScript |
 | **API** | Node.js (Vercel serverless) |
-| **AI** | Gemini 2.0 Flash |
+| **Chat API** | Groq |
 | **Deploy** | Vercel API |
 | **Testing** | Jest (unit), Cypress (E2E), jMeter (load) |
 | **Hosting** | GitHub Pages + Vercel |

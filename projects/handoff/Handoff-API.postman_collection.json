@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Handoff API",
-    "description": "API collection for Handoff – AI-powered website design. Set baseUrl to your deployment. When API_KEYS is configured, add X-API-Key header for programmatic access.",
+    "description": "API collection for Handoff – website builder via chat. Set baseUrl to your deployment. When API_KEYS is configured, add X-API-Key header for programmatic access.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -31,7 +31,7 @@
           "raw": "{\n  \"user\": \"Make a simple landing page with a hero section and a contact form\"\n}"
         },
         "url": "{{baseUrl}}/api/chat",
-        "description": "Sends a design request to the AI. Returns HTML in the reply field."
+        "description": "Sends a design request. Returns HTML in the reply field."
       }
     },
     {

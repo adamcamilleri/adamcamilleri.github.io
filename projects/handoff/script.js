@@ -328,7 +328,7 @@
       msgEl.appendChild(thumbRow);
     }
 
-    // ── Client-side image placement (bypass AI — it can't reliably handle tokens) ──
+    // ── Client-side image placement ──
     if (sentImages.length > 0 && state.previewHtml) {
       var modified = state.previewHtml;
       var placed = 0;

@@ -1,7 +1,5 @@
 /**
- * Vercel serverless function – proxies chat requests to Groq.
- * Requires GROQ_API_KEY in Vercel environment variables.
- * Free tier at console.groq.com — no credit card required.
+ * Vercel serverless function – handles chat and design generation requests.
  */
 
 const ALLOWED_ORIGINS = [
@@ -99,7 +97,7 @@ OUT OF SCOPE — respond with a friendly short message only (no HTML):
 
 When MODIFYING an existing site: change ONLY what was requested. Preserve all other sections exactly.`;
 
-async function callGroq(key, messages) {
+async function callChatApi(key, messages) {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
@@ -152,7 +150,7 @@ module.exports = async function handler(req, res) {
 
     const key = process.env.GROQ_API_KEY;
     if (!key) {
-        return res.status(500).json({ error: 'GROQ_API_KEY not configured. Add it in Vercel → Settings → Environment Variables.' });
+        return res.status(500).json({ error: 'API key not configured. Add it in Vercel → Settings → Environment Variables.' });
     }
 
     const { extractHtmlFromResponse } = require('./_lib/html-response.js');
@@ -166,13 +164,13 @@ module.exports = async function handler(req, res) {
         const systemContent = 'You are a web design assistant. The user clicked on an element and wants to change it. Find that element in the full page HTML and modify it according to their instruction. Return the complete full-page HTML with only that one element changed. Keep everything else identical. Use Tailwind CSS. For images: use placeholder divs (e.g. a gray box with "Add image: description") - never use real image URLs. Output only the HTML, no markdown fences, no explanation.';
         const userContent = `The user selected this element (find it in the full page below) and said: "${instruction.trim()}"\n\nSelected element:\n${selectedElementHtml.slice(0, 4000)}\n\nFull page HTML to modify:\n${pageHtml.slice(0, 15000)}`;
         try {
-            const response = await callGroq(key, [
+            const response = await callChatApi(key, [
                 { role: 'system', content: systemContent },
                 { role: 'user', content: userContent },
             ]);
             if (!response.ok) {
                 const err = await response.text();
-                return res.status(response.status).json({ error: 'Groq API error', details: err });
+                return res.status(response.status).json({ error: 'API error', details: err });
             }
             const data = await response.json();
             const text = extractText(data);
@@ -201,22 +199,22 @@ module.exports = async function handler(req, res) {
         systemContent += `\n\nCURRENT PAGE HTML (modify this — do not replace entirely unless the user explicitly asks for a fresh design):\n\`\`\`html\n${currentHtml.slice(0, 14000)}\n\`\`\``;
     }
 
-    const groqMessages = [{ role: 'system', content: systemContent }];
+    const chatMessages = [{ role: 'system', content: systemContent }];
     if (hasHistory) {
         messages.forEach(function (m) {
             if (m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string') {
-                groqMessages.push({ role: m.role, content: m.content });
+                chatMessages.push({ role: m.role, content: m.content });
             }
         });
     } else {
-        groqMessages.push({ role: 'user', content: user });
+        chatMessages.push({ role: 'user', content: user });
     }
 
     try {
-        const response = await callGroq(key, groqMessages);
+        const response = await callChatApi(key, chatMessages);
         if (!response.ok) {
             const err = await response.text();
-            return res.status(response.status).json({ error: 'Groq API error', details: err });
+            return res.status(response.status).json({ error: 'API error', details: err });
         }
         const data = await response.json();
         const text = extractText(data);
