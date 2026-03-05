@@ -810,6 +810,8 @@ header.scrolled {
     color: var(--color-neutral-light);
 }
 
+.stat-one { font-family: 'Times New Roman', Times, serif; font-size: 0.60em; vertical-align: baseline; }
+
 .stat-label {
     font-size: 1rem;
     font-family: system-ui, -apple-system, sans-serif;

@@ -1,82 +1,107 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Task, TaskFormData, Priority } from '@/types/task'
 
-const STORAGE_KEY = 'taskmaster-tasks'
+function getToken() {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('tm_token')
+}
+
+function authHeaders(): HeadersInit {
+  const token = getToken()
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  }
+}
+
+function deserializeTask(raw: any): Task {
+  return {
+    ...raw,
+    id: raw.id || raw._id?.toString(),
+    dueDate: raw.dueDate ? new Date(raw.dueDate) : undefined,
+    createdAt: new Date(raw.createdAt),
+    updatedAt: new Date(raw.updatedAt),
+  }
+}
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Load tasks from localStorage on mount
   useEffect(() => {
-    const savedTasks = localStorage.getItem(STORAGE_KEY)
-    if (savedTasks) {
-      const parsedTasks = JSON.parse(savedTasks).map((task: any) => ({
-        ...task,
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-        createdAt: new Date(task.createdAt),
-        updatedAt: new Date(task.updatedAt)
-      }))
-      setTasks(parsedTasks)
-    }
+    const token = getToken()
+    if (!token) return
+
+    fetch('/api/tasks', { headers: authHeaders() })
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setTasks(data.map(deserializeTask))
+      })
+      .finally(() => setLoading(false))
   }, [])
 
-  // Save tasks to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
-  }, [tasks])
-
-  const addTask = useCallback((taskData: TaskFormData) => {
-    const newTask: Task = {
-      id: crypto.randomUUID(),
-      ...taskData,
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-    setTasks(prev => [...prev, newTask])
-  }, [])
-
-  const updateTask = useCallback((id: string, updates: Partial<TaskFormData>) => {
-    setTasks(prev =>
-      prev.map(task =>
-        task.id === id
-          ? { ...task, ...updates, updatedAt: new Date() }
-          : task
-      )
-    )
-  }, [])
-
-  const deleteTask = useCallback((id: string) => {
-    setTasks(prev => prev.filter(task => task.id !== id))
-  }, [])
-
-  const toggleTaskCompletion = useCallback((id: string) => {
-    setTasks(prev =>
-      prev.map(task =>
-        task.id === id
-          ? { ...task, completed: !task.completed, updatedAt: new Date() }
-          : task
-      )
-    )
-  }, [])
-
-  const filterTasks = useCallback((filter: {
-    priority?: Priority
-    completed?: boolean
-  }) => {
-    return tasks.filter(task => {
-      if (filter.priority && task.priority !== filter.priority) return false
-      if (filter.completed !== undefined && task.completed !== filter.completed) return false
-      return true
+  const addTask = useCallback(async (taskData: TaskFormData) => {
+    const res = await fetch('/api/tasks', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(taskData),
     })
-  }, [tasks])
+    const task = await res.json()
+    setTasks((prev) => [deserializeTask(task), ...prev])
+  }, [])
+
+  const updateTask = useCallback(async (id: string, updates: Partial<Omit<Task, 'id' | 'createdAt' | 'updatedAt'>>) => {
+    const res = await fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify(updates),
+    })
+    const updated = await res.json()
+    setTasks((prev) => prev.map((t) => (t.id === id ? deserializeTask(updated) : t)))
+  }, [])
+
+  const deleteTask = useCallback(async (id: string) => {
+    // Optimistic update
+    setTasks((prev) => prev.filter((t) => t.id !== id))
+    await fetch(`/api/tasks/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    })
+  }, [])
+
+  const toggleTaskCompletion = useCallback(
+    async (id: string) => {
+      const task = tasks.find((t) => t.id === id)
+      if (!task) return
+      // Optimistic update
+      setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)))
+      await fetch(`/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ completed: !task.completed }),
+      })
+    },
+    [tasks]
+  )
+
+  const filterTasks = useCallback(
+    (filter: { priority?: Priority; completed?: boolean }) => {
+      return tasks.filter((task) => {
+        if (filter.priority && task.priority !== filter.priority) return false
+        if (filter.completed !== undefined && task.completed !== filter.completed) return false
+        return true
+      })
+    },
+    [tasks]
+  )
 
   return {
     tasks,
+    loading,
     addTask,
     updateTask,
     deleteTask,
     toggleTaskCompletion,
     filterTasks,
   }
-} 
+}
