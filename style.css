@@ -1301,9 +1301,6 @@ header.scrolled {
     flex-direction: column;
 }
 
-.info-item:nth-child(3) {
-    margin-left: 0.5rem;
-}
 
 .info-title {
     font-size: 1.15rem;
