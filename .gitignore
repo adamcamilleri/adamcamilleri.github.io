@@ -15,6 +15,9 @@ cypress/videos/
 cypress/screenshots/
 cypress/downloads/
 
+# Claude Code
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db
