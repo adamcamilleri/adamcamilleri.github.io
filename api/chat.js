@@ -135,6 +135,9 @@ module.exports = async function handler(req, res) {
     const { messages, currentHtml, formEmail, user, elementEdit, selectedElementHtml, instruction } = body;
 
     // Input validation
+    if (!messages && !user && !elementEdit) {
+        return res.status(400).json({ error: 'Missing required field: messages or user' });
+    }
     if (user && typeof user === 'string' && user.length > 10000) {
         return res.status(400).json({ error: 'User message too long' });
     }

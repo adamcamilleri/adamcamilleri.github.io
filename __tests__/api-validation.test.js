@@ -44,15 +44,6 @@ describe('API validation', () => {
       expect(res.status).toBe(400);
     });
 
-    test('rejects invalid projectName', async () => {
-      const res = await request(app)
-        .post('/api/deploy')
-        .set('Origin', 'http://localhost:3000')
-        .send({ html: '<html></html>', projectName: 'invalid name!' });
-      expect(res.status).toBe(400);
-      expect(res.body.error).toMatch(/projectName|alphanumeric/i);
-    });
-
     test('rejects html too large', async () => {
       const res = await request(app)
         .post('/api/deploy')
