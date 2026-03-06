@@ -303,7 +303,7 @@
     if (!text || state.generating) return;
 
     if (!canGenerate()) {
-      upgradeModal.classList.remove('hidden');
+      if (upgradeModal) upgradeModal.classList.remove('hidden');
       return;
     }
 
@@ -733,20 +733,20 @@
   });
 
   // ── Upgrade Modal ─────────────────────────────────────────────────────────────
-  upgradeBtn.addEventListener('click', function () {
-    upgradeModal.classList.remove('hidden');
+  if (upgradeBtn) upgradeBtn.addEventListener('click', function () {
+    if (upgradeModal) upgradeModal.classList.remove('hidden');
   });
 
-  upgradeClose.addEventListener('click', function () {
-    upgradeModal.classList.add('hidden');
+  if (upgradeClose) upgradeClose.addEventListener('click', function () {
+    if (upgradeModal) upgradeModal.classList.add('hidden');
   });
 
-  upgradeModal.addEventListener('click', function (e) {
+  if (upgradeModal) upgradeModal.addEventListener('click', function (e) {
     if (e.target === upgradeModal) upgradeModal.classList.add('hidden');
   });
 
-  upgradeCta.addEventListener('click', function () {
-    upgradeModal.classList.add('hidden');
+  if (upgradeCta) upgradeCta.addEventListener('click', function () {
+    if (upgradeModal) upgradeModal.classList.add('hidden');
     appendMessage('assistant', 'Pro plan is on the way! You\'ll be the first to know when it launches.');
   });
 
