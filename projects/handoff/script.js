@@ -470,8 +470,8 @@
     bizInput.addEventListener('input', function () {
       step1Btn.disabled = !this.value.trim();
     });
-    // Browser autofill doesn't fire 'input' — check initial value on load
-    if (bizInput.value.trim()) step1Btn.disabled = false;
+    // Browser autofill fires after script runs — defer check to catch it
+    setTimeout(function () { if (bizInput.value.trim()) step1Btn.disabled = false; }, 300);
     step1Btn.addEventListener('click', function () {
       var val = bizInput.value.trim();
       if (!val) return;
@@ -514,7 +514,7 @@
     locationInput.addEventListener('input', function () {
       step3Btn.disabled = !this.value.trim();
     });
-    if (locationInput.value.trim()) step3Btn.disabled = false;
+    setTimeout(function () { if (locationInput.value.trim()) step3Btn.disabled = false; }, 300);
     locationInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && !step3Btn.disabled) step3Btn.click();
     });
@@ -532,7 +532,7 @@
     nameInput.addEventListener('input', function () {
       step4Btn.disabled = !this.value.trim();
     });
-    if (nameInput.value.trim()) step4Btn.disabled = false;
+    setTimeout(function () { if (nameInput.value.trim()) step4Btn.disabled = false; }, 300);
     nameInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && !step4Btn.disabled) step4Btn.click();
     });
