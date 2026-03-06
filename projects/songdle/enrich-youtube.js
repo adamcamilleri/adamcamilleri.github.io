@@ -182,10 +182,10 @@ async function main() {
         continue;
       }
 
-      // Accepted — always start from the beginning (startOffset: 0)
+      // Accepted — start 1 second in to skip typical YouTube leading silence
       if (!DRY_RUN) {
         song.youtubeId = videoId;
-        song.startOffset = 0;
+        song.startOffset = 1;
         // Save progress after each accepted song so we can resume if interrupted
         fs.writeFileSync(SONGS_PATH, JSON.stringify(songs, null, 2));
       }

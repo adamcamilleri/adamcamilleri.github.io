@@ -93,10 +93,16 @@
           }
         },
         onError: function () {
-          setStatus('Could not play audio. Try again.', true);
-          setPlayIcon(false);
-          playBtn.disabled = false;
+          // YouTube can't play this video (embedding blocked, region restriction, etc.)
+          // Fall back to the iTunes preview stream if available
           ytIntentPlay = false;
+          playBtn.disabled = false;
+          if (state.song && state.song.preview_url) {
+            playFallback();
+          } else {
+            setStatus('Could not play audio. Try again.', true);
+            setPlayIcon(false);
+          }
         }
       }
     });
@@ -692,7 +698,14 @@
       return;
     }
 
-    // ── Fallback: stream proxy (songs without youtubeId yet) ──────────────────
+    // ── Fallback: stream proxy (songs without youtubeId, or YouTube failed) ──────
+    playFallback();
+  }
+
+  function playFallback() {
+    var song = state.song;
+    if (!song) return;
+
     playBtn.disabled = true;
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" style="opacity:0.5"><path d="M8 5v14l11-7z"/></svg>';
 
