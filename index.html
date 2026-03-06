@@ -59,11 +59,11 @@
                 <div class="hero-bottom-row animate-reveal" data-delay="3">
                     <div class="hero-stats">
                         <div class="stat-item">
-                            <span class="stat-number" data-count="2" data-suffix="+">0</span>
+                            <span class="stat-number" data-count="3" data-suffix="+">0</span>
                             <span class="stat-label">Years of experience</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" id="langStat" data-count="10" data-suffix="+">0</span>
+                            <span class="stat-number" id="langStat" data-count="16" data-suffix="+">0</span>
                             <span class="stat-label">Languages & frameworks</span>
                         </div>
                         <div class="stat-item">
@@ -444,7 +444,7 @@
                     const value = Math.floor(eased * target);
                     el.textContent = value + suffix;
                     if (progress < 1) requestAnimationFrame(update);
-                    else if (el.id === 'langStat') el.innerHTML = '<span class="stat-one">1</span>0+';
+                    else if (el.id === 'langStat') el.innerHTML = '<span class="stat-one">1</span>6+';
                     else el.textContent = target + suffix;
                 }
                 requestAnimationFrame(update);

@@ -5,7 +5,9 @@
     "artist": "Drake",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/1e/f0/ab/1ef0ab07-f9b6-ae6a-aad3-a7d63374e97f/mzaf_10070588351983905539.plus.aac.p.m4a",
-    "spotifyId": "2G7V7zsVDxg1yRsu7Ew9RJ"
+    "spotifyId": "2G7V7zsVDxg1yRsu7Ew9RJ",
+    "youtubeId": "SD1tkI5-3dI",
+    "startOffset": 0
   },
   {
     "id": "1440843974",
@@ -13,7 +15,9 @@
     "artist": "Drake",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1b/bd/bf/1bbdbf6c-2880-e39a-2ff4-a94eacd7f6c9/mzaf_17717139103919072059.plus.aac.p.m4a",
-    "spotifyId": "0wwPcA6wtMf6HUMpIRdeP7"
+    "spotifyId": "0wwPcA6wtMf6HUMpIRdeP7",
+    "youtubeId": "zt6aRKpf9T4",
+    "startOffset": 0
   },
   {
     "id": "1440829630",
@@ -21,7 +25,9 @@
     "artist": "Drake",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e1/9b/b6/e19bb624-9cd8-021b-f771-e51629057774/mzaf_13878644440815306616.plus.aac.p.m4a",
-    "spotifyId": "2axd59iRySNyY8JlmHcmFn"
+    "spotifyId": "2axd59iRySNyY8JlmHcmFn",
+    "youtubeId": "GxgqpCdOKak",
+    "startOffset": 0
   },
   {
     "id": "1440843496",
@@ -29,7 +35,9 @@
     "artist": "Drake",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9f/ce/31/9fce31a8-2363-2ed1-8aba-02532737f55a/mzaf_5942699190158325867.plus.aac.p.m4a",
-    "spotifyId": "1zi7xx7UVEFkmKfv06H8x0"
+    "spotifyId": "1zi7xx7UVEFkmKfv06H8x0",
+    "youtubeId": "ki0Ocze98U8",
+    "startOffset": 0
   },
   {
     "id": "1781270323",
@@ -37,7 +45,9 @@
     "artist": "Kendrick Lamar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e0/1d/98/e01d9881-0953-f0ed-b03d-3a4bd6f3c769/mzaf_8283505998481315852.plus.aac.p.m4a",
-    "spotifyId": "45J4avUb9Ni0bnETYaYFVJ"
+    "spotifyId": "45J4avUb9Ni0bnETYaYFVJ",
+    "youtubeId": "HfWLgELllZs",
+    "startOffset": 0
   },
   {
     "id": "1440881708",
@@ -45,7 +55,9 @@
     "artist": "Kendrick Lamar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/72/71/89/72718957-3475-8f6f-3685-aedd470ddc20/mzaf_4044691450436775386.plus.aac.p.m4a",
-    "spotifyId": "6PGoSes0D9eUDeeAafB2As"
+    "spotifyId": "6PGoSes0D9eUDeeAafB2As",
+    "youtubeId": "ox7RsX1Ee34",
+    "startOffset": 0
   },
   {
     "id": "1781353929",
@@ -53,7 +65,9 @@
     "artist": "Kendrick Lamar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b6/6b/8c/b66b8c42-8c82-242b-4ef1-3655d19ac1aa/mzaf_1950801191699299821.plus.aac.p.m4a",
-    "spotifyId": "6AI3ezQ4o3HUoP6Dhudph3"
+    "spotifyId": "6AI3ezQ4o3HUoP6Dhudph3",
+    "youtubeId": "H58vbez_m4E",
+    "startOffset": 0
   },
   {
     "id": "1781316952",
@@ -61,7 +75,9 @@
     "artist": "Kendrick Lamar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/20/31/fb203190-148f-f2be-6ad6-47c5a165f7b9/mzaf_5391716550911069545.plus.aac.p.m4a",
-    "spotifyId": "0aB0v4027ukVziUGwVGYpG"
+    "spotifyId": "0aB0v4027ukVziUGwVGYpG",
+    "youtubeId": "U8F5G5wR1mk",
+    "startOffset": 0
   },
   {
     "id": "1441410309",
@@ -69,7 +85,9 @@
     "artist": "Kanye West",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c9/24/96/c9249688-ffdc-40c1-d56e-d84ee8537ed7/mzaf_15473080214798193650.plus.aac.p.m4a",
-    "spotifyId": "4EWCNWgDS8707fNSZ1oaA5"
+    "spotifyId": "4EWCNWgDS8707fNSZ1oaA5",
+    "youtubeId": "Co0tTeuUVhU",
+    "startOffset": 0
   },
   {
     "id": "1595496791",
@@ -77,7 +95,9 @@
     "artist": "Kanye West",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/8b/a9/5b/8ba95b59-b2a9-6d38-d77d-da254e2e1c49/mzaf_14040588728711808022.plus.aac.p.m4a",
-    "spotifyId": "44I7sqKYCAa7bQdVywkShO"
+    "spotifyId": "44I7sqKYCAa7bQdVywkShO",
+    "youtubeId": "bPjZmQAvk_8",
+    "startOffset": 0
   },
   {
     "id": "1440763833",
@@ -85,7 +105,9 @@
     "artist": "Kanye West",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3e/3d/10/3e3d10bb-41c8-cf98-e7de-126cf72b186a/mzaf_14398557118566661017.plus.aac.p.m4a",
-    "spotifyId": "1PS1QMdUqOal0ai3Gt7sDQ"
+    "spotifyId": "1PS1QMdUqOal0ai3Gt7sDQ",
+    "youtubeId": "6vwNcNOTVzY",
+    "startOffset": 0
   },
   {
     "id": "1484937120",
@@ -93,7 +115,9 @@
     "artist": "Kanye West",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ff/bf/33/ffbf3380-802c-0885-34cc-18dd74f0880e/mzaf_11567994669567692153.plus.aac.p.m4a",
-    "spotifyId": "6xRWoYwfwIKnT8bQGzKbxR"
+    "spotifyId": "6xRWoYwfwIKnT8bQGzKbxR",
+    "youtubeId": "G8u3P7Xqlvo",
+    "startOffset": 0
   },
   {
     "id": "1421658665",
@@ -101,7 +125,9 @@
     "artist": "Travis Scott",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/57/11/a5/5711a5a1-930f-9001-f711-6a31c69af5e6/mzaf_12747074159363105582.plus.aac.p.m4a",
-    "spotifyId": "2cYqizR4lgvp4Qu6IQ3qGN"
+    "spotifyId": "2cYqizR4lgvp4Qu6IQ3qGN",
+    "youtubeId": "c9qBHNKfiJw",
+    "startOffset": 0
   },
   {
     "id": "1421243212",
@@ -109,7 +135,9 @@
     "artist": "Travis Scott",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d9/8d/e8/d98de86e-b1e8-4262-1741-695c9c4c2d75/mzaf_8199446383486090854.plus.aac.p.m4a",
-    "spotifyId": "7lAK3oHbfEnvUQWosrMMpR"
+    "spotifyId": "7lAK3oHbfEnvUQWosrMMpR",
+    "youtubeId": "ykMHDKB0-1o",
+    "startOffset": 0
   },
   {
     "id": "1708274783",
@@ -117,7 +145,9 @@
     "artist": "Travis Scott",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/85/82/96/8582960b-2b19-b1eb-8179-b03be49f332b/mzaf_10214925442893249225.plus.aac.p.m4a",
-    "spotifyId": "42VsgItocQwOQC3XWZ8JNA"
+    "spotifyId": "42VsgItocQwOQC3XWZ8JNA",
+    "youtubeId": "B9synWjqBn8",
+    "startOffset": 0
   },
   {
     "id": "1464549858",
@@ -125,7 +155,9 @@
     "artist": "Ed Sheeran & Travis Scott",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/13/39/98133957-193e-730c-e66f-8c63d5c7d94f/mzaf_5099798108341416366.plus.aac.p.m4a",
-    "spotifyId": "1DhRbox3xkceP64k3JeYfW"
+    "spotifyId": "1DhRbox3xkceP64k3JeYfW",
+    "youtubeId": "s6qzA0gyrh8",
+    "startOffset": 0
   },
   {
     "id": "1421658123",
@@ -133,7 +165,9 @@
     "artist": "Travis Scott",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/85/49/e2/8549e207-7ecf-21a9-7b2f-b414175c6a74/mzaf_10189975321658500285.plus.aac.p.m4a",
-    "spotifyId": "2xLMifQCjDGFmkHkpNLD9h"
+    "spotifyId": "2xLMifQCjDGFmkHkpNLD9h",
+    "youtubeId": "d-JBBNg8YKs",
+    "startOffset": 0
   },
   {
     "id": "1447452171",
@@ -141,7 +175,9 @@
     "artist": "21 Savage",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/82/3f/ec/823fec65-68ba-91dd-6d44-ffd19f673552/mzaf_11217129584812942700.plus.aac.p.m4a",
-    "spotifyId": "2t8yVaLvJ0RenpXUIAC52d"
+    "spotifyId": "2t8yVaLvJ0RenpXUIAC52d",
+    "youtubeId": "zYE7Y0xNgLc",
+    "startOffset": 0
   },
   {
     "id": "1447452180",
@@ -149,7 +185,9 @@
     "artist": "21 Savage",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/57/ea/a2/57eaa22c-0fde-fd81-0238-2384796a7605/mzaf_668575041491767955.plus.aac.p.m4a",
-    "spotifyId": "50a8bKqlwDEqeiEknrzkTO"
+    "spotifyId": "50a8bKqlwDEqeiEknrzkTO",
+    "youtubeId": "G68rIXiy0Bo",
+    "startOffset": 0
   },
   {
     "id": "1256644817",
@@ -157,7 +195,9 @@
     "artist": "21 Savage",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/60/aa/7b/60aa7bcb-3e71-6c7f-de58-9931ead7916e/mzaf_1525900042579393568.plus.aac.p.m4a",
-    "spotifyId": "5eqK0tbzUPo2SoeZsov04s"
+    "spotifyId": "5eqK0tbzUPo2SoeZsov04s",
+    "youtubeId": "sV2t3tW_JTQ",
+    "startOffset": 0
   },
   {
     "id": "1697411124",
@@ -165,7 +205,9 @@
     "artist": "USHER, Summer Walker & 21 Savage",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d2/ec/14/d2ec14f7-4ab5-aceb-9ed6-8b0e9fbb1535/mzaf_354994877508251652.plus.aac.p.m4a",
-    "spotifyId": "0J1YRLYhTG1MBosjidD7OI"
+    "spotifyId": "0J1YRLYhTG1MBosjidD7OI",
+    "youtubeId": "7jA-tE-4BYI",
+    "startOffset": 0
   },
   {
     "id": "1690685989",
@@ -173,7 +215,9 @@
     "artist": "Don Toliver, 21 Savage & 2 Chainz",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a4/98/65/a4986535-5cef-a254-e761-fa7020215913/mzaf_11866466549692087640.plus.aac.p.m4a",
-    "spotifyId": "0KoBrntyQ2x6Y1eZwgGe5P"
+    "spotifyId": "0KoBrntyQ2x6Y1eZwgGe5P",
+    "youtubeId": "LNIkS0KyJwc",
+    "startOffset": 0
   },
   {
     "id": "1373861498",
@@ -181,7 +225,9 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/b5/b1/22b5b181-3fac-fa91-739b-e92d535332cd/mzaf_174079572917728500.plus.aac.p.m4a",
-    "spotifyId": "6tZ3b7ik1QDXFAZlXib0YZ"
+    "spotifyId": "6tZ3b7ik1QDXFAZlXib0YZ",
+    "youtubeId": "ufynqs_COF4",
+    "startOffset": 0
   },
   {
     "id": "1440924454",
@@ -189,7 +235,9 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4a/32/eb/4a32eb12-7fab-a90e-de8d-2e900498cb3b/mzaf_8208929056986212947.plus.aac.p.m4a",
-    "spotifyId": "6I6NX6tjGsxFAsIfGzY9lJ"
+    "spotifyId": "6I6NX6tjGsxFAsIfGzY9lJ",
+    "youtubeId": "oigcRpBOoZk",
+    "startOffset": 0
   },
   {
     "id": "1373861481",
@@ -197,7 +245,9 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/59/52/43595210-5fa0-dd56-ad1b-da5865200f5a/mzaf_6388758962829682580.plus.aac.p.m4a",
-    "spotifyId": "7yotKA30dwTKNEGomV9ZsI"
+    "spotifyId": "7yotKA30dwTKNEGomV9ZsI",
+    "youtubeId": "ciya_AQu25o",
+    "startOffset": 0
   },
   {
     "id": "1600772523",
@@ -205,7 +255,9 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/a8/3e/ed/a83eed0b-4a11-4365-35d2-662b11dec248/mzaf_7193495623824731495.plus.aac.p.m4a",
-    "spotifyId": "4tqcoej1zPvwePZCzuAjJd"
+    "spotifyId": "4tqcoej1zPvwePZCzuAjJd",
+    "youtubeId": "eCGV26aj-mM",
+    "startOffset": 0
   },
   {
     "id": "1373858922",
@@ -213,7 +265,9 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/15/79/07/157907fa-b550-082a-50cf-4065a1ead7ba/mzaf_1002678881049315125.plus.aac.p.m4a",
-    "spotifyId": "4DvoYgOZXnqmKuc2GzzFHz"
+    "spotifyId": "4DvoYgOZXnqmKuc2GzzFHz",
+    "youtubeId": "NtjrFw4i2Qo",
+    "startOffset": 0
   },
   {
     "id": "1441586584",
@@ -221,7 +275,9 @@
     "artist": "Tyler, The Creator",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a3/2b/9f/a32b9f18-1dd7-c845-3d88-4727fce32606/mzaf_14488825162935589764.plus.aac.p.m4a",
-    "spotifyId": "0W4FJRyxu6MKl8kKk3p3sj"
+    "spotifyId": "0W4FJRyxu6MKl8kKk3p3sj",
+    "youtubeId": "xZvS-L1xX1A",
+    "startOffset": 0
   },
   {
     "id": "1828767309",
@@ -229,7 +285,9 @@
     "artist": "Tyler, The Creator",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f0/71/c1/f071c182-fa6c-846b-0bdc-f52e1b9c37c6/mzaf_11614860346974476363.plus.aac.p.m4a",
-    "spotifyId": "6xV7Be6XEvkSnighmh2Tzj"
+    "spotifyId": "6xV7Be6XEvkSnighmh2Tzj",
+    "youtubeId": "ljHdccyQbT4",
+    "startOffset": 0
   },
   {
     "id": "1789446432",
@@ -237,7 +295,9 @@
     "artist": "Tyler, The Creator",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/6e/62/446e6256-79bc-67c5-4240-4eb89eb9686a/mzaf_12709966067490504437.plus.aac.p.m4a",
-    "spotifyId": "3tFed7YsjGnIfxeLEQwx3R"
+    "spotifyId": "3tFed7YsjGnIfxeLEQwx3R",
+    "youtubeId": "mKzg_ZdDSRc",
+    "startOffset": 0
   },
   {
     "id": "1441586589",
@@ -245,7 +305,9 @@
     "artist": "Tyler, The Creator",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/72/f6/80/72f68072-03ac-1753-003c-4bde78a10fcf/mzaf_10699761273070997061.plus.aac.p.m4a",
-    "spotifyId": "3ILZNhiwZtZ3fVVI65WC6e"
+    "spotifyId": "3ILZNhiwZtZ3fVVI65WC6e",
+    "youtubeId": "QKiCGSieghA",
+    "startOffset": 0
   },
   {
     "id": "1789446436",
@@ -253,7 +315,9 @@
     "artist": "Tyler, The Creator",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f8/16/31/f81631fe-84f4-a48e-518e-4e11e99339c4/mzaf_13519420484368287837.plus.aac.p.m4a",
-    "spotifyId": "6jbYpRPTEFl1HFKHk1IC0m"
+    "spotifyId": "6jbYpRPTEFl1HFKHk1IC0m",
+    "youtubeId": "Z0CQf3JDKAY",
+    "startOffset": 0
   },
   {
     "id": "1440914607",
@@ -261,7 +325,9 @@
     "artist": "Migos",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ce/cd/f6/cecdf631-1e6f-607d-3eed-59a9fbf4e354/mzaf_3341961206838524965.plus.aac.p.m4a",
-    "spotifyId": "2UVbBKQOdFAekPTRsnkzcf"
+    "spotifyId": "2UVbBKQOdFAekPTRsnkzcf",
+    "youtubeId": "0j82Oygrol0",
+    "startOffset": 0
   },
   {
     "id": "1448959339",
@@ -269,7 +335,9 @@
     "artist": "Mustard & Migos",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d4/ad/84/d4ad8495-8f10-5203-327f-db552b1a474c/mzaf_14085030424466053980.plus.aac.p.m4a",
-    "spotifyId": "3j84U36KvLeXNDPv4t5pI8"
+    "spotifyId": "3j84U36KvLeXNDPv4t5pI8",
+    "youtubeId": "9hJ8lLNWrM4",
+    "startOffset": 0
   },
   {
     "id": "1478935971",
@@ -285,7 +353,9 @@
     "artist": "Migos",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/70/fd/32/70fd32a2-20ef-e93e-2aaf-b5ea2ed4801d/mzaf_7908862302713461842.plus.aac.p.m4a",
-    "spotifyId": "0M9ydKzuF3oZTfYYPfaGX1"
+    "spotifyId": "0M9ydKzuF3oZTfYYPfaGX1",
+    "youtubeId": "S-sJp1FfG7Q",
+    "startOffset": 0
   },
   {
     "id": "1440914604",
@@ -293,7 +363,9 @@
     "artist": "Migos",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/da/b6/9f/dab69f91-0fe4-1eab-cb66-c54b3beca3f3/mzaf_15899833935395471763.plus.aac.p.m4a",
-    "spotifyId": "6n4U3TlzUGhdSFbUUhTvLP"
+    "spotifyId": "6n4U3TlzUGhdSFbUUhTvLP",
+    "youtubeId": "A_xWDAbnBSU",
+    "startOffset": 0
   },
   {
     "id": "1667414104",
@@ -301,7 +373,9 @@
     "artist": "Lil Yachty",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fd/6c/c5/fd6cc53f-25d5-6937-131d-c899a11ba2db/mzaf_2833999525377907744.plus.aac.p.m4a",
-    "spotifyId": "7zy7iE31dGO70ShMXghsfj"
+    "spotifyId": "7zy7iE31dGO70ShMXghsfj",
+    "youtubeId": "eQRyZE2r7oM",
+    "startOffset": 0
   },
   {
     "id": "1667414103",
@@ -309,7 +383,9 @@
     "artist": "Lil Yachty",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/da/35/be/da35be23-6983-fe40-23f8-acdbaf05a748/mzaf_8338237734611203989.plus.aac.p.m4a",
-    "spotifyId": "04HeNxRRVjcwctfp2K2kMu"
+    "spotifyId": "04HeNxRRVjcwctfp2K2kMu",
+    "youtubeId": "qSemB-pfR2c",
+    "startOffset": 0
   },
   {
     "id": "1355216115",
@@ -317,7 +393,9 @@
     "artist": "Lil Yachty",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/79/91/73/79917309-b8e9-1e39-0697-8eee65e202c4/mzaf_4081667482351846064.plus.aac.p.m4a",
-    "spotifyId": "6tarvNiKnEjYMj1VZhlDqR"
+    "spotifyId": "6tarvNiKnEjYMj1VZhlDqR",
+    "youtubeId": "grE7x-NeGw8",
+    "startOffset": 0
   },
   {
     "id": "1495893504",
@@ -325,7 +403,9 @@
     "artist": "Wiz Khalifa, Ty Dolla $ign, Sueco & Lil Yachty",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a0/ff/42/a0ff42d5-39e0-0b64-04d0-08a065dcc66f/mzaf_13148369714663398875.plus.aac.p.m4a",
-    "spotifyId": "15eWNa3kpCPKILbSvvzSWl"
+    "spotifyId": "15eWNa3kpCPKILbSvvzSWl",
+    "youtubeId": "dCuCpVPkWDY",
+    "startOffset": 0
   },
   {
     "id": "1442852313",
@@ -333,7 +413,9 @@
     "artist": "Lil Yachty",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/06/3a/62/063a62ef-5b8d-cb14-9c0b-bcac980b8fa4/mzaf_555197865030059363.plus.aac.p.m4a",
-    "spotifyId": "49EgauTc1cGkHwPGCaHh1f"
+    "spotifyId": "49EgauTc1cGkHwPGCaHh1f",
+    "youtubeId": "LJyin-yC0Gg",
+    "startOffset": 0
   },
   {
     "id": "1477880561",
@@ -341,7 +423,9 @@
     "artist": "Post Malone",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/6c/c6/986cc6af-d08b-5355-29d9-be36e1daf833/mzaf_9474257880354446584.plus.aac.p.m4a",
-    "spotifyId": "21jGcNKet2qwijlDFuPiPb"
+    "spotifyId": "21jGcNKet2qwijlDFuPiPb",
+    "youtubeId": "wXhTHyIgQ_U",
+    "startOffset": 0
   },
   {
     "id": "1445949267",
@@ -349,7 +433,9 @@
     "artist": "Post Malone & Swae Lee",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9f/db/b1/9fdbb10d-2d33-3cd4-48e9-7f745521cfdf/mzaf_15956051401758554866.plus.aac.p.m4a",
-    "spotifyId": "3KkXRkHbMCARz0aVfEt68P"
+    "spotifyId": "3KkXRkHbMCARz0aVfEt68P",
+    "youtubeId": "ApXoWvfEYVU",
+    "startOffset": 0
   },
   {
     "id": "1752531909",
@@ -357,7 +443,9 @@
     "artist": "Post Malone",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/75/36/5b/75365b00-85bb-f2bd-9eb8-7fef861efb06/mzaf_10285050304793701921.plus.aac.p.m4a",
-    "spotifyId": "5ZLL6wYXeqg0k35ZkDRfhZ"
+    "spotifyId": "5ZLL6wYXeqg0k35ZkDRfhZ",
+    "youtubeId": "RoeXmaSE7Lo",
+    "startOffset": 0
   },
   {
     "id": "1802104420",
@@ -365,7 +453,9 @@
     "artist": "Morgan Wallen & Post Malone",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/0f/99/5c0f99b9-7a29-e118-9f07-0c0b33b74edc/mzaf_2457402693465187868.plus.aac.p.m4a",
-    "spotifyId": "5ceKWhT3J34xxw5uzIzgU9"
+    "spotifyId": "5ceKWhT3J34xxw5uzIzgU9",
+    "youtubeId": "6oJkXrNYBA4",
+    "startOffset": 0
   },
   {
     "id": "1752531960",
@@ -373,7 +463,9 @@
     "artist": "Post Malone",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1b/84/40/1b844098-2604-7dda-52ca-6b14872c25e1/mzaf_13424950661859885419.plus.aac.p.m4a",
-    "spotifyId": "0p13WrwJyOU3SwoAlSa6O4"
+    "spotifyId": "0p13WrwJyOU3SwoAlSa6O4",
+    "youtubeId": "uKiF-UMnB9A",
+    "startOffset": 0
   },
   {
     "id": "1363310482",
@@ -381,7 +473,9 @@
     "artist": "The Weeknd",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b7/0d/1d/b70d1d10-fafb-877e-9ab4-61dcf60197df/mzaf_23229338162046637.plus.aac.p.m4a",
-    "spotifyId": "09mEdoA6zrmBPgTEN5qXmN"
+    "spotifyId": "09mEdoA6zrmBPgTEN5qXmN",
+    "youtubeId": "rsEne1ZiQrk",
+    "startOffset": 0
   },
   {
     "id": "1488408568",
@@ -389,7 +483,9 @@
     "artist": "The Weeknd",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/b4/8f/17b48f9a-0b93-6bb8-fe1d-3a16623c2cfb/mzaf_9560252727299052414.plus.aac.p.m4a",
-    "spotifyId": "0VjIjW4GlUZAMYd2vXMi3b"
+    "spotifyId": "0VjIjW4GlUZAMYd2vXMi3b",
+    "youtubeId": "fHI8X4OXluQ",
+    "startOffset": 0
   },
   {
     "id": "1440872304",
@@ -397,7 +493,9 @@
     "artist": "The Weeknd",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5e/5c/f6/5e5cf682-062f-6d93-4585-8961d45a2513/mzaf_693841552796929970.plus.aac.p.m4a",
-    "spotifyId": "2Ch7LmS7r2Gy2kc64wv3Bz"
+    "spotifyId": "2Ch7LmS7r2Gy2kc64wv3Bz",
+    "youtubeId": "QLCpqdqeoII",
+    "startOffset": 0
   },
   {
     "id": "1693891139",
@@ -405,7 +503,9 @@
     "artist": "The Weeknd, JENNIE & Lily Rose Depp",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/2f/1f/9e2f1f11-20a8-767a-0e33-9029028a7024/mzaf_1603981766065362477.plus.aac.p.m4a",
-    "spotifyId": "7CyPwkp0oE8Ro9Dd5CUDjW"
+    "spotifyId": "7CyPwkp0oE8Ro9Dd5CUDjW",
+    "youtubeId": "Mx92lTYxrJQ",
+    "startOffset": 0
   },
   {
     "id": "1440826389",
@@ -413,7 +513,9 @@
     "artist": "The Weeknd",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1e/cd/50/1ecd50b2-343b-c570-d976-7e089e56e0a5/mzaf_7391966967236748397.plus.aac.p.m4a",
-    "spotifyId": "22VdIZQfgXJea34mQxlt81"
+    "spotifyId": "22VdIZQfgXJea34mQxlt81",
+    "youtubeId": "dqt8Z1k0oWQ",
+    "startOffset": 0
   },
   {
     "id": "1799080775",
@@ -421,7 +523,9 @@
     "artist": "Daniel Caesar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/64/7e/a2647e53-f16c-ec35-0b41-cf6a65ab69a2/mzaf_7427365009000821098.plus.aac.p.m4a",
-    "spotifyId": "2uP6t2J5MEwhr9rDkAAzwh"
+    "spotifyId": "2uP6t2J5MEwhr9rDkAAzwh",
+    "youtubeId": "xyUQKDE57Ag",
+    "startOffset": 0
   },
   {
     "id": "1799080776",
@@ -429,7 +533,9 @@
     "artist": "Daniel Caesar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cc/95/ed/cc95edc8-4f9b-0c56-bc74-31ba76a057f9/mzaf_11346187551197903108.plus.aac.p.m4a",
-    "spotifyId": "1Q7EgiMOuwDcB0PJC6AzON"
+    "spotifyId": "1Q7EgiMOuwDcB0PJC6AzON",
+    "youtubeId": "vBy7FaapGRo",
+    "startOffset": 0
   },
   {
     "id": "1671667306",
@@ -437,7 +543,9 @@
     "artist": "Daniel Caesar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2d/2b/61/2d2b6102-157b-dd97-f5a9-1e6014b40dfc/mzaf_14408745609786889918.plus.aac.p.m4a",
-    "spotifyId": "736PP5LTtREkDgktNmX3Gu"
+    "spotifyId": "736PP5LTtREkDgktNmX3Gu",
+    "youtubeId": "rScwLoES2bM",
+    "startOffset": 0
   },
   {
     "id": "1861540655",
@@ -445,7 +553,9 @@
     "artist": "Daniel Caesar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/8d/ce/b58dce2e-39e0-fe21-fb8a-899d7cb46fff/mzaf_1667528175293901085.plus.aac.p.m4a",
-    "spotifyId": "6DH13QYXK7lKkYHSU88N48"
+    "spotifyId": "6DH13QYXK7lKkYHSU88N48",
+    "youtubeId": "glscfhJyZHo",
+    "startOffset": 0
   },
   {
     "id": "1799080777",
@@ -453,7 +563,9 @@
     "artist": "Daniel Caesar",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/cf/00/9ecf002c-7da7-a3a6-354a-2ca47bc845d6/mzaf_16209809978753616855.plus.aac.p.m4a",
-    "spotifyId": "4s76r7AbquJcTccqJiqdVu"
+    "spotifyId": "4s76r7AbquJcTccqJiqdVu",
+    "youtubeId": "xBJ4YkQq1i8",
+    "startOffset": 0
   },
   {
     "id": "268532564",
@@ -461,7 +573,9 @@
     "artist": "USHER",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/b9/15/49b915dd-bbb4-eaa4-bd29-7cc9a9d00666/mzaf_17285419442186901219.plus.aac.p.m4a",
-    "spotifyId": "7J41dYQolQJEtj3UmKLu5r"
+    "spotifyId": "7J41dYQolQJEtj3UmKLu5r",
+    "youtubeId": "9QSGPoshYu8",
+    "startOffset": 0
   },
   {
     "id": "281698335",
@@ -469,7 +583,9 @@
     "artist": "USHER",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/bd/47/b5bd47bd-b6a7-220b-4588-e08b7172ea4a/mzaf_9680239665109470255.plus.aac.p.m4a",
-    "spotifyId": "5j0McHPthKpOXRr3fBq8M0"
+    "spotifyId": "5j0McHPthKpOXRr3fBq8M0",
+    "youtubeId": "cB5e0zHRzHc",
+    "startOffset": 0
   },
   {
     "id": "278845479",
@@ -477,7 +593,9 @@
     "artist": "USHER",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/3b/e1/333be1d2-40c4-f5bf-8479-a5840caea07d/mzaf_6373493292385768191.plus.aac.p.m4a",
-    "spotifyId": "5L0KDoZklMgs9GPoonneEl"
+    "spotifyId": "5L0KDoZklMgs9GPoonneEl",
+    "youtubeId": "DIpQ4AZSAf8",
+    "startOffset": 0
   },
   {
     "id": "386153478",
@@ -485,7 +603,9 @@
     "artist": "USHER",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/52/3c/94523c88-f5f9-16f4-dbd7-f284ca168048/mzaf_7184891920196479048.plus.aac.p.m4a",
-    "spotifyId": "5rb9QrpfcKFHM1EUbSIurX"
+    "spotifyId": "5rb9QrpfcKFHM1EUbSIurX",
+    "youtubeId": "GxBSyx85Kp8",
+    "startOffset": 0
   },
   {
     "id": "386153729",
@@ -493,7 +613,9 @@
     "artist": "Alicia Keys & USHER",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c6/63/b9/c663b9f6-5433-79ea-edf6-97575fa72e66/mzaf_15786922263961902017.plus.aac.p.m4a",
-    "spotifyId": "68vgtRHr7iZHpzGpon6Jlo"
+    "spotifyId": "68vgtRHr7iZHpzGpon6Jlo",
+    "youtubeId": "RoC21-Z8h-Y",
+    "startOffset": 0
   },
   {
     "id": "1531535287",
@@ -501,7 +623,9 @@
     "artist": "Ozzy Osbourne",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7a/81/d1/7a81d12e-3ecc-47bb-c0bb-3a8066382f26/mzaf_3983422307692904907.plus.aac.p.m4a",
-    "spotifyId": "7ACxUo21jtTHzy7ZEV56vU"
+    "spotifyId": "7ACxUo21jtTHzy7ZEV56vU",
+    "youtubeId": "tMDFv5m18Pw",
+    "startOffset": 0
   },
   {
     "id": "209695373",
@@ -509,7 +633,9 @@
     "artist": "Ozzy Osbourne",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/1f/fa/2f/1ffa2f8e-bdc3-f27b-9e6c-a1fb2b872768/mzaf_1931605081507703090.plus.aac.p.m4a",
-    "spotifyId": "7w6PJe5KBPyvuRYxFkPssC"
+    "spotifyId": "7w6PJe5KBPyvuRYxFkPssC",
+    "youtubeId": "mX_8p7NaibQ",
+    "startOffset": 0
   },
   {
     "id": "209695192",
@@ -517,7 +643,9 @@
     "artist": "Ozzy Osbourne",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/18/61/c9/1861c9a9-cb4f-6330-693b-8cd896b7b1a9/mzaf_7058857927124296793.plus.aac.p.m4a",
-    "spotifyId": "0S3gpZzlT9Hb7CCSV2owX7"
+    "spotifyId": "0S3gpZzlT9Hb7CCSV2owX7",
+    "youtubeId": "K0siYUjV9UM",
+    "startOffset": 0
   },
   {
     "id": "1531535291",
@@ -533,7 +661,9 @@
     "artist": "Ozzy Osbourne",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d5/e1/e7/d5e1e767-5f99-f89c-19ad-1f8c506aa257/mzaf_2954526695341598167.plus.aac.p.m4a",
-    "spotifyId": "31dqpLUModJWNbxrXu6TWd"
+    "spotifyId": "31dqpLUModJWNbxrXu6TWd",
+    "youtubeId": "WAR4sLvj7Yg",
+    "startOffset": 0
   },
   {
     "id": "1440650711",
@@ -541,7 +671,9 @@
     "artist": "Queen",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8f/11/52/8f1152a9-fd5f-0021-f546-b97579c22ec3/mzaf_3962258993076347789.plus.aac.p.m4a",
-    "spotifyId": "7tFiyTwD0nx5a1eklYtX2J"
+    "spotifyId": "7tFiyTwD0nx5a1eklYtX2J",
+    "youtubeId": "fJ9rUzIMcZQ",
+    "startOffset": 0
   },
   {
     "id": "1440650719",
@@ -549,7 +681,9 @@
     "artist": "Queen",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/61/3c/47613c3e-de3e-b2a0-8d36-d05a6619f1d3/mzaf_16109120005998758960.plus.aac.p.m4a",
-    "spotifyId": "57JVGBtBLCfHw2muk5416J"
+    "spotifyId": "57JVGBtBLCfHw2muk5416J",
+    "youtubeId": "rY0WxgSXdEE",
+    "startOffset": 0
   },
   {
     "id": "1440650733",
@@ -557,7 +691,9 @@
     "artist": "Queen",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6a/ec/92/6aec920f-5a05-d93b-ceaa-7de19cdbae88/mzaf_6658285650704260274.plus.aac.p.m4a",
-    "spotifyId": "7hQJA50XrCWABAu5v6QZ4i"
+    "spotifyId": "7hQJA50XrCWABAu5v6QZ4i",
+    "youtubeId": "MHi9mKq0slA",
+    "startOffset": 0
   },
   {
     "id": "1440651216",
@@ -565,7 +701,9 @@
     "artist": "Queen",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/37/42/e9374231-9cef-ad56-365c-a7ba09e4fa55/mzaf_10566507321838390251.plus.aac.p.m4a",
-    "spotifyId": "54flyrjcdnQdco7300avMJ"
+    "spotifyId": "54flyrjcdnQdco7300avMJ",
+    "youtubeId": "-tJYN-eG1zk",
+    "startOffset": 0
   },
   {
     "id": "1440651012",
@@ -573,7 +711,9 @@
     "artist": "Queen",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0e/07/3a/0e073a5c-bf2b-cab0-c914-d36dea8169f1/mzaf_16606363410381177407.plus.aac.p.m4a",
-    "spotifyId": "1kn8Jj0i9IwyO3yDgDyUSR"
+    "spotifyId": "1kn8Jj0i9IwyO3yDgDyUSR",
+    "youtubeId": "g-DF1Mzy_3g",
+    "startOffset": 0
   },
   {
     "id": "1485043450",
@@ -581,7 +721,9 @@
     "artist": "The Offspring",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bf/a6/bc/bfa6bc10-e984-ce3f-a3ab-14e51de04ec3/mzaf_9912363009195692327.plus.aac.p.m4a",
-    "spotifyId": "1FkoVC85Ds3mFoK0fVqEqP"
+    "spotifyId": "1FkoVC85Ds3mFoK0fVqEqP",
+    "youtubeId": "EtNZnhxWLHo",
+    "startOffset": 0
   },
   {
     "id": "1440881625",
@@ -589,7 +731,9 @@
     "artist": "The Offspring",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1e/b7/3f/1eb73fab-8cd0-922b-23e7-3bf06d6407da/mzaf_1609213869130918850.plus.aac.p.m4a",
-    "spotifyId": "4EchqUKQ3qAQuRNKmeIpnf"
+    "spotifyId": "4EchqUKQ3qAQuRNKmeIpnf",
+    "youtubeId": "ha7YRNAuuzM",
+    "startOffset": 0
   },
   {
     "id": "1440881518",
@@ -597,7 +741,9 @@
     "artist": "The Offspring",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/68/e0/6f/68e06f9e-1718-0d80-3150-df4655f88837/mzaf_1514219841909104015.plus.aac.p.m4a",
-    "spotifyId": "3SFXsFpeGmBTtQvKiwYMDA"
+    "spotifyId": "3SFXsFpeGmBTtQvKiwYMDA",
+    "youtubeId": "QtTR-_Klcq8",
+    "startOffset": 0
   },
   {
     "id": "1485043449",
@@ -605,7 +751,9 @@
     "artist": "The Offspring",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/25/b9/fb/25b9fb19-036d-e26c-f47b-75663a78090f/mzaf_332693576622795174.plus.aac.p.m4a",
-    "spotifyId": "70cKcH1aK78mUJ2BlsGZ4h"
+    "spotifyId": "70cKcH1aK78mUJ2BlsGZ4h",
+    "youtubeId": "1jOk8dk-qaU",
+    "startOffset": 0
   },
   {
     "id": "1440901678",
@@ -613,7 +761,9 @@
     "artist": "The Offspring",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/89/ab/22/89ab2254-53f5-ed77-5544-a562ac1a82d4/mzaf_6467940874029659807.plus.aac.p.m4a",
-    "spotifyId": "5BnFZLH99sYav2cxJFGO2n"
+    "spotifyId": "5BnFZLH99sYav2cxJFGO2n",
+    "youtubeId": "40V9_1PMUGM",
+    "startOffset": 0
   },
   {
     "id": "672046422",
@@ -621,7 +771,9 @@
     "artist": "Avenged Sevenfold",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2f/7e/23/2f7e2345-1a83-f676-875f-5efa2ebad309/mzaf_11565768206055337242.plus.aac.p.m4a",
-    "spotifyId": "5anCkDvJ17aznvK5TED5uo"
+    "spotifyId": "5anCkDvJ17aznvK5TED5uo",
+    "youtubeId": "DelhLppPSxY",
+    "startOffset": 0
   },
   {
     "id": "65621021",
@@ -629,7 +781,9 @@
     "artist": "Avenged Sevenfold",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8e/68/bc/8e68bcef-e9ee-6f4e-1cf6-6a144f7d4255/mzaf_5372283877988363674.plus.aac.p.m4a",
-    "spotifyId": "3sHH7lklbfpcraDDvYnjo7"
+    "spotifyId": "3sHH7lklbfpcraDDvYnjo7",
+    "youtubeId": "dsuln1LKbzk",
+    "startOffset": 0
   },
   {
     "id": "266024329",
@@ -637,7 +791,9 @@
     "artist": "Avenged Sevenfold",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/55/d0/80/55d08099-0daf-8987-0362-13e8fca40ceb/mzaf_5359610215799095923.plus.aac.p.m4a",
-    "spotifyId": "7zAt4tdL44D3VuzsvM0N8n"
+    "spotifyId": "7zAt4tdL44D3VuzsvM0N8n",
+    "youtubeId": "vJB8NCxcWe8",
+    "startOffset": 0
   },
   {
     "id": "672046421",
@@ -645,7 +801,9 @@
     "artist": "Avenged Sevenfold",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f2/f1/8c/f2f18ce1-70c7-3fc3-f070-11dd365e6798/mzaf_9374192161719557060.plus.aac.p.m4a",
-    "spotifyId": "1fQaoh3imrMunWVZh5kf90"
+    "spotifyId": "1fQaoh3imrMunWVZh5kf90",
+    "youtubeId": "bT8FEOJEFcI",
+    "startOffset": 0
   },
   {
     "id": "379320629",
@@ -653,7 +811,9 @@
     "artist": "Avenged Sevenfold",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/86/ec/24/86ec245e-c101-e866-951b-09647dced39f/mzaf_12463998535586614885.plus.aac.p.m4a",
-    "spotifyId": "7Hr1Ignop7cymbE3FbOtXa"
+    "spotifyId": "7Hr1Ignop7cymbE3FbOtXa",
+    "youtubeId": "A7ry4cx6HfY",
+    "startOffset": 0
   },
   {
     "id": "590431785",
@@ -661,7 +821,9 @@
     "artist": "LINKIN PARK",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3f/cb/c7/3fcbc7cc-0606-7f6e-7fc3-793318cfd1ed/mzaf_16081918663584534594.plus.aac.p.m4a",
-    "spotifyId": "3tSmXSxaAnU1EPGKa6NytH"
+    "spotifyId": "3tSmXSxaAnU1EPGKa6NytH",
+    "youtubeId": "eVTXPUF4Oz4",
+    "startOffset": 0
   },
   {
     "id": "590423282",
@@ -669,7 +831,9 @@
     "artist": "LINKIN PARK",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e9/ca/eb/e9caeb68-483d-b108-7898-25073e24566a/mzaf_1183955807160648053.plus.aac.p.m4a",
-    "spotifyId": "3agtg0x11wPvLIWkYR39nZ"
+    "spotifyId": "3agtg0x11wPvLIWkYR39nZ",
+    "youtubeId": "zsCD5XCu6CM",
+    "startOffset": 0
   },
   {
     "id": "528437514",
@@ -677,7 +841,9 @@
     "artist": "LINKIN PARK",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9f/dd/b3/9fddb3a2-8ae0-b559-5870-b5a1d8bd5946/mzaf_11927911132157428556.plus.aac.p.m4a",
-    "spotifyId": "2nLtzopw4rPReszdYBJU6h"
+    "spotifyId": "2nLtzopw4rPReszdYBJU6h",
+    "youtubeId": "kXYiU_JCYtU",
+    "startOffset": 0
   },
   {
     "id": "590427450",
@@ -685,7 +851,9 @@
     "artist": "LINKIN PARK",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/a2/65/ea/a265ea31-5403-afb9-d32c-00a2bed6adc9/mzaf_14470032920014838408.plus.aac.p.m4a",
-    "spotifyId": "18lR4BzEs7e3qzc0KVkTpU"
+    "spotifyId": "18lR4BzEs7e3qzc0KVkTpU",
+    "youtubeId": "8sgycukafqQ",
+    "startOffset": 0
   },
   {
     "id": "590431782",
@@ -693,7 +861,9 @@
     "artist": "LINKIN PARK",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/67/bd/4d/67bd4d4e-a526-3b07-6ade-959bb61eab2e/mzaf_7906026353517620050.plus.aac.p.m4a",
-    "spotifyId": "5Za8bsHPb08SZXm0bvbDXy"
+    "spotifyId": "5Za8bsHPb08SZXm0bvbDXy",
+    "youtubeId": "Gd9OhYroLN0",
+    "startOffset": 0
   },
   {
     "id": "271978747",
@@ -701,7 +871,9 @@
     "artist": "Third Eye Blind",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/7b/a8/9a/7ba89acb-7c4d-21e5-e7ab-4d15f1dfeb7d/mzaf_6449364787381246077.plus.aac.p.m4a",
-    "spotifyId": "42et6fnHCw1HIPSrdPprMl"
+    "spotifyId": "42et6fnHCw1HIPSrdPprMl",
+    "youtubeId": "beINamVRGy4",
+    "startOffset": 0
   },
   {
     "id": "271978750",
@@ -709,7 +881,9 @@
     "artist": "Third Eye Blind",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/0f/0c/fe/0f0cfe64-87b9-49a2-1139-a0818a71cc3b/mzaf_4896803553940331116.plus.aac.p.m4a",
-    "spotifyId": "3Uvx1TO0Kg5HgGPk58lHXv"
+    "spotifyId": "3Uvx1TO0Kg5HgGPk58lHXv",
+    "youtubeId": "rE1oIhSgTgI",
+    "startOffset": 0
   },
   {
     "id": "164394762",
@@ -717,7 +891,9 @@
     "artist": "Third Eye Blind",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0e/15/b8/0e15b8c5-c27a-3e23-84ea-653592360eb6/mzaf_9788208820623285310.plus.aac.p.m4a",
-    "spotifyId": "3354J49VpkbZJho7Ztdzpw"
+    "spotifyId": "3354J49VpkbZJho7Ztdzpw",
+    "youtubeId": "gRYZijLZR-Q",
+    "startOffset": 0
   },
   {
     "id": "296549789",
@@ -725,7 +901,9 @@
     "artist": "Third Eye Blind",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/69/c9/5d/69c95d39-8afe-3047-4e92-0d5b44cb8868/mzaf_1177760163353262435.plus.aac.p.m4a",
-    "spotifyId": "1UXe8ZrpjpGQ8seGoQ6SWc"
+    "spotifyId": "1UXe8ZrpjpGQ8seGoQ6SWc",
+    "youtubeId": "KajGqKJ3ePg",
+    "startOffset": 0
   },
   {
     "id": "296549790",

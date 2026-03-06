@@ -1,41 +1,42 @@
 /**
  * enrich-youtube.js
- * Matches each song in songs.json to a YouTube video ID and scans for startOffset.
+ * Matches each song in songs.json to a YouTube video ID.
+ * startOffset is always 0 — we want songs to start from the very beginning.
  *
  * Usage:
  *   node enrich-youtube.js          — process all songs missing youtubeId
  *   node enrich-youtube.js --dry    — print matches without writing to songs.json
+ *   node enrich-youtube.js --limit 90  — process at most N songs (quota management)
  *
  * Outputs:
  *   songs.json         — updated with youtubeId + startOffset for accepted songs
  *   youtube-review.txt — flagged songs that need manual review
+ *
+ * Quota note: each song costs ~101 units (100 for search + 1 for video details).
+ * The free YouTube Data API quota is 10,000 units/day → ~99 songs max per run.
+ * Use --limit 90 to stay safely under quota.
  */
 
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
-const { spawnSync } = require('child_process');
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const SONGS_PATH = path.join(__dirname, 'songs.json');
 const REVIEW_PATH = path.join(__dirname, 'youtube-review.txt');
-const TEMP_DIR = path.join(__dirname, 'temp-audio');
 const DRY_RUN = process.argv.includes('--dry');
 
 // Parse --limit N argument (default: process all)
 const limitArg = process.argv.indexOf('--limit');
 const LIMIT = limitArg !== -1 ? parseInt(process.argv[limitArg + 1], 10) : Infinity;
 
-// Full paths to tools (winget installs don't update bash PATH until shell restart)
-const WINGET_BASE = '/c/Users/adamc/AppData/Local/Microsoft/WinGet/Packages';
-const YTDLP_PATH  = `${WINGET_BASE}/yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe/yt-dlp.exe`;
-const DENO_PATH   = `${WINGET_BASE}/DenoLand.Deno_Microsoft.Winget.Source_8wekyb3d8bbwe/deno.exe`;
-const FFMPEG_DIR  = `${WINGET_BASE}/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-123074-g4e32fb4c2a-win64-gpl/bin`;
-const FFMPEG_PATH = `${FFMPEG_DIR}/ffmpeg.exe`;
-
-// Keywords that suggest wrong version (cover, live, etc.)
-const BAD_KEYWORDS = ['cover', 'live', 'remix', 'karaoke', 'reaction', 'tribute', 'instrumental', 'acoustic', 'mashup', 'nightcore'];
+// Keywords that suggest wrong version — use word-boundary style checks to avoid
+// false positives like "Don Toliver" (contains "live") or "visualizer" etc.
+// These are checked as whole words / standalone tokens.
+const BAD_KEYWORDS = ['cover', 'remix', 'karaoke', 'reaction', 'tribute', 'instrumental', 'acoustic', 'mashup', 'nightcore'];
+// "live" checked separately with word boundary to avoid "Toliver", "live." in URLs, etc.
+const LIVE_RE = /\blive\b/i;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -59,27 +60,28 @@ function parseDuration(iso) {
   return (parseInt(m[1] || 0) * 3600) + (parseInt(m[2] || 0) * 60) + parseInt(m[3] || 0);
 }
 
+/** Strip featured-artist notation so "(feat. X)" / "(ft. X)" / "(with X)" don't break matching */
+function stripFeat(s) {
+  return s.toLowerCase()
+    .replace(/\s*[\(\[](feat\.?|ft\.?|with|&)[^\)\]]*[\)\]]/gi, '')
+    .replace(/\s+(feat\.?|ft\.?)\s+.*/i, '')
+    .trim();
+}
+
 /** Score 0–1 how well a YouTube title matches the expected song + artist */
 function titleMatchScore(videoTitle, songName, artist) {
   const t = videoTitle.toLowerCase();
-  const name = songName.toLowerCase();
-  const art = artist.toLowerCase();
+  // Match against both the raw name and the feat-stripped name
+  const name    = songName.toLowerCase();
+  const nameCore = stripFeat(songName);
+  const art     = artist.toLowerCase();
+  // For multi-artist songs (e.g. "Drake" from "Drake & Rihanna"), check first artist
+  const artCore = art.split(/[,&]/)[0].trim();
   let score = 0;
-  if (t.includes(name)) score += 0.5;
-  if (t.includes(art)) score += 0.3;
+  if (t.includes(nameCore) || t.includes(name)) score += 0.5;
+  if (t.includes(art) || t.includes(artCore)) score += 0.3;
   if (t.includes('official audio') || t.includes('audio only') || t.includes('lyrics')) score += 0.2;
   return Math.min(score, 1);
-}
-
-/** Get expected duration (seconds) for a song from iTunes API — no auth required */
-async function getItunesDuration(itunesId) {
-  try {
-    const data = await fetchJson(`https://itunes.apple.com/lookup?id=${itunesId}`);
-    if (data.results && data.results[0] && data.results[0].trackTimeMillis) {
-      return Math.round(data.results[0].trackTimeMillis / 1000);
-    }
-  } catch (e) { /* ignore */ }
-  return null;
 }
 
 /** Search YouTube for a song, return top 3 results */
@@ -105,37 +107,6 @@ async function getVideoDetails(videoId) {
   return (data.items && data.items[0]) ? data.items[0] : null;
 }
 
-/** Download first 35 seconds of a YouTube video as MP3 to outputPath */
-function downloadAudioClip(videoId, outputPath) {
-  const result = spawnSync(YTDLP_PATH, [
-    `https://www.youtube.com/watch?v=${videoId}`,
-    '--js-runtimes', `deno:${DENO_PATH}`,
-    '--ffmpeg-location', FFMPEG_DIR,
-    '-x', '--audio-format', 'mp3',
-    '--download-sections', '*0-35',
-    '-o', outputPath,
-    '--quiet', '--no-warnings'
-  ], { timeout: 60000 });
-  return result.status === 0;
-}
-
-/** Use ffmpeg silencedetect to find first non-silent moment in seconds */
-function scanForSilenceStart(audioPath) {
-  const result = spawnSync(FFMPEG_PATH, [
-    '-i', audioPath,
-    '-af', 'silencedetect=noise=-40dB:d=0.2',
-    '-f', 'null', '-'
-  ], { encoding: 'utf8', timeout: 30000 });
-
-  const output = result.stderr || '';
-  // silence_end marks where the first silence finishes = where audio actually starts
-  const match = output.match(/silence_end:\s*([\d.]+)/);
-  if (match) {
-    return parseFloat(parseFloat(match[1]).toFixed(2));
-  }
-  return 0; // No leading silence detected
-}
-
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -144,17 +115,13 @@ async function main() {
     process.exit(1);
   }
 
-  if (!DRY_RUN && !fs.existsSync(TEMP_DIR)) {
-    fs.mkdirSync(TEMP_DIR);
-  }
-
   const songs = JSON.parse(fs.readFileSync(SONGS_PATH, 'utf8'));
   const pending = songs.filter(s => !s.youtubeId);
   const reviewLines = [];
 
   const batchSize = Math.min(pending.length, LIMIT);
   console.log(`Songs to process: ${batchSize} of ${pending.length} pending (${songs.length - pending.length} already done)`);
-  if (LIMIT < pending.length) console.log(`Limit: ${LIMIT} per run (quota management)`);
+  if (LIMIT < pending.length) console.log(`Limit: ${LIMIT} per run — re-run tomorrow for remaining songs`);
   if (DRY_RUN) console.log('--- DRY RUN — no files will be written ---');
   console.log('');
 
@@ -167,9 +134,6 @@ async function main() {
     process.stdout.write(`[${i}/${batchSize}] "${song.name}" - ${song.artist} ... `);
 
     try {
-      // Get expected duration from iTunes (free, no auth)
-      const expectedDuration = await getItunesDuration(song.id);
-
       // Search YouTube
       const results = await searchYouTube(song.name, song.artist);
       if (!results.length) {
@@ -192,19 +156,19 @@ async function main() {
       const flags = [];
       const titleLower = videoTitle.toLowerCase();
 
+      // Check bad keywords as whole words (avoids "Don Toliver" matching "live")
       BAD_KEYWORDS.forEach(kw => {
-        if (titleLower.includes(kw)) flags.push(`title contains "${kw}"`);
+        const re = new RegExp('\\b' + kw + '\\b', 'i');
+        if (re.test(titleLower)) flags.push(`title contains "${kw}"`);
       });
+      if (LIVE_RE.test(titleLower)) flags.push('title contains "live"');
 
       const score = titleMatchScore(videoTitle, song.name, song.artist);
-      if (score < 0.5) flags.push(`low title match (score: ${score.toFixed(2)})`);
+      if (score < 0.3) flags.push(`low title match (score: ${score.toFixed(2)})`);
 
-      if (expectedDuration && videoDuration) {
-        const diff = Math.abs(videoDuration - expectedDuration);
-        const pct = diff / expectedDuration;
-        if (pct > 0.15) {
-          flags.push(`duration mismatch (expected ~${expectedDuration}s, YouTube: ${videoDuration}s)`);
-        }
+      // Duration: only flag if mismatch >30% AND video is shorter (likely a clip/preview)
+      if (videoDuration && videoDuration < 60) {
+        flags.push(`very short video (${videoDuration}s) — likely a clip`);
       }
 
       if (flags.length > 0) {
@@ -218,31 +182,15 @@ async function main() {
         continue;
       }
 
-      // Accepted — download clip and scan silence
-      let startOffset = 0;
-
+      // Accepted — always start from the beginning (startOffset: 0)
       if (!DRY_RUN) {
-        const audioPath = path.join(TEMP_DIR, `${song.id}.mp3`);
-        const downloaded = downloadAudioClip(videoId, audioPath);
-
-        if (downloaded && fs.existsSync(audioPath)) {
-          startOffset = scanForSilenceStart(audioPath);
-          fs.unlinkSync(audioPath);
-        } else {
-          console.log('DOWNLOAD FAILED — flagging for review');
-          reviewLines.push(`DOWNLOAD FAILED: "${song.name}" - ${song.artist} (${videoId})\n`);
-          flagged++;
-          continue;
-        }
-
         song.youtubeId = videoId;
-        song.startOffset = startOffset;
-
+        song.startOffset = 0;
         // Save progress after each accepted song so we can resume if interrupted
         fs.writeFileSync(SONGS_PATH, JSON.stringify(songs, null, 2));
       }
 
-      console.log(`✓  "${videoTitle}" | offset: ${startOffset}s`);
+      console.log(`✓  "${videoTitle}" by ${channelTitle}`);
       accepted++;
 
     } catch (e) {
@@ -257,7 +205,7 @@ async function main() {
     }
 
     // Respect YouTube API rate limits
-    await new Promise(r => setTimeout(r, 250));
+    await new Promise(r => setTimeout(r, 300));
   }
 
   // Write review file
@@ -265,15 +213,13 @@ async function main() {
     fs.writeFileSync(REVIEW_PATH, reviewLines.join('\n'));
   }
 
-  // Cleanup temp dir if empty
-  if (!DRY_RUN && fs.existsSync(TEMP_DIR) && fs.readdirSync(TEMP_DIR).length === 0) {
-    fs.rmdirSync(TEMP_DIR);
-  }
-
   console.log(`\n── Summary ──────────────────────────`);
   console.log(`Accepted : ${accepted}`);
   console.log(`Flagged  : ${flagged}`);
   if (flagged > 0 && !DRY_RUN) console.log(`Review   : ${REVIEW_PATH}`);
+  if (pending.length > batchSize) {
+    console.log(`Remaining: ${pending.length - batchSize} songs — run again tomorrow`);
+  }
 }
 
 main().catch(err => {
