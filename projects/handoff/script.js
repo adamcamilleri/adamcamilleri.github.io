@@ -32,7 +32,6 @@
   var deployModal     = document.getElementById('deployModal');
   var deployModalClose    = document.getElementById('deployModalClose');
   var deployInstantBtn    = document.getElementById('deployInstantBtn');
-  var deployOwnVercelBtn  = document.getElementById('deployOwnVercelBtn');
   var deployStatus        = document.getElementById('deployStatus');
   var deployStatusText    = document.getElementById('deployStatusText');
   var deployResult        = document.getElementById('deployResult');
@@ -674,7 +673,6 @@
     deployStatus.classList.add('hidden');
     deployResult.classList.add('hidden');
     deployInstantBtn.disabled = false;
-    deployOwnVercelBtn.disabled = false;
     deployModal.classList.remove('hidden');
   });
 
@@ -689,7 +687,6 @@
   deployInstantBtn.addEventListener('click', function () {
     if (!state.previewHtml) return;
     deployInstantBtn.disabled = true;
-    deployOwnVercelBtn.disabled = true;
     deployStatus.classList.remove('hidden');
     deployStatusText.textContent = 'Deploying your site\u2026';
 
@@ -710,15 +707,13 @@
           deployStatus.classList.remove('hidden');
           deployStatusText.textContent = 'Deploy failed: ' + (data.error || 'Unknown error');
           deployInstantBtn.disabled = false;
-          deployOwnVercelBtn.disabled = false;
-        }
+              }
       })
       .catch(function (err) {
         deployStatus.classList.remove('hidden');
         deployStatusText.textContent = 'Error: ' + (err.message || 'Could not reach server');
         deployInstantBtn.disabled = false;
-        deployOwnVercelBtn.disabled = false;
-      });
+          });
   });
 
   deployResultCopy.addEventListener('click', function () {
@@ -731,10 +726,6 @@
         setTimeout(function () { deployResultCopy.textContent = orig; }, 1500);
       });
     }
-  });
-
-  deployOwnVercelBtn.addEventListener('click', function () {
-    window.location.href = API_BASE + '/api/auth/authorize';
   });
 
   // ── Upgrade Modal ─────────────────────────────────────────────────────────────
@@ -777,22 +768,5 @@
   renderUsageUI();
   showEmptyState();
 
-  // Handle Vercel OAuth return
-  (function handleOAuthReturn() {
-    var params = new URLSearchParams(window.location.search);
-    var connected = params.get('vercel_connected');
-    var error = params.get('error');
-    if (connected === '1') {
-      appendMessage('assistant', 'Vercel connected! Your next deploy will go to your own account. Hit Deploy when you\'re ready.');
-      window.history.replaceState({}, '', window.location.pathname);
-    } else if (error) {
-      var msg = 'Could not connect Vercel. ';
-      if (error === 'oauth_denied') msg += 'You cancelled the authorization.';
-      else if (error === 'oauth_token_failed') msg += 'Token exchange failed — try again.';
-      else msg += '(Error: ' + error + ')';
-      appendMessage('assistant', msg);
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  })();
 
 })();
