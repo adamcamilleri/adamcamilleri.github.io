@@ -39,11 +39,9 @@ function parseCookies(cookieHeader) {
     return cookies;
 }
 
-function slug() {
-    const prefix = (process.env.HANDOFF_DEPLOY_PREFIX || 'handoff').trim().replace(/[^a-zA-Z0-9-]/g, '') || 'handoff';
-    const shortId = Math.random().toString(36).slice(2, 8);
-    return prefix + '-handoff-' + shortId;
-}
+// All user sites deploy into one shared project to stay within Vercel Hobby's
+// 10-project limit. Each deployment still gets its own unique URL.
+const SHARED_PROJECT_NAME = (process.env.HANDOFF_DEPLOY_PREFIX || 'handoff').trim().replace(/[^a-zA-Z0-9-]/g, '') || 'handoff-sites';
 
 module.exports = async function handler(req, res) {
     Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
@@ -67,7 +65,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid JSON' });
     }
 
-    const { html, projectName } = body;
+    const { html } = body;
     if (!html || typeof html !== 'string') {
         return res.status(400).json({ error: 'Missing or invalid "html" in request body' });
     }
@@ -75,10 +73,7 @@ module.exports = async function handler(req, res) {
         return res.status(413).json({ error: 'HTML too large', details: 'Max 500KB' });
     }
 
-    const name = (projectName && String(projectName).trim()) || slug();
-    if (name.length > 64 || !/^[a-zA-Z0-9-]+$/.test(name)) {
-        return res.status(400).json({ error: 'projectName must be alphanumeric + hyphens, max 64 chars' });
-    }
+    const name = SHARED_PROJECT_NAME;
 
     const cookies = parseCookies(req.headers.cookie);
     const userToken = cookies.vercel_access_token;
