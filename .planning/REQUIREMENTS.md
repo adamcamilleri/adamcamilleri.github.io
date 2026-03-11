@@ -85,36 +85,36 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ANIM-01 | TBD | Pending |
-| ANIM-02 | TBD | Pending |
-| ANIM-03 | TBD | Pending |
-| ANIM-04 | TBD | Pending |
-| MICRO-01 | TBD | Pending |
-| MICRO-02 | TBD | Pending |
-| MICRO-03 | TBD | Pending |
-| SIG-01 | TBD | Pending |
-| SIG-02 | TBD | Pending |
-| SIG-03 | TBD | Pending |
-| REDESIGN-01 | TBD | Pending |
-| REDESIGN-02 | TBD | Pending |
-| REDESIGN-03 | TBD | Pending |
-| REDESIGN-04 | TBD | Pending |
-| SEC-01 | TBD | Pending |
-| SEC-02 | TBD | Pending |
-| SEC-03 | TBD | Pending |
-| SEC-04 | TBD | Pending |
-| SEC-05 | TBD | Pending |
-| SEC-06 | TBD | Pending |
-| BUG-01 | TBD | Pending |
-| CLAUDE-01 | TBD | Pending |
-| CLAUDE-02 | TBD | Pending |
-| CLAUDE-03 | TBD | Pending |
+| SEC-01 | Phase 1 | Pending |
+| SEC-02 | Phase 1 | Pending |
+| SEC-03 | Phase 1 | Pending |
+| SEC-04 | Phase 1 | Pending |
+| SEC-05 | Phase 1 | Pending |
+| SEC-06 | Phase 1 | Pending |
+| BUG-01 | Phase 1 | Pending |
+| CLAUDE-01 | Phase 2 | Pending |
+| CLAUDE-02 | Phase 2 | Pending |
+| CLAUDE-03 | Phase 2 | Pending |
+| ANIM-01 | Phase 3 | Pending |
+| ANIM-02 | Phase 3 | Pending |
+| ANIM-03 | Phase 3 | Pending |
+| ANIM-04 | Phase 3 | Pending |
+| MICRO-01 | Phase 3 | Pending |
+| MICRO-02 | Phase 3 | Pending |
+| MICRO-03 | Phase 3 | Pending |
+| SIG-01 | Phase 4 | Pending |
+| SIG-02 | Phase 4 | Pending |
+| SIG-03 | Phase 4 | Pending |
+| REDESIGN-01 | Phase 4 | Pending |
+| REDESIGN-02 | Phase 4 | Pending |
+| REDESIGN-03 | Phase 4 | Pending |
+| REDESIGN-04 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 24 total
-- Mapped to phases: 0
-- Unmapped: 24 ⚠️
+- Mapped to phases: 24
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-11*
-*Last updated: 2026-03-11 after initial definition*
+*Last updated: 2026-03-11 after roadmap creation*
