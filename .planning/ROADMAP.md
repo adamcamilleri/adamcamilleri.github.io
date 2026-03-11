@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. All API handlers share a single cors.js utility — grepping for duplicate CORS header strings returns zero results
   4. Songdle songs play from the beginning every time — no mid-song entry on any track
   5. Handoff usage limit gate is active — free users cannot generate beyond FREE_LIMIT
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Fix security vulnerabilities (XSS in Handoff, JWT secret in TaskMaster, restore usage limit gate)
-- [ ] 01-02: Consolidate infrastructure (extract cors.js, fix MongoDB reconnect, cache Songdle songs.json, fix BUG-01)
+- [ ] 01-01-PLAN.md — Fix client-side security vulnerabilities (XSS in Handoff, JWT secret in TaskMaster, usage limit gate)
+- [ ] 01-02-PLAN.md — Consolidate server-side infrastructure (extract cors.js, MongoDB ping guard, cache Songdle songs.json, fix BUG-01)
 
 ### Phase 2: Claude Code Tooling
 **Goal**: Claude Code can onboard to this project instantly and operate with full context about the current (post-refactor) architecture
