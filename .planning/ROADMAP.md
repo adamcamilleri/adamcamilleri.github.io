@@ -41,13 +41,13 @@ Plans:
 **Requirements**: CLAUDE-01, CLAUDE-02, CLAUDE-03
 **Success Criteria** (what must be TRUE):
   1. A new Claude session can read CLAUDE.md and immediately understand the monorepo layout, the api/_lib/ patterns, and where to find deep context — without reading the whole codebase
-  2. Claude can deploy to Vercel, query GitHub issues, and inspect MongoDB data through MCP tool calls without leaving the editor
-  3. Running `/deploy`, `/test`, or `/add-project` slash commands executes the correct workflow without manual step lookup
-**Plans**: TBD
+  2. Claude can deploy to Vercel and query GitHub issues through MCP tool calls without leaving the editor
+  3. Running `/tdd` or `/code-review` slash commands executes the correct workflow without manual step lookup
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Write CLAUDE.md and configure .mcp.json with GitHub and Vercel MCP servers
-- [ ] 02-02: Create custom slash commands in .claude/commands/ for deploy, test, and add-project workflows
+- [ ] 02-01-PLAN.md — Expand CLAUDE.md (8 lines → full context doc) and create .mcp.json with GitHub and Vercel MCP servers (CLAUDE-01, CLAUDE-02)
+- [ ] 02-02-PLAN.md — Create /tdd and /code-review slash commands in .claude/commands/ (CLAUDE-03)
 
 ### Phase 3: Animation Foundation
 **Goal**: Every interactive element across the portfolio has consistent motion feedback, and a shared animations.js module means no project carries its own animation setup
