@@ -1,0 +1,120 @@
+# Requirements: Adam Camilleri Portfolio
+
+**Defined:** 2026-03-11
+**Core Value:** Every project demo should feel polished enough that a visitor immediately thinks "this person ships quality work"
+
+## v1 Requirements
+
+### Animation Foundation
+
+- [ ] **ANIM-01**: All animations respect `prefers-reduced-motion` — disabled by default, enabled only when user has no preference
+- [ ] **ANIM-02**: All interactive elements (buttons, links, cards) have hover/focus feedback with smooth transitions
+- [ ] **ANIM-03**: Async operations show skeleton/loading states (Handoff chat generation, Songdle audio fetch, TaskMaster API calls)
+- [ ] **ANIM-04**: Page sections use scroll-triggered entrance animations
+
+### Micro-Interactions
+
+- [ ] **MICRO-01**: Buttons and cards use spring-physics press/release animations
+- [ ] **MICRO-02**: Form inputs have animated focus states and validation feedback
+- [ ] **MICRO-03**: Navigation transitions are smooth and contextual
+
+### Per-Project Signatures
+
+- [ ] **SIG-01**: Handoff has an animated deploy progress sequence
+- [ ] **SIG-02**: Songdle has an audio visualizer or waveform animation during playback
+- [ ] **SIG-03**: Each project demo has at least one memorable animation moment unique to it
+
+### Project Redesigns
+
+- [ ] **REDESIGN-01**: Rename StudyBuddy to "Study Smart" and fully redesign with retro OS aesthetic — window chrome panels, warm brown palette (#5C3D2E tones), grid/graph paper background, retro title bars with minimize/maximize/close buttons
+- [ ] **REDESIGN-02**: Study Smart layout: Timer panel (left), Music genre selector grid (right), To-do list panel (left below timer), Volume/playback controls, Inspirational quote widget — all in retro window panels
+- [ ] **REDESIGN-03**: Study Smart retains all existing features (pomodoro timer, tasks, stats, ambient sounds, settings, keyboard shortcuts) but with the new visual design
+- [ ] **REDESIGN-04**: Redesign Connect Four with a polished modern aesthetic — animated disc drops, glow effects on winning line, smooth transitions, updated color scheme and layout
+
+### Security & Tech Debt
+
+- [ ] **SEC-01**: Fix XSS vulnerability in Handoff onboarding — replace unsanitized innerHTML with textContent/DOM APIs
+- [ ] **SEC-02**: Fix JWT fallback secret in TaskMaster — throw error if JWT_SECRET is missing in production
+- [ ] **SEC-03**: Extract shared CORS utility to `api/_lib/cors.js` — remove duplication from 6+ handlers
+- [ ] **SEC-04**: Fix MongoDB cold-start reconnect — add connection health check before returning cached client
+- [ ] **SEC-05**: Restore Handoff usage limit gate — `canGenerate()` should enforce FREE_LIMIT instead of returning true
+- [ ] **SEC-06**: Cache Songdle songs.json reads in module-level variable instead of reading from disk per request
+
+### Bug Fixes
+
+- [ ] **BUG-01**: Fix Songdle playback starting mid-song — songs should play from the beginning
+
+### Claude Code Tooling
+
+- [ ] **CLAUDE-01**: Create CLAUDE.md with full project context (under 200 lines, progressive disclosure to .planning/)
+- [ ] **CLAUDE-02**: Configure `.mcp.json` with GitHub and Vercel MCP server integrations
+- [ ] **CLAUDE-03**: Create custom slash commands in `.claude/commands/` for common tasks (deploy, test, dev server)
+
+## v2 Requirements
+
+### Advanced Animation
+
+- **ANIM-V2-01**: GSAP ScrollTrigger parallax and reveal sequences
+- **ANIM-V2-02**: View Transitions API for project page routing
+- **ANIM-V2-03**: Gesture-driven UI interactions (swipe, drag)
+
+### Code Structure
+
+- **STRUCT-01**: Shared ES module directory (`shared/`) for cross-project utilities
+- **STRUCT-02**: Project scaffold template (`projects/_template/`) for new demos
+- **STRUCT-03**: Server-side rate limiting on chat/deploy API endpoints
+
+### Additional Tooling
+
+- **TOOL-01**: MongoDB MCP server integration
+- **TOOL-02**: Additional custom Claude skills for project-specific workflows
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Full framework migration (React/Vue/Svelte) | Vanilla JS works; adding a framework adds build complexity without clear benefit |
+| WebGL/Three.js hero effects | Mobile performance killer, dated aesthetic |
+| Particle systems | Jank-prone, looks mid-2010s |
+| Scroll hijacking | UX harm + Core Web Vitals penalty |
+| Rewriting Handoff, Songdle, or TaskMaster from scratch | Optimize and enhance these; StudyBuddy and Connect Four ARE being redesigned |
+| CMS or admin panel | Content managed via code |
+| Multi-user features | Personal portfolio site |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| ANIM-01 | TBD | Pending |
+| ANIM-02 | TBD | Pending |
+| ANIM-03 | TBD | Pending |
+| ANIM-04 | TBD | Pending |
+| MICRO-01 | TBD | Pending |
+| MICRO-02 | TBD | Pending |
+| MICRO-03 | TBD | Pending |
+| SIG-01 | TBD | Pending |
+| SIG-02 | TBD | Pending |
+| SIG-03 | TBD | Pending |
+| REDESIGN-01 | TBD | Pending |
+| REDESIGN-02 | TBD | Pending |
+| REDESIGN-03 | TBD | Pending |
+| REDESIGN-04 | TBD | Pending |
+| SEC-01 | TBD | Pending |
+| SEC-02 | TBD | Pending |
+| SEC-03 | TBD | Pending |
+| SEC-04 | TBD | Pending |
+| SEC-05 | TBD | Pending |
+| SEC-06 | TBD | Pending |
+| BUG-01 | TBD | Pending |
+| CLAUDE-01 | TBD | Pending |
+| CLAUDE-02 | TBD | Pending |
+| CLAUDE-03 | TBD | Pending |
+
+**Coverage:**
+- v1 requirements: 24 total
+- Mapped to phases: 0
+- Unmapped: 24 ⚠️
+
+---
+*Requirements defined: 2026-03-11*
+*Last updated: 2026-03-11 after initial definition*
