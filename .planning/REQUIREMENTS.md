@@ -42,7 +42,7 @@
 
 ### Bug Fixes
 
-- [x] **BUG-01**: Fix Songdle playback starting mid-song — songs should play from the beginning
+- [x] **BUG-01**: Fix Songdle Audio object reuse bug — `playFallback()` now always creates a fresh Audio object so playback always starts at position 0 within the clip (technical fix done; note: the underlying issue is that freely available clips online are sourced from the middle of songs — this is a content/sourcing problem, not a code problem. SoundCloud was attempted but didn't work. Deferred to Phase 4 Songdle redesign to find a proper audio source.)
 
 ### Claude Code Tooling
 
