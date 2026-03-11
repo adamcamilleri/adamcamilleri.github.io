@@ -13,7 +13,7 @@ This milestone transforms the portfolio from functional to memorable. The work s
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Security + Tech Debt** - Close live security vulnerabilities, fix the Songdle playback bug, and consolidate duplicated infrastructure before anything else ships
-- [ ] **Phase 2: Claude Code Tooling** - Set up CLAUDE.md describing the clean post-refactor codebase, configure MCP integrations, and add custom slash commands
+- [x] **Phase 2: Claude Code Tooling** - Set up CLAUDE.md describing the clean post-refactor codebase, configure MCP integrations, and add custom slash commands (completed 2026-03-11)
 - [ ] **Phase 3: Animation Foundation** - Build shared animation infrastructure and apply universal motion polish (hover states, loading skeletons, scroll reveals) across all projects
 - [ ] **Phase 4: Per-Project Polish + Redesigns** - Deliver project signature animations and full visual redesigns of Study Smart (retro OS aesthetic) and Connect Four (modern polish)
 
@@ -90,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security + Tech Debt | 2/2 | Complete | 2026-03-11 |
-| 2. Claude Code Tooling | 0/2 | Not started | - |
+| 2. Claude Code Tooling | 2/2 | Complete   | 2026-03-11 |
 | 3. Animation Foundation | 0/3 | Not started | - |
 | 4. Per-Project Polish + Redesigns | 0/3 | Not started | - |

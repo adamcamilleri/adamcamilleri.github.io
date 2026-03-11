@@ -46,8 +46,8 @@
 
 ### Claude Code Tooling
 
-- [ ] **CLAUDE-01**: Create CLAUDE.md with full project context (under 200 lines, progressive disclosure to .planning/)
-- [ ] **CLAUDE-02**: Configure `.mcp.json` with GitHub and Vercel MCP server integrations
+- [x] **CLAUDE-01**: Create CLAUDE.md with full project context (under 200 lines, progressive disclosure to .planning/)
+- [x] **CLAUDE-02**: Configure `.mcp.json` with GitHub and Vercel MCP server integrations
 - [x] **CLAUDE-03**: Create custom slash commands in `.claude/commands/` for common tasks (deploy, test, dev server)
 
 ## v2 Requirements
@@ -92,8 +92,8 @@
 | SEC-05 | Phase 1 | Complete |
 | SEC-06 | Phase 1 | Complete |
 | BUG-01 | Phase 1 | Complete |
-| CLAUDE-01 | Phase 2 | Pending |
-| CLAUDE-02 | Phase 2 | Pending |
+| CLAUDE-01 | Phase 2 | Complete |
+| CLAUDE-02 | Phase 2 | Complete |
 | CLAUDE-03 | Phase 2 | Complete |
 | ANIM-01 | Phase 3 | Pending |
 | ANIM-02 | Phase 3 | Pending |
