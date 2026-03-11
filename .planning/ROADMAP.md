@@ -12,7 +12,7 @@ This milestone transforms the portfolio from functional to memorable. The work s
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Security + Tech Debt** - Close live security vulnerabilities, fix the Songdle playback bug, and consolidate duplicated infrastructure before anything else ships
+- [x] **Phase 1: Security + Tech Debt** - Close live security vulnerabilities, fix the Songdle playback bug, and consolidate duplicated infrastructure before anything else ships
 - [ ] **Phase 2: Claude Code Tooling** - Set up CLAUDE.md describing the clean post-refactor codebase, configure MCP integrations, and add custom slash commands
 - [ ] **Phase 3: Animation Foundation** - Build shared animation infrastructure and apply universal motion polish (hover states, loading skeletons, scroll reveals) across all projects
 - [ ] **Phase 4: Per-Project Polish + Redesigns** - Deliver project signature animations and full visual redesigns of Study Smart (retro OS aesthetic) and Connect Four (modern polish)
@@ -32,8 +32,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Fix client-side security vulnerabilities (XSS in Handoff, JWT secret in TaskMaster, usage limit gate)
-- [ ] 01-02-PLAN.md — Consolidate server-side infrastructure (extract cors.js, MongoDB ping guard, cache Songdle songs.json, fix BUG-01)
+- [x] 01-01-PLAN.md — Fix client-side security vulnerabilities (XSS in Handoff, JWT secret in TaskMaster, usage limit gate)
+- [x] 01-02-PLAN.md — Consolidate server-side infrastructure (extract cors.js, MongoDB ping guard, cache Songdle songs.json, fix BUG-01)
 
 ### Phase 2: Claude Code Tooling
 **Goal**: Claude Code can onboard to this project instantly and operate with full context about the current (post-refactor) architecture
@@ -89,7 +89,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security + Tech Debt | 1/2 | In Progress|  |
+| 1. Security + Tech Debt | 2/2 | Complete | 2026-03-11 |
 | 2. Claude Code Tooling | 0/2 | Not started | - |
 | 3. Animation Foundation | 0/3 | Not started | - |
 | 4. Per-Project Polish + Redesigns | 0/3 | Not started | - |

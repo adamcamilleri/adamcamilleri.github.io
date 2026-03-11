@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Roadmap created, REQUIREMENTS.md traceability updated, ready to plan Phase 1
-last_updated: "2026-03-11T22:31:44.339Z"
-last_activity: 2026-03-11 — Roadmap created, phases derived from requirements
+status: in_progress
+stopped_at: Completed 01-02-PLAN.md — SEC-03/SEC-04/SEC-06/BUG-01 fixes applied and tested
+last_updated: "2026-03-11T22:54:00.000Z"
+last_activity: 2026-03-11 — Plan 01-02 complete: CORS utility, MongoDB ping guard, songs cache, playback fix
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 2
-  completed_plans: 1
-  percent: 50
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -26,27 +26,27 @@ See: .planning/PROJECT.md (updated 2026-03-11)
 ## Current Position
 
 Phase: 1 of 4 (Security + Tech Debt)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-03-11 — Plan 01-01 complete: SEC-01 XSS, SEC-02 JWT guard, SEC-05 usage limit fixed
+Plan: 2 of 2 in current phase (COMPLETE)
+Status: Phase 1 complete — all plans executed
+Last activity: 2026-03-11 — Plan 01-02 complete: CORS utility, MongoDB ping guard, songs.json cache, Songdle playback fix
 
-Progress: [█████░░░░░] 50%
+Progress: [██████████] 100% (Phase 1)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: ~3 minutes
-- Total execution time: ~0.05 hours
+- Total plans completed: 2
+- Average duration: ~5 minutes
+- Total execution time: ~0.17 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Phase 1 | 1 | ~3 min | ~3 min |
+| Phase 1 | 2 | ~10 min | ~5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01
+- Last 5 plans: 01-01, 01-02
 - Trend: On track
 
 *Updated after each plan completion*
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - 01-01 SEC-01: DOM API construction (createDocumentFragment + textContent) over innerHTML sanitization — eliminates XSS attack surface entirely
 - 01-01 SEC-02: JWT guard throws in production, dev-only fallback in development — balances security with dev ergonomics
 - 01-01 Tests: Behavioral contract tests defined locally (not importing production code) to avoid ESM/CJS and browser API issues in Jest
+- 01-02 SEC-03: deploy.js preserves Access-Control-Allow-Credentials as separate setHeader — shared utility omits it by design
+- 01-02 SEC-03: oauth.js ALLOWED_ORIGINS not migrated — purposefully restricted 4-origin list with different security intent, deferred to future plan
+- 01-02 SEC-06: songdle-cache test uses beforeAll spy + jest.requireActual() pattern — avoids babel-plugin-jest-hoist transform error with resetModules()
 
 ### Pending Todos
 
@@ -71,11 +74,12 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 1: MongoDB reconnect fix implementation differs between mongodb driver v4 and v6 — confirm version in package.json before implementing the ping-guard pattern
+- ~~Phase 1: MongoDB reconnect fix implementation differs between mongodb driver v4 and v6 — resolved: mongodb v6.21.0 confirmed, ping-guard implemented~~ (resolved in 01-02)
 - Phase 4: Async call inventory for skeleton states requires a codebase read pass before scoping — enumerate all fetch() calls across handoff/script.js, songdle/script.js, and TaskMaster before planning Phase 3
+- api/oauth.js has its own ALLOWED_ORIGINS (4-entry restricted list) — not migrated in 01-02; review in a future CORS audit plan
 
 ## Session Continuity
 
 Last session: 2026-03-11
-Stopped at: Completed 01-01-PLAN.md — SEC-01/SEC-02/SEC-05 fixes applied and tested
+Stopped at: Completed 01-02-PLAN.md — Phase 1 all plans done; ready to plan Phase 2
 Resume file: None
