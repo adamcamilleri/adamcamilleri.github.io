@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    }
+  }
+}
