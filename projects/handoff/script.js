@@ -83,11 +83,13 @@
   }
 
   function canGenerate() {
-    return true; // limit disabled until app is ready
+    return getUsage().count < FREE_LIMIT;
   }
 
   function renderUsageUI() {
-    // usage counter hidden until limit is re-enabled
+    if (usageCounter) {
+      usageCounter.textContent = FREE_LIMIT - getUsage().count;
+    }
   }
 
   // ── Preview ───────────────────────────────────────────────────────────────────
@@ -541,9 +543,20 @@
       if (!val) return;
       onboarding.name = val;
       var revenuePhrase = revenueToPhrase(onboarding.revenue);
-      document.getElementById('summaryText').innerHTML =
-        'You\'re building <strong>' + onboarding.name + '</strong>, a <strong>' + onboarding.businessDesc + '</strong> in <strong>' + onboarding.location + '</strong>' +
-        (revenuePhrase ? ', and ' + revenuePhrase : '') + '.';
+      var summaryEl = document.getElementById('summaryText');
+      summaryEl.textContent = '';
+      var frag = document.createDocumentFragment();
+      function appendText(text) { frag.appendChild(document.createTextNode(text)); }
+      function appendStrong(text) { var s = document.createElement('strong'); s.textContent = text; frag.appendChild(s); }
+      appendText("You're building ");
+      appendStrong(onboarding.name);
+      appendText(', a ');
+      appendStrong(onboarding.businessDesc);
+      appendText(' in ');
+      appendStrong(onboarding.location);
+      if (revenuePhrase) { appendText(', and ' + revenuePhrase); }
+      appendText('.');
+      summaryEl.appendChild(frag);
       showObStep(5);
     });
 
