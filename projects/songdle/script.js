@@ -713,10 +713,9 @@
     var dur = state.done ? 30 : CLIP_DURATIONS[state.level];
     var guardId = song.id;
 
-    if (!state.audio) {
-      state.audio = new Audio(audioUrl);
-      state.audio.volume = getVolume();
-    }
+    if (state.audio) { state.audio.pause(); state.audio = null; }
+    state.audio = new Audio(audioUrl);
+    state.audio.volume = getVolume();
     state.audio.currentTime = 0;
 
     state.audio.play()

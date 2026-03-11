@@ -4,11 +4,7 @@
  * GET /api/songdle-stream?date=YYYY-MM-DD&genre=all|rock|hip-hop
  * GET /api/songdle-stream?id=SONG_ID   (unlimited mode — specific song)
  */
-const path = require('path');
-const fs   = require('fs');
 const { getDailyTrackData } = require('./soundcloud-daily.js');
-
-const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songdle', 'songs.json');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,8 +29,8 @@ module.exports = async function handler(req, res) {
 
     if (idStr) {
       // Unlimited mode: look up a specific song by ID
-      const raw  = fs.readFileSync(SONGS_PATH, 'utf8');
-      const songs = JSON.parse(raw);
+      const { loadSongs } = require('./soundcloud-daily.js');
+      const songs = loadSongs();
       const song  = Array.isArray(songs) ? songs.find((s) => String(s.id) === String(idStr)) : null;
       if (!song || !song.preview_url) {
         res.status(404).end();

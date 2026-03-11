@@ -9,17 +9,31 @@ const fs = require('fs');
 
 const SONGS_PATH = path.join(__dirname, '..', 'projects', 'songdle', 'songs.json');
 
-function loadSongsFromFile(genre) {
+/** Module-level cache — songs.json is read from disk once per process (SEC-06). */
+let _cachedSongs = null;
+
+/**
+ * Read and cache songs.json. Subsequent calls return the cached array without I/O.
+ * @returns {Array} All tracks from songs.json (unfiltered)
+ */
+function loadSongs() {
+  if (_cachedSongs) return _cachedSongs;
   try {
     const raw = fs.readFileSync(SONGS_PATH, 'utf8');
-    const tracks = JSON.parse(raw);
-    // Accept songs that have either an iTunes preview URL or a Spotify ID
-    const all = Array.isArray(tracks) ? tracks.filter((t) => t.preview_url || t.spotifyId) : [];
-    if (!genre || genre === 'all') return all;
-    return all.filter((t) => t.genre === genre);
+    _cachedSongs = JSON.parse(raw);
+    if (!Array.isArray(_cachedSongs)) _cachedSongs = [];
   } catch {
-    return [];
+    _cachedSongs = [];
   }
+  return _cachedSongs;
+}
+
+function loadSongsFromFile(genre) {
+  // Accept songs that have either an iTunes preview URL or a Spotify ID
+  const tracks = loadSongs();
+  const all = tracks.filter((t) => t.preview_url || t.spotifyId);
+  if (!genre || genre === 'all') return all;
+  return all.filter((t) => t.genre === genre);
 }
 
 function getDailyIndex(total, dateStr) {
@@ -77,3 +91,4 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports.getDailyTrackData = getDailyTrackData;
+module.exports.loadSongs = loadSongs;
