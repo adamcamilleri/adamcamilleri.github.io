@@ -33,11 +33,11 @@
 
 ### Security & Tech Debt
 
-- [ ] **SEC-01**: Fix XSS vulnerability in Handoff onboarding — replace unsanitized innerHTML with textContent/DOM APIs
-- [ ] **SEC-02**: Fix JWT fallback secret in TaskMaster — throw error if JWT_SECRET is missing in production
+- [x] **SEC-01**: Fix XSS vulnerability in Handoff onboarding — replace unsanitized innerHTML with textContent/DOM APIs
+- [x] **SEC-02**: Fix JWT fallback secret in TaskMaster — throw error if JWT_SECRET is missing in production
 - [ ] **SEC-03**: Extract shared CORS utility to `api/_lib/cors.js` — remove duplication from 6+ handlers
 - [ ] **SEC-04**: Fix MongoDB cold-start reconnect — add connection health check before returning cached client
-- [ ] **SEC-05**: Restore Handoff usage limit gate — `canGenerate()` should enforce FREE_LIMIT instead of returning true
+- [x] **SEC-05**: Restore Handoff usage limit gate — `canGenerate()` should enforce FREE_LIMIT instead of returning true
 - [ ] **SEC-06**: Cache Songdle songs.json reads in module-level variable instead of reading from disk per request
 
 ### Bug Fixes
@@ -85,11 +85,11 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 | Phase 1 | Pending |
-| SEC-02 | Phase 1 | Pending |
+| SEC-01 | Phase 1 | Complete |
+| SEC-02 | Phase 1 | Complete |
 | SEC-03 | Phase 1 | Pending |
 | SEC-04 | Phase 1 | Pending |
-| SEC-05 | Phase 1 | Pending |
+| SEC-05 | Phase 1 | Complete |
 | SEC-06 | Phase 1 | Pending |
 | BUG-01 | Phase 1 | Pending |
 | CLAUDE-01 | Phase 2 | Pending |
