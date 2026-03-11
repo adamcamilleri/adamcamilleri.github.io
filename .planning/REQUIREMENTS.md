@@ -21,7 +21,7 @@
 ### Per-Project Signatures
 
 - [ ] **SIG-01**: Handoff has an animated deploy progress sequence
-- [ ] **SIG-02**: Songdle has an audio visualizer or waveform animation during playback
+- [ ] **SIG-02**: Songdle has an audio visualizer or waveform animation during playback (note: audio source will switch to SoundCloud Widget API in Phase 4 — visualizer must work with iframe-based audio, not a native Audio element)
 - [ ] **SIG-03**: Each project demo has at least one memorable animation moment unique to it
 
 ### Project Redesigns
@@ -42,7 +42,7 @@
 
 ### Bug Fixes
 
-- [x] **BUG-01**: Fix Songdle Audio object reuse bug — `playFallback()` now always creates a fresh Audio object so playback always starts at position 0 within the clip (technical fix done; note: the underlying issue is that freely available clips online are sourced from the middle of songs — this is a content/sourcing problem, not a code problem. SoundCloud was attempted but didn't work. Deferred to Phase 4 Songdle redesign to find a proper audio source.)
+- [x] **BUG-01**: Fix Songdle Audio object reuse bug — `playFallback()` now always creates a fresh Audio object so playback always starts at position 0 within the clip (technical fix done; note: the underlying content issue — clips sourced from mid-song — is deferred to Phase 4. Decided approach for Phase 4: use the **SoundCloud Widget API** (hidden iframe + `SC.Widget` JS SDK), calling `seekTo(0)` before each play to guarantee playback from second 0 of the full track. This is how Heardle worked. Do NOT use any preview APIs — iTunes/Deezer/Spotify previews are mid-song clips. Previous attempt failed because Claude used direct `new Audio(soundcloudUrl)` which is blocked by SoundCloud's CORS — the correct approach is the iframe widget, no API key required for public tracks.)
 
 ### Claude Code Tooling
 
