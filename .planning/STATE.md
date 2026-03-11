@@ -3,29 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Completed 01-02-PLAN.md — Phase 1 all plans done; ready to plan Phase 2
-last_updated: "2026-03-11T22:39:32.857Z"
-last_activity: "2026-03-11 — Plan 01-02 complete: CORS utility, MongoDB ping guard, songs.json cache, Songdle playback fix"
+stopped_at: Completed 02-02-PLAN.md — /tdd and /code-review slash commands created
+last_updated: "2026-03-11T23:44:46.949Z"
+last_activity: "2026-03-11 — Plan 02-02 complete: /tdd and /code-review slash commands"
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: in_progress
-stopped_at: Completed 01-02-PLAN.md — SEC-03/SEC-04/SEC-06/BUG-01 fixes applied and tested
-last_updated: "2026-03-11T22:54:00.000Z"
-last_activity: 2026-03-11 — Plan 01-02 complete: CORS utility, MongoDB ping guard, songs cache, playback fix
-progress:
-  total_phases: 4
-  completed_phases: 0
-  total_plans: 2
-  completed_plans: 2
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
   percent: 100
 ---
 
@@ -36,32 +21,33 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-11)
 
 **Core value:** Every project demo should feel polished enough that a visitor immediately thinks "this person ships quality work"
-**Current focus:** Phase 1 — Security + Tech Debt
+**Current focus:** Phase 2 — Claude Code Tooling (COMPLETE)
 
 ## Current Position
 
-Phase: 1 of 4 (Security + Tech Debt)
+Phase: 2 of 4 (Claude Code Tooling)
 Plan: 2 of 2 in current phase (COMPLETE)
-Status: Phase 1 complete — all plans executed
-Last activity: 2026-03-11 — Plan 01-02 complete: CORS utility, MongoDB ping guard, songs.json cache, Songdle playback fix
+Status: Phase 2 complete — all plans executed
+Last activity: 2026-03-11 — Plan 02-02 complete: /tdd and /code-review slash commands
 
-Progress: [██████████] 100% (Phase 1)
+Progress: [██████████] 100% (Phase 2)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: ~5 minutes
-- Total execution time: ~0.17 hours
+- Total plans completed: 4
+- Average duration: ~3 minutes
+- Total execution time: ~0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 2 | ~10 min | ~5 min |
+| Phase 2 | 2 | ~3 min | ~1.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01, 01-02
+- Last 5 plans: 01-01, 01-02, 02-01, 02-02
 - Trend: On track
 
 *Updated after each plan completion*
@@ -82,6 +68,10 @@ Recent decisions affecting current work:
 - 01-02 SEC-03: deploy.js preserves Access-Control-Allow-Credentials as separate setHeader — shared utility omits it by design
 - 01-02 SEC-03: oauth.js ALLOWED_ORIGINS not migrated — purposefully restricted 4-origin list with different security intent, deferred to future plan
 - 01-02 SEC-06: songdle-cache test uses beforeAll spy + jest.requireActual() pattern — avoids babel-plugin-jest-hoist transform error with resetModules()
+- 02-01 CLAUDE.md: Behavioral rules ("ALWAYS require cors.js") not just structural descriptions
+- 02-01 MCP: HTTP OAuth transport for both servers — no tokens stored in .mcp.json
+- 02-01 oauth.js CORS exception explicitly documented in CLAUDE.md to prevent accidental migration
+- 02-02: Force-added .claude/commands/ files past .gitignore to ensure slash commands are version-controlled
 
 ### Pending Todos
 
@@ -95,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11
-Stopped at: Completed 01-02-PLAN.md — Phase 1 all plans done; ready to plan Phase 2
-Resume file: None
+Last session: 2026-03-11T23:44:46.949Z
+Stopped at: Completed 02-02-PLAN.md — /tdd and /code-review slash commands created
+Resume file: .planning/phases/02-claude-code-tooling/02-02-SUMMARY.md
