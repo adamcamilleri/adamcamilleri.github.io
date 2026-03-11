@@ -3,29 +3,9 @@
  * Requires STRIPE_SECRET_KEY in Vercel environment variables.
  */
 
-const ALLOWED_ORIGINS = [
-    'https://adamcamilleri.github.io',
-    'https://www.adamcamilleri.github.io',
-    'https://adamcamilleri.com',
-    'https://www.adamcamilleri.com',
-    'https://adamcamilleri-github-io.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:5500',
-];
-
-function corsHeaders(req) {
-    const origin = req.headers.origin || req.headers.Origin;
-    const allowed = ALLOWED_ORIGINS.some(o => origin && (origin === o || origin.startsWith('http://localhost:'))) ||
-        (origin && (origin.endsWith('.vercel.app') || origin.endsWith('.github.io')));
-    return {
-        'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-    };
-}
-
 module.exports = async function handler(req, res) {
-    Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
+    const { corsHeaders } = require('./_lib/cors.js');
+    Object.entries(corsHeaders(req, 'POST, OPTIONS')).forEach(([k, v]) => res.setHeader(k, v));
 
     if (req.method === 'OPTIONS') {
         return res.status(204).end();

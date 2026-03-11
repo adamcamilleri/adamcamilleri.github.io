@@ -7,7 +7,14 @@ const { MongoClient } = require('mongodb');
 let cached = null;
 
 async function getDb() {
-  if (cached) return cached.db;
+  if (cached) {
+    try {
+      await cached.client.db('admin').command({ ping: 1 });
+      return cached.db;
+    } catch {
+      cached = null; // stale — fall through to reconnect
+    }
+  }
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error('MONGODB_URI not configured');
   const client = new MongoClient(uri);

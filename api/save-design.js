@@ -3,31 +3,9 @@
  * POST /api/save-design
  * Body: { html: string, name?: string }
  */
-const ALLOWED_ORIGINS = [
-  'https://adamcamilleri.github.io',
-  'https://www.adamcamilleri.github.io',
-  'https://adamcamilleri.com',
-  'https://www.adamcamilleri.com',
-  'https://adamcamilleri-github-io.vercel.app',
-  'http://localhost:3000',
-  'http://localhost:5500',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:5500',
-];
-
-function corsHeaders(req) {
-  const origin = req.headers.origin || req.headers.Origin;
-  const allowed = ALLOWED_ORIGINS.some(o => origin === o) ||
-    (origin && (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:') || origin.endsWith('.vercel.app') || origin.endsWith('.github.io')));
-  return {
-    'Access-Control-Allow-Origin': allowed ? origin : ALLOWED_ORIGINS[0],
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-  };
-}
-
 module.exports = async function handler(req, res) {
-  Object.entries(corsHeaders(req)).forEach(([k, v]) => res.setHeader(k, v));
+  const { corsHeaders } = require('./_lib/cors.js');
+  Object.entries(corsHeaders(req, 'POST, OPTIONS')).forEach(([k, v]) => res.setHeader(k, v));
 
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
