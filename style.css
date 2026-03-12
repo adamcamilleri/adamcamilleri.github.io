@@ -202,7 +202,7 @@ h1, h2, h3, h4 {
     border-radius: var(--border-radius-medium);
     background-color: #ffffff;
     outline: none;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     letter-spacing: var(--letter-spacing-normal);
     font-family: var(--body-font);
 }
@@ -221,7 +221,7 @@ h1, h2, h3, h4 {
     font-size: 1rem;
     color: var(--primary-color);
     pointer-events: none;
-    transition: all var(--transition-fast);
+    transition: top var(--transition-fast), font-size var(--transition-fast), color var(--transition-fast);
     letter-spacing: var(--letter-spacing-wide);
     font-family: var(--body-font);
 }
@@ -251,7 +251,7 @@ h1, h2, h3, h4 {
     padding: 1rem;
     border-radius: var(--border-radius-medium);
     font-weight: 600;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
     border: none;
@@ -336,7 +336,7 @@ h1, h2, h3, h4 {
     padding: 0.75rem 2rem;
     border-radius: var(--border-radius-medium);
     font-weight: 600;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     cursor: pointer;
 }
 
@@ -554,7 +554,7 @@ header.scrolled {
         box-shadow: var(--shadow-medium);
         clip-path: circle(0px at 90% -10%);
         -webkit-clip-path: circle(0px at 90% -10%);
-        transition: all var(--transition-normal) ease-out;
+        transition: clip-path var(--transition-normal) ease-out, -webkit-clip-path var(--transition-normal) ease-out;
         pointer-events: none;
         z-index: 1;
     }
@@ -1339,7 +1339,7 @@ header.scrolled {
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: var(--border-radius-circle);
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     box-shadow: var(--shadow-small);
 }
 
@@ -1430,7 +1430,7 @@ header.scrolled {
     background: var(--bg-color);
     padding: 1.5rem;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -1450,7 +1450,7 @@ header.scrolled {
     color: white;
     opacity: 0;
     transform: translateY(100%);
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1664,7 +1664,7 @@ header.scrolled {
     padding: 0.6rem 1.75rem;
     border-radius: var(--border-radius-medium);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
     font-size: 1.25rem;
     font-family: 'Cormorant Garamond', serif;
 }
@@ -2065,7 +2065,7 @@ header.scrolled {
     border-radius: var(--border-radius-medium);
     background-color: #ffffff;
     outline: none;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     letter-spacing: var(--letter-spacing-normal);
     font-family: var(--body-font);
 }
@@ -2084,7 +2084,7 @@ header.scrolled {
     font-size: 1rem;
     color: var(--primary-color);
     pointer-events: none;
-    transition: all var(--transition-fast);
+    transition: top var(--transition-fast), font-size var(--transition-fast), color var(--transition-fast);
     letter-spacing: var(--letter-spacing-wide);
     font-family: var(--body-font);
 }
@@ -2114,7 +2114,7 @@ header.scrolled {
     padding: 1rem;
     border-radius: var(--border-radius-medium);
     font-weight: 600;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
     border: none;
@@ -2568,7 +2568,7 @@ footer {
     height: 3px;
     background-color: #ffffff;
     margin: 5px;
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
     border-radius: var(--border-radius-small);
 }
 
@@ -3130,4 +3130,18 @@ footer {
     left: auto;
     right: 44px;
     transform: none;
+}
+
+/* ==========================================================================
+   Validation message styles (shared animation integration)
+   ========================================================================== */
+
+.form-group .validation-message {
+    color: #e53e3e;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.form-group .validation-message.is-valid {
+    color: #38a169;
 }
