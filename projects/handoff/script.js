@@ -726,8 +726,61 @@
     if (!state.previewHtml) return;
     deployInstantBtn.disabled = true;
     deployStatus.classList.remove('hidden');
-    deployStatusText.textContent = 'Deploying your site\u2026';
 
+    var rocketScene = deployStatus.querySelector('.rocket-scene');
+    var stageText = deployStatus.querySelector('.rocket-stage-text');
+    var apiResolved = false;
+    var apiResult = null;
+    var currentStage = 'charge';
+
+    // Reset rocket scene
+    rocketScene.classList.remove('charging', 'launching', 'hovering');
+    stageText.textContent = '';
+
+    function clearRocketClasses() {
+      rocketScene.classList.remove('charging', 'launching', 'hovering');
+    }
+
+    function finishDeploy() {
+      clearRocketClasses();
+      if (apiResult && apiResult.url) {
+        deployStatus.classList.add('hidden');
+        deployResultUrl.href = apiResult.url;
+        deployResultUrl.textContent = apiResult.url;
+        deployResult.classList.remove('hidden');
+        deployResult.classList.add('glow', 'revealing');
+        appendMessage('assistant', 'Your site is live! \u2192 ' + apiResult.url);
+      } else {
+        stageText.textContent = 'Deploy failed: ' + (apiResult && apiResult.error ? apiResult.error : 'Unknown error');
+        deployInstantBtn.disabled = false;
+      }
+    }
+
+    function startHover() {
+      currentStage = 'hover';
+      if (apiResolved) {
+        finishDeploy();
+        return;
+      }
+      clearRocketClasses();
+      rocketScene.classList.add('hovering');
+      stageText.textContent = 'Almost there\u2026';
+    }
+
+    function startLaunch() {
+      currentStage = 'launch';
+      clearRocketClasses();
+      rocketScene.classList.add('launching');
+      stageText.textContent = 'Launching\u2026';
+      setTimeout(startHover, 1500);
+    }
+
+    // Stage 1: CHARGE
+    rocketScene.classList.add('charging');
+    stageText.textContent = 'Fueling up\u2026';
+    setTimeout(startLaunch, 1000);
+
+    // Start fetch in parallel
     fetch(API_BASE + '/api/deploy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -735,23 +788,19 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        deployStatus.classList.add('hidden');
-        if (data.url) {
-          deployResultUrl.href = data.url;
-          deployResultUrl.textContent = data.url;
-          deployResult.classList.remove('hidden');
-          appendMessage('assistant', 'Your site is live! \u2192 ' + data.url);
-        } else {
-          deployStatus.classList.remove('hidden');
-          deployStatusText.textContent = 'Deploy failed: ' + (data.error || 'Unknown error');
-          deployInstantBtn.disabled = false;
-              }
+        apiResolved = true;
+        apiResult = data;
+        if (currentStage === 'hover') {
+          finishDeploy();
+        }
       })
       .catch(function (err) {
-        deployStatus.classList.remove('hidden');
-        deployStatusText.textContent = 'Error: ' + (err.message || 'Could not reach server');
-        deployInstantBtn.disabled = false;
-          });
+        apiResolved = true;
+        apiResult = { error: err.message || 'Could not reach server' };
+        if (currentStage === 'hover') {
+          finishDeploy();
+        }
+      });
   });
 
   deployResultCopy.addEventListener('click', function () {
