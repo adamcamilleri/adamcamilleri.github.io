@@ -13,7 +13,7 @@ This milestone transforms the portfolio from functional to memorable. The work s
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Security + Tech Debt** - Close live security vulnerabilities, fix the Songdle playback bug, and consolidate duplicated infrastructure before anything else ships
-- [x] **Phase 2: Claude Code Tooling** - Set up CLAUDE.md describing the clean post-refactor codebase, configure MCP integrations, and add custom slash commands (completed 2026-03-11)
+- [x] **Phase 2: Claude Code Tooling** - Set up CLAUDE.md describing the clean post-refactor codebase, configure MCP integrations, and add custom slash commands (completed 2026-03-11)
 - [ ] **Phase 3: Animation Foundation** - Build shared animation infrastructure and apply universal motion polish (hover states, loading skeletons, scroll reveals) across all projects
 - [ ] **Phase 4: Per-Project Polish + Redesigns** - Deliver project signature animations and full visual redesigns of Study Smart (retro OS aesthetic) and Connect Four (modern polish)
 
@@ -59,12 +59,12 @@ Plans:
   3. Handoff chat generation, Songdle audio fetch, and TaskMaster list load all show skeleton/shimmer states instead of blank areas
   4. Portfolio shell sections animate in on scroll — hero, projects grid, and about section have entrance animations
   5. Form inputs across all projects show animated focus rings and inline validation feedback
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Create shared/animations.js with GSAP helpers (fadeInOnScroll, staggerEntrances, springHover) and prefers-reduced-motion wrapper
-- [ ] 03-02: Apply animation foundation to portfolio shell (scroll reveals, hover feedback, form states)
-- [ ] 03-03: Apply skeleton loading states and micro-interactions across Handoff, Songdle, and TaskMaster
+- [ ] 03-01-PLAN.md — Create shared/animations.js + shared/animations.css with GSAP scroll helpers, skeleton utilities, hover/focus classes, and prefers-reduced-motion guard (ANIM-01)
+- [ ] 03-02-PLAN.md — Wire animation foundation into portfolio shell: GSAP CDN, scroll reveals, interactive classes, form focus, nav transitions (ANIM-02, ANIM-04, MICRO-01, MICRO-02, MICRO-03)
+- [ ] 03-03-PLAN.md — Add skeleton loading states to Handoff chat, Songdle game, and TaskMaster task list (ANIM-03)
 
 ### Phase 4: Per-Project Polish + Redesigns
 **Goal**: Each project has at least one memorable animation moment unique to it, and Study Smart and Connect Four are fully redesigned so visitors immediately see craft, not just function
