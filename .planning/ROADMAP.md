@@ -72,15 +72,17 @@ Plans:
 **Requirements**: SIG-01, SIG-02, SIG-03, REDESIGN-01, REDESIGN-02, REDESIGN-03, REDESIGN-04
 **Success Criteria** (what must be TRUE):
   1. Handoff shows an animated deploy progress sequence when a site is deployed — not a spinner, a sequence with distinct stages
-  2. Songdle shows audio waveform or visualizer animation during playback — visitors see the sound, not just hear it
-  3. Study Smart renders as a retro OS desktop with draggable window panels, warm brown palette, and grid-paper background — the rename to "Study Smart" is live and all existing features (pomodoro, tasks, ambient sounds, shortcuts) work within the new skin
+  2. Songdle plays audio from the very beginning of each track via SoundCloud Widget API — reliable playback from second 0, not mid-song preview clips
+  3. Study Smart renders as a retro OS desktop with draggable window panels, warm brown palette, and grid-paper background — the rename to "Study Smart" is live and all existing features (pomodoro, tasks, music genres, shortcuts) work within the new skin
   4. Connect Four has animated disc drops, a glowing winning-line highlight, and a color scheme and layout that feels intentionally designed
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 04-01: Handoff deploy sequence animation and Songdle audio visualizer (SIG-01, SIG-02)
-- [ ] 04-02: Study Smart retro OS redesign — rename, window chrome panels, layout, palette (REDESIGN-01, REDESIGN-02, REDESIGN-03)
-- [ ] 04-03: Connect Four modern redesign — animated disc drops, glow effects, updated layout (REDESIGN-04, SIG-03)
+- [ ] 04-01-PLAN.md — Handoff rocket deploy animation sequence (SIG-01)
+- [ ] 04-02-PLAN.md — Songdle SoundCloud Widget API audio fix (SIG-02)
+- [ ] 04-03-PLAN.md — Study Smart rename + retro OS desktop HTML/CSS shell (REDESIGN-01, REDESIGN-02)
+- [ ] 04-04-PLAN.md — Study Smart functionality: music genres, quotes, drag, feature preservation (REDESIGN-03)
+- [ ] 04-05-PLAN.md — Connect Four Apple-esque redesign with bounce drops and glow wins (REDESIGN-04, SIG-03)
 
 ## Progress
 
@@ -92,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Security + Tech Debt | 2/2 | Complete | 2026-03-11 |
 | 2. Claude Code Tooling | 2/2 | Complete   | 2026-03-11 |
 | 3. Animation Foundation | 3/3 | Complete | 2026-03-12 |
-| 4. Per-Project Polish + Redesigns | 0/3 | Not started | - |
+| 4. Per-Project Polish + Redesigns | 0/5 | Not started | - |
