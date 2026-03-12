@@ -22,14 +22,14 @@
 
 - [x] **SIG-01**: Handoff has an animated deploy progress sequence
 - [ ] **SIG-02**: Songdle has an audio visualizer or waveform animation during playback (note: audio source will switch to SoundCloud Widget API in Phase 4 — visualizer must work with iframe-based audio, not a native Audio element)
-- [ ] **SIG-03**: Each project demo has at least one memorable animation moment unique to it
+- [x] **SIG-03**: Each project demo has at least one memorable animation moment unique to it
 
 ### Project Redesigns
 
 - [ ] **REDESIGN-01**: Rename StudyBuddy to "Study Smart" and fully redesign with retro OS aesthetic — window chrome panels, warm brown palette (#5C3D2E tones), grid/graph paper background, retro title bars with minimize/maximize/close buttons
 - [ ] **REDESIGN-02**: Study Smart layout: Timer panel (left), Music genre selector grid (right), To-do list panel (left below timer), Volume/playback controls, Inspirational quote widget — all in retro window panels
 - [ ] **REDESIGN-03**: Study Smart retains all existing features (pomodoro timer, tasks, stats, ambient sounds, settings, keyboard shortcuts) but with the new visual design
-- [ ] **REDESIGN-04**: Redesign Connect Four with a polished modern aesthetic — animated disc drops, glow effects on winning line, smooth transitions, updated color scheme and layout
+- [x] **REDESIGN-04**: Redesign Connect Four with a polished modern aesthetic — animated disc drops, glow effects on winning line, smooth transitions, updated color scheme and layout
 
 ### Security & Tech Debt
 
@@ -104,11 +104,11 @@
 | MICRO-03 | Phase 3 | Complete |
 | SIG-01 | Phase 4 | Complete |
 | SIG-02 | Phase 4 | Pending |
-| SIG-03 | Phase 4 | Pending |
+| SIG-03 | Phase 4 | Complete |
 | REDESIGN-01 | Phase 4 | Pending |
 | REDESIGN-02 | Phase 4 | Pending |
 | REDESIGN-03 | Phase 4 | Pending |
-| REDESIGN-04 | Phase 4 | Pending |
+| REDESIGN-04 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 24 total
