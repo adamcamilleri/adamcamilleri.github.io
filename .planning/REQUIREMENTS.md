@@ -20,7 +20,7 @@
 
 ### Per-Project Signatures
 
-- [ ] **SIG-01**: Handoff has an animated deploy progress sequence
+- [x] **SIG-01**: Handoff has an animated deploy progress sequence
 - [ ] **SIG-02**: Songdle has an audio visualizer or waveform animation during playback (note: audio source will switch to SoundCloud Widget API in Phase 4 — visualizer must work with iframe-based audio, not a native Audio element)
 - [ ] **SIG-03**: Each project demo has at least one memorable animation moment unique to it
 
@@ -102,7 +102,7 @@
 | MICRO-01 | Phase 3 | Complete |
 | MICRO-02 | Phase 3 | Complete |
 | MICRO-03 | Phase 3 | Complete |
-| SIG-01 | Phase 4 | Pending |
+| SIG-01 | Phase 4 | Complete |
 | SIG-02 | Phase 4 | Pending |
 | SIG-03 | Phase 4 | Pending |
 | REDESIGN-01 | Phase 4 | Pending |
