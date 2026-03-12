@@ -39,6 +39,21 @@
   var deployResultCopy    = document.getElementById('deployResultCopy');
   var imageStrip          = document.getElementById('imageStrip');
   var imageInput          = document.getElementById('imageInput');
+  var chatSkeleton        = document.getElementById('chatSkeleton');
+
+  // ── Skeleton helpers ───────────────────────────────────────────────────────
+  var SKELETON_MIN_MS = 400;
+  function showChatSkeleton() {
+    if (chatSkeleton) { chatSkeleton.classList.remove('hidden'); chatSkeleton.classList.add('is-loading'); }
+    return Date.now();
+  }
+  function hideChatSkeleton(startTime) {
+    var elapsed = Date.now() - startTime;
+    var remaining = Math.max(0, SKELETON_MIN_MS - elapsed);
+    setTimeout(function() {
+      if (chatSkeleton) { chatSkeleton.classList.add('hidden'); chatSkeleton.classList.remove('is-loading'); }
+    }, remaining);
+  }
 
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
@@ -354,6 +369,7 @@
     // ── API call for text-based changes ──────────────────────────────────────────
     state.generating = true;
     sendBtn.disabled = true;
+    var skelStart = showChatSkeleton();
     appendTyping();
     showBuildingState();
 
@@ -374,6 +390,7 @@
         });
       })
       .then(function (data) {
+        hideChatSkeleton(skelStart);
         removeTyping();
         var html = data.html || null;
         var reply = data.reply || '';
@@ -399,6 +416,7 @@
         }
       })
       .catch(function (err) {
+        hideChatSkeleton(skelStart);
         removeTyping();
         var msg = (err && err.message && err.message.length < 200) ? err.message : 'Connection error — check your internet and try again.';
         appendMessage('assistant', msg);
@@ -586,6 +604,7 @@
     if (state.generating) return;
     state.generating = true;
     sendBtn.disabled = true;
+    var obSkelStart = showChatSkeleton();
     appendTyping();
     showBuildingState();
 
@@ -604,6 +623,7 @@
         });
       })
       .then(function (data) {
+        hideChatSkeleton(obSkelStart);
         removeTyping();
         if (data.html) {
           setPreview(data.html);
@@ -617,6 +637,7 @@
         }
       })
       .catch(function (err) {
+        hideChatSkeleton(obSkelStart);
         removeTyping();
         var msg = (err && err.message && err.message.length < 200) ? err.message : 'Connection error — check your internet and try again.';
         appendMessage('assistant', msg);

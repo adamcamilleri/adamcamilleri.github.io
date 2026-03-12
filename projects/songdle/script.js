@@ -37,6 +37,22 @@
   var artistSearchInput = document.getElementById('artistSearchInput');
   var artistPickerList  = document.getElementById('artistPickerList');
 
+  var gameSkeleton = document.getElementById('gameSkeleton');
+
+  // ── Skeleton helpers ───────────────────────────────────────────────────────
+  var SKELETON_MIN_MS = 400;
+  function showGameSkeleton() {
+    if (gameSkeleton) { gameSkeleton.style.display = ''; gameSkeleton.classList.add('is-loading'); }
+    return Date.now();
+  }
+  function hideGameSkeleton(startTime) {
+    var elapsed = Date.now() - startTime;
+    var remaining = Math.max(0, SKELETON_MIN_MS - elapsed);
+    setTimeout(function() {
+      if (gameSkeleton) { gameSkeleton.style.display = 'none'; gameSkeleton.classList.remove('is-loading'); }
+    }, remaining);
+  }
+
   // ── State ─────────────────────────────────────────────────────────────────────
   var state = {
     genre:           'all',
@@ -805,6 +821,7 @@
         if (!data || !data.song) throw new Error('No song data');
         state.song = data.song;
         playBtn.disabled = false;
+        hideGameSkeleton(state.skelStart);
 
         if (state.done) {
           showResult(state.won, state.song.name, state.song.artist);
@@ -816,6 +833,7 @@
         initAudioForSong(state.song);
       })
       .catch(function (err) {
+        hideGameSkeleton(state.skelStart);
         setStatus('Could not load today\'s song. ' + (err && err.message ? err.message : ''), true);
       });
   }
@@ -870,6 +888,7 @@
   renderTimeline();
   renderTabs();
   setStatus('Loading...');
+  state.skelStart = showGameSkeleton();
 
   fetchSongs().then(function () { return fetchDailySong(); });
 

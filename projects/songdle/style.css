@@ -807,6 +807,14 @@ header {
   padding-bottom: 12px;
 }
 
+/* ── Game Skeleton ───────────────────────── */
+
+.game-skeleton {
+  padding: 24px 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 /* ── Responsive ──────────────────────────── */
 
 @media (max-width: 360px) {

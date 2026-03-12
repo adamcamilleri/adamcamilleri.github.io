@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Handoff – Build your website through chat</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/shared/animations.css">
 </head>
 <body>
   <div id="app">
@@ -112,6 +113,15 @@
       <aside class="chat-panel">
         <div class="messages" id="messages">
           <div class="welcome" id="welcomeState"></div>
+          <div class="chat-skeleton hidden" id="chatSkeleton">
+            <div class="skeleton skeleton-circle" style="width:32px;height:32px;flex-shrink:0"></div>
+            <div style="flex:1">
+              <div class="skeleton skeleton-text skeleton-text--short"></div>
+              <div class="skeleton skeleton-text skeleton-text--full"></div>
+              <div class="skeleton skeleton-text skeleton-text--full"></div>
+              <div class="skeleton skeleton-text skeleton-text--short"></div>
+            </div>
+          </div>
         </div>
         <div class="chat-footer hidden" id="chatFooter">
           <div class="image-strip hidden" id="imageStrip"></div>

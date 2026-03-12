@@ -896,6 +896,14 @@ header {
   color: var(--text);
 }
 
+/* ── Chat Skeleton ─────────────────────────────── */
+.chat-skeleton {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  align-items: flex-start;
+}
+
 /* ── Utilities ─────────────────────────────────── */
 .hidden {
   display: none !important;

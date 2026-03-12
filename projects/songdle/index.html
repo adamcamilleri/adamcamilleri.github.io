@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Songdle – Guess the Song</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/shared/animations.css">
 </head>
 <body>
   <div id="app">
+    <div class="game-skeleton" id="gameSkeleton">
+      <div class="skeleton skeleton-block" style="height:48px;margin-bottom:16px"></div>
+      <div class="skeleton skeleton-block" style="height:60px;margin-bottom:12px"></div>
+      <div class="skeleton skeleton-block" style="height:44px;margin-bottom:16px"></div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <div class="skeleton" style="width:48px;height:48px;border-radius:50%"></div>
+      </div>
+      <div class="skeleton skeleton-text skeleton-text--short" style="margin:16px auto 0"></div>
+    </div>
     <header>
       <div class="header-row">
         <span class="header-spacer"></span>
