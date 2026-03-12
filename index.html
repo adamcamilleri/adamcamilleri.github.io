@@ -530,10 +530,24 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('scroll-reveal--visible');
+                        entry.target.style.opacity = '';
+                        entry.target.style.transform = '';
                     }
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
             revealSections.forEach(s => revealObserver.observe(s));
+
+            // Safety fallback: force all content visible after 3s
+            setTimeout(function() {
+                document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+                    el.classList.add('scroll-reveal--visible');
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                });
+                document.querySelectorAll('.animate-reveal').forEach(function(el) {
+                    el.classList.add('animate-reveal--visible');
+                });
+            }, 3000);
 
             // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -684,7 +698,6 @@
         if (scrollAnimsStarted) return;
         scrollAnimsStarted = true;
         initScrollAnimations({
-          sections: '.scroll-reveal-section',
           cards: '.project-card-h'
         });
       }
