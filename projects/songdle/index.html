@@ -119,8 +119,15 @@
   <!-- Hidden YouTube IFrame player — audio only, no visible UI -->
   <div id="ytPlayer" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" aria-hidden="true"></div>
 
+  <!-- Hidden SoundCloud Widget player — audio only, no visible UI -->
+  <iframe id="scWidget" width="0" height="0" allow="autoplay"
+    style="position:absolute;left:-9999px;width:0;height:0;border:0"
+    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293"
+    aria-hidden="true"></iframe>
+
+  <script src="https://w.soundcloud.com/player/api.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>window.SONGDLE_API = 'https://adamcamilleri-github-io.vercel.app';</script>
-  <script src="script.js?v=10"></script>
+  <script src="script.js?v=11"></script>
 </body>
 </html>

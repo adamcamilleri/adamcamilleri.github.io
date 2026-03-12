@@ -73,6 +73,24 @@
     hintUsed:        false,
   };
 
+  // ── SoundCloud Widget player ──────────────────────────────────────────────────
+  var scWidget    = null;
+  var scReady     = false;
+  var scLoaded    = false;  // tracks if current song is loaded in SC widget
+
+  function initSoundCloudWidget() {
+    var iframe = document.getElementById('scWidget');
+    if (!iframe || typeof SC === 'undefined') return;
+    scWidget = SC.Widget(iframe);
+    scWidget.bind(SC.Widget.Events.READY, function () {
+      scReady = true;
+    });
+    scWidget.bind(SC.Widget.Events.ERROR, function () {
+      console.warn('[Songdle] SoundCloud widget error — falling back to YouTube');
+      scReady = false;
+    });
+  }
+
   // ── YouTube IFrame player ─────────────────────────────────────────────────────
   var ytPlayer       = null;
   var ytReady        = false;
@@ -668,19 +686,32 @@
     return volumeSlider ? parseFloat(volumeSlider.value) : 1;
   }
 
-  /** Stop whatever is currently playing (YouTube or fallback audio). */
+  /** Stop whatever is currently playing (SoundCloud, YouTube, or fallback audio). */
   function stopCurrentClip() {
     clearTimeout(ytClipTimer);
     ytIntentPlay = false;
+    if (scWidget) { try { scWidget.pause(); } catch (e) {} }
     if (ytPlayer && ytReady) ytPlayer.pauseVideo();
     if (state.audio) { state.audio.pause(); state.audio = null; }
     setPlayIcon(false);
   }
 
-  /** Called when a new song is loaded — cue it in the YouTube player without playing. */
+  /** Called when a new song is loaded — cue it in SoundCloud and/or YouTube player without playing. */
   function initAudioForSong(song) {
     if (!song) return;
     stopCurrentClip();
+    scLoaded = false;
+
+    // Load SoundCloud if available
+    if (song.soundcloudUrl && scWidget && scReady) {
+      scWidget.load(song.soundcloudUrl, {
+        auto_play: false,
+        show_artwork: false,
+        callback: function () { scLoaded = true; }
+      });
+    }
+
+    // Also cue YouTube as fallback
     if (song.youtubeId && ytPlayer && ytReady) {
       ytCurrentSongId = song.id;
       ytPlayer.cueVideoById({ videoId: song.youtubeId, startSeconds: song.startOffset || 0 });
@@ -694,6 +725,24 @@
     if (state.playing) { stopCurrentClip(); return; }
 
     var song = state.song;
+
+    // ── SoundCloud path (primary) ──────────────────────────────────────────────
+    if (song.soundcloudUrl && scWidget && scReady && scLoaded) {
+      var scDur = state.done ? 30 : CLIP_DURATIONS[state.level];
+      var scGuardId = song.id;
+      scWidget.seekTo(0);
+      scWidget.play();
+      setPlayIcon(true);
+      playBtn.disabled = false;
+      clearTimeout(ytClipTimer);
+      ytClipTimer = setTimeout(function () {
+        if (state.song && state.song.id === scGuardId) {
+          try { scWidget.pause(); } catch (e) {}
+          setPlayIcon(false);
+        }
+      }, scDur * 1000);
+      return;
+    }
 
     // ── YouTube path ──────────────────────────────────────────────────────────
     if (song.youtubeId && ytPlayer && ytReady) {
@@ -875,6 +924,8 @@
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────────
+  initSoundCloudWidget();
+
   state.today = getToday();
   state.genre = 'all';
 
