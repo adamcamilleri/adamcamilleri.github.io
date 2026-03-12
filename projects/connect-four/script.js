@@ -126,8 +126,10 @@ class GameState {
 class GameUI {
     constructor(gameState) {
         this.gameState = gameState;
+        this.lastMove = null;
         this.initializeBoard();
         this.setupEventListeners();
+        this.updateStatus();
     }
 
     initializeBoard() {
@@ -146,46 +148,42 @@ class GameUI {
     }
 
     setupEventListeners() {
-        // Add click event listeners to each slot
         const grid = document.querySelector('.board-grid');
+
         grid.addEventListener('click', (e) => {
             const slot = e.target.closest('.slot');
             if (!slot) return;
-            
             const col = parseInt(slot.getAttribute('data-col'));
             this.handleMove(col);
         });
 
-        // Add hover effects
+        // Column hover highlight
         grid.addEventListener('mouseover', (e) => {
             const slot = e.target.closest('.slot');
-            if (!slot) return;
-            
+            if (!slot || this.gameState.gameOver) return;
             const col = parseInt(slot.getAttribute('data-col'));
-            this.showDropPreview(col);
+            this.showColumnHover(col);
         });
 
         grid.addEventListener('mouseout', () => {
-            const slots = document.querySelectorAll('.slot.preview');
-            slots.forEach(slot => {
-                slot.classList.remove('preview', 'red', 'yellow');
-            });
+            this.clearColumnHover();
         });
 
-        // Add undo button listener
         document.getElementById('undo').addEventListener('click', () => this.handleUndo());
 
-        // Add reset button listener
         document.getElementById('reset').addEventListener('click', () => {
             this.gameState.reset();
+            this.lastMove = null;
+            this.clearAnimations();
             this.updateBoard();
             this.updateStatus();
         });
 
-        // Add modal button listeners
         document.getElementById('playAgain').addEventListener('click', () => {
             this.hideModal();
             this.gameState.reset();
+            this.lastMove = null;
+            this.clearAnimations();
             this.updateBoard();
             this.updateStatus();
         });
@@ -199,15 +197,20 @@ class GameUI {
         const result = this.gameState.makeMove(col);
         if (!result) return;
 
+        this.lastMove = { row: result.row, col: result.col };
         this.updateBoard();
         this.updateStatus();
         this.updateScores();
 
         if (result.isWin) {
-            this.showWinAnimation(result);
-            this.showModal(`${result.player.toUpperCase()} wins!`);
+            // Delay win animation until after drop animation completes
+            setTimeout(() => {
+                this.showWinAnimation(result);
+            }, 500);
         } else if (result.isDraw) {
-            this.showModal("It's a draw!");
+            setTimeout(() => {
+                this.showModal("It's a draw!");
+            }, 500);
         }
     }
 
@@ -217,29 +220,37 @@ class GameUI {
             const row = parseInt(slot.getAttribute('data-row'));
             const col = parseInt(slot.getAttribute('data-col'));
             const player = this.gameState.board[row][col];
-            
-            // Clear existing content
-            slot.innerHTML = '';
-            slot.className = 'slot';
-            
+
+            // Remove existing disc if any
+            const existingDisc = slot.querySelector('.disc');
+
             if (player) {
-                slot.classList.add('filled', player);
-                const disc = document.createElement('div');
-                disc.className = `disc ${player}`;
-                slot.appendChild(disc);
-                // Trigger animation
-                requestAnimationFrame(() => {
-                    disc.classList.add('dropping');
-                });
+                if (!existingDisc) {
+                    // Create new disc
+                    const disc = document.createElement('div');
+                    disc.className = 'disc ' + player;
+
+                    // Only animate the newly placed disc
+                    if (this.lastMove && this.lastMove.row === row && this.lastMove.col === col) {
+                        disc.classList.add('dropping');
+                        disc.addEventListener('animationend', () => {
+                            disc.classList.remove('dropping');
+                        }, { once: true });
+                    }
+
+                    slot.appendChild(disc);
+                }
+            } else {
+                if (existingDisc) {
+                    existingDisc.remove();
+                }
             }
         });
 
-        // Update undo button state
         this.updateUndoButton();
     }
 
     updateStatus() {
-        // Update turn indicators
         const turnIndicators = document.querySelectorAll('.turn-indicator');
         turnIndicators.forEach(indicator => {
             indicator.classList.remove('active');
@@ -248,8 +259,7 @@ class GameUI {
                 indicator.classList.add('active');
             }
         });
-        
-        // Update player names in turn indicators only
+
         document.getElementById('turnPlayer1').textContent = 'Player 1 (Red)';
         document.getElementById('turnPlayer2').textContent = 'Player 2 (Yellow)';
     }
@@ -259,24 +269,113 @@ class GameUI {
         document.getElementById('score2').textContent = this.gameState.scores.yellow;
     }
 
-    showDropPreview(col) {
-        const row = this.gameState.getLowestEmptyRow(col);
-        if (row === -1) return;
+    showColumnHover(col) {
+        this.clearColumnHover();
+        if (this.gameState.isColumnFull(col)) return;
 
-        const slot = document.querySelector(`.slot[data-row="${row}"][data-col="${col}"]`);
-        if (slot) {
-            slot.classList.add('preview', this.gameState.currentPlayer);
-        }
+        const slots = document.querySelectorAll('.slot[data-col="' + col + '"]');
+        slots.forEach(slot => {
+            slot.classList.add('column-hover');
+        });
+    }
+
+    clearColumnHover() {
+        const hoveredSlots = document.querySelectorAll('.slot.column-hover');
+        hoveredSlots.forEach(slot => {
+            slot.classList.remove('column-hover');
+        });
     }
 
     showWinAnimation(result) {
         const winningSlots = this.findWinningSlots(result.row, result.col);
-        winningSlots.forEach(({row, col}) => {
-            const slot = document.querySelector(`.slot[data-row="${row}"][data-col="${col}"]`);
+
+        // Add glow to winning discs
+        winningSlots.forEach(({ row, col }) => {
+            const slot = document.querySelector('.slot[data-row="' + row + '"][data-col="' + col + '"]');
             if (slot) {
-                slot.classList.add('winning');
+                const disc = slot.querySelector('.disc');
+                if (disc) disc.classList.add('glow');
             }
         });
+
+        // Dim all other occupied discs
+        const allSlots = document.querySelectorAll('.slot');
+        allSlots.forEach(slot => {
+            const disc = slot.querySelector('.disc');
+            if (disc && !disc.classList.contains('glow')) {
+                disc.classList.add('dimmed');
+            }
+        });
+
+        // Draw SVG winning line
+        this.drawWinLine(winningSlots);
+
+        // Show modal after line animation
+        setTimeout(() => {
+            this.showModal(result.player.toUpperCase() + ' wins!');
+        }, 700);
+    }
+
+    drawWinLine(winningSlots) {
+        if (winningSlots.length < 2) return;
+
+        const boardContainer = document.querySelector('.board-container');
+        const containerRect = boardContainer.getBoundingClientRect();
+
+        const first = winningSlots[0];
+        const last = winningSlots[winningSlots.length - 1];
+
+        const firstSlot = document.querySelector('.slot[data-row="' + first.row + '"][data-col="' + first.col + '"]');
+        const lastSlot = document.querySelector('.slot[data-row="' + last.row + '"][data-col="' + last.col + '"]');
+
+        if (!firstSlot || !lastSlot) return;
+
+        const firstRect = firstSlot.getBoundingClientRect();
+        const lastRect = lastSlot.getBoundingClientRect();
+
+        const x1 = firstRect.left + firstRect.width / 2 - containerRect.left;
+        const y1 = firstRect.top + firstRect.height / 2 - containerRect.top;
+        const x2 = lastRect.left + lastRect.width / 2 - containerRect.left;
+        const y2 = lastRect.top + lastRect.height / 2 - containerRect.top;
+
+        const winLine = document.querySelector('.win-line');
+        if (!winLine) return;
+
+        // Calculate line length for dasharray
+        const lineLength = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+        winLine.setAttribute('x1', x1);
+        winLine.setAttribute('y1', y1);
+        winLine.setAttribute('x2', x2);
+        winLine.setAttribute('y2', y2);
+        winLine.setAttribute('stroke-dasharray', lineLength);
+        winLine.setAttribute('stroke-dashoffset', lineLength);
+
+        // Trigger draw animation
+        requestAnimationFrame(() => {
+            winLine.classList.add('animate');
+        });
+    }
+
+    resetWinLine() {
+        const winLine = document.querySelector('.win-line');
+        if (!winLine) return;
+        winLine.classList.remove('animate');
+        winLine.setAttribute('x1', '0');
+        winLine.setAttribute('y1', '0');
+        winLine.setAttribute('x2', '0');
+        winLine.setAttribute('y2', '0');
+        winLine.setAttribute('stroke-dasharray', '500');
+        winLine.setAttribute('stroke-dashoffset', '500');
+    }
+
+    clearAnimations() {
+        // Clear disc animation classes
+        document.querySelectorAll('.disc.dropping').forEach(d => d.classList.remove('dropping'));
+        document.querySelectorAll('.disc.glow').forEach(d => d.classList.remove('glow'));
+        document.querySelectorAll('.disc.dimmed').forEach(d => d.classList.remove('dimmed'));
+        this.clearColumnHover();
+        this.resetWinLine();
     }
 
     findWinningSlots(row, col) {
@@ -349,24 +448,19 @@ class GameUI {
     handleUndo() {
         if (this.gameState.moveHistory.length === 0 || this.gameState.gameOver) return;
 
-        // Get the last move
         const lastMove = this.gameState.moveHistory.pop();
-        
-        // Only allow undoing if it was the other player's move
+
         if (lastMove.player === this.gameState.currentPlayer) {
-            // If it was current player's move, put it back and return
             this.gameState.moveHistory.push(lastMove);
             return;
         }
 
-        // Remove the move from the board
         this.gameState.board[lastMove.row][lastMove.col] = null;
-        
-        // Switch back to the previous player
         this.gameState.currentPlayer = lastMove.player;
-        
-        // Update game state
         this.gameState.gameOver = false;
+
+        this.lastMove = null;
+        this.clearAnimations();
         this.updateBoard();
         this.updateStatus();
     }
@@ -381,4 +475,4 @@ class GameUI {
 document.addEventListener('DOMContentLoaded', () => {
     const gameState = new GameState();
     const gameUI = new GameUI(gameState);
-}); 
+});
