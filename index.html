@@ -515,9 +515,14 @@
             setInterval(shuffleHeroTitle, 5000);
 
             // Lenis smooth scroll
-            const lenis = new Lenis({ lerp: 0.1, duration: 1.2 });
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
+            var lenis = null;
+            try {
+                lenis = new Lenis({ lerp: 0.1, duration: 1.2 });
+                function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+                requestAnimationFrame(raf);
+            } catch(e) {
+                console.warn('Lenis failed to load:', e);
+            }
 
             // Scroll reveal for sections
             const revealSections = document.querySelectorAll('.scroll-reveal');
@@ -530,13 +535,17 @@
             }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
             revealSections.forEach(s => revealObserver.observe(s));
 
-            // Lenis: smooth scroll for anchor links
+            // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
                     if (href && href !== '#') {
                         e.preventDefault();
-                        lenis.scrollTo(href, { offset: 0 });
+                        if (lenis) {
+                            lenis.scrollTo(href, { offset: 0 });
+                        } else {
+                            document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                        }
                         history.replaceState(null, '', href);
                     }
                 });
