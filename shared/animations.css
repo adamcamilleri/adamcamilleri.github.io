@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Shared Animation Foundation
+   Portfolio-wide animation tokens, reduced-motion handling, and UI classes.
+   Import via <link rel="stylesheet" href="/shared/animations.css">
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties
+   -------------------------------------------------------------------------- */
+
+:root {
+  --hover-lift: -2px;
+  --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --focus-ring-color: var(--primary-color, #2196F3);
+  --interaction-duration: 0.2s;
+  --interaction-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --entrance-duration: 0.6s;
+  --skeleton-bg: #e0e0e0;
+  --skeleton-shimmer: rgba(255, 255, 255, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reduced-motion reset (ANIM-01 CSS layer)
+   Uses 0.01ms (not "none") to prevent layout breaks from animations
+   that set final position via forwards fill-mode.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Interactive element hover/focus (ANIM-02 foundation)
+   -------------------------------------------------------------------------- */
+
+.interactive {
+  transition: transform var(--interaction-duration) var(--interaction-easing),
+              box-shadow var(--interaction-duration) var(--interaction-easing);
+}
+
+.interactive:hover {
+  transform: translateY(var(--hover-lift));
+  box-shadow: var(--hover-shadow);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+.interactive:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. Skeleton shimmer (ANIM-03 foundation)
+   -------------------------------------------------------------------------- */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  background: var(--skeleton-bg);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--skeleton-shimmer),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Size variants */
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+}
+
+.skeleton-text--short {
+  width: 60%;
+}
+
+.skeleton-text--full {
+  width: 100%;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+.skeleton-block {
+  height: 120px;
+  width: 100%;
+}
+
+/* State classes */
+.is-loading .skeleton {
+  visibility: visible;
+}
+
+.is-loaded {
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   5. Form focus rings (MICRO-02 foundation)
+   -------------------------------------------------------------------------- */
+
+.animated-form input,
+.animated-form textarea {
+  border: 1px solid #ccc;
+  transition: border-color var(--interaction-duration) var(--interaction-easing),
+              box-shadow var(--interaction-duration) var(--interaction-easing);
+}
+
+.animated-form input:focus,
+.animated-form textarea:focus {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+  outline: none;
+}
+
+.validation-message {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--interaction-easing),
+              opacity 0.2s var(--interaction-easing);
+}
+
+.validation-message.is-visible {
+  max-height: 2em;
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   6. Nav link transitions (MICRO-03 foundation)
+   -------------------------------------------------------------------------- */
+
+.nav-link-animated {
+  position: relative;
+  transition: color var(--interaction-duration) var(--interaction-easing);
+}
+
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width var(--interaction-duration) var(--interaction-easing);
+}
+
+.nav-link-animated:hover::after,
+.nav-link-animated.active::after {
+  width: 100%;
+}
