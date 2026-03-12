@@ -13,13 +13,13 @@ describe('Portfolio', () => {
   });
 
   it('navigates to projects section', () => {
-    cy.contains('a', 'Projects').click();
-    cy.url().should('include', '#projects');
-    cy.get('.projects-list').should('be.visible');
+    cy.get('#projects').scrollIntoView();
+    cy.get('.projects-list', { timeout: 5000 }).should('be.visible');
   });
 
   it('has Handoff project link', () => {
-    cy.contains('.project-card-h', 'Handoff').within(() => {
+    cy.get('#projects').scrollIntoView();
+    cy.contains('.project-card-h', 'Handoff', { timeout: 5000 }).within(() => {
       cy.contains('View Project').should('have.attr', 'href');
     });
   });

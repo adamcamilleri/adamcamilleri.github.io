@@ -778,6 +778,9 @@ const recipeFeed = document.querySelector('.recipe-feed');
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
 
+// Wake Lock for Cook Mode
+let wakeLock = null;
+
 // Initialize the app
 function init() {
     renderRecipes();
@@ -807,19 +810,66 @@ function renderRecipes() {
                     <h4>Instructions</h4>
                     <ol>${recipe.instructions.filter(i => i.trim() !== '').map(i => '<li>' + i + '</li>').join('')}</ol>
                 </div>
+                <button class="cook-mode-btn">
+                    <span class="cook-label">Cook Mode<span class="cook-tooltip">Keeps your screen on while you cook</span></span>
+                </button>
             </div>
         </div>
     `).join('');
 }
 
+// Cook Mode: toggle wake lock to keep screen on
+async function toggleCookMode(btn) {
+    if (wakeLock) {
+        await wakeLock.release();
+        wakeLock = null;
+        btn.classList.remove('active');
+        btn.innerHTML = '<span class="cook-label">Cook Mode<span class="cook-tooltip">Keeps your screen on while you cook</span></span>';
+        return;
+    }
+    try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        btn.classList.add('active');
+        btn.innerHTML = '<span class="cook-label">Cook Mode ON<span class="cook-tooltip">Screen will stay on</span></span>';
+        wakeLock.addEventListener('release', () => {
+            wakeLock = null;
+            btn.classList.remove('active');
+            btn.innerHTML = '<span class="cook-label">Cook Mode<span class="cook-tooltip">Keeps your screen on while you cook</span></span>';
+        });
+    } catch (err) {
+        // Wake Lock not supported or denied
+        btn.textContent = 'Not supported';
+        setTimeout(() => {
+            btn.innerHTML = '<span class="cook-label">Cook Mode<span class="cook-tooltip">Keeps your screen on while you cook</span></span>';
+        }, 2000);
+    }
+}
+
+function collapseCard(card) {
+    card.classList.remove('expanded');
+    // Release cook mode when closing recipe
+    if (wakeLock) {
+        const btn = card.querySelector('.cook-mode-btn');
+        if (btn && btn.classList.contains('active')) {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
+}
+
 // Setup event listeners
 function setupEventListeners() {
     recipeFeed.addEventListener('click', (e) => {
+        // Cook mode button
+        if (e.target.closest('.cook-mode-btn')) {
+            e.stopPropagation();
+            toggleCookMode(e.target.closest('.cook-mode-btn'));
+            return;
+        }
         // Close button
         if (e.target.closest('.close-expand')) {
             e.stopPropagation();
-            const card = e.target.closest('.recipe-card');
-            card.classList.remove('expanded');
+            collapseCard(e.target.closest('.recipe-card'));
             return;
         }
         // Card click to expand
@@ -827,7 +877,7 @@ function setupEventListeners() {
         if (recipeCard && !recipeCard.classList.contains('expanded')) {
             // Close any other expanded card
             const prev = recipeFeed.querySelector('.recipe-card.expanded');
-            if (prev) prev.classList.remove('expanded');
+            if (prev) collapseCard(prev);
             recipeCard.classList.add('expanded');
             recipeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -837,7 +887,7 @@ function setupEventListeners() {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.recipe-card')) {
             const expanded = recipeFeed.querySelector('.recipe-card.expanded');
-            if (expanded) expanded.classList.remove('expanded');
+            if (expanded) collapseCard(expanded);
         }
     });
 }
@@ -896,10 +946,17 @@ function displaySearchResults(results) {
     // Add click handlers to search results
     searchResults.querySelectorAll('.search-result-item').forEach(item => {
         item.addEventListener('click', () => {
-            const recipeId = parseInt(item.dataset.id);
-            showRecipeModal(recipeId);
+            const recipeId = item.dataset.id;
             searchResults.classList.remove('active');
             searchInput.value = '';
+            // Find and expand the matching card
+            const card = recipeFeed.querySelector(`.recipe-card[data-id="${recipeId}"]`);
+            if (card) {
+                const prev = recipeFeed.querySelector('.recipe-card.expanded');
+                if (prev) collapseCard(prev);
+                card.classList.add('expanded');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         });
     });
 }

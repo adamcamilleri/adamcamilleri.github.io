@@ -66,17 +66,21 @@ export function revealOnScroll(selector, options = {}) {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.from(selector, {
-    opacity: 0,
-    y: 30,
-    duration: TIMING.entrance,
-    ease: EASING,
-    scrollTrigger: {
-      trigger: selector,
+  // Use onEnter callback instead of gsap.from to avoid setting
+  // inline opacity:0 immediately (which fights the CSS IntersectionObserver).
+  document.querySelectorAll(selector).forEach(el => {
+    ScrollTrigger.create({
+      trigger: el,
       start: 'top 85%',
       once: true,
       ...options,
-    },
+      onEnter: () => {
+        gsap.fromTo(el,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: TIMING.entrance, ease: EASING, clearProps: 'opacity,transform' }
+        );
+      },
+    });
   });
 }
 
@@ -94,13 +98,10 @@ export function staggerCards(selector) {
     start: 'top 85%',
     once: true,
     onEnter: (batch) => {
-      gsap.from(batch, {
-        opacity: 0,
-        y: 30,
-        duration: TIMING.entrance,
-        ease: EASING,
-        stagger: TIMING.staggerDelay,
-      });
+      gsap.fromTo(batch,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: TIMING.entrance, ease: EASING, stagger: TIMING.staggerDelay, clearProps: 'opacity,transform' }
+      );
     },
   });
 }
