@@ -75,7 +75,8 @@ body {
 .window-titlebar {
     background: linear-gradient(to bottom, var(--brown-medium), var(--brown-dark));
     color: white;
-    padding: 8px 12px;
+    padding: 0 12px;
+    height: 32px;
     display: flex;
     align-items: center;
     cursor: grab;
@@ -85,35 +86,91 @@ body {
 /* Window Buttons */
 .window-buttons {
     display: flex;
-    gap: 6px;
-    margin-right: 10px;
+    gap: 0;
+    margin-left: auto;
+    margin-right: -12px;
+    align-self: stretch;
 }
 
 .window-btn {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    width: 46px;
+    background: transparent;
     border: none;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    padding: 0;
+    border-radius: 0;
+    position: relative;
 }
 
+.window-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Minimize: thin horizontal line */
+.window-btn.minimize::after {
+    content: '';
+    width: 10px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.window-btn.minimize:hover::after {
+    background: white;
+}
+
+/* Maximize: thin square outline */
+.window-btn.maximize::after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: transparent;
+}
+
+.window-btn.maximize:hover::after {
+    border-color: white;
+}
+
+/* Close: thin X using two rotated lines */
 .window-btn.close {
-    background: #ff5f57;
+    width: 48px;
 }
 
-.window-btn.minimize {
-    background: #ffbd2e;
+.window-btn.close::before,
+.window-btn.close::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.85);
 }
 
-.window-btn.maximize {
-    background: #28c840;
+.window-btn.close::before {
+    transform: rotate(45deg);
+}
+
+.window-btn.close::after {
+    transform: rotate(-45deg);
+}
+
+.window-btn.close:hover {
+    background: #e81123;
+}
+
+.window-btn.close:hover::before,
+.window-btn.close:hover::after {
+    background: white;
 }
 
 /* Window Title */
 .window-title {
     font-size: 0.85rem;
     font-weight: 600;
+    order: -1;
 }
 
 /* Window Body */
@@ -162,36 +219,19 @@ body {
     align-items: center;
 }
 
-.timer-progress {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin-bottom: 0.5rem;
-}
-
-.progress-ring {
-    transform: rotate(-90deg);
-}
-
-.progress-ring-circle-bg {
-    stroke: var(--brown-pale);
-}
-
-.progress-ring-circle {
-    stroke: var(--accent);
-    transition: stroke-dashoffset 0.3s;
-}
-
-.timer-display {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 4rem;
+.timer-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.5rem;
+    border: 4px solid var(--accent);
+    border-radius: 12px;
+    margin: 0.75rem auto;
+    font-size: 3.5rem;
     font-weight: 700;
     font-family: monospace;
     color: var(--brown-dark);
-    text-align: center;
+    background: rgba(255, 111, 0, 0.05);
 }
 
 .timer-colon {
@@ -888,24 +928,8 @@ kbd {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .timer-display {
-        font-size: 3rem;
-    }
-
-    .timer-progress {
-        width: 160px;
-        height: 160px;
-    }
-
-    .timer-progress svg {
-        width: 160px;
-        height: 160px;
-    }
-
-    .timer-progress circle {
-        cx: 80;
-        cy: 80;
-        r: 70;
+    .timer-box {
+        font-size: 2.8rem;
     }
 
     .window-titlebar {

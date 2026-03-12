@@ -24,9 +24,9 @@
         <div class="desktop-panel" id="timerPanel">
             <div class="window-titlebar">
                 <div class="window-buttons">
-                    <span class="window-btn close"></span>
                     <span class="window-btn minimize" data-panel="timerPanel"></span>
                     <span class="window-btn maximize"></span>
+                    <span class="window-btn close"></span>
                 </div>
                 <span class="window-title">Timer</span>
             </div>
@@ -37,14 +37,8 @@
                     <button class="mode-btn" data-mode="longBreak">Long Break</button>
                 </div>
                 <div class="timer-container">
-                    <div class="timer-progress">
-                        <svg class="progress-ring" width="200" height="200">
-                            <circle class="progress-ring-circle-bg" stroke-width="6" cx="100" cy="100" r="90" fill="transparent"/>
-                            <circle class="progress-ring-circle" stroke-width="6" cx="100" cy="100" r="90" fill="transparent"/>
-                        </svg>
-                        <div class="timer-display">
-                            <span id="minutes">25</span><span class="timer-colon">:</span><span id="seconds">00</span>
-                        </div>
+                    <div class="timer-box">
+                        <span id="minutes">25</span><span class="timer-colon">:</span><span id="seconds">00</span>
                     </div>
                 </div>
                 <span id="milliseconds" style="display:none">.000</span>
@@ -73,9 +67,9 @@
         <div class="desktop-panel" id="todoPanel">
             <div class="window-titlebar">
                 <div class="window-buttons">
-                    <span class="window-btn close"></span>
                     <span class="window-btn minimize" data-panel="todoPanel"></span>
                     <span class="window-btn maximize"></span>
+                    <span class="window-btn close"></span>
                 </div>
                 <span class="window-title">To-Do List</span>
             </div>
@@ -111,9 +105,9 @@
         <div class="desktop-panel" id="musicPanel">
             <div class="window-titlebar">
                 <div class="window-buttons">
-                    <span class="window-btn close"></span>
                     <span class="window-btn minimize" data-panel="musicPanel"></span>
                     <span class="window-btn maximize"></span>
+                    <span class="window-btn close"></span>
                 </div>
                 <span class="window-title">Music</span>
             </div>
@@ -167,9 +161,9 @@
         <div class="desktop-panel" id="volumePanel">
             <div class="window-titlebar">
                 <div class="window-buttons">
-                    <span class="window-btn close"></span>
                     <span class="window-btn minimize" data-panel="volumePanel"></span>
                     <span class="window-btn maximize"></span>
+                    <span class="window-btn close"></span>
                 </div>
                 <span class="window-title">Now Playing</span>
             </div>
@@ -189,9 +183,9 @@
         <div class="desktop-panel" id="quotePanel">
             <div class="window-titlebar">
                 <div class="window-buttons">
-                    <span class="window-btn close"></span>
                     <span class="window-btn minimize" data-panel="quotePanel"></span>
                     <span class="window-btn maximize"></span>
+                    <span class="window-btn close"></span>
                 </div>
                 <span class="window-title">Inspiration</span>
             </div>
@@ -215,9 +209,9 @@
     <div class="desktop-panel overlay-panel" id="statsPanel">
         <div class="window-titlebar">
             <div class="window-buttons">
-                <span class="window-btn close" data-close="statsPanel"></span>
                 <span class="window-btn minimize"></span>
-                <span class="window-btn maximize"></span>
+                    <span class="window-btn maximize"></span>
+                    <span class="window-btn close" data-close="statsPanel"></span>
             </div>
             <span class="window-title">Study Analytics</span>
         </div>
@@ -256,9 +250,9 @@
     <div class="desktop-panel overlay-panel" id="settingsPanel">
         <div class="window-titlebar">
             <div class="window-buttons">
-                <span class="window-btn close" data-close="settingsPanel"></span>
                 <span class="window-btn minimize"></span>
-                <span class="window-btn maximize"></span>
+                    <span class="window-btn maximize"></span>
+                    <span class="window-btn close" data-close="settingsPanel"></span>
             </div>
             <span class="window-title">Settings</span>
         </div>

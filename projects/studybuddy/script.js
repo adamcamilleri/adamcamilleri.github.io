@@ -4,16 +4,16 @@
 
 // --- Music Genre Config ---
 const GENRES = [
-  { name: 'Lo-Fi', videoId: 'jfKfPfyJRdk' },
-  { name: 'Jazz', videoId: 'neV3EPgvZ3g' },
-  { name: 'Piano', videoId: '4oStw0r33so' },
-  { name: 'Classical', videoId: 'mIYzp5rcTvU' },
-  { name: 'Acoustic', videoId: 'xNN7iTA57jM' },
-  { name: 'Kalimba', videoId: 'ke1JB_d9CjQ' },
-  { name: 'K-Pop', videoId: 'gQlMMD8auMs' },
-  { name: 'Cafe', videoId: 'h2zkV-l_TbY' },
-  { name: 'Library', videoId: 'sLhVpVoHJEM' },
-  { name: 'Nature', videoId: 'eKFTSSKCzWA' }
+  { name: 'Lo-Fi', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/01/audio_4956b4edd1.mp3' },
+  { name: 'Jazz', audioUrl: 'https://cdn.pixabay.com/audio/2024/09/10/audio_6e1ea0f08f.mp3' },
+  { name: 'Piano', audioUrl: 'https://cdn.pixabay.com/audio/2024/02/14/audio_8e50e63543.mp3' },
+  { name: 'Classical', audioUrl: 'https://cdn.pixabay.com/audio/2024/01/30/audio_bd1e6e6b0a.mp3' },
+  { name: 'Acoustic', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/21/audio_d047ef44c7.mp3' },
+  { name: 'Kalimba', audioUrl: 'https://cdn.pixabay.com/audio/2024/10/08/audio_4542d76d5b.mp3' },
+  { name: 'K-Pop', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/25/audio_a97e081bad.mp3' },
+  { name: 'Cafe', audioUrl: 'https://cdn.pixabay.com/audio/2022/03/24/audio_f2901c0ab7.mp3' },
+  { name: 'Library', audioUrl: 'https://cdn.pixabay.com/audio/2024/09/24/audio_d7701658c4.mp3' },
+  { name: 'Nature', audioUrl: 'https://cdn.pixabay.com/audio/2022/08/31/audio_419263a638.mp3' }
 ];
 
 // --- Quote Config ---
@@ -44,7 +44,6 @@ const resetBtn = document.getElementById('resetBtn');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const millisecondsDisplay = document.getElementById('milliseconds');
-const progressRing = document.querySelector('.progress-ring-circle');
 const sessionCountDisplay = document.getElementById('sessionCount');
 const totalSessionsDisplay = document.getElementById('totalSessions');
 
@@ -72,12 +71,6 @@ function updateTimerDisplay() {
     millisecondsDisplay.textContent = '.' + Math.floor(milliseconds).toString().padStart(3, '0');
   }
 
-  const circumference = 2 * Math.PI * 90;
-  const progress = 1 - (timeLeft / (DURATIONS[currentMode] * 60));
-  if (progressRing) {
-    progressRing.style.strokeDasharray = circumference + ' ' + circumference;
-    progressRing.style.strokeDashoffset = circumference * progress;
-  }
 }
 
 function updateSessionDisplay() {
@@ -446,70 +439,30 @@ settingsInputs.forEach(function(input) {
 timeLeft = DURATIONS[currentMode] * 60;
 updateTimerDisplay();
 
-// --- YouTube Music Genre System ---
-var ytPlayer = null;
-var ytReady = false;
+// --- Music Genre System (HTML5 Audio, works on file://) ---
+var musicAudio = new Audio();
+musicAudio.loop = true;
 var currentGenre = localStorage.getItem('studySmartGenre') || null;
 var isMusicPlaying = false;
 
-// Load YouTube IFrame API
-(function() {
-  var tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScript = document.getElementsByTagName('script')[0];
-  firstScript.parentNode.insertBefore(tag, firstScript);
-})();
-
-// YouTube API calls this global function when ready
-window.onYouTubeIframeAPIReady = function() {
-  // Create hidden container for YT player
-  var playerDiv = document.createElement('div');
-  playerDiv.id = 'ytMusicPlayer';
-  playerDiv.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px';
-  document.body.appendChild(playerDiv);
-
-  ytPlayer = new YT.Player('ytMusicPlayer', {
-    height: '1',
-    width: '1',
-    playerVars: {
-      autoplay: 0,
-      controls: 0,
-      disablekb: 1,
-      loop: 1
-    },
-    events: {
-      onReady: function() {
-        ytReady = true;
-        var volumeSlider = document.getElementById('volumeSlider');
-        if (volumeSlider) ytPlayer.setVolume(parseInt(volumeSlider.value));
-        // Restore last genre selection (don't autoplay)
-        if (currentGenre) {
-          var genreObj = GENRES.find(function(g) { return g.name === currentGenre; });
-          if (genreObj) {
-            document.querySelectorAll('.genre-btn').forEach(function(btn) {
-              btn.classList.toggle('active', btn.dataset.genre === currentGenre);
-            });
-            var nowPlaying = document.querySelector('.now-playing-info');
-            if (nowPlaying) nowPlaying.textContent = currentGenre;
-          }
-        }
-      },
-      onStateChange: function(event) {
-        // Loop: when video ends, replay
-        if (event.data === YT.PlayerState.ENDED) {
-          ytPlayer.playVideo();
-        }
-      }
-    }
+// Restore last genre selection UI (don't autoplay)
+if (currentGenre) {
+  document.querySelectorAll('.genre-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.genre === currentGenre);
   });
-};
+  var nowPlaying = document.querySelector('.now-playing-info');
+  if (nowPlaying) nowPlaying.textContent = currentGenre;
+  // Pre-load the audio source
+  var savedGenre = GENRES.find(function(g) { return g.name === currentGenre; });
+  if (savedGenre) musicAudio.src = savedGenre.audioUrl;
+}
 
 // Genre button click handlers
 document.querySelectorAll('.genre-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     var genre = btn.dataset.genre;
     var genreObj = GENRES.find(function(g) { return g.name === genre; });
-    if (!genreObj || !ytReady) return;
+    if (!genreObj) return;
 
     // Update active state
     document.querySelectorAll('.genre-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -520,16 +473,16 @@ document.querySelectorAll('.genre-btn').forEach(function(btn) {
     if (nowPlaying) nowPlaying.textContent = genre;
 
     // Load and play
-    ytPlayer.loadVideoById(genreObj.videoId);
+    musicAudio.src = genreObj.audioUrl;
+    musicAudio.volume = (document.getElementById('volumeSlider').value || 50) / 100;
+    musicAudio.play();
     isMusicPlaying = true;
     currentGenre = genre;
     localStorage.setItem('studySmartGenre', genre);
 
     // Update play button icon
     var playBtn = document.getElementById('musicPlayBtn');
-    if (playBtn) {
-      playBtn.querySelector('i').className = 'fas fa-pause';
-    }
+    if (playBtn) playBtn.querySelector('i').className = 'fas fa-pause';
   });
 });
 
@@ -537,13 +490,13 @@ document.querySelectorAll('.genre-btn').forEach(function(btn) {
 var musicPlayBtn = document.getElementById('musicPlayBtn');
 if (musicPlayBtn) {
   musicPlayBtn.addEventListener('click', function() {
-    if (!ytReady || !ytPlayer) return;
+    if (!musicAudio.src) return;
     if (isMusicPlaying) {
-      ytPlayer.pauseVideo();
+      musicAudio.pause();
       isMusicPlaying = false;
       musicPlayBtn.querySelector('i').className = 'fas fa-play';
     } else {
-      ytPlayer.playVideo();
+      musicAudio.play();
       isMusicPlaying = true;
       musicPlayBtn.querySelector('i').className = 'fas fa-pause';
     }
@@ -554,11 +507,10 @@ if (musicPlayBtn) {
 var volumeSlider = document.getElementById('volumeSlider');
 if (volumeSlider) {
   volumeSlider.addEventListener('input', function() {
-    if (ytReady && ytPlayer) {
-      ytPlayer.setVolume(parseInt(volumeSlider.value));
-    }
+    musicAudio.volume = volumeSlider.value / 100;
   });
 }
+
 
 // --- Quote Widget ---
 var currentQuoteIndex = -1;
