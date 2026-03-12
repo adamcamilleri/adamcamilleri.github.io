@@ -5,6 +5,7 @@ import { useTasks } from '@/hooks/useTasks'
 import { useAuth } from '@/hooks/useAuth'
 import TaskList from '@/components/TaskList'
 import TaskForm from '@/components/TaskForm'
+import TaskListSkeleton from '@/components/TaskListSkeleton'
 import { Priority, TaskFormData } from '@/types/task'
 
 function TiltButton({ onClick }: { onClick: () => void }) {
@@ -100,7 +101,7 @@ export default function TasksPage() {
       {/* Task list */}
       <main className="max-w-3xl mx-auto px-6 py-8">
         {loading ? (
-          <div className="text-center py-24 text-[#333] text-sm">Loading…</div>
+          <TaskListSkeleton />
         ) : (
           <TaskList tasks={filteredTasks} onToggleComplete={toggleTaskCompletion} onDelete={deleteTask} />
         )}
