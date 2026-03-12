@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam Camilleri | Portfolio</title>
     <link rel="stylesheet" href="style.css?v=2.9">
+    <link rel="stylesheet" href="shared/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,11 +32,11 @@
                 <a href="#home">AC</a>
             </div>
             <div class="nav-links">
-                <a href="#home" class="active">Home</a>
-                <a href="#about">About</a>
-                <a href="#certificates">Certificates</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#home" class="active nav-link-animated">Home</a>
+                <a href="#about" class="nav-link-animated">About</a>
+                <a href="#certificates" class="nav-link-animated">Certificates</a>
+                <a href="#projects" class="nav-link-animated">Projects</a>
+                <a href="#contact" class="nav-link-animated">Contact</a>
             </div>
             <div class="burger">
                 <div class="line1"></div>
@@ -77,14 +78,14 @@
             <div class="hero-below-fold">
                 <div class="hero-details">
                     <div class="cta-buttons animate-reveal" data-delay="4">
-                        <a href="#projects" class="btn primary">View Projects</a>
-                        <a href="#contact" class="btn secondary">Contact Me</a>
+                        <a href="#projects" class="btn primary interactive">View Projects</a>
+                        <a href="#contact" class="btn secondary interactive">Contact Me</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="about scroll-reveal">
+        <section id="about" class="about scroll-reveal scroll-reveal-section">
             <div class="container">
                 <h2 class="section-title"><span>About Me</span></h2>
                 <div class="about-split">
@@ -189,23 +190,24 @@
                 </div>
                 <div class="about-actions">
                     <div class="social-links">
-                        <a href="https://github.com/adamcamilleri" class="social-icon" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://linkedin.com/in/adamcamilleri" class="social-icon" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://x.com/imadamcam" class="social-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com/adamcamiller.i" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://github.com/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://x.com/imadamcam" class="social-icon interactive" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/adamcamiller.i" class="social-icon interactive" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
-                    <a href="assets/resumeAdamCamilleri.pdf" class="btn download-cv" target="_blank">Download Resume <i class="fas fa-download"></i></a>
+                    <a href="assets/resumeAdamCamilleri.pdf" class="btn download-cv interactive" target="_blank">Download Resume <i class="fas fa-download"></i></a>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="projects scroll-reveal">
+        <section id="projects" class="projects scroll-reveal scroll-reveal-section">
             <div class="container">
                 <h2 class="section-title"><span>Projects</span></h2>
                 <div class="projects-list">
 
-                    <div class="project-card-h" data-category="app">
+                    <div class="project-card-h project-card-wip interactive" data-category="app">
                         <div class="card-shine"></div>
+                        <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)">
                             <span class="project-preview-label">SB</span>
                         </div>
@@ -214,14 +216,15 @@
                             <h3 class="project-title">StudyBuddy</h3>
                             <p class="project-description">A Pomodoro timer you can customize. Tweak work and break lengths, save tasks locally, and use it on phone or desktop.</p>
                             <div class="project-links-h">
-                                <a href="/studybuddy" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/studybuddy" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="/studybuddy" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/studybuddy" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h" data-category="web">
+                    <div class="project-card-h project-card-wip interactive" data-category="web">
                         <div class="card-shine"></div>
+                        <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #e67e22 0%, #c0392b 100%)">
                             <span class="project-preview-label">AC</span>
                         </div>
@@ -230,14 +233,15 @@
                             <h3 class="project-title">Adam's Cookbook</h3>
                             <p class="project-description">Recipe site that pulls from my TikTok. Search and tap a card for the full recipe and video. Built for mobile.</p>
                             <div class="project-links-h">
-                                <a href="/adams-cookbook" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="/adams-cookbook" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h" data-category="web">
+                    <div class="project-card-h project-card-wip interactive" data-category="web">
                         <div class="card-shine"></div>
+                        <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%)">
                             <span class="project-preview-label">C4</span>
                         </div>
@@ -246,14 +250,15 @@
                             <h3 class="project-title">Connect Four</h3>
                             <p class="project-description">Classic Connect Four built in the browser. Two-player, responsive, no install needed.</p>
                             <div class="project-links-h">
-                                <a href="/connect-four" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/connect-four" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="/connect-four" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/connect-four" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h" data-category="web">
+                    <div class="project-card-h project-card-wip interactive" data-category="web">
                         <div class="card-shine"></div>
+                        <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #27ae60 0%, #2980b9 100%)">
                             <span class="project-preview-label">TM</span>
                         </div>
@@ -262,13 +267,13 @@
                             <h3 class="project-title">TaskMaster</h3>
                             <p class="project-description">Task app with priorities, due dates, and filters so you can find what you need.</p>
                             <div class="project-links-h">
-                                <a href="https://adam-taskmaster.vercel.app/tasks" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/taskmaster" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="https://adam-taskmaster.vercel.app/tasks" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/taskmaster" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip" data-category="web">
+                    <div class="project-card-h project-card-wip interactive" data-category="web">
                         <div class="card-shine"></div>
                         <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%)">
@@ -279,13 +284,13 @@
                             <h3 class="project-title">Handoff</h3>
                             <p class="project-description">Describe the site you want in plain English and it builds in real time. Change colors, copy, and layout through chat, then deploy or save your design.</p>
                             <div class="project-links-h">
-                                <a href="/handoff" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/handoff" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="/handoff" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/handoff" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip" data-category="web">
+                    <div class="project-card-h project-card-wip interactive" data-category="web">
                         <div class="card-shine"></div>
                         <span class="wip-badge">WIP</span>
                         <div class="project-preview" style="background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%)">
@@ -296,8 +301,8 @@
                             <h3 class="project-title">Songdle</h3>
                             <p class="project-description">Daily game: guess the song from short clips. Wrong guess = longer clip.</p>
                             <div class="project-links-h">
-                                <a href="/songdle" class="btn-project-primary" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/songdle" class="btn-project-ghost" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                                <a href="/songdle" class="btn-project-primary interactive" target="_blank">View Project</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/songdle" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -306,7 +311,7 @@
             </div>
         </section>
 
-        <section id="contact" class="contact scroll-reveal">
+        <section id="contact" class="contact scroll-reveal scroll-reveal-section">
             <div class="container">
                 <h2 class="section-title"><span>Get In Touch</span></h2>
                 <div class="contact-content">
@@ -345,16 +350,16 @@
                             <div class="contact-details">
                                 <h3>Social Profiles</h3>
                                 <div class="social-links">
-                                    <a href="https://github.com/adamcamilleri" class="social-icon" target="_blank"><i class="fab fa-github"></i></a>
-                                    <a href="https://linkedin.com/in/adamcamilleri" class="social-icon" target="_blank"><i class="fab fa-linkedin"></i></a>
-                                    <a href="https://x.com/imadamcam" class="social-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-                                    <a href="https://instagram.com/adamcamiller.i" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="https://github.com/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://linkedin.com/in/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                    <a href="https://x.com/imadamcam" class="social-icon interactive" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://instagram.com/adamcamiller.i" class="social-icon interactive" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="contact-form">
-                        <form id="contactForm" action="https://formspree.io/f/xvgaawyd" method="POST" name="portfolio-contact">
+                        <form id="contactForm" class="animated-form" action="https://formspree.io/f/xvgaawyd" method="POST" name="portfolio-contact">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" autocomplete="name" required>
                                 <label for="name">Your Name</label>
@@ -371,7 +376,7 @@
                                 <textarea id="message" name="message" autocomplete="off" required></textarea>
                                 <label for="message">Your Message</label>
                             </div>
-                            <button type="submit" class="btn submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                            <button type="submit" class="btn submit-btn interactive">Send Message <i class="fas fa-paper-plane"></i></button>
                         </form>
                     </div>
                 </div>
@@ -657,6 +662,35 @@
                 runCurtainAnimation();
             }
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+    <script type="module">
+      import { initScrollAnimations } from '/shared/animations.js';
+      // Wait for hero curtain to finish before starting scroll animations
+      // (prevents elements animating behind the curtain -- RESEARCH pitfall 5)
+      let scrollAnimsStarted = false;
+      function startScrollAnims() {
+        if (scrollAnimsStarted) return;
+        scrollAnimsStarted = true;
+        initScrollAnimations({
+          sections: '.scroll-reveal-section',
+          cards: '.project-card-h'
+        });
+      }
+      const curtain = document.getElementById('heroCurtain');
+      if (curtain) {
+        curtain.addEventListener('transitionend', () => {
+          startScrollAnims();
+        }, { once: true });
+        // Fallback: if curtain already finished or doesn't animate (e.g., reduced motion)
+        setTimeout(() => {
+          startScrollAnims();
+        }, 2000);
+      } else {
+        startScrollAnims();
+      }
     </script>
 </body>
 </html>
