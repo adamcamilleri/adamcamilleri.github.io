@@ -3,30 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-12T00:08:19.156Z"
-last_activity: "2026-03-11 — Plan 02-02 complete: /tdd and /code-review slash commands"
+stopped_at: Completed 03-01-PLAN.md — shared animation foundation
+last_updated: "2026-03-12T00:35:39.026Z"
+last_activity: "2026-03-12 — Plan 03-01 complete: shared animation foundation (animations.css + animations.js)"
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
----
-
----
-gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: in_progress
-stopped_at: Completed 02-02-PLAN.md — /tdd and /code-review slash commands created
-last_updated: "2026-03-11T23:44:46.949Z"
-last_activity: "2026-03-11 — Plan 02-02 complete: /tdd and /code-review slash commands"
-progress:
-  total_phases: 4
-  completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 7
+  completed_plans: 5
+  percent: 71
 ---
 
 # Project State
@@ -36,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-11)
 
 **Core value:** Every project demo should feel polished enough that a visitor immediately thinks "this person ships quality work"
-**Current focus:** Phase 2 — Claude Code Tooling (COMPLETE)
+**Current focus:** Phase 3 — Animation Foundation
 
 ## Current Position
 
-Phase: 2 of 4 (Claude Code Tooling)
-Plan: 2 of 2 in current phase (COMPLETE)
-Status: Phase 2 complete — all plans executed
-Last activity: 2026-03-11 — Plan 02-02 complete: /tdd and /code-review slash commands
+Phase: 3 of 4 (Animation Foundation)
+Plan: 1 of 3 in current phase
+Status: Plan 03-01 complete — shared animation foundation created
+Last activity: 2026-03-12 — Plan 03-01 complete: shared animation foundation (animations.css + animations.js)
 
-Progress: [██████████] 100% (Phase 2)
+Progress: [███████░░░] 71% (5/7 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: ~3 minutes
 - Total execution time: ~0.2 hours
 
@@ -60,9 +45,10 @@ Progress: [██████████] 100% (Phase 2)
 |-------|-------|-------|----------|
 | Phase 1 | 2 | ~10 min | ~5 min |
 | Phase 2 | 2 | ~3 min | ~1.5 min |
+| Phase 3 | 1 | ~2 min | ~2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01, 01-02, 02-01, 02-02
+- Last 5 plans: 01-01, 01-02, 02-01, 02-02, 03-01
 - Trend: On track
 
 *Updated after each plan completion*
@@ -87,6 +73,9 @@ Recent decisions affecting current work:
 - 02-01 MCP: HTTP OAuth transport for both servers — no tokens stored in .mcp.json
 - 02-01 oauth.js CORS exception explicitly documented in CLAUDE.md to prevent accidental migration
 - 02-02: Force-added .claude/commands/ files past .gitignore to ensure slash commands are version-controlled
+- 03-01: 0.01ms reduced-motion reset instead of 'none' to prevent layout breaks from forwards fill-mode animations
+- 03-01: Defensive GSAP typeof check with console.warn — pages degrade gracefully without GSAP loaded
+- 03-01: afterEvent parameter on initScrollAnimations for hero curtain coordination
 
 ### Pending Todos
 
@@ -100,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-12T00:08:19.154Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-animation-foundation/03-CONTEXT.md
+Last session: 2026-03-12T00:35:39Z
+Stopped at: Completed 03-01-PLAN.md — shared animation foundation
+Resume file: .planning/phases/03-animation-foundation/03-01-SUMMARY.md

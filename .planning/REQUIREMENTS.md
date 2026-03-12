@@ -7,7 +7,7 @@
 
 ### Animation Foundation
 
-- [ ] **ANIM-01**: All animations respect `prefers-reduced-motion` — disabled by default, enabled only when user has no preference
+- [x] **ANIM-01**: All animations respect `prefers-reduced-motion` — disabled by default, enabled only when user has no preference
 - [ ] **ANIM-02**: All interactive elements (buttons, links, cards) have hover/focus feedback with smooth transitions
 - [ ] **ANIM-03**: Async operations show skeleton/loading states (Handoff chat generation, Songdle audio fetch, TaskMaster API calls)
 - [ ] **ANIM-04**: Page sections use scroll-triggered entrance animations
@@ -95,7 +95,7 @@
 | CLAUDE-01 | Phase 2 | Complete |
 | CLAUDE-02 | Phase 2 | Complete |
 | CLAUDE-03 | Phase 2 | Complete |
-| ANIM-01 | Phase 3 | Pending |
+| ANIM-01 | Phase 3 | Complete |
 | ANIM-02 | Phase 3 | Pending |
 | ANIM-03 | Phase 3 | Pending |
 | ANIM-04 | Phase 3 | Pending |

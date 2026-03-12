@@ -91,5 +91,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Security + Tech Debt | 2/2 | Complete | 2026-03-11 |
 | 2. Claude Code Tooling | 2/2 | Complete   | 2026-03-11 |
-| 3. Animation Foundation | 0/3 | Not started | - |
+| 3. Animation Foundation | 1/3 | In Progress|  |
 | 4. Per-Project Polish + Redesigns | 0/3 | Not started | - |
