@@ -1,40 +1,44 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// ============================================================
+// Study Smart — Retro OS Desktop Script
+// ============================================================
 
-// Active navigation link highlighting
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-links a');
+// --- Music Genre Config ---
+const GENRES = [
+  { name: 'Lo-Fi', videoId: 'jfKfPfyJRdk' },
+  { name: 'Jazz', videoId: 'neV3EPgvZ3g' },
+  { name: 'Piano', videoId: '4oStw0r33so' },
+  { name: 'Classical', videoId: 'mIYzp5rcTvU' },
+  { name: 'Acoustic', videoId: 'xNN7iTA57jM' },
+  { name: 'Kalimba', videoId: 'ke1JB_d9CjQ' },
+  { name: 'K-Pop', videoId: 'gQlMMD8auMs' },
+  { name: 'Cafe', videoId: 'h2zkV-l_TbY' },
+  { name: 'Library', videoId: 'sLhVpVoHJEM' },
+  { name: 'Nature', videoId: 'eKFTSSKCzWA' }
+];
 
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
+// --- Quote Config ---
+const QUOTES = [
+  { text: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
+  { text: 'It always seems impossible until it is done.', author: 'Nelson Mandela' },
+  { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+  { text: 'Education is the most powerful weapon which you can use to change the world.', author: 'Nelson Mandela' },
+  { text: 'In the middle of difficulty lies opportunity.', author: 'Albert Einstein' },
+  { text: 'You are never too old to set another goal or to dream a new dream.', author: 'C.S. Lewis' },
+  { text: 'Success is not final, failure is not fatal: it is the courage to continue that counts.', author: 'Winston Churchill' },
+  { text: 'The beautiful thing about learning is that nobody can take it away from you.', author: 'B.B. King' },
+  { text: 'Do what you can, with what you have, where you are.', author: 'Theodore Roosevelt' },
+  { text: 'The mind is not a vessel to be filled, but a fire to be kindled.', author: 'Plutarch' },
+  { text: 'Start where you are. Use what you have. Do what you can.', author: 'Arthur Ashe' },
+  { text: 'We are what we repeatedly do. Excellence, then, is not an act, but a habit.', author: 'Aristotle' },
+  { text: 'Creativity is intelligence having fun.', author: 'Albert Einstein' },
+  { text: 'There is no substitute for hard work.', author: 'Thomas Edison' },
+  { text: 'A person who never made a mistake never tried anything new.', author: 'Albert Einstein' },
+  { text: 'Live as if you were to die tomorrow. Learn as if you were to live forever.', author: 'Mahatma Gandhi' },
+  { text: 'Tell me and I forget. Teach me and I remember. Involve me and I learn.', author: 'Benjamin Franklin' },
+  { text: 'The expert in anything was once a beginner.', author: 'Helen Hayes' }
+];
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Timer Controls
+// --- Timer Controls ---
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const minutesDisplay = document.getElementById('minutes');
@@ -44,11 +48,10 @@ const progressRing = document.querySelector('.progress-ring-circle');
 const sessionCountDisplay = document.getElementById('sessionCount');
 const totalSessionsDisplay = document.getElementById('totalSessions');
 
-// Timer durations in minutes
 const DURATIONS = {
-    pomodoro: 25,
-    shortBreak: 5,
-    longBreak: 15
+  pomodoro: 25,
+  shortBreak: 5,
+  longBreak: 15
 };
 
 let timer = null;
@@ -61,265 +64,160 @@ let totalSessions = 4;
 let lastTimestamp = 0;
 
 function updateTimerDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    minutesDisplay.textContent = minutes.toString().padStart(2, '0');
-    secondsDisplay.textContent = seconds.toString().padStart(2, '0');
-    millisecondsDisplay.textContent = `.${Math.floor(milliseconds).toString().padStart(3, '0')}`;
-    
-    const circumference = 2 * Math.PI * 115;
-    const progress = 1 - (timeLeft / (DURATIONS[currentMode] * 60));
-    progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  const mins = Math.floor(timeLeft / 60);
+  const secs = timeLeft % 60;
+  minutesDisplay.textContent = mins.toString().padStart(2, '0');
+  secondsDisplay.textContent = secs.toString().padStart(2, '0');
+  if (millisecondsDisplay) {
+    millisecondsDisplay.textContent = '.' + Math.floor(milliseconds).toString().padStart(3, '0');
+  }
+
+  const circumference = 2 * Math.PI * 90;
+  const progress = 1 - (timeLeft / (DURATIONS[currentMode] * 60));
+  if (progressRing) {
+    progressRing.style.strokeDasharray = circumference + ' ' + circumference;
     progressRing.style.strokeDashoffset = circumference * progress;
+  }
 }
 
 function updateSessionDisplay() {
-    sessionCountDisplay.textContent = sessionCount;
-    totalSessionsDisplay.textContent = totalSessions;
-    
-    const sessionCounter = document.querySelector('.session-count');
-    const nextBreakText = sessionCount === totalSessions ? 
-        '(Long Break Next)' : 
-        '(Short Break Next)';
-    
-    sessionCounter.innerHTML = `
-        <span>Study Session </span>
-        <span id="sessionCount">${sessionCount}</span>
-        <span> of </span>
-        <span id="totalSessions">${totalSessions}</span>
-        <span> ${nextBreakText}</span>
-    `;
-}
+  sessionCountDisplay.textContent = sessionCount;
+  totalSessionsDisplay.textContent = totalSessions;
 
-// Ambient Sound Matching
-const soundRecommendations = {
-    coding: ['white-noise', 'cafe'],
-    writing: ['rain', 'nature'],
-    reading: ['nature', 'white-noise'],
-    default: ['cafe', 'rain']
-};
-
-let currentTaskType = 'default';
-let productivityScore = 0;
-
-function updateTaskType(type) {
-    currentTaskType = type;
-    recommendSound();
-}
-
-function recommendSound() {
-    const recommendedSounds = soundRecommendations[currentTaskType];
-    const randomSound = recommendedSounds[Math.floor(Math.random() * recommendedSounds.length)];
-    
-    // Update UI to show recommendation
-    const soundRecommendation = document.createElement('div');
-    soundRecommendation.className = 'sound-recommendation';
-    soundRecommendation.innerHTML = `
-        <p>Recommended sound for ${currentTaskType}:</p>
-        <button class="sound-option" data-sound="${randomSound}">
-            <i class="fas fa-music"></i> ${randomSound.replace('-', ' ')}
-        </button>
-    `;
-    
-    // Remove any existing recommendation
-    const existingRecommendation = document.querySelector('.sound-recommendation');
-    if (existingRecommendation) {
-        existingRecommendation.remove();
-    }
-    
-    // Add new recommendation
-    document.querySelector('.sound-options').appendChild(soundRecommendation);
-    
-    // Add click handler for the new button
-    soundRecommendation.querySelector('.sound-option').addEventListener('click', () => {
-        playAmbientSound(randomSound);
+  const sessionCounter = document.querySelector('.session-count');
+  if (sessionCounter) {
+    const nextBreakText = sessionCount === totalSessions
+      ? '(Long Break Next)'
+      : '(Short Break Next)';
+    // Use DOM APIs instead of innerHTML
+    sessionCounter.textContent = '';
+    const parts = [
+      'Study Session ', String(sessionCount), ' of ', String(totalSessions), ' ' + nextBreakText
+    ];
+    parts.forEach(function(text) {
+      const span = document.createElement('span');
+      span.textContent = text;
+      sessionCounter.appendChild(span);
     });
-}
-
-// Virtual Accountability Partner
-const accountabilityMessages = {
-    start: [
-        "Ready to crush this session! 💪",
-        "Let's make this time count! ⏰",
-        "You've got this! 🚀"
-    ],
-    pause: [
-        "Taking a break? Good call! Remember to stretch. 🧘‍♂️",
-        "Quick breaks help maintain focus. You're doing great! 🌟",
-        "Smart to pause when needed. Ready to continue? 🎯"
-    ],
-    complete: [
-        "Amazing work! You're building great habits! 🎉",
-        "Another session completed! Keep up the momentum! 🌈",
-        "You're making progress! Every session counts! ⭐"
-    ],
-    milestone: [
-        "Wow! You've completed 5 sessions! That's impressive! 🏆",
-        "10 sessions done! You're on fire! 🔥",
-        "Milestone reached! Your dedication is inspiring! 🌟"
-    ]
-};
-
-function getAccountabilityMessage(type) {
-    const messages = accountabilityMessages[type];
-    return messages[Math.floor(Math.random() * messages.length)];
-}
-
-function showAccountabilityMessage(type) {
-    const message = getAccountabilityMessage(type);
-    const messageElement = document.createElement('div');
-    messageElement.className = 'accountability-message animate__animated animate__fadeIn';
-    messageElement.innerHTML = `
-        <div class="message-content">
-            <i class="fas fa-robot"></i>
-            <p>${message}</p>
-        </div>
-    `;
-    
-    // Remove any existing message
-    const existingMessage = document.querySelector('.accountability-message');
-    if (existingMessage) {
-        existingMessage.remove();
-    }
-    
-    // Add new message
-    document.querySelector('.timer-container').appendChild(messageElement);
-    
-    // Remove message after 5 seconds
-    setTimeout(() => {
-        messageElement.classList.add('animate__fadeOut');
-        setTimeout(() => messageElement.remove(), 1000);
-    }, 5000);
+    // Re-assign IDs for any code that queries them
+    const spans = sessionCounter.querySelectorAll('span');
+    if (spans[1]) spans[1].id = 'sessionCount';
+    if (spans[3]) spans[3].id = 'totalSessions';
+  }
 }
 
 function toggleTimer() {
-    if (isRunning) {
-        cancelAnimationFrame(timer);
-        isRunning = false;
-        startBtn.innerHTML = '<i class="fas fa-play"></i>';
-        startBtn.classList.remove('active');
-        showAccountabilityMessage('pause');
-    } else {
-        isRunning = true;
-        startBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        startBtn.classList.add('active');
-        lastTimestamp = performance.now();
-        timer = requestAnimationFrame(updateTimer);
-        showAccountabilityMessage('start');
-    }
+  if (isRunning) {
+    cancelAnimationFrame(timer);
+    isRunning = false;
+    startBtn.textContent = 'START';
+    startBtn.classList.remove('active');
+  } else {
+    isRunning = true;
+    startBtn.textContent = 'PAUSE';
+    startBtn.classList.add('active');
+    lastTimestamp = performance.now();
+    timer = requestAnimationFrame(updateTimer);
+  }
 }
 
 function updateTimer(timestamp) {
-    if (!isRunning) return;
+  if (!isRunning) return;
 
-    const elapsed = timestamp - lastTimestamp;
-    lastTimestamp = timestamp;
+  const elapsed = timestamp - lastTimestamp;
+  lastTimestamp = timestamp;
 
-    milliseconds -= elapsed;
-    if (milliseconds <= 0) {
-        milliseconds += 1000;
-        timeLeft--;
-    }
+  milliseconds -= elapsed;
+  if (milliseconds <= 0) {
+    milliseconds += 1000;
+    timeLeft--;
+  }
 
-    updateTimerDisplay();
-    
-    if (timeLeft <= 0 && milliseconds <= 0) {
-        cancelAnimationFrame(timer);
-        playAlarm();
-        
-        if (currentMode === 'pomodoro') {
-            sessionCount++;
-            if (sessionCount > totalSessions) {
-                sessionCount = 1;
-                currentMode = 'longBreak';
-                timeLeft = DURATIONS.longBreak * 60;
-            } else {
-                currentMode = 'shortBreak';
-                timeLeft = DURATIONS.shortBreak * 60;
-            }
-            updateStats('pomodoro');
-            
-            // Show milestone message for every 5 sessions
-            if (sessionCount % 5 === 0) {
-                showAccountabilityMessage('milestone');
-            } else {
-                showAccountabilityMessage('complete');
-            }
-        } else {
-            currentMode = 'pomodoro';
-            timeLeft = DURATIONS.pomodoro * 60;
-        }
-        
-        milliseconds = 0;
-        updateTimerDisplay();
-        updateSessionDisplay();
-        updateModeButtons();
-        isRunning = false;
-        startBtn.innerHTML = '<i class="fas fa-play"></i>';
-        startBtn.classList.remove('active');
-        return;
-    }
+  updateTimerDisplay();
 
-    timer = requestAnimationFrame(updateTimer);
-}
-
-function resetTimer() {
+  if (timeLeft <= 0 && milliseconds <= 0) {
     cancelAnimationFrame(timer);
-    timeLeft = DURATIONS[currentMode] * 60;
+    playAlarm();
+
+    if (currentMode === 'pomodoro') {
+      sessionCount++;
+      if (sessionCount > totalSessions) {
+        sessionCount = 1;
+        currentMode = 'longBreak';
+        timeLeft = DURATIONS.longBreak * 60;
+      } else {
+        currentMode = 'shortBreak';
+        timeLeft = DURATIONS.shortBreak * 60;
+      }
+      updateStats('pomodoro');
+    } else {
+      currentMode = 'pomodoro';
+      timeLeft = DURATIONS.pomodoro * 60;
+    }
+
     milliseconds = 0;
-    isRunning = false;
-    startBtn.innerHTML = '<i class="fas fa-play"></i>';
-    startBtn.classList.remove('active');
     updateTimerDisplay();
     updateSessionDisplay();
     updateModeButtons();
+    isRunning = false;
+    startBtn.textContent = 'START';
+    startBtn.classList.remove('active');
+    return;
+  }
+
+  timer = requestAnimationFrame(updateTimer);
+}
+
+function resetTimer() {
+  cancelAnimationFrame(timer);
+  timeLeft = DURATIONS[currentMode] * 60;
+  milliseconds = 0;
+  isRunning = false;
+  startBtn.textContent = 'START';
+  startBtn.classList.remove('active');
+  updateTimerDisplay();
+  updateSessionDisplay();
+  updateModeButtons();
 }
 
 function updateModeButtons() {
-    document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.mode === currentMode) {
-            btn.classList.add('active');
-        }
-    });
+  document.querySelectorAll('.mode-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+    if (btn.dataset.mode === currentMode) {
+      btn.classList.add('active');
+    }
+  });
 }
 
 function switchMode(mode) {
-    if (isRunning) {
-        cancelAnimationFrame(timer);
-        isRunning = false;
-        startBtn.innerHTML = '<i class="fas fa-play"></i>';
-    }
-    currentMode = mode;
-    timeLeft = DURATIONS[mode] * 60;
-    milliseconds = 0;
-    updateTimerDisplay();
-    updateModeButtons();
+  if (isRunning) {
+    cancelAnimationFrame(timer);
+    isRunning = false;
+    startBtn.textContent = 'START';
+  }
+  currentMode = mode;
+  timeLeft = DURATIONS[mode] * 60;
+  milliseconds = 0;
+  updateTimerDisplay();
+  updateModeButtons();
 }
 
-// Event Listeners
+// Timer event listeners
 startBtn.addEventListener('click', toggleTimer);
 resetBtn.addEventListener('click', resetTimer);
 
-// Mode buttons
-document.querySelectorAll('.mode-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        switchMode(btn.dataset.mode);
-    });
+document.querySelectorAll('.mode-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    switchMode(btn.dataset.mode);
+  });
 });
 
 // Initialize timer
-function initializeTimer() {
-    timeLeft = DURATIONS[currentMode] * 60;
-    updateTimerDisplay();
-}
-
-// Initialize timer display
 updateTimerDisplay();
 updateSessionDisplay();
 updateModeButtons();
 
-// Task Management
+// --- Task Management ---
 const taskInput = document.getElementById('taskInput');
 const taskDueDate = document.getElementById('taskDueDate');
 const taskPriority = document.getElementById('taskPriority');
@@ -331,385 +229,581 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function renderTasks(filter = 'all') {
-    taskList.innerHTML = '';
-    const filteredTasks = tasks.filter(task => {
-        if (filter === 'active') return !task.completed;
-        if (filter === 'completed') return task.completed;
-        return true;
+function renderTasks(filter) {
+  if (filter === undefined) filter = 'all';
+  // Clear list using DOM API
+  while (taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
+
+  var filteredTasks = tasks.filter(function(task) {
+    if (filter === 'active') return !task.completed;
+    if (filter === 'completed') return task.completed;
+    return true;
+  });
+
+  filteredTasks.forEach(function(task) {
+    var li = document.createElement('li');
+    li.className = 'task-item' + (task.completed ? ' completed' : '');
+
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'task-checkbox';
+    checkbox.checked = task.completed;
+
+    var textSpan = document.createElement('span');
+    textSpan.className = 'task-text';
+    textSpan.textContent = task.text;
+
+    var dateSpan = document.createElement('span');
+    dateSpan.className = 'task-due-date';
+    dateSpan.textContent = task.dueDate || '';
+
+    var prioritySpan = document.createElement('span');
+    prioritySpan.className = 'task-priority ' + task.priority;
+    prioritySpan.textContent = task.priority;
+
+    var actionsDiv = document.createElement('div');
+    actionsDiv.className = 'task-actions';
+    var deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-task';
+    deleteBtn.setAttribute('aria-label', 'Delete task');
+    var trashIcon = document.createElement('i');
+    trashIcon.className = 'fas fa-trash';
+    deleteBtn.appendChild(trashIcon);
+    actionsDiv.appendChild(deleteBtn);
+
+    li.appendChild(checkbox);
+    li.appendChild(textSpan);
+    li.appendChild(dateSpan);
+    li.appendChild(prioritySpan);
+    li.appendChild(actionsDiv);
+
+    checkbox.addEventListener('change', function() {
+      var wasCompleted = task.completed;
+      task.completed = checkbox.checked;
+      li.classList.toggle('completed', task.completed);
+      saveTasks();
+      updateStats('task', wasCompleted, task.completed);
     });
 
-    filteredTasks.forEach(task => {
-        const taskItem = document.createElement('li');
-        taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
-        taskItem.innerHTML = `
-            <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
-            <span class="task-text">${task.text}</span>
-            <span class="task-due-date">${task.dueDate || ''}</span>
-            <span class="task-priority ${task.priority}">${task.priority}</span>
-            <div class="task-actions">
-                <button class="delete-task" aria-label="Delete task">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        `;
-
-        const checkbox = taskItem.querySelector('.task-checkbox');
-        checkbox.addEventListener('change', () => {
-            const wasCompleted = task.completed;
-            task.completed = checkbox.checked;
-            taskItem.classList.toggle('completed', task.completed);
-            saveTasks();
-            updateStats('task', wasCompleted, task.completed);
-        });
-
-        const deleteBtn = taskItem.querySelector('.delete-task');
-        deleteBtn.addEventListener('click', () => {
-            const wasCompleted = task.completed;
-            tasks = tasks.filter(t => t !== task);
-            saveTasks();
-            renderTasks();
-            if (wasCompleted) {
-                updateStats('task', true, false);
-            }
-        });
-
-        taskList.appendChild(taskItem);
+    deleteBtn.addEventListener('click', function() {
+      var wasCompleted = task.completed;
+      tasks = tasks.filter(function(t) { return t !== task; });
+      saveTasks();
+      renderTasks();
+      if (wasCompleted) {
+        updateStats('task', true, false);
+      }
     });
+
+    taskList.appendChild(li);
+  });
 }
 
 function addTask() {
-    const text = taskInput.value.trim();
-    const dueDate = taskDueDate.value;
-    const priority = taskPriority.value;
+  var text = taskInput.value.trim();
+  var dueDate = taskDueDate.value;
+  var priority = taskPriority.value;
 
-    if (text) {
-        tasks.push({
-            text,
-            dueDate,
-            priority,
-            completed: false
-        });
-        saveTasks();
-        renderTasks();
-        taskInput.value = '';
-        taskDueDate.value = '';
-        taskPriority.value = 'low';
-    }
+  if (text) {
+    tasks.push({ text: text, dueDate: dueDate, priority: priority, completed: false });
+    saveTasks();
+    renderTasks();
+    taskInput.value = '';
+    taskDueDate.value = '';
+    taskPriority.value = 'low';
+  }
 }
 
 addTaskBtn.addEventListener('click', addTask);
-taskInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        addTask();
-    }
+taskInput.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') addTask();
 });
 
-filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderTasks(btn.dataset.filter);
-    });
+filterButtons.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    filterButtons.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderTasks(btn.dataset.filter);
+  });
 });
 
-taskSearch.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const taskItems = taskList.querySelectorAll('.task-item');
-    
-    taskItems.forEach(item => {
-        const text = item.querySelector('.task-text').textContent.toLowerCase();
-        item.style.display = text.includes(searchTerm) ? '' : 'none';
-    });
+taskSearch.addEventListener('input', function(e) {
+  var searchTerm = e.target.value.toLowerCase();
+  var items = taskList.querySelectorAll('.task-item');
+  items.forEach(function(item) {
+    var text = item.querySelector('.task-text').textContent.toLowerCase();
+    item.style.display = text.includes(searchTerm) ? '' : 'none';
+  });
 });
 
-// Stats Management
-const completedPomodoros = document.getElementById('completedPomodoros');
-const focusTime = document.getElementById('focusTime');
-const tasksCompleted = document.getElementById('tasksCompleted');
+// --- Stats Management ---
+var completedPomodoros = document.getElementById('completedPomodoros');
+var focusTime = document.getElementById('focusTime');
+var tasksCompleted = document.getElementById('tasksCompleted');
 
-let stats = JSON.parse(localStorage.getItem('studybuddyStats')) || {
-    pomodoros: 0,
-    focusMinutes: 0,
-    tasks: 0
+var stats = JSON.parse(localStorage.getItem('studybuddyStats')) || {
+  pomodoros: 0,
+  focusMinutes: 0,
+  tasks: 0
 };
 
-function updateStats(type, wasCompleted = false, isCompleted = false) {
-    if (type === 'pomodoro') {
-        stats.pomodoros++;
-        stats.focusMinutes += DURATIONS.pomodoro;
-    } else if (type === 'task') {
-        if (wasCompleted && !isCompleted) {
-            stats.tasks--;
-        } else if (!wasCompleted && isCompleted) {
-            stats.tasks++;
-        }
+function updateStats(type, wasCompleted, isCompleted) {
+  if (type === 'pomodoro') {
+    stats.pomodoros++;
+    stats.focusMinutes += DURATIONS.pomodoro;
+  } else if (type === 'task') {
+    if (wasCompleted && !isCompleted) {
+      stats.tasks--;
+    } else if (!wasCompleted && isCompleted) {
+      stats.tasks++;
     }
-    
-    completedPomodoros.textContent = stats.pomodoros;
-    focusTime.textContent = `${Math.floor(stats.focusMinutes / 60)}h ${stats.focusMinutes % 60}m`;
-    tasksCompleted.textContent = stats.tasks;
-    
-    localStorage.setItem('studybuddyStats', JSON.stringify(stats));
+  }
+
+  if (completedPomodoros) completedPomodoros.textContent = stats.pomodoros;
+  if (focusTime) focusTime.textContent = Math.floor(stats.focusMinutes / 60) + 'h ' + (stats.focusMinutes % 60) + 'm';
+  if (tasksCompleted) tasksCompleted.textContent = stats.tasks;
+
+  localStorage.setItem('studybuddyStats', JSON.stringify(stats));
 }
 
-// Initialize
+// Initialize tasks and stats
 renderTasks();
 updateStats();
 
-// Sound Management
-const soundToggleBtn = document.querySelector('.sound-toggle-btn');
-const soundOptions = document.querySelector('.sound-options');
-const soundOptionsButtons = document.querySelectorAll('.sound-option');
-let currentSound = null;
-let audioContext = null;
-let previewSound = null;
-
-// Initialize Web Audio API
-function initAudio() {
-    if (!audioContext) {
-        try {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            // Resume audio context on user interaction
-            document.addEventListener('click', () => {
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-            }, { once: true });
-        } catch (error) {
-            console.error('Web Audio API not supported:', error);
-            alert('Your browser does not support audio playback. Please try a different browser.');
-        }
-    }
-}
-
-// Play sound preview
-function playSoundPreview(sound) {
-    if (!audioContext) {
-        initAudio();
-    }
-
-    // Stop any existing preview
-    if (previewSound) {
-        previewSound.stop();
-        previewSound = null;
-    }
-
-    const soundUrls = {
-        rain: 'https://assets.mixkit.co/sfx/preview/mixkit-rain-and-thunder-storm-2393.mp3',
-        cafe: 'https://assets.mixkit.co/sfx/preview/mixkit-cafe-ambience-172.mp3',
-        nature: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3',
-        'white-noise': 'https://assets.mixkit.co/sfx/preview/mixkit-white-noise-ambience-loop-1313.mp3'
-    };
-
-    fetch(soundUrls[sound])
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.arrayBuffer();
-        })
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => {
-            const source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            
-            // Create gain node for volume control
-            const gainNode = audioContext.createGain();
-            gainNode.gain.value = 0.3; // Lower volume for preview
-            
-            // Connect nodes
-            source.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            // Play only 3 seconds of the sound
-            source.start();
-            previewSound = source;
-            
-            // Stop after 3 seconds
-            setTimeout(() => {
-                if (previewSound) {
-                    previewSound.stop();
-                    previewSound = null;
-                }
-            }, 3000);
-        })
-        .catch(error => {
-            console.error('Error playing sound preview:', error);
-        });
-}
-
-// Play ambient sound
-function playAmbientSound(sound) {
-    if (!audioContext) {
-        initAudio();
-    }
-
-    // Stop any existing preview
-    if (previewSound) {
-        previewSound.stop();
-        previewSound = null;
-    }
-
-    if (currentSound) {
-        currentSound.stop();
-        currentSound = null;
-    }
-    
-    const soundUrls = {
-        rain: 'https://assets.mixkit.co/sfx/preview/mixkit-rain-and-thunder-storm-2393.mp3',
-        cafe: 'https://assets.mixkit.co/sfx/preview/mixkit-cafe-ambience-172.mp3',
-        nature: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3',
-        'white-noise': 'https://assets.mixkit.co/sfx/preview/mixkit-white-noise-ambience-loop-1313.mp3'
-    };
-
-    // Show loading state
-    const button = document.querySelector(`[data-sound="${sound}"]`);
-    if (button) {
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-    }
-
-    fetch(soundUrls[sound])
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.arrayBuffer();
-        })
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => {
-            const source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            
-            // Create gain node for volume control
-            const gainNode = audioContext.createGain();
-            gainNode.gain.value = 0.5; // Set initial volume to 50%
-            
-            // Connect nodes
-            source.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            source.loop = true;
-            source.start();
-            currentSound = source;
-
-            // Update button state
-            if (button) {
-                button.innerHTML = `<i class="fas fa-volume-up"></i> ${sound.replace('-', ' ')}`;
-                button.classList.add('active');
-            }
-        })
-        .catch(error => {
-            console.error('Error playing sound:', error);
-            alert('Failed to play sound. Please try again.');
-            // Reset button state
-            if (button) {
-                button.innerHTML = `<i class="fas fa-volume-up"></i> ${sound.replace('-', ' ')}`;
-                button.classList.remove('active');
-            }
-        });
-}
-
-// Toggle sound options
-soundToggleBtn.addEventListener('click', () => {
-    soundOptions.classList.toggle('show');
-    // Initialize audio context on first interaction
-    if (!audioContext) {
-        initAudio();
-    }
-});
-
-// Sound option buttons
-soundOptionsButtons.forEach(btn => {
-    // Add hover event for preview
-    btn.addEventListener('mouseenter', () => {
-        const sound = btn.dataset.sound;
-        playSoundPreview(sound);
-    });
-
-    // Add click event for full playback
-    btn.addEventListener('click', () => {
-        const sound = btn.dataset.sound;
-        playAmbientSound(sound);
-        soundOptionsButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    });
-});
-
-// Play alarm sound
+// --- Play Alarm ---
 function playAlarm() {
-    if (document.getElementById('enableSound').checked) {
-        const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
-        audio.volume = document.getElementById('soundVolume').value / 100;
-        
-        // Handle audio loading errors
-        audio.onerror = () => {
-            console.error('Failed to load alarm sound');
-            alert('Failed to play alarm sound. Please check your internet connection.');
-        };
-        
-        // Play audio with user interaction
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.error('Error playing alarm:', error);
-                alert('Failed to play alarm sound. Please try again.');
-            });
-        }
+  var enableSound = document.getElementById('enableSound');
+  if (enableSound && enableSound.checked) {
+    var audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+    var soundVolume = document.getElementById('soundVolume');
+    audio.volume = soundVolume ? soundVolume.value / 100 : 0.5;
+    audio.play().catch(function(err) {
+      console.error('Error playing alarm:', err);
+    });
+  }
+
+  var enableNotifications = document.getElementById('enableNotifications');
+  if (enableNotifications && enableNotifications.checked) {
+    if (Notification.permission === 'granted') {
+      new Notification('Study Smart', { body: 'Time is up! Take a break.' });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
     }
-    
-    if (document.getElementById('enableNotifications').checked) {
-        if (Notification.permission === 'granted') {
-            new Notification('StudyBuddy Timer', {
-                body: 'Time is up! Take a break.',
-                icon: 'https://example.com/icon.png'
-            });
-        } else if (Notification.permission !== 'denied') {
-            Notification.requestPermission();
-        }
-    }
+  }
 }
 
-// Settings Management
-const settingsInputs = document.querySelectorAll('.settings-container input');
-settingsInputs.forEach(input => {
-    input.addEventListener('change', () => {
-        const setting = input.id;
-        const value = input.type === 'checkbox' ? input.checked : input.value;
-        localStorage.setItem(setting, value);
-    });
+// --- Settings Management ---
+var settingsInputs = document.querySelectorAll('#settingsPanel input, #settingsPanel select');
+settingsInputs.forEach(function(input) {
+  input.addEventListener('change', function() {
+    var value = input.type === 'checkbox' ? input.checked : input.value;
+    localStorage.setItem(input.id, value);
+
+    // Apply duration settings immediately
+    if (input.id === 'pomodoroDuration') {
+      DURATIONS.pomodoro = parseInt(input.value) || 25;
+      if (currentMode === 'pomodoro' && !isRunning) {
+        timeLeft = DURATIONS.pomodoro * 60;
+        updateTimerDisplay();
+      }
+    } else if (input.id === 'shortBreakDuration') {
+      DURATIONS.shortBreak = parseInt(input.value) || 5;
+    } else if (input.id === 'longBreakDuration') {
+      DURATIONS.longBreak = parseInt(input.value) || 15;
+    } else if (input.id === 'sessionsUntilLongBreak') {
+      totalSessions = parseInt(input.value) || 4;
+      updateSessionDisplay();
+    }
+  });
 });
 
 // Load saved settings
-settingsInputs.forEach(input => {
-    const savedValue = localStorage.getItem(input.id);
-    if (savedValue !== null) {
-        if (input.type === 'checkbox') {
-            input.checked = savedValue === 'true';
-        } else {
-            input.value = savedValue;
-        }
+settingsInputs.forEach(function(input) {
+  var savedValue = localStorage.getItem(input.id);
+  if (savedValue !== null) {
+    if (input.type === 'checkbox') {
+      input.checked = savedValue === 'true';
+    } else {
+      input.value = savedValue;
     }
+    // Apply loaded duration settings
+    if (input.id === 'pomodoroDuration') DURATIONS.pomodoro = parseInt(input.value) || 25;
+    if (input.id === 'shortBreakDuration') DURATIONS.shortBreak = parseInt(input.value) || 5;
+    if (input.id === 'longBreakDuration') DURATIONS.longBreak = parseInt(input.value) || 15;
+    if (input.id === 'sessionsUntilLongBreak') {
+      totalSessions = parseInt(input.value) || 4;
+      updateSessionDisplay();
+    }
+  }
 });
 
-// Add task type selector to the UI
-const taskTypeSelector = document.createElement('div');
-taskTypeSelector.className = 'task-type-selector';
-taskTypeSelector.innerHTML = `
-    <select id="taskType">
-        <option value="default">Select Task Type</option>
-        <option value="coding">Coding</option>
-        <option value="writing">Writing</option>
-        <option value="reading">Reading</option>
-    </select>
-`;
+// Re-init timer with loaded durations
+timeLeft = DURATIONS[currentMode] * 60;
+updateTimerDisplay();
 
-document.querySelector('.timer-modes').after(taskTypeSelector);
+// --- YouTube Music Genre System ---
+var ytPlayer = null;
+var ytReady = false;
+var currentGenre = localStorage.getItem('studySmartGenre') || null;
+var isMusicPlaying = false;
 
-// Add event listener for task type changes
-document.getElementById('taskType').addEventListener('change', (e) => {
-    updateTaskType(e.target.value);
-}); 
+// Load YouTube IFrame API
+(function() {
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScript = document.getElementsByTagName('script')[0];
+  firstScript.parentNode.insertBefore(tag, firstScript);
+})();
+
+// YouTube API calls this global function when ready
+window.onYouTubeIframeAPIReady = function() {
+  // Create hidden container for YT player
+  var playerDiv = document.createElement('div');
+  playerDiv.id = 'ytMusicPlayer';
+  playerDiv.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px';
+  document.body.appendChild(playerDiv);
+
+  ytPlayer = new YT.Player('ytMusicPlayer', {
+    height: '1',
+    width: '1',
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      disablekb: 1,
+      loop: 1
+    },
+    events: {
+      onReady: function() {
+        ytReady = true;
+        var volumeSlider = document.getElementById('volumeSlider');
+        if (volumeSlider) ytPlayer.setVolume(parseInt(volumeSlider.value));
+        // Restore last genre selection (don't autoplay)
+        if (currentGenre) {
+          var genreObj = GENRES.find(function(g) { return g.name === currentGenre; });
+          if (genreObj) {
+            document.querySelectorAll('.genre-btn').forEach(function(btn) {
+              btn.classList.toggle('active', btn.dataset.genre === currentGenre);
+            });
+            var nowPlaying = document.querySelector('.now-playing-info');
+            if (nowPlaying) nowPlaying.textContent = currentGenre;
+          }
+        }
+      },
+      onStateChange: function(event) {
+        // Loop: when video ends, replay
+        if (event.data === YT.PlayerState.ENDED) {
+          ytPlayer.playVideo();
+        }
+      }
+    }
+  });
+};
+
+// Genre button click handlers
+document.querySelectorAll('.genre-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var genre = btn.dataset.genre;
+    var genreObj = GENRES.find(function(g) { return g.name === genre; });
+    if (!genreObj || !ytReady) return;
+
+    // Update active state
+    document.querySelectorAll('.genre-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    // Update now-playing
+    var nowPlaying = document.querySelector('.now-playing-info');
+    if (nowPlaying) nowPlaying.textContent = genre;
+
+    // Load and play
+    ytPlayer.loadVideoById(genreObj.videoId);
+    isMusicPlaying = true;
+    currentGenre = genre;
+    localStorage.setItem('studySmartGenre', genre);
+
+    // Update play button icon
+    var playBtn = document.getElementById('musicPlayBtn');
+    if (playBtn) {
+      playBtn.querySelector('i').className = 'fas fa-pause';
+    }
+  });
+});
+
+// Play/Pause button
+var musicPlayBtn = document.getElementById('musicPlayBtn');
+if (musicPlayBtn) {
+  musicPlayBtn.addEventListener('click', function() {
+    if (!ytReady || !ytPlayer) return;
+    if (isMusicPlaying) {
+      ytPlayer.pauseVideo();
+      isMusicPlaying = false;
+      musicPlayBtn.querySelector('i').className = 'fas fa-play';
+    } else {
+      ytPlayer.playVideo();
+      isMusicPlaying = true;
+      musicPlayBtn.querySelector('i').className = 'fas fa-pause';
+    }
+  });
+}
+
+// Volume slider
+var volumeSlider = document.getElementById('volumeSlider');
+if (volumeSlider) {
+  volumeSlider.addEventListener('input', function() {
+    if (ytReady && ytPlayer) {
+      ytPlayer.setVolume(parseInt(volumeSlider.value));
+    }
+  });
+}
+
+// --- Quote Widget ---
+var currentQuoteIndex = -1;
+
+function showRandomQuote() {
+  var newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * QUOTES.length);
+  } while (newIndex === currentQuoteIndex && QUOTES.length > 1);
+  currentQuoteIndex = newIndex;
+
+  var quote = QUOTES[currentQuoteIndex];
+  var quoteText = document.getElementById('quoteText');
+  var quoteAuthor = document.getElementById('quoteAuthor');
+  if (quoteText) quoteText.textContent = quote.text;
+  if (quoteAuthor) quoteAuthor.textContent = '\u2014 ' + quote.author;
+}
+
+// Initialize quote
+showRandomQuote();
+
+// Refresh button with fade
+var refreshQuote = document.getElementById('refreshQuote');
+if (refreshQuote) {
+  refreshQuote.addEventListener('click', function() {
+    var content = document.querySelector('.quote-content');
+    if (content) {
+      content.style.opacity = '0';
+      content.style.transition = 'opacity 0.3s';
+      setTimeout(function() {
+        showRandomQuote();
+        content.style.opacity = '1';
+      }, 300);
+    } else {
+      showRandomQuote();
+    }
+  });
+}
+
+// --- Draggable Panels ---
+var zCounter = 10;
+
+function makeDraggable(panel) {
+  var titlebar = panel.querySelector('.window-titlebar');
+  if (!titlebar) return;
+
+  titlebar.style.cursor = 'grab';
+
+  titlebar.addEventListener('pointerdown', function(e) {
+    // Don't drag if clicking window buttons
+    if (e.target.classList.contains('window-btn')) return;
+
+    e.preventDefault();
+    titlebar.style.cursor = 'grabbing';
+    panel.style.zIndex = ++zCounter;
+
+    // Switch panel to absolute positioning on first drag
+    if (getComputedStyle(panel).position !== 'absolute') {
+      var rect = panel.getBoundingClientRect();
+      var scrollX = window.scrollX || window.pageXOffset;
+      var scrollY = window.scrollY || window.pageYOffset;
+      panel.style.position = 'absolute';
+      panel.style.left = (rect.left + scrollX) + 'px';
+      panel.style.top = (rect.top + scrollY) + 'px';
+      panel.style.width = rect.width + 'px';
+    }
+
+    var startX = e.clientX;
+    var startY = e.clientY;
+    var origLeft = parseInt(panel.style.left) || 0;
+    var origTop = parseInt(panel.style.top) || 0;
+
+    function onMove(ev) {
+      panel.style.left = (origLeft + ev.clientX - startX) + 'px';
+      panel.style.top = (origTop + ev.clientY - startY) + 'px';
+    }
+
+    function onUp() {
+      titlebar.style.cursor = 'grab';
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+    }
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+}
+
+// Initialize drag on desktop only
+function initDrag() {
+  if (window.innerWidth >= 768) {
+    document.querySelectorAll('.desktop-panel:not(.overlay-panel)').forEach(makeDraggable);
+  }
+}
+
+initDrag();
+
+// --- Minimize Buttons ---
+document.querySelectorAll('.window-btn.minimize').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var panelId = btn.dataset.panel;
+    if (panelId) {
+      var panel = document.getElementById(panelId);
+      if (panel) panel.classList.toggle('minimized');
+    }
+  });
+});
+
+// --- Overlay Panels (Stats & Settings) ---
+var statsPanel = document.getElementById('statsPanel');
+var settingsPanel = document.getElementById('settingsPanel');
+var overlayBackdrop = document.getElementById('overlayBackdrop');
+
+function showOverlay(panel) {
+  if (panel) {
+    panel.style.display = 'block';
+    if (overlayBackdrop) overlayBackdrop.style.display = 'block';
+  }
+}
+
+function hideOverlay(panel) {
+  if (panel) {
+    panel.style.display = 'none';
+    if (overlayBackdrop) overlayBackdrop.style.display = 'none';
+  }
+}
+
+function hideAllOverlays() {
+  hideOverlay(statsPanel);
+  hideOverlay(settingsPanel);
+}
+
+// Stats toggle button
+var statsToggleBtn = document.querySelector('.stats-toggle-btn');
+if (statsToggleBtn) {
+  statsToggleBtn.addEventListener('click', function() {
+    if (statsPanel && statsPanel.style.display === 'block') {
+      hideOverlay(statsPanel);
+    } else {
+      hideAllOverlays();
+      showOverlay(statsPanel);
+      initCharts();
+    }
+  });
+}
+
+// Settings toggle button
+var settingsToggleBtn = document.querySelector('.settings-toggle-btn');
+if (settingsToggleBtn) {
+  settingsToggleBtn.addEventListener('click', function() {
+    if (settingsPanel && settingsPanel.style.display === 'block') {
+      hideOverlay(settingsPanel);
+    } else {
+      hideAllOverlays();
+      showOverlay(settingsPanel);
+    }
+  });
+}
+
+// Close buttons on overlay panels
+document.querySelectorAll('.window-btn.close[data-close]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var panelId = btn.dataset.close;
+    var panel = document.getElementById(panelId);
+    hideOverlay(panel);
+  });
+});
+
+// Backdrop click closes overlays
+if (overlayBackdrop) {
+  overlayBackdrop.addEventListener('click', hideAllOverlays);
+}
+
+// --- Chart.js Initialization ---
+var chartsInitialized = false;
+
+function initCharts() {
+  if (chartsInitialized) return;
+  chartsInitialized = true;
+
+  var dailyCanvas = document.getElementById('dailyChart');
+  var taskCanvas = document.getElementById('taskChart');
+
+  if (dailyCanvas && typeof Chart !== 'undefined') {
+    new Chart(dailyCanvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Sessions',
+          data: [0, 0, 0, 0, 0, 0, stats.pomodoros],
+          backgroundColor: '#8D6E63'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+      }
+    });
+  }
+
+  if (taskCanvas && typeof Chart !== 'undefined') {
+    var completedCount = tasks.filter(function(t) { return t.completed; }).length;
+    var activeCount = tasks.length - completedCount;
+    new Chart(taskCanvas.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Completed', 'Active'],
+        datasets: [{
+          data: [completedCount, activeCount],
+          backgroundColor: ['#8D6E63', '#D7CCC8']
+        }]
+      },
+      options: { responsive: true }
+    });
+  }
+}
+
+// --- Keyboard Shortcuts ---
+document.addEventListener('keydown', function(e) {
+  // Don't trigger shortcuts when typing in inputs
+  var tag = e.target.tagName.toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') {
+    if (e.key === 'Escape') {
+      hideAllOverlays();
+      e.target.blur();
+    }
+    return;
+  }
+
+  if (e.code === 'Space') {
+    e.preventDefault();
+    toggleTimer();
+  } else if (e.key === 'r' || e.key === 'R') {
+    resetTimer();
+  } else if (e.key === 'Escape') {
+    hideAllOverlays();
+  }
+});
+
+// --- Keyboard Shortcuts Modal ---
+var shortcutsBtn = document.querySelector('.shortcuts-btn');
+var shortcutsModal = document.querySelector('.shortcuts-modal');
+if (shortcutsBtn && shortcutsModal) {
+  shortcutsBtn.addEventListener('click', function() {
+    shortcutsModal.classList.toggle('visible');
+  });
+}
