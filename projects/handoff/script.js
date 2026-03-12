@@ -710,6 +710,7 @@
     // Reset modal state
     deployStatus.classList.add('hidden');
     deployResult.classList.add('hidden');
+    deployResult.classList.remove('glow', 'revealing');
     deployInstantBtn.disabled = false;
     deployModal.classList.remove('hidden');
   });
