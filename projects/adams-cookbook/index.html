@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam's Cookbook</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>Adam's Cookbook</h1>
-            <p class="subtitle">Quick and easy recipes from my TikTok page</p>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Adam's Cookbook</h1>
+                    <p class="subtitle">Quick and easy recipes from my TikTok page</p>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for recipes..." class="search-input">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </div>
         </header>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for recipes..." class="search-input">
-            <div class="search-results" id="searchResults"></div>
-        </div>
 
         <main>
             <div class="recipe-feed">

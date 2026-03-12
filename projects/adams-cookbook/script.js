@@ -3,7 +3,7 @@ const recipes = [
     {
         id: 1,
         title: "Penne alla Vodka",
-        description: "Creamy, flavorful pasta with a touch of vodka",
+        description: "Creamy and rich pasta with crispy bacon and a splash of vodka",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/penne-alla-vodka.jpg",
         ingredients: [
@@ -33,7 +33,7 @@ const recipes = [
     {
         id: 2,
         title: "Turkey Pesto Sandwich",
-        description: "A fresh and flavorful sandwich with pesto and turkey",
+        description: "Toasted ciabatta loaded with pesto, turkey, and fresh mozzarella",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/turkey-pesto.jpg",
         ingredients: [
@@ -61,7 +61,7 @@ const recipes = [
     {
         id: 3,
         title: "BBQ Chicken Pizza",
-        description: "Homemade pizza with BBQ chicken and fresh toppings",
+        description: "Homemade dough topped with BBQ chicken, peppers, and red onion",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/bbq-chicken-pizza.jpg",
         ingredients: [
@@ -113,7 +113,7 @@ const recipes = [
     {
         id: 4,
         title: "Buffalo Chicken Quesadilla",
-        description: "Spicy and cheesy quesadillas with buffalo chicken",
+        description: "Crispy tortillas stuffed with Frank's buffalo chicken and melted mozzarella",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/buffalo-quesadilla.jpg",
         ingredients: [
@@ -143,7 +143,7 @@ const recipes = [
     {
         id: 5,
         title: "Ragu with Pappardelle",
-        description: "Classic Italian beef ragu with wide pasta ribbons",
+        description: "Slow-simmered beef shank ragu served over wide pappardelle ribbons",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/beef-ragu.jpg",
         ingredients: [
@@ -177,7 +177,7 @@ const recipes = [
     {
         id: 6,
         title: "Rosé Pasta with Bacon",
-        description: "Creamy tomato pasta with crispy bacon",
+        description: "Creamy tomato sauce with crispy bacon tossed through tubetti pasta",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/rose-pasta.jpg",
         ingredients: [
@@ -205,7 +205,7 @@ const recipes = [
     {
         id: 7,
         title: "Easy 4 Ingredient Pasta",
-        description: "Simple and delicious pasta with cherry tomatoes and basil",
+        description: "Just four ingredients,blistered cherry tomatoes, garlic, basil, and parmesan",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/easy-pasta.jpg",
         ingredients: [
@@ -232,7 +232,7 @@ const recipes = [
     {
         id: 8,
         title: "Pesto and Sundried Tomato Pasta",
-        description: "A Barcelona-inspired pasta dish with pesto and sundried tomatoes",
+        description: "Barcelona-inspired creamy pesto pasta with sundried tomatoes and chicken",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/pesto-tomato-pasta.jpg",
         ingredients: [
@@ -268,7 +268,7 @@ const recipes = [
     {
         id: 9,
         title: "Easy Spanish Rice",
-        description: "Flavorful basmati rice with fresh vegetables and spices",
+        description: "One-pot seasoned basmati rice with tomato, jalapeno, and Cajun spices",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/spanish-rice.jpg",
         ingredients: [
@@ -308,7 +308,7 @@ const recipes = [
     {
         id: 10,
         title: "Seared Chicken with Mushroom Pan Sauce",
-        description: "Elegant chicken dish with creamy mushroom sauce and sides",
+        description: "Pan-seared chicken in a creamy parmesan mushroom sauce with roasted potatoes",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/chicken-mushroom.jpg",
         ingredients: [
@@ -349,7 +349,7 @@ const recipes = [
     {
         id: 11,
         title: "Creamy Mushroom Fettuccine",
-        description: "Rich and creamy pasta with mushrooms and chicken",
+        description: "Buttery fettuccine in a garlicky cream sauce with mushrooms and wilted spinach",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/mushroom-fettuccine.jpg",
         ingredients: [
@@ -380,7 +380,7 @@ const recipes = [
     {
         id: 12,
         title: "Sushi Style Salmon and Rice",
-        description: "Air-fried salmon with seasoned sushi rice",
+        description: "Sriracha-glazed air-fried salmon over spicy mayo sushi rice with furikake",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/sushi-salmon.jpg",
         ingredients: [
@@ -420,7 +420,7 @@ const recipes = [
     {
         id: 13,
         title: "Mashed Potato Au Gratin",
-        description: "Creamy mashed potatoes topped with a cheesy gratin layer",
+        description: "Smoked gouda mashed potatoes with a crispy mandoline-sliced gratin top",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/mashed-gratin.jpg",
         ingredients: [
@@ -465,7 +465,7 @@ const recipes = [
     {
         id: 14,
         title: "Lasagna Bolognese with Bechamel",
-        description: "Classic lasagna with homemade noodles and rich bolognese sauce",
+        description: "Fresh handmade noodles layered with slow-cooked bolognese and creamy bechamel",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/lasagna-bolognese.jpg",
         ingredients: [
@@ -524,7 +524,7 @@ const recipes = [
     {
         id: 15,
         title: "Sausage and Tortellini Soup",
-        description: "Creamy and hearty soup with Italian sausage and cheese tortellini",
+        description: "Hearty one-pot soup with browned Italian sausage and cheese tortellini in a creamy tomato broth",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/sausage-tortellini-soup.jpg",
         ingredients: [
@@ -563,7 +563,7 @@ const recipes = [
     {
         id: 16,
         title: "Spicy Garlic Shrimp",
-        description: "Quick and flavorful shrimp dish with a spicy garlic sauce",
+        description: "Wok-tossed shrimp with Thai chilis, garlic, and a sweet-spicy glaze",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/spicy-shrimp.jpg",
         ingredients: [
@@ -600,7 +600,7 @@ const recipes = [
     {
         id: 17,
         title: "Carbonara with Garlic",
-        description: "Classic carbonara with a garlic twist, using egg yolks for extra creaminess",
+        description: "Silky egg yolk carbonara with crispy bacon and a punch of garlic",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/carbonara-garlic.jpg",
         ingredients: [
@@ -630,7 +630,7 @@ const recipes = [
     {
         id: 18,
         title: "Creamy Chicken with Spinach",
-        description: "A comforting and flavorful dish that got me through a year of university. Inspired by @Jalalsamfit",
+        description: "Marinated chicken thighs in a creamy spinach parmesan sauce,my university staple",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/creamy-chicken-spinach.jpg",
         ingredients: [
@@ -686,7 +686,7 @@ const recipes = [
     {
         id: 19,
         title: "Sesame Chicken",
-        description: "Crispy fried chicken in a sweet and savory sesame sauce. Inspired by @khinskitchen",
+        description: "Golden crispy fried chicken tossed in a honey sesame glaze with scallions",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/sesame-chicken.jpg",
         ingredients: [
@@ -738,7 +738,7 @@ const recipes = [
     {
         id: 20,
         title: "Cilantro Lime Noodles",
-        description: "Quick and flavorful noodles with a bright cilantro-lime sauce",
+        description: "Ramen noodles in a vibrant cilantro-lime paste with turmeric and chili",
         videoUrl: "https://www.tiktok.com/@adamcamilleri/video/1234567890",
         thumbnail: "../../images/cilantro-lime-noodles.jpg",
         ingredients: [
@@ -775,8 +775,6 @@ const recipes = [
 
 // DOM Elements
 const recipeFeed = document.querySelector('.recipe-feed');
-const recipeModal = document.getElementById('recipeModal');
-const closeModal = document.querySelector('.close-modal');
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
 
@@ -789,12 +787,26 @@ function init() {
 
 // Render recipe cards
 function renderRecipes() {
-    recipeFeed.innerHTML = recipes.map(recipe => `
-        <div class="recipe-card" data-id="${recipe.id}">
-            <img src="${recipe.thumbnail}" alt="${recipe.title}" class="recipe-thumbnail">
+    recipeFeed.innerHTML = recipes.map((recipe, i) => `
+        <div class="recipe-card card-overlay" data-id="${recipe.id}">
+            <div class="thumbnail-wrapper">
+                <img src="${recipe.thumbnail}" alt="${recipe.title}" class="recipe-thumbnail">
+            </div>
             <div class="recipe-info">
                 <h3 class="recipe-title">${recipe.title}</h3>
                 <p class="recipe-description">${recipe.description}</p>
+            </div>
+            <div class="recipe-expand">
+                <button class="close-expand">&times;</button>
+                <h3 class="expand-title">${recipe.title}</h3>
+                <div class="ingredients">
+                    <h4>Ingredients</h4>
+                    <ul>${recipe.ingredients.filter(i => i.trim() !== '').map(i => '<li>' + i + '</li>').join('')}</ul>
+                </div>
+                <div class="instructions">
+                    <h4>Instructions</h4>
+                    <ol>${recipe.instructions.filter(i => i.trim() !== '').map(i => '<li>' + i + '</li>').join('')}</ol>
+                </div>
             </div>
         </div>
     `).join('');
@@ -802,59 +814,32 @@ function renderRecipes() {
 
 // Setup event listeners
 function setupEventListeners() {
-    // Recipe card clicks
     recipeFeed.addEventListener('click', (e) => {
+        // Close button
+        if (e.target.closest('.close-expand')) {
+            e.stopPropagation();
+            const card = e.target.closest('.recipe-card');
+            card.classList.remove('expanded');
+            return;
+        }
+        // Card click to expand
         const recipeCard = e.target.closest('.recipe-card');
-        if (recipeCard) {
-            const recipeId = parseInt(recipeCard.dataset.id);
-            showRecipeModal(recipeId);
+        if (recipeCard && !recipeCard.classList.contains('expanded')) {
+            // Close any other expanded card
+            const prev = recipeFeed.querySelector('.recipe-card.expanded');
+            if (prev) prev.classList.remove('expanded');
+            recipeCard.classList.add('expanded');
+            recipeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
 
-    // Close modal
-    closeModal.addEventListener('click', () => {
-        recipeModal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside
-    recipeModal.addEventListener('click', (e) => {
-        if (e.target === recipeModal) {
-            recipeModal.style.display = 'none';
+    // Close expanded card when clicking outside of it
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.recipe-card')) {
+            const expanded = recipeFeed.querySelector('.recipe-card.expanded');
+            if (expanded) expanded.classList.remove('expanded');
         }
     });
-}
-
-// Show recipe modal
-function showRecipeModal(recipeId) {
-    const recipe = recipes.find(r => r.id === recipeId);
-    if (!recipe) return;
-
-    const modal = document.getElementById('recipeModal');
-    const title = modal.querySelector('.recipe-title');
-    const video = modal.querySelector('.recipe-video');
-    const ingredientsList = modal.querySelector('.ingredients-list');
-    const instructionsList = modal.querySelector('.instructions-list');
-
-    // Update modal content
-    title.textContent = recipe.title;
-    
-    // Show recipe thumbnail
-    video.innerHTML = `
-        <img src="${recipe.thumbnail}" alt="${recipe.title}" class="recipe-thumbnail-large">
-    `;
-
-    // Update ingredients
-    ingredientsList.innerHTML = recipe.ingredients
-        .map(ingredient => `<li>${ingredient}</li>`)
-        .join('');
-
-    // Update instructions
-    instructionsList.innerHTML = recipe.instructions
-        .map(instruction => `<li>${instruction}</li>`)
-        .join('');
-
-    // Show modal
-    modal.style.display = 'block';
 }
 
 // Setup search functionality

@@ -2767,13 +2767,15 @@ footer {
 }
 
 .project-preview {
-    width: 200px;
-    min-width: 200px;
+    width: 340px;
+    min-width: 340px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     order: 2;
+    overflow: hidden;
+    border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0;
 }
 
 .project-preview-label {
