@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Regulation Intervention Simulator | Rose Amir Pour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="sim-header">
+        <a href="../index.html" class="back-link" aria-label="Back to Portfolio">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">Self-Regulation Intervention Simulator</h1>
+    </header>
+
+    <main class="sim-main">
+        <!-- Screen 1: Welcome -->
+        <section id="screen-welcome" class="screen active">
+            <div class="screen-content">
+                <div class="welcome-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2>Welcome to the Self-Regulation Intervention Simulator</h2>
+                <p class="welcome-desc">
+                    This interactive tool allows you to experience evidence-based
+                    self-regulation interventions including paced breathing, mindfulness,
+                    expressive writing, gratitude journaling, nature visualization, and more.
+                    Rate your mood before and after each exercise, and view how different
+                    interventions affect emotional states over time.
+                </p>
+                <p class="welcome-note">
+                    All data is stored locally on your device. No information is sent to any server.
+                </p>
+                <button class="btn btn-primary" id="btn-begin">
+                    Begin <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Screen 2: Pre-Intervention Ratings -->
+        <section id="screen-pre-mood" class="screen">
+            <div class="screen-content">
+                <h2>How are you feeling right now?</h2>
+                <p class="mood-instruction">Rate yourself on each dimension below.</p>
+                <div class="ratings-grid">
+                    <div class="rating-block">
+                        <h3 class="rating-label">Mood</h3>
+                        <div class="mood-emoji" id="pre-mood-emoji">😐</div>
+                        <div class="mood-value" id="pre-mood-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😔 Sad</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="pre-mood-slider">
+                            <span class="slider-label-right">Happy 😊</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Energy</h3>
+                        <div class="mood-emoji" id="pre-energy-emoji">😐</div>
+                        <div class="mood-value" id="pre-energy-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😴 Tired</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="pre-energy-slider">
+                            <span class="slider-label-right">Awake ⚡</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Stress</h3>
+                        <div class="mood-emoji" id="pre-stress-emoji">😐</div>
+                        <div class="mood-value" id="pre-stress-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😰 Stressed</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="pre-stress-slider">
+                            <span class="slider-label-right">Relaxed 😌</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Life Satisfaction</h3>
+                        <div class="mood-emoji" id="pre-satisfaction-emoji">😐</div>
+                        <div class="mood-value" id="pre-satisfaction-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😞 Unfulfilled</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="pre-satisfaction-slider">
+                            <span class="slider-label-right">Fulfilled 🌟</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btn-pre-next">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Screen 3: Intervention Selection -->
+        <section id="screen-select" class="screen">
+            <div class="screen-content">
+                <h2>Choose an Intervention</h2>
+                <p class="select-instruction">Select one of the following evidence-based exercises.</p>
+                <div class="cards-grid">
+                    <button class="intervention-card" data-intervention="breathing">
+                        <div class="card-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h3>Paced Breathing</h3>
+                        <p>Follow a guided breathing pattern to activate your parasympathetic nervous system and reduce stress.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 2 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="mindfulness">
+                        <div class="card-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3>Mindfulness Body Scan</h3>
+                        <p>A guided body scan meditation to increase present-moment awareness and release physical tension.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 2 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="writing">
+                        <div class="card-icon">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h3>Expressive Writing</h3>
+                        <p>Write freely about your thoughts and feelings to process emotions and gain clarity.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 3 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="gratitude">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Gratitude Journaling</h3>
+                        <p>Reflect on things you are grateful for to shift focus toward positive experiences and build resilience.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 3 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="nature">
+                        <div class="card-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Nature Visualization</h3>
+                        <p>Immerse yourself in a guided nature scene to activate restorative processes and reduce mental fatigue.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 2 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="pmr">
+                        <div class="card-icon">
+                            <i class="fas fa-hand-fist"></i>
+                        </div>
+                        <h3>Progressive Muscle Relaxation</h3>
+                        <p>Systematically tense and release muscle groups to reduce physical tension and promote calm.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 2 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="compassion">
+                        <div class="card-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>Self-Compassion</h3>
+                        <p>Guided affirmations to cultivate self-kindness, common humanity, and mindful acceptance of difficult emotions.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> 2 minutes</span>
+                    </button>
+                    <button class="intervention-card" data-intervention="grounding">
+                        <div class="card-icon">
+                            <i class="fas fa-mountain-sun"></i>
+                        </div>
+                        <h3>5-4-3-2-1 Grounding</h3>
+                        <p>Use your five senses to anchor yourself in the present moment and reduce anxiety or overwhelm.</p>
+                        <span class="card-duration"><i class="fas fa-clock"></i> Self-paced</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 4: Exercise -->
+        <section id="screen-exercise" class="screen">
+            <div class="screen-content">
+                <!-- Breathing Exercise -->
+                <div id="exercise-breathing" class="exercise-panel" hidden>
+                    <h2>Paced Breathing</h2>
+                    <p class="exercise-subtitle">Follow the circle. Breathe slowly and deeply.</p>
+                    <div class="breathing-container">
+                        <div class="breathing-circle" id="breathing-circle">
+                            <span class="breathing-text" id="breathing-text">Get Ready</span>
+                        </div>
+                    </div>
+                    <div class="timer" id="breathing-timer">2:00</div>
+                </div>
+
+                <!-- Mindfulness Exercise -->
+                <div id="exercise-mindfulness" class="exercise-panel" hidden>
+                    <h2>Mindfulness Body Scan</h2>
+                    <p class="exercise-subtitle">Close your eyes if comfortable. Follow the prompts.</p>
+                    <div class="mindfulness-container">
+                        <div class="mindfulness-prompt" id="mindfulness-prompt">Get ready...</div>
+                        <div class="mindfulness-progress">
+                            <div class="mindfulness-progress-bar" id="mindfulness-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="timer" id="mindfulness-timer">2:00</div>
+                </div>
+
+                <!-- Writing Exercise -->
+                <div id="exercise-writing" class="exercise-panel" hidden>
+                    <h2>Expressive Writing</h2>
+                    <p class="exercise-subtitle">Write freely about something that has been on your mind. Do not worry about grammar or spelling -- just let your thoughts flow.</p>
+                    <div class="writing-container">
+                        <textarea id="writing-textarea" class="writing-textarea" placeholder="Begin writing here..."></textarea>
+                    </div>
+                    <div class="timer" id="writing-timer">3:00</div>
+                </div>
+
+                <!-- Gratitude Journaling Exercise -->
+                <div id="exercise-gratitude" class="exercise-panel" hidden>
+                    <h2>Gratitude Journaling</h2>
+                    <p class="exercise-subtitle">List things you are grateful for today. Big or small, anything counts.</p>
+                    <div class="writing-container">
+                        <textarea id="gratitude-textarea" class="writing-textarea" placeholder="1. I'm grateful for...&#10;2. I'm grateful for...&#10;3. I'm grateful for..."></textarea>
+                    </div>
+                    <div class="timer" id="gratitude-timer">3:00</div>
+                </div>
+
+                <!-- Nature Visualization Exercise -->
+                <div id="exercise-nature" class="exercise-panel" hidden>
+                    <h2>Nature Visualization</h2>
+                    <p class="exercise-subtitle">Close your eyes and immerse yourself in this scene.</p>
+                    <div class="nature-container">
+                        <div class="nature-scene" id="nature-scene">
+                            <div class="nature-visual" id="nature-visual"></div>
+                            <div class="nature-prompt" id="nature-prompt">Get ready...</div>
+                        </div>
+                        <div class="mindfulness-progress">
+                            <div class="mindfulness-progress-bar" id="nature-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="timer" id="nature-timer">2:00</div>
+                </div>
+
+                <!-- Progressive Muscle Relaxation Exercise -->
+                <div id="exercise-pmr" class="exercise-panel" hidden>
+                    <h2>Progressive Muscle Relaxation</h2>
+                    <p class="exercise-subtitle">Follow the instructions. Tense each muscle group for 5 seconds, then release.</p>
+                    <div class="mindfulness-container">
+                        <div class="pmr-status" id="pmr-status">Get ready...</div>
+                        <div class="mindfulness-prompt" id="pmr-prompt">Get ready...</div>
+                        <div class="mindfulness-progress">
+                            <div class="mindfulness-progress-bar" id="pmr-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="timer" id="pmr-timer">2:00</div>
+                </div>
+
+                <!-- Self-Compassion Exercise -->
+                <div id="exercise-compassion" class="exercise-panel" hidden>
+                    <h2>Self-Compassion</h2>
+                    <p class="exercise-subtitle">Read each affirmation slowly. Let the words resonate.</p>
+                    <div class="mindfulness-container">
+                        <div class="mindfulness-prompt" id="compassion-prompt">Get ready...</div>
+                        <div class="mindfulness-progress">
+                            <div class="mindfulness-progress-bar" id="compassion-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="timer" id="compassion-timer">2:00</div>
+                </div>
+
+                <!-- 5-4-3-2-1 Grounding Exercise -->
+                <div id="exercise-grounding" class="exercise-panel" hidden>
+                    <h2>5-4-3-2-1 Grounding</h2>
+                    <p class="exercise-subtitle">Use your senses to anchor yourself in the present moment.</p>
+                    <div class="grounding-exercise-container">
+                        <div class="grounding-count" id="grounding-count"></div>
+                        <div class="grounding-sense-label" id="grounding-sense"></div>
+                        <div class="mindfulness-prompt" id="grounding-prompt">Get ready...</div>
+                        <div class="grounding-inputs" id="grounding-inputs"></div>
+                        <div class="grounding-step-info" id="grounding-step-info"></div>
+                    </div>
+                    <button class="btn btn-primary" id="btn-grounding-next">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <button class="btn btn-secondary" id="btn-finish-early">
+                    Finish Early <i class="fas fa-forward"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Screen 5: Post-Intervention Ratings -->
+        <section id="screen-post-mood" class="screen">
+            <div class="screen-content">
+                <h2>How are you feeling now?</h2>
+                <p class="mood-instruction">Rate yourself again after the exercise.</p>
+                <div class="ratings-grid">
+                    <div class="rating-block">
+                        <h3 class="rating-label">Mood</h3>
+                        <div class="mood-emoji" id="post-mood-emoji">😐</div>
+                        <div class="mood-value" id="post-mood-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😔 Sad</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="post-mood-slider">
+                            <span class="slider-label-right">Happy 😊</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Energy</h3>
+                        <div class="mood-emoji" id="post-energy-emoji">😐</div>
+                        <div class="mood-value" id="post-energy-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😴 Tired</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="post-energy-slider">
+                            <span class="slider-label-right">Awake ⚡</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Stress</h3>
+                        <div class="mood-emoji" id="post-stress-emoji">😐</div>
+                        <div class="mood-value" id="post-stress-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😰 Stressed</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="post-stress-slider">
+                            <span class="slider-label-right">Relaxed 😌</span>
+                        </div>
+                    </div>
+                    <div class="rating-block">
+                        <h3 class="rating-label">Life Satisfaction</h3>
+                        <div class="mood-emoji" id="post-satisfaction-emoji">😐</div>
+                        <div class="mood-value" id="post-satisfaction-value">5</div>
+                        <div class="slider-container">
+                            <span class="slider-label-left">😞 Unfulfilled</span>
+                            <input type="range" min="1" max="10" value="5" class="mood-slider" id="post-satisfaction-slider">
+                            <span class="slider-label-right">Fulfilled 🌟</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btn-post-next">
+                    See Results <i class="fas fa-chart-bar"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Screen 6: Results -->
+        <section id="screen-results" class="screen">
+            <div class="screen-content">
+                <h2>Your Results</h2>
+
+                <div class="result-card">
+                    <h3>This Session</h3>
+                    <div class="result-intervention" id="result-intervention"></div>
+                    <div class="result-dimensions">
+                        <div class="result-dimension">
+                            <span class="result-dim-label">Mood</span>
+                            <div class="result-moods">
+                                <div class="result-mood-item">
+                                    <span class="result-label">Before</span>
+                                    <span class="result-number" id="result-pre-mood">5</span>
+                                </div>
+                                <div class="result-arrow" id="result-arrow-mood"><i class="fas fa-arrow-right"></i></div>
+                                <div class="result-mood-item">
+                                    <span class="result-label">After</span>
+                                    <span class="result-number" id="result-post-mood">5</span>
+                                </div>
+                            </div>
+                            <div class="result-change" id="result-change-mood"></div>
+                        </div>
+                        <div class="result-dimension">
+                            <span class="result-dim-label">Energy</span>
+                            <div class="result-moods">
+                                <div class="result-mood-item">
+                                    <span class="result-label">Before</span>
+                                    <span class="result-number" id="result-pre-energy">5</span>
+                                </div>
+                                <div class="result-arrow" id="result-arrow-energy"><i class="fas fa-arrow-right"></i></div>
+                                <div class="result-mood-item">
+                                    <span class="result-label">After</span>
+                                    <span class="result-number" id="result-post-energy">5</span>
+                                </div>
+                            </div>
+                            <div class="result-change" id="result-change-energy"></div>
+                        </div>
+                        <div class="result-dimension">
+                            <span class="result-dim-label">Stress</span>
+                            <div class="result-moods">
+                                <div class="result-mood-item">
+                                    <span class="result-label">Before</span>
+                                    <span class="result-number" id="result-pre-stress">5</span>
+                                </div>
+                                <div class="result-arrow" id="result-arrow-stress"><i class="fas fa-arrow-right"></i></div>
+                                <div class="result-mood-item">
+                                    <span class="result-label">After</span>
+                                    <span class="result-number" id="result-post-stress">5</span>
+                                </div>
+                            </div>
+                            <div class="result-change" id="result-change-stress"></div>
+                        </div>
+                        <div class="result-dimension">
+                            <span class="result-dim-label">Life Satisfaction</span>
+                            <div class="result-moods">
+                                <div class="result-mood-item">
+                                    <span class="result-label">Before</span>
+                                    <span class="result-number" id="result-pre-satisfaction">5</span>
+                                </div>
+                                <div class="result-arrow" id="result-arrow-satisfaction"><i class="fas fa-arrow-right"></i></div>
+                                <div class="result-mood-item">
+                                    <span class="result-label">After</span>
+                                    <span class="result-number" id="result-post-satisfaction">5</span>
+                                </div>
+                            </div>
+                            <div class="result-change" id="result-change-satisfaction"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aggregate-card">
+                    <h3>Aggregated Results</h3>
+                    <p class="aggregate-note">Average mood change per intervention type (all sessions)</p>
+                    <div class="chart-container" id="chart-container">
+                        <div class="chart-row">
+                            <span class="chart-label">Paced Breathing</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-breathing" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-breathing">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Mindfulness</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-mindfulness" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-mindfulness">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Expressive Writing</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-writing" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-writing">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Gratitude</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-gratitude" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-gratitude">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Nature</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-nature" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-nature">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">PMR</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-pmr" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-pmr">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Self-Compassion</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-compassion" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-compassion">--</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Grounding</span>
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar" id="bar-grounding" data-value="0"></div>
+                            </div>
+                            <span class="chart-value" id="val-grounding">--</span>
+                        </div>
+                    </div>
+                    <p class="session-count" id="session-count"></p>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-primary" id="btn-try-another">
+                        <i class="fas fa-redo"></i> Try Another
+                    </button>
+                    <a href="../index.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Portfolio
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

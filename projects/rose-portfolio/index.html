@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Amir Pour | Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
+</head>
+<body>
+    <!-- White/light overlay: visible on load so curtain is visible against it; fades with curtain -->
+    <div id="heroLoadOverlay" class="hero-load-overlay" aria-hidden="true"></div>
+    <!-- Curtain: dark oval rises from bottom on load -->
+    <div id="heroCurtain" class="hero-curtain" aria-hidden="true"></div>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#home" aria-label="Home">
+                        <img class="logo-rose" src="roselogo.png" alt="Rose">
+                    </a>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active nav-link-animated">Home</a>
+                <a href="#about" class="nav-link-animated">About</a>
+                <a href="#research" class="nav-link-animated">Research</a>
+                <a href="#community" class="nav-link-animated">Community Involvement</a>
+                <a href="#knowledge" class="nav-link-animated">Knowledge Mobilization</a>
+                <a href="#academics" class="nav-link-animated">Academics</a>
+                <a href="#projects" class="nav-link-animated">Projects</a>
+            </div>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero hero-revamp">
+            <div class="hero-petals" id="heroPetals" aria-hidden="true"></div>
+            <div class="hero-title-block">
+                <div class="hero-main-row">
+                    <div class="hero-left">
+                        <span class="hero-greeting animate-reveal" data-delay="0">Hey there, I'm Rose!</span>
+                        <span class="hero-article animate-reveal" id="heroArticle" data-delay="0">I'm a<span id="heroN" class="hero-n">n</span></span>
+                        <div class="hero-headline">
+                            <h1 class="hero-line1 animate-reveal" data-delay="1"><span id="heroLine1"></span></h1>
+                            <h1 class="hero-line2 animate-reveal" data-delay="2"><span id="heroLine2"></span></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-center-row animate-reveal" data-delay="3">
+                    <p class="hero-intro">Honours B.Sc. in Psychology from the University of Toronto Mississauga. Lead Research Assistant at the Regulatory and Affective Dynamics Lab and the Chung Lab, focusing on emotion regulation, personality, well-being, and preference-based interventions.</p>
+                    <div class="hero-stats-horizontal">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="4" data-suffix="+">0</span>
+                            <span class="stat-label">Research positions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="10" data-suffix="+">0</span>
+                            <span class="stat-label">Presentations & talks</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="12" data-suffix="+">0</span>
+                            <span class="stat-label">Students mentored</span>
+                        </div>
+                    </div>
+                    <div class="cta-buttons animate-reveal" data-delay="4">
+                        <a href="#research" class="btn primary interactive">View Research</a>
+                        <a href="#contact" class="btn secondary interactive">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>About Me</span></h2>
+                <div class="about-split">
+                    <div class="about-image-col">
+                        <div class="about-image">
+                            <div class="image-container">
+                                <img src="aboutphoto.png" alt="Rose Amir Pour" class="about-photo">
+                                <div class="image-overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-content-col">
+                        <div class="about-text">
+                            <h3>Hello, I'm Rose Amir Pour</h3>
+                            <p>I bring curiosity, dedication, and a collaborative spirit to every research project. As a Research Assistant at both the Regulatory and Affective Dynamics Lab (Dr. Norman Farb) and the Chung Lab (Dr. Joanne Chung) at UTM, I conduct research on interoception, emotion regulation, personality development, and student well-being. I'm passionate about mentorship, crisis support, and making research accessible to broader audiences through knowledge mobilization.</p>
+                            <div class="personal-info">
+                                <div class="info-item">
+                                    <span class="info-title">Email</span>
+                                    <span class="info-value">roseamirpour@gmail.com</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-title">Based in</span>
+                                    <span class="info-value">Mississauga, ON</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-title">Current Roles</span>
+                                    <span class="info-value">Lead RA, RAD Lab<br>Scoping Review RA, Chung Lab</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-title">Education</span>
+                                    <span class="info-value">HBSc Psychology and Education Studies, UTM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expertise-col">
+                            <h3 class="expertise-title">Skills & Methods</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">R / RStudio</span>
+                                <span class="skill-pill">SPSS</span>
+                                <span class="skill-pill">Python</span>
+                                <span class="skill-pill">Qualtrics</span>
+                                <span class="skill-pill">REDCap</span>
+                                <span class="skill-pill">Covidence</span>
+                                <span class="skill-pill">BIOPAC Systems</span>
+                                <span class="skill-pill">PsychoPy / Pavlovia</span>
+                                <span class="skill-pill">OSF Preregistration</span>
+                                <span class="skill-pill">PRISMA-ScR</span>
+                                <span class="skill-pill">Research Design</span>
+                                <span class="skill-pill">Data Analysis</span>
+                                <span class="skill-pill">Literature Review</span>
+                                <span class="skill-pill">Academic Writing</span>
+                                <span class="skill-pill">Knowledge Mobilization</span>
+                                <span class="skill-pill">Crisis Intervention</span>
+                                <span class="skill-pill">Science Communication</span>
+                                <span class="skill-pill">Mentorship</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-actions">
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/roseamirpour/" class="social-icon interactive" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:roseamirpour@gmail.com" class="social-icon interactive"><i class="fas fa-envelope"></i></a>
+                        <a href="https://osf.io/user/mzyvt" class="social-icon interactive" target="_blank"><i class="fas fa-flask"></i></a>
+                        <a href="https://orcid.org/0009-0008-9278-0230" class="social-icon interactive" target="_blank"><i class="fab fa-orcid"></i></a>
+                    </div>
+                    <a href="#cv" class="btn download-cv interactive">Download CV <i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="projects scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>Research</span></h2>
+                <div class="projects-list">
+
+                    <div class="project-card-h interactive" data-category="research">
+                        <div class="card-shine"></div>
+                        <div class="project-preview">
+                            <img src="utea-image.jpg" alt="UTEA Research" class="project-preview-img">
+                        </div>
+                        <div class="project-info">
+                            <span class="project-type">SSHRC-Funded &middot; RAD Lab</span>
+                            <h3 class="project-title">Validation of the Interoceptive Change Awareness Task</h3>
+                            <p class="project-description">Lead RA on a SSHRC-funded ($7,500) project examining breath awareness and interoception. Expertise in BIOPAC physiological assessment, team supervision of 6 volunteers, and manuscript preparation.</p>
+                            <div class="project-links-h">
+                                <a href="https://osf.io/r6zja/" class="btn-project-primary interactive" target="_blank">OSF Preregistration</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card-h interactive" data-category="research">
+                        <div class="card-shine"></div>
+                        <div class="project-preview">
+                            <img src="scopingreview-image.jpg" alt="Scoping Review" class="project-preview-img">
+                        </div>
+                        <div class="project-info">
+                            <span class="project-type">Scoping Review &middot; Chung Lab</span>
+                            <h3 class="project-title">Personality Development Among Racialized University Students</h3>
+                            <p class="project-description">Leading a collaborative scoping review on personality development, social experiences, and well-being among racialized students. Coordinating 6 graduate students and RAs using Covidence, following PRISMA-ScR guidelines.</p>
+                            <div class="project-links-h">
+                                <a href="https://osf.io/wzajs/" class="btn-project-primary interactive" target="_blank">OSF Preregistration</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card-h interactive" data-category="research">
+                        <div class="card-shine"></div>
+                        <div class="project-preview">
+                            <img src="thesis-image.jpg" alt="Honours Thesis" class="project-preview-img">
+                        </div>
+                        <div class="project-info">
+                            <span class="project-type">Honours Thesis &middot; RAD Lab</span>
+                            <h3 class="project-title">The Role of Choice in Self-Regulation & Well-being</h3>
+                            <p class="project-description">Investigated the impact of online wellness interventions (mindfulness, journaling, paced breathing, nature videos) and preference on 161 undergraduates' stress and well-being. Designed experimental study via Qualtrics, prepared ethics application, and defended orally.</p>
+                            <div class="project-links-h">
+                                <a href="https://osf.io/328xj/" class="btn-project-primary interactive" target="_blank">OSF Preregistration</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card-h interactive" data-category="research">
+                        <div class="card-shine"></div>
+                        <div class="project-preview">
+                            <img src="gv-unage.jpg" alt="Giving Voice" class="project-preview-img">
+                        </div>
+                        <div class="project-info">
+                            <span class="project-type">Community-Engaged Research &middot; Chung Lab</span>
+                            <h3 class="project-title">Giving Voice: Identity, Emotion & Well-being of Racialized Students</h3>
+                            <p class="project-description">Contributed to a longitudinal community-engaged study on racialized students' experiences. Led participant recruitment via social media, organized Exam Jam wellness events, and presented at multiple research fairs.</p>
+                            <div class="project-links-h">
+                                <a href="https://www.givingvoiceutm.ca" class="btn-project-primary interactive" target="_blank">Giving Voice Website</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="mentorships scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>Community Involvement</span></h2>
+                <div class="mentorships-content">
+                    <p class="section-intro">Committed to giving back through crisis intervention, peer mentorship, academic support, and community outreach across campus and beyond.</p>
+
+                    <h3 class="mentorship-sub-title">Canada</h3>
+                    <div class="mentorship-cards">
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-user-doctor"></i></div>
+                            <h3>FVB Psychologists Clinical Intern</h3>
+                            <p>Clinical intern at FVB Psychologists supporting psychological intake, assessments, and evidence-based treatment planning. Contributed to knowledge mobilization through blog writing and outreach, and participated in case conferences and peer supervision.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-phone-alt"></i></div>
+                            <h3>Crisis Responder</h3>
+                            <p>Volunteer crisis responder at Distress Centres of Greater Toronto and Kids Help Phone, providing real-time emotional support and risk assessments to 100+ individuals in acute distress.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-headset"></i></div>
+                            <h3>7 Cups Active Listener</h3>
+                            <p>Confidential emotional support provider on 7 Cups, offering empathetic listening and coping strategies to 100+ people worldwide dealing with anxiety, depression, and life challenges.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-user-friends"></i></div>
+                            <h3>PAUSE Peer Mentorship</h3>
+                            <p>Mentor in the Psychology Association of Undergraduate Students (PAUSE) program, guiding 2 psychology students through academic planning, research opportunities, and professional development.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-users"></i></div>
+                            <h3>Research Mentorship</h3>
+                            <p>Supervised and trained 10+ undergraduate research assistants across the Research Opportunity Program, Work-Study Program, and volunteer positions in research methodology, data collection, and literature review.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <h3>Facilitated Study Groups</h3>
+                            <p>Led weekly facilitated study group sessions for PSY240 (Abnormal Psychology) and PSY100 (Introductory Psychology). Collaborated with co-facilitators to help students master course topics and actively engage in discussions.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-palette"></i></div>
+                            <h3>Exam Jam Wellness Events</h3>
+                            <p>Organized and facilitated Exam Jam wellness activities including gratitude card making, clay sculptures, and bookmark crafting to support student well-being during exam periods.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-globe-americas"></i></div>
+                            <h3>Community Outreach</h3>
+                            <p>Organized and participated in community engagement events to make psychology research accessible to the public, bridging the gap between academic findings and everyday well-being practices.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-university"></i></div>
+                            <h3>Orientation Volunteer</h3>
+                            <p>Volunteered at UTM's orientation to welcome over 1,000 first-year students, helping them navigate campus buildings and services. Received a Certificate of Achievement for commitment, enthusiasm, and meaningful impact to the community.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="mentorship-sub-title">Iran</h3>
+                    <div class="mentorship-cards">
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-hands-holding-child"></i></div>
+                            <h3>Child & Youth Support Volunteer</h3>
+                            <p>Provided daily caregiving support to over 200 children and adolescents. Facilitated storytelling, arts and crafts, and play therapy to encourage self-expression and resilience. Supported adolescents with homework and literacy development using trauma-informed practices.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-phone-volume"></i></div>
+                            <h3>Help Line Responder</h3>
+                            <p>Provided crisis intervention and compassionate emotional support in both Persian and English to over 150 callers and families experiencing distress. Assessed risk levels, followed de-escalation protocols, and offered referrals to community mental health resources. Collaborated with psychologists and educators.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-children"></i></div>
+                            <h3>Childcare & Program Support Volunteer</h3>
+                            <p>Engaged with over 200 children and adolescents in one-on-one and group activities. Assisted with cultural and holiday events, supported children with reading and educational games in Persian, and learned best practices in youth care.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="knowledge" class="knowledge scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>Knowledge Mobilization</span></h2>
+                <div class="knowledge-content">
+                    <p class="section-intro">Making research accessible and impactful beyond the walls of academia through social media, community events, and public engagement.</p>
+                    <div class="knowledge-cards">
+                        <div class="knowledge-card interactive">
+                            <div class="knowledge-icon"><i class="fab fa-instagram"></i></div>
+                            <h3>Social Media & Content Creation</h3>
+                            <p>Created and managed social media content for the Chung Lab (@chunglab.utm), including reels, info cards, and graphics to promote research, recruit participants, and engage the UTM community.</p>
+                        </div>
+                        <div class="knowledge-card interactive">
+                            <div class="knowledge-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <h3>Community Events</h3>
+                            <p>Organized Exam Jam wellness events, represented the Wellness Map Project at the UTM Be Well Fair, and presented at Black History Month and PAUSE community events.</p>
+                        </div>
+                        <div class="knowledge-card interactive">
+                            <div class="knowledge-icon"><i class="fas fa-microphone-alt"></i></div>
+                            <h3>Presentations & Panels</h3>
+                            <p>Delivered oral and poster presentations at the CPA Conference 2026, UTM Thesis Day, and research showcases. Contributed to panels on undergraduate research and building inclusive private practice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="academics" class="cv-section scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>Academics</span></h2>
+                <div class="academics-content">
+                    <p class="section-intro">Honours B.Sc. with a Specialist in Psychology and Minor in Education Studies from the University of Toronto Mississauga. Cumulative GPA: 3.82/4.0.</p>
+
+                    <h3 class="mentorship-sub-title">Awards & Recognition</h3>
+                    <div class="mentorship-cards">
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-award"></i></div>
+                            <h3>Dean's List</h3>
+                            <p>Awarded annually for maintaining a GPA of 3.5 or above at the University of Toronto Mississauga.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-medal"></i></div>
+                            <h3>UTEA Scholarship</h3>
+                            <p>University of Toronto Excellence Award ($7,500 CAD) funded by SSHRC and the University of Toronto, recognizing academic achievement and research potential.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-star"></i></div>
+                            <h3>Entrance Scholarship</h3>
+                            <p>Merit-based entrance scholarship ($3,000 CAD) upon admission to the University of Toronto Mississauga.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-trophy"></i></div>
+                            <h3>Undergraduate Research Award</h3>
+                            <p>Recognized for outstanding independent research conducted as part of the Honours Thesis program in Psychology.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="mentorship-sub-title">Coursework</h3>
+                    <div class="coursework-cards">
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-brain"></i></div>
+                            <h3>PSY240 - Intro to Abnormal Psychology</h3>
+                            <p>Explored the causes, diagnosis, and treatment of psychological disorders. Built a foundational understanding of clinical frameworks and ethical considerations in mental health.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-flask"></i></div>
+                            <h3>PSY309 - Experimental Design & Theory</h3>
+                            <p>Learned to critically evaluate research designs, formulate hypotheses, and plan analyses. Gained skills in presenting research in a conference-style setting.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h3>PSY333 - Health Psychology</h3>
+                            <p>Studied how psychological factors influence physical health and illness. Developed an understanding of the mind-body connection and behavioural health interventions.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-dna"></i></div>
+                            <h3>PSY346 - Abnormal Psych: Neuroscience</h3>
+                            <p>Examined psychological disorders through a biological lens, covering behaviour genetics, brain structures, and biochemistry. Strengthened ability to integrate neuroscience with clinical understanding.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-child"></i></div>
+                            <h3>PSY310 - Adolescence & Emerging Adulthood</h3>
+                            <p>Investigated physical, cognitive, and social development in adolescents and emerging adults. Gained insight into identity formation, peer dynamics, and risk behaviours.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-microscope"></i></div>
+                            <h3>PSY319 - Developmental Psychology Lab</h3>
+                            <p>Designed experiments for developmental research questions, coded data, and applied advanced statistical software. Built hands-on lab skills with infant and child populations.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-user-md"></i></div>
+                            <h3>PSY340 - Abnormal Psych: Adult Disorders</h3>
+                            <p>In-depth study of adult psychological disorders using a biopsychosocial framework. Strengthened diagnostic reasoning and understanding of evidence-based treatments.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-comments"></i></div>
+                            <h3>PSY343 - Theories of Psychotherapy</h3>
+                            <p>Studied major classic and contemporary approaches to psychological treatment. Gained critical understanding of therapeutic techniques and the research supporting them.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-puzzle-piece"></i></div>
+                            <h3>PSY440 - Special Topics in Abnormal Psych</h3>
+                            <p>Advanced seminar examining selected topics in abnormal psychology in depth. Developed specialized knowledge in emerging areas of clinical research.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-history"></i></div>
+                            <h3>PSY402 - Roots of Psychology</h3>
+                            <p>Traced the field's origins from the 19th century to present, exploring foundational theories, experimental methods, and promising new directions in psychological science.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-search"></i></div>
+                            <h3>PSY399 - Research Opportunity Program</h3>
+                            <p>Participated in faculty-led original research, developing research skills and experiencing the scientific discovery process firsthand in a lab setting.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-file-alt"></i></div>
+                            <h3>PSY400 - Honours Thesis</h3>
+                            <p>Conducted independent research under faculty supervision, from proposal through data collection to final presentation. Developed skills in autonomous scientific inquiry.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-chalkboard"></i></div>
+                            <h3>EDS200 - Learning Through the Lifespan</h3>
+                            <p>Explored how learning unfolds from infancy through late adulthood, examining cognitive, physical, and socioemotional development across all life stages.</p>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <div class="mentorship-icon"><i class="fas fa-pencil-ruler"></i></div>
+                            <h3>EDS300 - Learning Design</h3>
+                            <p>Practiced designing learning opportunities across educational settings, developing lesson planning and pedagogical skills through case studies and field experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="knowledge scroll-reveal scroll-reveal-section">
+            <div class="container">
+                <h2 class="section-title"><span>Projects</span></h2>
+                <div class="projects-content">
+                    <p class="section-intro">Independent and collaborative initiatives beyond the lab, applying research skills to real-world impact.</p>
+
+                    <div class="mentorship-cards">
+                        <div class="mentorship-card interactive">
+                            <a href="simulator/index.html" style="text-decoration:none;color:inherit;display:block;">
+                                <div class="mentorship-icon"><i class="fas fa-heart-pulse"></i></div>
+                                <h3>Self-Regulation Intervention Simulator</h3>
+                                <p>Interactive tool with 8 evidence-based interventions including paced breathing, mindfulness, gratitude journaling, nature visualization, and more. Rate mood before and after, and track results over time.</p>
+                            </a>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <a href="chatbot/index.html" style="text-decoration:none;color:inherit;display:block;">
+                                <div class="mentorship-icon"><i class="fas fa-robot"></i></div>
+                                <h3>AI Mental Health Reflection Chatbot</h3>
+                                <p>An interactive self-care companion that guides you through personalized reflection exercises, helps you build self-care routines, and suggests strategies tailored to how you're feeling.</p>
+                            </a>
+                        </div>
+                        <div class="mentorship-card interactive">
+                            <a href="dopamine-menu/index.html" style="text-decoration:none;color:inherit;display:block;">
+                                <div class="mentorship-icon"><i class="fas fa-utensils"></i></div>
+                                <h3>Dopamine Menu Maker</h3>
+                                <p>Build a personalized menu of mood-boosting activities organized by effort level, from quick 5-minute pickups to immersive hour-long resets, tailored to your energy and preferences.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Rose Amir Pour</h2>
+                    <p>Lead Research Assistant | HBSc Psychology, UTM | Science Communicator</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#research">Research</a></li>
+                        <li><a href="#community">Community Involvement</a></li>
+                        <li><a href="#knowledge">Knowledge Mobilization</a></li>
+                        <li><a href="#academics">Academics</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="back-to-top">
+                    <a href="#home"><i class="fas fa-chevron-up"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

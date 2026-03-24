@@ -592,6 +592,98 @@ body {
     filter: brightness(1.1);
 }
 
+/* ===== SCENES PANEL ===== */
+
+.scene-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.scene-btn {
+    background: var(--brown-pale);
+    border: 2px solid var(--brown-medium);
+    border-radius: 6px;
+    padding: 14px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.scene-btn i {
+    font-size: 1.3rem;
+    color: var(--brown-dark);
+}
+
+.scene-btn span {
+    font-size: 0.75rem;
+    color: var(--brown-dark);
+}
+
+.scene-btn:hover {
+    background: var(--brown-light);
+}
+
+.scene-btn:hover i,
+.scene-btn:hover span {
+    color: white;
+}
+
+.scene-btn.active {
+    background: var(--brown-medium);
+    transform: scale(0.95);
+}
+
+.scene-btn.active i,
+.scene-btn.active span {
+    color: white;
+}
+
+/* Background scene overlay */
+body.has-scene::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--scene-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+}
+
+body.has-scene::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: -1;
+}
+
+body.has-scene {
+    background-image: none;
+    background-color: transparent;
+}
+
+body.has-scene .desktop-panel:not(.overlay-panel) {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(6px);
+}
+
+body.has-scene .desktop-header h1 {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== QUOTE PANEL ===== */
 
 .quote-content {

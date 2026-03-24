@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Dopamine Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Portfolio</a>
+            <h1>Build Your Dopamine Menu</h1>
+            <button class="btn-icon" id="btn-saved" title="View saved menus"><i class="fas fa-bookmark"></i></button>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Step 1: Energy Level -->
+        <div class="step active" id="step-energy">
+            <div class="step-header">
+                <span class="step-label">Step 1 of 3</span>
+                <h2>How's your energy right now?</h2>
+                <p>Pick the level that best matches how you're feeling. This helps us suggest activities that are realistic for you.</p>
+            </div>
+            <div class="energy-options">
+                <button class="option-card" data-value="low">
+                    <div class="option-icon"><i class="fas fa-battery-quarter"></i></div>
+                    <h3>Low Energy</h3>
+                    <p>Feeling tired, drained, or just want to do something easy</p>
+                </button>
+                <button class="option-card" data-value="medium">
+                    <div class="option-icon"><i class="fas fa-battery-half"></i></div>
+                    <h3>Medium Energy</h3>
+                    <p>Feeling okay, could go either way, open to something engaging</p>
+                </button>
+                <button class="option-card" data-value="high">
+                    <div class="option-icon"><i class="fas fa-battery-full"></i></div>
+                    <h3>High Energy</h3>
+                    <p>Feeling restless, motivated, or ready to do something active</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Preferences -->
+        <div class="step" id="step-preferences">
+            <div class="step-header">
+                <span class="step-label">Step 2 of 3</span>
+                <h2>What sounds good today?</h2>
+                <p>Pick as many as you want from each row, or skip any that don't matter.</p>
+            </div>
+            <div class="pref-groups">
+                <div class="pref-group">
+                    <span class="pref-label">Setting</span>
+                    <div class="pref-toggle">
+                        <button class="pref-btn" data-pref="setting" data-value="indoor"><i class="fas fa-home"></i> Indoor</button>
+                        <button class="pref-btn" data-pref="setting" data-value="outdoor"><i class="fas fa-tree"></i> Outdoor</button>
+                        <button class="pref-btn active" data-pref="setting" data-value="either"><i class="fas fa-arrows-left-right"></i> Either</button>
+                    </div>
+                </div>
+                <div class="pref-group">
+                    <span class="pref-label">Company</span>
+                    <div class="pref-toggle">
+                        <button class="pref-btn" data-pref="social" data-value="solo"><i class="fas fa-user"></i> Solo</button>
+                        <button class="pref-btn" data-pref="social" data-value="social"><i class="fas fa-users"></i> Social</button>
+                        <button class="pref-btn active" data-pref="social" data-value="either"><i class="fas fa-arrows-left-right"></i> Either</button>
+                    </div>
+                </div>
+                <div class="pref-group">
+                    <span class="pref-label">Vibe</span>
+                    <div class="pref-toggle">
+                        <button class="pref-btn" data-pref="vibe" data-value="creative"><i class="fas fa-palette"></i> Creative</button>
+                        <button class="pref-btn" data-pref="vibe" data-value="relaxing"><i class="fas fa-spa"></i> Relaxing</button>
+                        <button class="pref-btn active" data-pref="vibe" data-value="either"><i class="fas fa-arrows-left-right"></i> Either</button>
+                    </div>
+                </div>
+                <div class="pref-group">
+                    <span class="pref-label">Time</span>
+                    <div class="pref-toggle">
+                        <button class="pref-btn" data-pref="time" data-value="short"><i class="fas fa-bolt"></i> Quick</button>
+                        <button class="pref-btn" data-pref="time" data-value="long"><i class="fas fa-clock"></i> Longer</button>
+                        <button class="pref-btn active" data-pref="time" data-value="either"><i class="fas fa-arrows-left-right"></i> Either</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" id="btn-generate"><i class="fas fa-wand-magic-sparkles"></i> Build My Menu</button>
+        </div>
+
+        <!-- Step 3: Mood Check (optional context) -->
+        <div class="step" id="step-mood">
+            <div class="step-header">
+                <span class="step-label">Step 3 of 3 (optional)</span>
+                <h2>Anything else going on?</h2>
+                <p>If there's a specific feeling you're dealing with, we can tailor your menu even more.</p>
+            </div>
+            <div class="mood-options">
+                <button class="mood-btn" data-mood="stressed"><i class="fas fa-head-side-virus"></i> Stressed</button>
+                <button class="mood-btn" data-mood="anxious"><i class="fas fa-wind"></i> Anxious</button>
+                <button class="mood-btn" data-mood="sad"><i class="fas fa-cloud-rain"></i> Sad</button>
+                <button class="mood-btn" data-mood="restless"><i class="fas fa-shuffle"></i> Restless</button>
+                <button class="mood-btn" data-mood="lonely"><i class="fas fa-user-slash"></i> Lonely</button>
+                <button class="mood-btn" data-mood="unmotivated"><i class="fas fa-couch"></i> Unmotivated</button>
+                <button class="mood-btn" data-mood="neutral"><i class="fas fa-face-meh"></i> Nothing specific</button>
+            </div>
+        </div>
+
+        <!-- Menu Output -->
+        <div class="step" id="step-menu">
+            <div class="step-header">
+                <h2>Your Dopamine Menu</h2>
+                <p class="menu-subtitle" id="menu-subtitle"></p>
+            </div>
+
+            <div class="menu" id="menu-output">
+                <div class="menu-section" id="sec-snacks">
+                    <div class="menu-section-header">
+                        <i class="fas fa-cookie-bite"></i>
+                        <div>
+                            <h3>Quick Snacks</h3>
+                            <span>5-10 minutes. A quick mood lift.</span>
+                        </div>
+                    </div>
+                    <ul class="menu-items" id="items-snacks"></ul>
+                </div>
+
+                <div class="menu-section" id="sec-appetizers">
+                    <div class="menu-section-header">
+                        <i class="fas fa-seedling"></i>
+                        <div>
+                            <h3>Appetizers</h3>
+                            <span>10-20 minutes. A little more engagement.</span>
+                        </div>
+                    </div>
+                    <ul class="menu-items" id="items-appetizers"></ul>
+                </div>
+
+                <div class="menu-section" id="sec-mains">
+                    <div class="menu-section-header">
+                        <i class="fas fa-utensils"></i>
+                        <div>
+                            <h3>Main Courses</h3>
+                            <span>30-60 minutes. Something immersive.</span>
+                        </div>
+                    </div>
+                    <ul class="menu-items" id="items-mains"></ul>
+                </div>
+
+                <div class="menu-section" id="sec-sides">
+                    <div class="menu-section-header">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <div>
+                            <h3>Sides</h3>
+                            <span>Pair with anything. Background boosters.</span>
+                        </div>
+                    </div>
+                    <ul class="menu-items" id="items-sides"></ul>
+                </div>
+
+                <div class="menu-section" id="sec-desserts">
+                    <div class="menu-section-header">
+                        <i class="fas fa-ice-cream"></i>
+                        <div>
+                            <h3>Desserts</h3>
+                            <span>High reward. Best enjoyed in moderation.</span>
+                        </div>
+                    </div>
+                    <ul class="menu-items" id="items-desserts"></ul>
+                </div>
+            </div>
+
+            <div class="menu-actions">
+                <button class="btn-secondary" id="btn-shuffle"><i class="fas fa-shuffle"></i> Shuffle</button>
+                <button class="btn-secondary" id="btn-save"><i class="fas fa-bookmark"></i> Save Menu</button>
+                <button class="btn-secondary" id="btn-restart"><i class="fas fa-arrow-rotate-left"></i> Start Over</button>
+            </div>
+
+            <div class="menu-note">
+                <i class="fas fa-lightbulb"></i>
+                <p>This menu is based on principles from behavioural activation and self-regulation research. Having pre-planned activities makes it easier to take action when your energy or mood is low.</p>
+            </div>
+        </div>
+
+        <!-- Saved Menus Modal -->
+        <div class="modal-overlay" id="modal-saved">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Saved Menus</h2>
+                    <button class="btn-icon modal-close" id="btn-close-saved"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="saved-list" id="saved-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

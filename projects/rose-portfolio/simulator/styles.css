@@ -1,0 +1,972 @@
+/* ==========================================================================
+   Self-Regulation Intervention Simulator
+   Rose Amir Pour Portfolio
+   ========================================================================== */
+
+/* Variables */
+:root {
+    --pink: #e8b4b8;
+    --pink-light: #f2d0d3;
+    --pink-dark: #c9969a;
+    --pink-glow: rgba(232, 180, 184, 0.3);
+    --bg: #1a1a1a;
+    --bg-card: #242424;
+    --bg-card-hover: #2a2a2a;
+    --text: #f0e8e9;
+    --text-muted: rgba(240, 232, 233, 0.6);
+    --success: #6bcf8e;
+    --decline: #e87c7c;
+    --neutral: #b0b0b0;
+    --font: 'Cormorant Garamond', serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.sim-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: rgba(26, 26, 26, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232, 180, 184, 0.15);
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--pink);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    border: 1px solid rgba(232, 180, 184, 0.2);
+}
+
+.back-link:hover {
+    background: rgba(232, 180, 184, 0.1);
+    border-color: var(--pink);
+    transform: translateX(-2px);
+}
+
+.header-title {
+    font-family: var(--font);
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--pink-light);
+}
+
+/* ==========================================================================
+   Main & Screens
+   ========================================================================== */
+.sim-main {
+    padding-top: 72px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+.screen.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.screen-content {
+    text-align: center;
+}
+
+.screen-content h2 {
+    font-family: var(--font);
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: var(--pink-light);
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Welcome Screen
+   ========================================================================== */
+.welcome-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(232, 180, 184, 0.1);
+    border: 1px solid rgba(232, 180, 184, 0.2);
+    font-size: 2rem;
+    color: var(--pink);
+    animation: pulse-soft 3s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+.welcome-desc {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+}
+
+.welcome-note {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.2rem;
+    font-family: var(--font);
+    font-size: 1.15rem;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+}
+
+.btn-primary {
+    background: var(--pink);
+    color: var(--bg);
+}
+
+.btn-primary:hover {
+    background: var(--pink-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--pink-glow);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--pink);
+    border: 1px solid rgba(232, 180, 184, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(232, 180, 184, 0.08);
+    border-color: var(--pink);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Mood Rating
+   ========================================================================== */
+.mood-instruction {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.ratings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.rating-block {
+    background: var(--bg-card);
+    border: 1px solid rgba(232, 180, 184, 0.12);
+    border-radius: var(--radius);
+    padding: 1.5rem 1rem;
+}
+
+.rating-label {
+    font-family: var(--font);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--pink);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+}
+
+.mood-rating {
+    margin-bottom: 2.5rem;
+}
+
+.mood-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.mood-value {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--pink-light);
+    margin-bottom: 1.5rem;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.slider-label-left,
+.slider-label-right {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.slider-label-left { text-align: right; }
+.slider-label-right { text-align: left; }
+
+/* Custom range slider */
+.mood-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(232, 180, 184, 0.2);
+    border-radius: 3px;
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+.mood-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--pink);
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 2px 8px var(--pink-glow);
+    transition: var(--transition);
+}
+
+.mood-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px var(--pink-glow);
+}
+
+.mood-slider::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--pink);
+    cursor: pointer;
+    border: 3px solid var(--bg);
+    box-shadow: 0 2px 8px var(--pink-glow);
+}
+
+/* ==========================================================================
+   Intervention Cards
+   ========================================================================== */
+.select-instruction {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.intervention-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(232, 180, 184, 0.12);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    font-family: var(--font);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.intervention-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(232, 180, 184, 0.4);
+    box-shadow: 0 12px 32px rgba(232, 180, 184, 0.15);
+    background: var(--bg-card-hover);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(232, 180, 184, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--pink);
+    margin-bottom: 0.5rem;
+    transition: var(--transition);
+}
+
+.intervention-card:hover .card-icon {
+    background: rgba(232, 180, 184, 0.2);
+    transform: scale(1.08);
+}
+
+.intervention-card h3 {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--pink-light);
+}
+
+.intervention-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    flex: 1;
+}
+
+.card-duration {
+    font-size: 0.85rem;
+    color: var(--pink-dark);
+    margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   Exercise Screens
+   ========================================================================== */
+.exercise-panel h2 {
+    margin-bottom: 0.5rem;
+}
+
+.exercise-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.timer {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--pink);
+    margin: 1.5rem 0;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+}
+
+#btn-finish-early {
+    margin-top: 1rem;
+}
+
+/* Breathing Exercise */
+.breathing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 280px;
+}
+
+.breathing-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(242, 208, 211, 0.25), rgba(232, 180, 184, 0.08));
+    border: 2px solid rgba(232, 180, 184, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 4s ease-in-out, height 4s ease-in-out, border-color 4s ease-in-out, background 4s ease-in-out;
+}
+
+.breathing-circle.inhale {
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(242, 208, 211, 0.35), rgba(232, 180, 184, 0.15));
+    border-color: rgba(242, 208, 211, 0.6);
+}
+
+.breathing-circle.exhale {
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(242, 208, 211, 0.15), rgba(232, 180, 184, 0.05));
+    border-color: rgba(232, 180, 184, 0.3);
+}
+
+.breathing-text {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--pink-light);
+    letter-spacing: 0.03em;
+    pointer-events: none;
+}
+
+/* Mindfulness Exercise */
+.mindfulness-container {
+    max-width: 500px;
+    margin: 0 auto;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.mindfulness-prompt {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--pink-light);
+    line-height: 1.6;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.6s ease;
+}
+
+.mindfulness-prompt.fading {
+    opacity: 0;
+}
+
+.mindfulness-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(232, 180, 184, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.mindfulness-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--pink);
+    border-radius: 2px;
+    transition: width 0.5s linear;
+}
+
+/* Writing Exercise */
+.writing-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.writing-textarea {
+    width: 100%;
+    min-height: 250px;
+    padding: 1.5rem;
+    font-family: var(--font);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text);
+    background: var(--bg-card);
+    border: 1px solid rgba(232, 180, 184, 0.2);
+    border-radius: var(--radius);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.writing-textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.writing-textarea:focus {
+    border-color: rgba(232, 180, 184, 0.5);
+    box-shadow: 0 0 0 3px rgba(232, 180, 184, 0.08);
+}
+
+/* Nature Visualization */
+.nature-container {
+    max-width: 500px;
+    margin: 0 auto;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.nature-scene {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.nature-visual {
+    font-size: 3rem;
+    transition: opacity 0.6s ease;
+}
+
+.nature-prompt {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--pink-light);
+    line-height: 1.6;
+    text-align: center;
+    transition: opacity 0.6s ease;
+}
+
+.nature-prompt.fading,
+.nature-visual.fading {
+    opacity: 0;
+}
+
+/* PMR Status */
+.pmr-status {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.4s ease;
+}
+
+/* Grounding Exercise */
+.grounding-exercise-container {
+    max-width: 550px;
+    margin: 0 auto;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.grounding-count {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--pink);
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
+}
+
+.grounding-sense-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--pink-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.grounding-inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+
+.grounding-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-family: var(--font);
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--bg-card);
+    border: 1px solid rgba(232, 180, 184, 0.2);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.grounding-input::placeholder {
+    color: var(--text-muted);
+}
+
+.grounding-input:focus {
+    border-color: rgba(232, 180, 184, 0.5);
+}
+
+.grounding-step-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Results Screen
+   ========================================================================== */
+.result-card,
+.aggregate-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(232, 180, 184, 0.12);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.result-card h3,
+.aggregate-card h3 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--pink-light);
+    margin-bottom: 1rem;
+}
+
+.result-intervention {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    text-transform: capitalize;
+}
+
+.result-dimensions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.result-dimension {
+    background: rgba(232, 180, 184, 0.04);
+    border: 1px solid rgba(232, 180, 184, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+}
+
+.result-dim-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+}
+
+.result-moods {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.result-mood-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.result-number {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--pink-light);
+}
+
+.result-arrow {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.result-arrow.improved { color: var(--success); }
+.result-arrow.declined { color: var(--decline); }
+
+.result-change {
+    font-size: 1.15rem;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.result-change.improved {
+    color: var(--success);
+    background: rgba(107, 207, 142, 0.1);
+}
+
+.result-change.declined {
+    color: var(--decline);
+    background: rgba(232, 124, 124, 0.1);
+}
+
+.result-change.neutral {
+    color: var(--neutral);
+    background: rgba(176, 176, 176, 0.1);
+}
+
+/* Aggregate Chart */
+.aggregate-note {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.chart-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chart-label {
+    width: 140px;
+    text-align: right;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.chart-bar-wrapper {
+    flex: 1;
+    height: 28px;
+    background: rgba(232, 180, 184, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chart-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    min-width: 0;
+}
+
+.chart-bar.positive {
+    background: linear-gradient(90deg, rgba(107, 207, 142, 0.6), var(--success));
+}
+
+.chart-bar.negative {
+    background: linear-gradient(90deg, rgba(232, 124, 124, 0.6), var(--decline));
+}
+
+.chart-bar.zero {
+    background: rgba(176, 176, 176, 0.3);
+    min-width: 2px;
+}
+
+.chart-value {
+    width: 50px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.session-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+.results-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 768px) {
+    .sim-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .header-title {
+        font-size: 1rem;
+    }
+
+    .screen {
+        padding: 1.5rem 1rem;
+    }
+
+    .screen-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .intervention-card {
+        padding: 1.5rem;
+    }
+
+    .welcome-desc {
+        font-size: 1.05rem;
+    }
+
+    .mood-emoji {
+        font-size: 2.8rem;
+    }
+
+    .mood-value {
+        font-size: 2rem;
+    }
+
+    .breathing-container {
+        height: 220px;
+    }
+
+    .breathing-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .breathing-circle.inhale {
+        width: 200px;
+        height: 200px;
+    }
+
+    .breathing-circle.exhale {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ratings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-dimensions {
+        grid-template-columns: 1fr;
+    }
+
+    .result-moods {
+        gap: 1rem;
+    }
+
+    .result-number {
+        font-size: 2.2rem;
+    }
+
+    .chart-label {
+        width: 100px;
+        font-size: 0.85rem;
+    }
+
+    .chart-value {
+        width: 40px;
+        font-size: 0.85rem;
+    }
+
+    .results-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .screen-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .slider-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .slider-label-left,
+    .slider-label-right {
+        text-align: center;
+    }
+
+    .mindfulness-prompt {
+        font-size: 1.3rem;
+    }
+
+    .writing-textarea {
+        min-height: 200px;
+        font-size: 1rem;
+    }
+}

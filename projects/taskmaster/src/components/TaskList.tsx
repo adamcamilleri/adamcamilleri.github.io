@@ -7,11 +7,13 @@ interface TaskListProps {
   onDelete: (id: string) => void
 }
 
-const priorityConfig = {
+const priorityConfig: Record<string, { color: string; label: string; badge: string }> = {
   high:   { color: '#ef4444', label: 'High',   badge: 'bg-red-500/10 text-red-400 border-red-500/20' },
   medium: { color: '#f59e0b', label: 'Medium', badge: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
   low:    { color: '#10b981', label: 'Low',    badge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
 }
+
+const defaultPriority = priorityConfig.medium
 
 export default function TaskList({ tasks, onToggleComplete, onDelete }: TaskListProps) {
   if (tasks.length === 0) {
@@ -26,7 +28,7 @@ export default function TaskList({ tasks, onToggleComplete, onDelete }: TaskList
   return (
     <div className="space-y-2">
       {tasks.map((task) => {
-        const p = priorityConfig[task.priority]
+        const p = priorityConfig[task.priority] || defaultPriority
         return (
           <div
             key={task.id}

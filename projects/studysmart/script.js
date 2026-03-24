@@ -3,17 +3,18 @@
 // ============================================================
 
 // --- Music Genre Config ---
+// Drop MP3 files into the audio/ folder matching these filenames
 const GENRES = [
-  { name: 'Lo-Fi', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/01/audio_4956b4edd1.mp3' },
-  { name: 'Jazz', audioUrl: 'https://cdn.pixabay.com/audio/2024/09/10/audio_6e1ea0f08f.mp3' },
-  { name: 'Piano', audioUrl: 'https://cdn.pixabay.com/audio/2024/02/14/audio_8e50e63543.mp3' },
-  { name: 'Classical', audioUrl: 'https://cdn.pixabay.com/audio/2024/01/30/audio_bd1e6e6b0a.mp3' },
-  { name: 'Acoustic', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/21/audio_d047ef44c7.mp3' },
-  { name: 'Kalimba', audioUrl: 'https://cdn.pixabay.com/audio/2024/10/08/audio_4542d76d5b.mp3' },
-  { name: 'K-Pop', audioUrl: 'https://cdn.pixabay.com/audio/2024/11/25/audio_a97e081bad.mp3' },
-  { name: 'Cafe', audioUrl: 'https://cdn.pixabay.com/audio/2022/03/24/audio_f2901c0ab7.mp3' },
-  { name: 'Library', audioUrl: 'https://cdn.pixabay.com/audio/2024/09/24/audio_d7701658c4.mp3' },
-  { name: 'Nature', audioUrl: 'https://cdn.pixabay.com/audio/2022/08/31/audio_419263a638.mp3' }
+  { name: 'Lo-Fi', audioUrl: 'audio/lofi.mp3' },
+  { name: 'Jazz', audioUrl: 'audio/jazz.mp3' },
+  { name: 'Piano', audioUrl: 'audio/piano.mp3' },
+  { name: 'Classical', audioUrl: 'audio/classical.mp3' },
+  { name: 'Acoustic', audioUrl: 'audio/acoustic.mp3' },
+  { name: 'Kalimba', audioUrl: 'audio/kalimba.mp3' },
+  { name: 'K-Pop', audioUrl: 'audio/kpop.mp3' },
+  { name: 'Cafe', audioUrl: 'audio/cafe.mp3' },
+  { name: 'Library', audioUrl: 'audio/library.mp3' },
+  { name: 'Nature', audioUrl: 'audio/nature.mp3' }
 ];
 
 // --- Quote Config ---
@@ -552,6 +553,7 @@ if (refreshQuote) {
 
 // --- Draggable Panels ---
 var zCounter = 10;
+var DRAG_THRESHOLD = 5; // px of movement before it counts as a drag
 
 function makeDraggable(panel) {
   var titlebar = panel.querySelector('.window-titlebar');
@@ -561,31 +563,47 @@ function makeDraggable(panel) {
 
   titlebar.addEventListener('pointerdown', function(e) {
     // Don't drag if clicking window buttons
-    if (e.target.classList.contains('window-btn')) return;
+    if (e.target.closest('.window-btn')) return;
 
     e.preventDefault();
-    titlebar.style.cursor = 'grabbing';
     panel.style.zIndex = ++zCounter;
-
-    // Switch panel to absolute positioning on first drag
-    if (getComputedStyle(panel).position !== 'absolute') {
-      var rect = panel.getBoundingClientRect();
-      var scrollX = window.scrollX || window.pageXOffset;
-      var scrollY = window.scrollY || window.pageYOffset;
-      panel.style.position = 'absolute';
-      panel.style.left = (rect.left + scrollX) + 'px';
-      panel.style.top = (rect.top + scrollY) + 'px';
-      panel.style.width = rect.width + 'px';
-    }
 
     var startX = e.clientX;
     var startY = e.clientY;
-    var origLeft = parseInt(panel.style.left) || 0;
-    var origTop = parseInt(panel.style.top) || 0;
+    var didDrag = false;
+    var positioned = false;
+    var origLeft, origTop;
 
     function onMove(ev) {
-      panel.style.left = (origLeft + ev.clientX - startX) + 'px';
-      panel.style.top = (origTop + ev.clientY - startY) + 'px';
+      var dx = ev.clientX - startX;
+      var dy = ev.clientY - startY;
+
+      // Only start dragging after passing the threshold
+      if (!didDrag && Math.abs(dx) + Math.abs(dy) < DRAG_THRESHOLD) return;
+
+      if (!didDrag) {
+        didDrag = true;
+        titlebar.style.cursor = 'grabbing';
+
+        // Switch panel to absolute positioning on first drag
+        if (getComputedStyle(panel).position !== 'absolute') {
+          var rect = panel.getBoundingClientRect();
+          var scrollX = window.scrollX || window.pageXOffset;
+          var scrollY = window.scrollY || window.pageYOffset;
+          panel.style.position = 'absolute';
+          panel.style.left = (rect.left + scrollX) + 'px';
+          panel.style.top = (rect.top + scrollY) + 'px';
+          panel.style.width = rect.width + 'px';
+        }
+        origLeft = parseInt(panel.style.left) || 0;
+        origTop = parseInt(panel.style.top) || 0;
+        positioned = true;
+      }
+
+      if (positioned) {
+        panel.style.left = (origLeft + dx) + 'px';
+        panel.style.top = (origTop + dy) + 'px';
+      }
     }
 
     function onUp() {
@@ -758,4 +776,52 @@ if (shortcutsBtn && shortcutsModal) {
   shortcutsBtn.addEventListener('click', function() {
     shortcutsModal.classList.toggle('visible');
   });
+}
+
+// --- Scene Background Switching ---
+// Drop images into backgrounds/ folder matching these filenames
+var SCENES = {
+  default: null,
+  nature: 'backgrounds/nature.jpg',
+  rainy: 'backgrounds/rainy.jpg',
+  modern: 'backgrounds/modern.jpg',
+  cozy: 'backgrounds/cozy.jpg',
+  space: 'backgrounds/space.jpg'
+};
+
+var currentScene = localStorage.getItem('studySmartScene') || 'default';
+
+function applyScene(sceneName) {
+  var body = document.body;
+
+  if (sceneName === 'default' || !SCENES[sceneName]) {
+    body.classList.remove('has-scene');
+    body.style.removeProperty('--scene-bg');
+    // Re-apply default background
+    body.style.backgroundImage = '';
+    body.style.backgroundColor = '';
+  } else {
+    body.classList.add('has-scene');
+    body.style.setProperty('--scene-bg', 'url(' + SCENES[sceneName] + ')');
+  }
+
+  // Update active button
+  document.querySelectorAll('.scene-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.scene === sceneName);
+  });
+
+  currentScene = sceneName;
+  localStorage.setItem('studySmartScene', sceneName);
+}
+
+// Scene button click handlers
+document.querySelectorAll('.scene-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    applyScene(btn.dataset.scene);
+  });
+});
+
+// Restore saved scene on load
+if (currentScene !== 'default') {
+  applyScene(currentScene);
 }

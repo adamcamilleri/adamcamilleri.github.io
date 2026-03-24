@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Care Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Portfolio</a>
+            <h1>Self-Care Companion</h1>
+            <div></div>
+        </header>
+
+        <div class="chat-container" id="chat-container">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="quick-buttons" id="quick-buttons">
+                <button class="quick-btn" data-mood="stressed">Stressed</button>
+                <button class="quick-btn" data-mood="anxious">Anxious</button>
+                <button class="quick-btn" data-mood="sad">Sad</button>
+                <button class="quick-btn" data-mood="angry">Angry</button>
+                <button class="quick-btn" data-mood="frustrated">Frustrated</button>
+                <button class="quick-btn" data-mood="overwhelmed">Overwhelmed</button>
+                <button class="quick-btn" data-mood="tired">Tired</button>
+                <button class="quick-btn" data-mood="lonely">Lonely</button>
+                <button class="quick-btn" data-mood="insecure">Insecure</button>
+                <button class="quick-btn" data-mood="guilty">Guilty</button>
+                <button class="quick-btn" data-mood="restless">Restless</button>
+                <button class="quick-btn" data-mood="jealous">Jealous</button>
+                <button class="quick-btn" data-mood="unmotivated">Unmotivated</button>
+                <button class="quick-btn" data-mood="good">Feeling good</button>
+            </div>
+            <div class="chat-input-area">
+                <textarea id="chat-input" placeholder="Tell me how you're feeling..." rows="1"></textarea>
+                <button class="btn-send" id="btn-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
