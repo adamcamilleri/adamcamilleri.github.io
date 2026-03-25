@@ -778,8 +778,8 @@ a {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    mask-image: radial-gradient(circle 200px at var(--mx, -100px) var(--my, -100px), black 0%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle 200px at var(--mx, -100px) var(--my, -100px), black 0%, transparent 100%);
+    mask-image: radial-gradient(circle 400px at var(--mx, -100px) var(--my, -100px), black 0%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle 400px at var(--mx, -100px) var(--my, -100px), black 0%, transparent 100%);
     pointer-events: none;
 }
 
