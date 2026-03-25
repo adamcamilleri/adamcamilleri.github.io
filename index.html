@@ -69,16 +69,16 @@
         <section class="hero" id="hero">
             <div class="hero-inner">
                 <div class="hero-left">
-                    <h1 class="hero-name scroll-reveal">Adam Camilleri</h1>
-                    <h2 class="hero-title-outline scroll-reveal">Software Engineer</h2>
-                    <p class="hero-subtitle scroll-reveal">I'm a software developer with a background in Computer Science and hands-on experience in backend systems, APIs, and data workflows. My passion lies in building tools and systems that help people work more efficiently.</p>
-                    <div class="hero-ctas scroll-reveal">
+                    <h1 class="hero-name stagger-in" style="--delay: 0.3s">Adam Camilleri</h1>
+                    <h2 class="hero-title-outline stagger-in" style="--delay: 0.5s">Software Engineer</h2>
+                    <p class="hero-subtitle stagger-in" style="--delay: 0.7s">I'm a software developer with a background in Computer Science and hands-on experience in backend systems, APIs, and data workflows. My passion lies in building tools and systems that help people work more efficiently.</p>
+                    <div class="hero-ctas stagger-in" style="--delay: 0.9s">
                         <a href="#projects" class="btn btn-solid">View Projects</a>
                         <a href="assets/resumeAdamCamilleri.pdf" class="btn btn-outline" target="_blank" rel="noopener">Download Resume</a>
                     </div>
                 </div>
                 <div class="hero-right">
-                    <div class="hero-stats-grid scroll-reveal">
+                    <div class="hero-stats-grid stagger-in" style="--delay: 0.6s">
                         <div class="stat-card">
                             <span class="stat-label">Role</span>
                             <span class="stat-value">Software Engineer</span>
@@ -96,7 +96,7 @@
                             <span class="stat-value">APIs & Data Systems</span>
                         </div>
                     </div>
-                    <div class="hero-social-row scroll-reveal">
+                    <div class="hero-social-row stagger-in" style="--delay: 0.8s">
                         <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
                         <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                         <a href="https://x.com/adamcamilleri" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hero-scroll-hint scroll-reveal">
+            <div class="hero-scroll-hint stagger-in" style="--delay: 1.2s">
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
         </section>
@@ -459,9 +459,10 @@
 
         /* ── Lenis Smooth Scroll ── */
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            touchMultiplier: 2,
+            duration: 0.8,
+            easing: (t) => 1 - Math.pow(1 - t, 3),
+            touchMultiplier: 1.5,
+            smoothWheel: true,
         });
 
         function raf(time) {

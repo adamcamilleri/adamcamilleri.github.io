@@ -161,6 +161,18 @@ a {
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s, background 0.3s;
+    animation: fadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .site-header.scrolled {
@@ -1037,10 +1049,26 @@ a {
 /* ══════════════════════════════════════
    SCROLL REVEAL ANIMATIONS
    ══════════════════════════════════════ */
+/* ── Page load stagger animation (hero elements) ── */
+.stagger-in {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: staggerFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes staggerFadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Scroll reveal (for non-hero sections) ── */
 .scroll-reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.revealed {
@@ -1048,18 +1076,14 @@ a {
     transform: translateY(0);
 }
 
-/* Stagger children in the same section */
-.hero-left .scroll-reveal:nth-child(2) { transition-delay: 0.1s; }
-.hero-left .scroll-reveal:nth-child(3) { transition-delay: 0.2s; }
-.hero-left .scroll-reveal:nth-child(4) { transition-delay: 0.3s; }
-
+/* Stagger children */
 .about-highlights .scroll-reveal:nth-child(2) { transition-delay: 0.08s; }
 .about-highlights .scroll-reveal:nth-child(3) { transition-delay: 0.16s; }
 .about-highlights .scroll-reveal:nth-child(4) { transition-delay: 0.24s; }
 
-.projects-grid .scroll-reveal:nth-child(2) { transition-delay: 0.08s; }
-.projects-grid .scroll-reveal:nth-child(3) { transition-delay: 0.16s; }
-.projects-grid .scroll-reveal:nth-child(4) { transition-delay: 0.2s; }
-.projects-grid .scroll-reveal:nth-child(5) { transition-delay: 0.24s; }
-.projects-grid .scroll-reveal:nth-child(6) { transition-delay: 0.28s; }
-.projects-grid .scroll-reveal:nth-child(7) { transition-delay: 0.32s; }
+.projects-grid .scroll-reveal:nth-child(2) { transition-delay: 0.1s; }
+.projects-grid .scroll-reveal:nth-child(3) { transition-delay: 0.2s; }
+.projects-grid .scroll-reveal:nth-child(4) { transition-delay: 0.3s; }
+.projects-grid .scroll-reveal:nth-child(5) { transition-delay: 0.4s; }
+.projects-grid .scroll-reveal:nth-child(6) { transition-delay: 0.5s; }
+.projects-grid .scroll-reveal:nth-child(7) { transition-delay: 0.6s; }
