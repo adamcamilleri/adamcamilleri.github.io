@@ -792,25 +792,27 @@ a {
     flex-direction: column;
     align-items: center;
     z-index: 3;
-    filter: drop-shadow(0 0 12px rgba(107, 203, 119, 0.5));
 }
 
 .me-label span {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #fff;
+    color: #0A0A0B;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     background: var(--accent);
     padding: 6px 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(107, 203, 119, 0.4);
+    border: 2px solid #0A0A0B;
 }
 
 .me-arrow {
     margin-top: 2px;
-    filter: drop-shadow(0 0 4px rgba(107, 203, 119, 0.4));
+}
+
+.me-arrow path {
+    stroke: #0A0A0B;
 }
 
 
