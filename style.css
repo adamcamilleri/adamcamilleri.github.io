@@ -801,8 +801,9 @@ a {
     color: #0A0A0B;
     letter-spacing: 0.02em;
     background: var(--accent);
-    padding: 3px 10px;
-    border-radius: 6px;
+    padding: 1px 8px;
+    border-radius: 5px;
+    line-height: 1.4;
     border: 1.5px solid #0A0A0B;
 }
 
