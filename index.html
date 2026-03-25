@@ -11,6 +11,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Boot sequence overlay -->
+    <div class="boot-overlay" id="bootOverlay">
+        <div class="boot-content">
+            <div class="boot-lines" id="bootLines">
+                <div class="boot-line" data-delay="0"><span class="boot-prompt">&gt;</span> initializing systems...</div>
+                <div class="boot-line" data-delay="600"><span class="boot-prompt">&gt;</span> loading portfolio data...</div>
+                <div class="boot-line" data-delay="1200"><span class="boot-prompt">&gt;</span> compiling components...</div>
+                <div class="boot-line" data-delay="1800"><span class="boot-prompt">&gt;</span> establishing connections...</div>
+                <div class="boot-line boot-ready" data-delay="2400"><span class="boot-prompt">&gt;</span> READY</div>
+            </div>
+            <div class="boot-progress-container">
+                <div class="boot-progress-bar" id="bootProgressBar"></div>
+            </div>
+            <div class="boot-footer">
+                <span class="boot-label">SYSTEM BOOT</span>
+                <span class="boot-percent" id="bootPercent">0%</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Noise overlay -->
     <svg class="noise-overlay" aria-hidden="true">
         <filter id="noiseFilter">
@@ -456,6 +476,41 @@
     <script>
     (function() {
         'use strict';
+
+        /* ── Boot Sequence ── */
+        document.body.classList.add('booting');
+        const bootOverlay = document.getElementById('bootOverlay');
+        const bootLines = document.querySelectorAll('.boot-line');
+        const bootBar = document.getElementById('bootProgressBar');
+        const bootPercent = document.getElementById('bootPercent');
+        const totalDuration = 3000;
+        let bootStart = Date.now();
+
+        // Show lines one by one
+        bootLines.forEach((line) => {
+            const delay = parseInt(line.dataset.delay) || 0;
+            setTimeout(() => line.classList.add('visible'), delay);
+        });
+
+        // Animate progress bar
+        function updateBootProgress() {
+            const elapsed = Date.now() - bootStart;
+            const progress = Math.min(elapsed / totalDuration, 1);
+            const percent = Math.round(progress * 100);
+            bootBar.style.width = percent + '%';
+            bootPercent.textContent = percent + '%';
+
+            if (progress < 1) {
+                requestAnimationFrame(updateBootProgress);
+            } else {
+                // Boot complete - fade out overlay
+                setTimeout(() => {
+                    bootOverlay.classList.add('done');
+                    document.body.classList.remove('booting');
+                }, 400);
+            }
+        }
+        requestAnimationFrame(updateBootProgress);
 
         /* ── Lenis Smooth Scroll ── */
         const lenis = new Lenis({
