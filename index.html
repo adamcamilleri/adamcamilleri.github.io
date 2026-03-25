@@ -3,323 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adam Camilleri | Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=2.9">
-    <link rel="stylesheet" href="shared/animations.css">
+    <title>Adam Camilleri | Software Engineer</title>
+    <link rel="stylesheet" href="style.css?v=4.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY"); // We'll add your key here
-        })();
-    </script>
-    <script>
-        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- White/light overlay: visible on load so curtain is visible against it; fades with curtain -->
-    <div id="heroLoadOverlay" class="hero-load-overlay" aria-hidden="true"></div>
-    <!-- Curtain: dark oval rises from bottom on load -->
-    <div id="heroCurtain" class="hero-curtain" aria-hidden="true"></div>
+    <!-- Noise overlay -->
+    <svg class="noise-overlay" aria-hidden="true">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+    </svg>
 
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="#home">AC</a>
+    <!-- Grid background -->
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <!-- Cursor glow -->
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <header class="site-header" id="siteHeader">
+        <nav class="nav-container">
+            <a href="#hero" class="nav-logo">AC</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </div>
-            <div class="nav-links">
-                <a href="#home" class="active nav-link-animated">Home</a>
-                <a href="#about" class="nav-link-animated">About</a>
-                <a href="#certificates" class="nav-link-animated">Certificates</a>
-                <a href="#projects" class="nav-link-animated">Projects</a>
-                <a href="#contact" class="nav-link-animated">Contact</a>
+            <div class="nav-socials">
+                <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </nav>
     </header>
 
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-links">
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#projects" class="mobile-link">Projects</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+        <div class="mobile-menu-socials">
+            <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+    </div>
+
     <main>
-        <section id="home" class="hero hero-revamp">
-            <div class="hero-title-block">
-                <div class="hero-top">
-                    <span class="hero-greeting animate-reveal" data-delay="0">Hey there, I'm Adam!</span>
-                    <span class="hero-article animate-reveal" id="heroArticle" data-delay="0">I'm a<span id="heroN" class="hero-n">n</span></span>
-                    <div class="hero-headline">
-                        <h1 class="hero-line1 animate-reveal" data-delay="1"><span id="heroLine1"></span></h1>
-                        <h1 class="hero-line2 animate-reveal" data-delay="2"><span id="heroLine2"></span></h1>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <h1 class="hero-name scroll-reveal">Adam Camilleri</h1>
+                    <h2 class="hero-title-outline scroll-reveal">Software Engineer</h2>
+                    <p class="hero-subtitle scroll-reveal">I'm a software developer with a background in Computer Science and hands-on experience in backend systems, APIs, and data workflows. My passion lies in building tools and systems that help people work more efficiently.</p>
+                    <div class="hero-ctas scroll-reveal">
+                        <a href="#projects" class="btn btn-solid">View Projects</a>
+                        <a href="assets/resumeAdamCamilleri.pdf" class="btn btn-outline" target="_blank" rel="noopener">Download Resume</a>
                     </div>
                 </div>
-                <div class="hero-bottom-row animate-reveal" data-delay="3">
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="3" data-suffix="+">0</span>
-                            <span class="stat-label">Years of experience</span>
+                <div class="hero-right">
+                    <div class="hero-stats-grid scroll-reveal">
+                        <div class="stat-card">
+                            <span class="stat-label">Role</span>
+                            <span class="stat-value">Software Engineer</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number" id="langStat" data-count="16" data-suffix="+">0</span>
-                            <span class="stat-label">Languages & frameworks</span>
+                        <div class="stat-card">
+                            <span class="stat-label">Location</span>
+                            <span class="stat-value">Milton, ON</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="6">0</span>
-                            <span class="stat-label">Projects shipped</span>
+                        <div class="stat-card">
+                            <span class="stat-label">Experience</span>
+                            <span class="stat-value">3+ Years</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Focus</span>
+                            <span class="stat-value">APIs & Data Systems</span>
                         </div>
                     </div>
-                    <p class="hero-intro">I'm a software developer with a background in Computer Science and hands-on experience in backend systems, APIs, and data workflows. My passion lies in building tools and systems that help people work more efficiently.</p>
+                    <div class="hero-social-row scroll-reveal">
+                        <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://x.com/adamcamilleri" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://instagram.com/adamcamilleri" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="hero-below-fold">
-                <div class="hero-details">
-                    <div class="cta-buttons animate-reveal" data-delay="4">
-                        <a href="#projects" class="btn primary interactive">View Projects</a>
-                        <a href="#contact" class="btn secondary interactive">Contact Me</a>
+            <div class="hero-scroll-hint scroll-reveal">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="container">
+                <span class="section-marker scroll-reveal">// about</span>
+                <h2 class="section-heading scroll-reveal">Developer with a <span class="gradient-text">purpose</span>.</h2>
+                <div class="about-grid">
+                    <div class="about-text-col">
+                        <p class="about-body scroll-reveal">I bring a mix of client-facing experience and technical depth. I'm strong at translating unclear requirements into solid solutions, writing clean and maintainable code, and keeping documentation clear enough that the next developer can pick it up without guessing. I care about the details that make systems actually usable.</p>
+                        <div class="about-highlights">
+                            <div class="highlight-item scroll-reveal">
+                                <span class="highlight-num">01</span>
+                                <span class="highlight-text">Clean, maintainable code</span>
+                            </div>
+                            <div class="highlight-item scroll-reveal">
+                                <span class="highlight-num">02</span>
+                                <span class="highlight-text">Translating requirements into solutions</span>
+                            </div>
+                            <div class="highlight-item scroll-reveal">
+                                <span class="highlight-num">03</span>
+                                <span class="highlight-text">Backend systems & API design</span>
+                            </div>
+                            <div class="highlight-item scroll-reveal">
+                                <span class="highlight-num">04</span>
+                                <span class="highlight-text">Documentation that developers actually read</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image-col scroll-reveal">
+                        <div class="about-image-wrapper">
+                            <img src="images/1718307854171.png" alt="Adam Camilleri" class="about-image" loading="lazy">
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="about scroll-reveal scroll-reveal-section">
+        <!-- Skills Section -->
+        <section class="section" id="skills">
             <div class="container">
-                <h2 class="section-title"><span>About Me</span></h2>
-                <div class="about-split">
-                    <div class="about-image-col">
-                        <div class="about-image">
-                            <div class="image-container">
-                                <img src="images/1718307854171.png?v=2" alt="Adam Camilleri">
-                                <div class="image-overlay"></div>
-                            </div>
+                <span class="section-marker scroll-reveal">// skills</span>
+                <h2 class="section-heading scroll-reveal">Technical Arsenal</h2>
+
+                <div class="skills-group scroll-reveal">
+                    <h3 class="skills-group-title">Most Proficient</h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript">
+                            <span>JavaScript</span>
                         </div>
-                    </div>
-                    <div class="about-content-col">
-                        <div class="about-text">
-                            <h3>Hello, I'm Adam Camilleri</h3>
-                            <p>I bring a mix of client-facing experience and technical depth. I'm strong at translating unclear requirements into solid solutions, writing clean and maintainable code, and keeping documentation clear enough that the next developer can pick it up without guessing. I care about the details that make systems actually usable.</p>
-                            <div class="personal-info">
-                                <div class="info-item">
-                                    <span class="info-title">Email</span>
-                                    <span class="info-value">imadamcam@gmail.com</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-title">Based in</span>
-                                    <span class="info-value">Milton, ON</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-title">Current Role</span>
-                                    <span class="info-value">Mortgage Specialist</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-title">Development Focus</span>
-                                    <span class="info-value info-value-nowrap">Productivity Tools, Data Systems</span>
-                                </div>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="TypeScript">
+                            <span>TypeScript</span>
                         </div>
-                        <div class="expertise-col">
-                            <h3 class="expertise-title">Expertise</h3>
-                            <div class="expertise-block">
-                                <h4>Most proficient</h4>
-                                <div class="skill-icons">
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript"><span class="skill-label">JavaScript</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="TypeScript"><span class="skill-label">TypeScript</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"><span class="skill-label">Python</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="SQL"><span class="skill-label">SQL</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js"><span class="skill-label">Node.js</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" alt="Express"><span class="skill-label">Express</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" alt="REST APIs"><span class="skill-label">REST APIs</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML"><span class="skill-label">HTML</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS"><span class="skill-label">CSS</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git"><span class="skill-label">Git</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" alt="MongoDB"><span class="skill-label">MongoDB</span></span>
-                                </div>
-                            </div>
-                            <div class="expertise-block">
-                                <h4>Also used</h4>
-                                <div class="skill-icons">
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React"><span class="skill-label">React</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js"><span class="skill-label">Next.js</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" alt="Docker"><span class="skill-label">Docker</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" alt="Jest"><span class="skill-label">Jest</span></span>
-                                    <span class="expertise-skill-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cypressio/cypressio-original.svg" alt="Cypress"><span class="skill-label">Cypress</span></span>
-                                </div>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+                            <span>Python</span>
                         </div>
-                        <div id="certificates" class="about-certs">
-                            <h4>Certificates</h4>
-                    <div class="about-cert-row">
-                        <div class="about-cert-item">
-                            <img src="images/cisco-cybersecurity-cert.png" alt="Cisco Introduction to Cybersecurity">
-                            <div class="about-cert-expanded">
-                                <img src="images/cisco-cybersecurity-cert.png" alt="Cisco Introduction to Cybersecurity">
-                                <span class="about-cert-name">Introduction to Cybersecurity</span>
-                                <span class="about-cert-issuer">Cisco · 2025</span>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="SQL">
+                            <span>SQL</span>
                         </div>
-                        <div class="about-cert-item">
-                            <img src="images/freecodecamp-javascript-cert.png" alt="JavaScript Algorithms and Data Structures">
-                            <div class="about-cert-expanded">
-                                <img src="images/freecodecamp-javascript-cert.png" alt="JavaScript Algorithms and Data Structures">
-                                <span class="about-cert-name">JavaScript Algorithms & Data Structures</span>
-                                <span class="about-cert-issuer">freeCodeCamp · 2025</span>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                            <span>Node.js</span>
                         </div>
-                        <div class="about-cert-item">
-                            <img src="images/learning-docker-cert.jpg" alt="Learning Docker">
-                            <div class="about-cert-expanded">
-                                <img src="images/learning-docker-cert.jpg" alt="Learning Docker">
-                                <span class="about-cert-name">Learning Docker</span>
-                                <span class="about-cert-issuer">LinkedIn Learning · 2025</span>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" alt="Express">
+                            <span>Express</span>
                         </div>
-                        <div class="about-cert-item">
-                            <img src="images/nodejs cert.jpg" alt="Node.js">
-                            <div class="about-cert-expanded">
-                                <img src="images/nodejs cert.jpg" alt="Node.js">
-                                <span class="about-cert-name">Node.js</span>
-                                <span class="about-cert-issuer">LinkedIn Learning · 2025</span>
-                            </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/json/json-original.svg" alt="REST APIs">
+                            <span>REST APIs</span>
                         </div>
-                    </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML">
+                            <span>HTML</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS">
+                            <span>CSS</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git">
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                            <span>MongoDB</span>
                         </div>
                     </div>
                 </div>
-                <div class="about-actions">
-                    <div class="social-links">
-                        <a href="https://github.com/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://linkedin.com/in/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://x.com/imadamcam" class="social-icon interactive" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com/adamcamiller.i" class="social-icon interactive" target="_blank"><i class="fab fa-instagram"></i></a>
+
+                <div class="skills-group scroll-reveal">
+                    <h3 class="skills-group-title">Also Used</h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React">
+                            <span>React</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js">
+                            <span>Next.js</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" alt="Docker">
+                            <span>Docker</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" alt="Jest">
+                            <span>Jest</span>
+                        </div>
+                        <div class="skill-card">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cypressio/cypressio-original.svg" alt="Cypress">
+                            <span>Cypress</span>
+                        </div>
                     </div>
-                    <a href="assets/resumeAdamCamilleri.pdf" class="btn download-cv interactive" target="_blank">Download Resume <i class="fas fa-download"></i></a>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="projects scroll-reveal scroll-reveal-section">
+        <!-- Projects Section -->
+        <section class="section" id="projects">
             <div class="container">
-                <h2 class="section-title"><span>Projects</span></h2>
-                <div class="projects-list">
+                <span class="section-marker scroll-reveal">// portfolio</span>
+                <h2 class="section-heading scroll-reveal">Featured Work</h2>
+                <div class="projects-grid">
 
-                    <div class="project-card-h project-card-wip interactive" data-category="app">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview">
-                            <img src="images/studysmart-screenshot.png" alt="Study Smart preview" style="width:100%;height:100%;object-fit:cover;">
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">Productivity App</span>
-                            <h3 class="project-title">Study Smart</h3>
-                            <p class="project-description">A retro OS-styled study desktop with Pomodoro timer, to-do list, music genres, and inspirational quotes. Customize sessions and stay focused.</p>
-                            <div class="project-links-h">
-                                <a href="projects/studysmart/index.html" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/studysmart" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- Handoff -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">Handoff</h3>
+                                <span class="project-type">AI Tool</span>
+                            </div>
+                            <p class="project-desc">Describe the site you want in plain English and it builds in real time. Change colors, copy, and layout through chat, then deploy or save your design.</p>
+                            <div class="project-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Groq API</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">Vercel</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="projects/handoff/index.html" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/handoff" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview">
-                            <img src="images/adams-cookbook.png" alt="Adam's Cookbook" style="width:100%;height:100%;object-fit:cover;">
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">Web App</span>
-                            <h3 class="project-title">Adam's Cookbook</h3>
-                            <p class="project-description">Recipe site that pulls from my TikTok. Search and tap a card for the full recipe and video. Built for mobile.</p>
-                            <div class="project-links-h">
-                                <a href="projects/adams-cookbook/index.html" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- NoChef -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">NoChef</h3>
+                                <span class="project-type">AI Tool</span>
+                            </div>
+                            <p class="project-desc">Meal ideas, no more guessing what to make for the week.</p>
+                            <div class="project-tags">
+                                <span class="tag">Next.js</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">Supabase</span>
+                                <span class="tag">Stripe</span>
+                                <span class="tag">Groq API</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://mealprept.vercel.app" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/mealprept" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview" style="background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%)">
-                            <span class="project-preview-label">C4</span>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">Game</span>
-                            <h3 class="project-title">Connect Four</h3>
-                            <p class="project-description">Classic Connect Four built in the browser. Two-player, responsive, no install needed.</p>
-                            <div class="project-links-h">
-                                <a href="projects/connect-four/index.html" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/connect-four" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- Songdle -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">Songdle</h3>
+                                <span class="project-type">Game</span>
+                            </div>
+                            <p class="project-desc">Daily game: guess the song from short clips. Wrong guess = longer clip.</p>
+                            <div class="project-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Spotify API</span>
+                                <span class="tag">YouTube API</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="projects/songdle/index.html" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/songdle" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview" style="background: linear-gradient(135deg, #27ae60 0%, #2980b9 100%)">
-                            <span class="project-preview-label">TM</span>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">Productivity App</span>
-                            <h3 class="project-title">TaskMaster</h3>
-                            <p class="project-description">Task app with priorities, due dates, and filters so you can find what you need.</p>
-                            <div class="project-links-h">
-                                <a href="https://adam-taskmaster.vercel.app/tasks" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/taskmaster" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- TaskMaster -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">TaskMaster</h3>
+                                <span class="project-type">Productivity</span>
+                            </div>
+                            <p class="project-desc">Task app with priorities, due dates, and filters so you can find what you need.</p>
+                            <div class="project-tags">
+                                <span class="tag">Next.js</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">JWT</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://adam-taskmaster.vercel.app/tasks" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/taskmaster" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview" style="background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%)">
-                            <span class="project-preview-label">HO</span>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">AI Tool</span>
-                            <h3 class="project-title">Handoff</h3>
-                            <p class="project-description">Describe the site you want in plain English and it builds in real time. Change colors, copy, and layout through chat, then deploy or save your design.</p>
-                            <div class="project-links-h">
-                                <a href="projects/handoff/index.html" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/handoff" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- Connect Four -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">Connect Four</h3>
+                                <span class="project-type">Game</span>
+                            </div>
+                            <p class="project-desc">Classic Connect Four built in the browser. Two-player, responsive, no install needed.</p>
+                            <div class="project-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="projects/connect-four/index.html" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/connect-four" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview" style="background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%)">
-                            <span class="project-preview-label">SG</span>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">Game</span>
-                            <h3 class="project-title">Songdle</h3>
-                            <p class="project-description">Daily game: guess the song from short clips. Wrong guess = longer clip.</p>
-                            <div class="project-links-h">
-                                <a href="projects/songdle/index.html" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/songdle" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- Study Smart -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">Study Smart</h3>
+                                <span class="project-type">Productivity</span>
+                            </div>
+                            <p class="project-desc">A retro OS-styled study desktop with Pomodoro timer, to-do list, music genres, and inspirational quotes.</p>
+                            <div class="project-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="projects/studysmart/index.html" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/studysmart" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card-h project-card-wip interactive" data-category="web">
-                        <div class="card-shine"></div>
-                        <span class="wip-badge">WIP</span>
-                        <div class="project-preview" style="background: linear-gradient(135deg, #ff5733 0%, #2a9d8f 100%)">
-                            <span class="project-preview-label">NC</span>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-type">AI Tool</span>
-                            <h3 class="project-title">NoChef</h3>
-                            <p class="project-description">Meal ideas, no more guessing what to make for the week.</p>
-                            <div class="project-links-h">
-                                <a href="https://mealprept.vercel.app" class="btn-project-primary interactive" target="_blank">View Project</a>
-                                <a href="https://github.com/adamcamilleri/mealprept" class="btn-project-ghost interactive" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    <!-- Adam's Cookbook -->
+                    <div class="project-card scroll-reveal">
+                        <div class="project-card-inner">
+                            <div class="project-header">
+                                <h3 class="project-title">Adam's Cookbook</h3>
+                                <span class="project-type">Web App</span>
+                            </div>
+                            <p class="project-desc">Recipe site that pulls from my TikTok. Search and tap a card for the full recipe and video.</p>
+                            <div class="project-tags">
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="projects/adams-cookbook/index.html" class="project-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View</a>
+                                <a href="https://github.com/adamcamilleri/adams-cookbook" class="project-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
                             </div>
                         </div>
                     </div>
@@ -328,408 +385,230 @@
             </div>
         </section>
 
-        <section id="contact" class="contact scroll-reveal scroll-reveal-section">
+        <!-- Contact Section -->
+        <section class="section" id="contact">
             <div class="container">
-                <h2 class="section-title"><span>Get In Touch</span></h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3>Location</h3>
-                                <p>Milton, ON</p>
+                <span class="section-marker scroll-reveal">// contact</span>
+                <h2 class="section-heading scroll-reveal">Get In Touch</h2>
+                <div class="contact-grid">
+                    <form class="contact-form scroll-reveal" action="https://formspree.io/f/xvgaawyd" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="What's this about?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-solid btn-full">Send Message</button>
+                    </form>
+                    <div class="contact-info scroll-reveal">
+                        <div class="contact-info-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div>
+                                <span class="contact-info-label">Email</span>
+                                <a href="mailto:imadamcam@gmail.com">imadamcam@gmail.com</a>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3>Email</h3>
-                                <p>imadamcam@gmail.com</p>
+                        <div class="contact-info-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <span class="contact-info-label">Location</span>
+                                <span>Milton, ON</span>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3>Phone</h3>
-                                <p>(647) 529-4715</p>
+                        <div class="contact-info-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <div>
+                                <span class="contact-info-label">Phone</span>
+                                <a href="tel:+16475294715">(647) 529-4715</a>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-share-alt"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3>Social Profiles</h3>
-                                <div class="social-links">
-                                    <a href="https://github.com/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-github"></i></a>
-                                    <a href="https://linkedin.com/in/adamcamilleri" class="social-icon interactive" target="_blank"><i class="fab fa-linkedin"></i></a>
-                                    <a href="https://x.com/imadamcam" class="social-icon interactive" target="_blank"><i class="fab fa-twitter"></i></a>
-                                    <a href="https://instagram.com/adamcamiller.i" class="social-icon interactive" target="_blank"><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact-form">
-                        <form id="contactForm" class="animated-form" action="https://formspree.io/f/xvgaawyd" method="POST" name="portfolio-contact">
-                            <div class="form-group">
-                                <input type="text" id="name" name="name" autocomplete="name" required>
-                                <label for="name">Your Name</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" id="email" name="email" autocomplete="email" required>
-                                <label for="email">Your Email</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="subject" name="subject" autocomplete="off" required>
-                                <label for="subject">Subject</label>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" name="message" autocomplete="off" required></textarea>
-                                <label for="message">Your Message</label>
-                            </div>
-                            <button type="submit" class="btn submit-btn interactive">Send Message <i class="fas fa-paper-plane"></i></button>
-                        </form>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>Adam Camilleri</h2>
-                    <p>Mortgage Specialist | Data Analyst | Software Engineer</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#certificates">Certificates</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="back-to-top">
-                    <a href="#home"><i class="fas fa-chevron-up"></i></a>
-                </div>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2024 Adam Camilleri. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://x.com/adamcamilleri" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
             </div>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <!-- Lenis smooth scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
     <script>
-        // Rotating hero phrases (random on each refresh) - article is "a" or "an"
-        const HERO_PHRASES = [
-            { article: 'an', line1: 'Analytical', line2: 'API Builder' },
-            { article: 'a', line1: 'Systems Oriented', line2: 'Developer' },
-            { article: 'a', line1: 'Passionate Software', line2: 'Engineer' },
-            { article: 'a', line1: 'Methodical Data', line2: 'Analyst' }
-        ];
+    (function() {
+        'use strict';
 
-        let heroCurrentIndex = 0;
+        /* ── Lenis Smooth Scroll ── */
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            touchMultiplier: 2,
+        });
 
-        const CURTAIN_DURATION_MS = 250; // must match CSS transition
-
-        function runCurtainAnimation() {
-            window.scrollTo(0, 0);
-            heroCurrentIndex = Math.floor(Math.random() * HERO_PHRASES.length);
-            const phrase = HERO_PHRASES[heroCurrentIndex];
-            document.getElementById('heroN').classList.toggle('visible', phrase.article === 'an');
-            document.getElementById('heroLine1').textContent = phrase.line1;
-            document.getElementById('heroLine2').textContent = phrase.line2;
-
-            const curtain = document.getElementById('heroCurtain');
-            const overlay = document.getElementById('heroLoadOverlay');
-            curtain.classList.remove('hero-curtain--rising', 'hero-curtain--done');
-            overlay.classList.remove('hero-load-overlay--done');
-            overlay.style.background = '#ffffff';
-            document.querySelector('header').classList.remove('header--revealed');
-            document.querySelectorAll('.animate-reveal').forEach(el => el.classList.remove('animate-reveal--visible'));
-            document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.remove('scroll-reveal--visible'));
-
-            requestAnimationFrame(() => {
-                curtain.classList.add('hero-curtain--rising');
-                setTimeout(() => {
-                    overlay.style.background = '#1a1a1a';
-                    curtain.classList.add('hero-curtain--done');
-                    overlay.classList.add('hero-load-overlay--done');
-                    document.querySelector('header').classList.add('header--revealed');
-                    curtain.style.pointerEvents = 'none';
-                    startHeroReveal();
-                }, CURTAIN_DURATION_MS);
-            });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
+        requestAnimationFrame(raf);
 
-        function startHeroReveal() {
-            const delays = { 0: 0, 1: 200, 2: 450, 3: 700, 4: 1100 };
-            document.querySelectorAll('.animate-reveal').forEach(el => {
-                const d = parseInt(el.dataset.delay || '0', 10);
-                setTimeout(() => el.classList.add('animate-reveal--visible'), delays[d] || 0);
-            });
-            setTimeout(startCountUp, 800);
-        }
-
-        function startCountUp() {
-            document.querySelectorAll('.stat-number').forEach(el => {
-                const target = parseInt(el.dataset.count || '0', 10);
-                const suffix = el.dataset.suffix || '';
-                const duration = 1000;
-                const startTime = performance.now();
-                function update(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const value = Math.floor(eased * target);
-                    el.textContent = value + suffix;
-                    if (progress < 1) requestAnimationFrame(update);
-                    else if (el.id === 'langStat') el.innerHTML = '<span class="stat-one">1</span>6+';
-                    else el.textContent = target + suffix;
-                }
-                requestAnimationFrame(update);
-            });
-        }
-
-        function shuffleHeroTitle() {
-            const line1El = document.querySelector('.hero-line1');
-            const line2El = document.querySelector('.hero-line2');
-            const nEl     = document.getElementById('heroN');
-
-            // Phase 1: slide lines out + fade the "n" if present
-            line1El.classList.remove('animate-reveal--visible');
-            line2El.classList.remove('animate-reveal--visible');
-            if (nEl) nEl.classList.remove('visible');
-
-            // Phase 2: swap text, toggle "n", slide lines back in
-            setTimeout(function() {
-                heroCurrentIndex = (heroCurrentIndex + 1) % HERO_PHRASES.length;
-                const phrase = HERO_PHRASES[heroCurrentIndex];
-                document.getElementById('heroLine1').textContent = phrase.line1;
-                document.getElementById('heroLine2').textContent = phrase.line2;
-
-                requestAnimationFrame(function() {
-                    requestAnimationFrame(function() {
-                        if (nEl && phrase.article === 'an') nEl.classList.add('visible');
-                        line1El.classList.add('animate-reveal--visible');
-                        setTimeout(function() { line2El.classList.add('animate-reveal--visible'); }, 240);
-                    });
-                });
-            }, 700);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            runCurtainAnimation();
-            setInterval(shuffleHeroTitle, 5000);
-
-            // Lenis smooth scroll
-            var lenis = null;
-            try {
-                lenis = new Lenis({ lerp: 0.1, duration: 1.2 });
-                function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-                requestAnimationFrame(raf);
-            } catch(e) {
-                console.warn('Lenis failed to load:', e);
-            }
-
-            // Scroll reveal for sections
-            const revealSections = document.querySelectorAll('.scroll-reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('scroll-reveal--visible');
-                        entry.target.style.opacity = '';
-                        entry.target.style.transform = '';
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            revealSections.forEach(s => revealObserver.observe(s));
-
-            // Safety fallback: force all content visible after 3s
-            setTimeout(function() {
-                document.querySelectorAll('.scroll-reveal').forEach(function(el) {
-                    el.classList.add('scroll-reveal--visible');
-                    el.style.opacity = '';
-                    el.style.transform = '';
-                });
-                document.querySelectorAll('.animate-reveal').forEach(function(el) {
-                    el.classList.add('animate-reveal--visible');
-                });
-            }, 3000);
-
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href && href !== '#') {
-                        e.preventDefault();
-                        if (lenis) {
-                            lenis.scrollTo(href, { offset: 0 });
-                        } else {
-                            document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
-                        }
-                        history.replaceState(null, '', href);
-                    }
-                });
-            });
-            
-            // Mobile Navigation
-            const burger = document.querySelector('.burger');
-            const navLinks = document.querySelector('.nav-links');
-            
-            burger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                burger.classList.toggle('toggle');
-            });
-            
-            // Project Filtering
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const projects = document.querySelectorAll('.project-card');
-            
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked button
-                    btn.classList.add('active');
-                    
-                    const filter = btn.getAttribute('data-filter');
-                    
-                    projects.forEach(project => {
-                        if (filter === 'all' || project.getAttribute('data-category') === filter) {
-                            project.style.display = 'block';
-                        } else {
-                            project.style.display = 'none';
-                        }
-                    });
-                });
-            });
-            
-            // Close mobile menu on nav link click (smooth scroll handled by Lenis above)
-            document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function() {
-                    if (navLinks.classList.contains('nav-active')) {
-                        navLinks.classList.remove('nav-active');
-                        burger.classList.remove('toggle');
-                    }
-                });
-            });
-            
-            // Active Navigation on Scroll
-            const sections = document.querySelectorAll('section');
-            const navItems = document.querySelectorAll('.nav-links a');
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                
-                navItems.forEach(item => {
-                    item.classList.remove('active');
-                    if (item.getAttribute('href') === `#${current}`) {
-                        item.classList.add('active');
-                    }
-                });
-            });
-            
-            // Form Animation
-            const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
-            
-            formInputs.forEach(input => {
-                input.addEventListener('focus', () => {
-                    input.parentElement.classList.add('focused');
-                });
-                
-                input.addEventListener('blur', () => {
-                    if (input.value === '') {
-                        input.parentElement.classList.remove('focused');
-                    }
-                });
-                
-                // Check on page load
-                if (input.value !== '') {
-                    input.parentElement.classList.add('focused');
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { offset: -80 });
+                    // Close mobile menu if open
+                    closeMobileMenu();
                 }
             });
-            
-            // 3D Tilt + Shine on project cards
-            document.querySelectorAll('.project-card-h').forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const cx = rect.width / 2;
-                    const cy = rect.height / 2;
-                    const rotateY = ((x - cx) / cx) * 7;
-                    const rotateX = -((y - cy) / cy) * 4;
-                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = '';
-                });
+        });
+
+        /* ── Cursor Glow ── */
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateGlow() {
+            glowX += (mouseX - glowX) * 0.1;
+            glowY += (mouseY - glowY) * 0.1;
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+
+        /* ── Scroll Progress Bar ── */
+        const scrollProgress = document.getElementById('scrollProgress');
+
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+        /* ── Mobile Nav Toggle ── */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function closeMobileMenu() {
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                closeMobileMenu();
+                if (target) {
+                    setTimeout(() => lenis.scrollTo(target, { offset: -80 }), 100);
+                }
             });
+        });
 
-            // Form Submission
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    const submitBtn = this.querySelector('.submit-btn');
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-                    submitBtn.disabled = true;
-                });
+        /* ── Scroll Reveal ── */
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        /* ── Active Nav Link ── */
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function updateActiveLink() {
+            const scrollY = window.scrollY + 120;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+
+                if (scrollY >= top && scrollY < top + height) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+        /* ── Header hide/show on scroll ── */
+        let lastScroll = 0;
+        const header = document.getElementById('siteHeader');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
-        });
+            lastScroll = currentScroll;
+        }, { passive: true });
 
-        // Re-run curtain when page restored from bfcache (back/forward, some refreshes)
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                runCurtainAnimation();
-            }
-        });
-    </script>
+        /* ── Bounce animation for scroll hint ── */
+        const scrollHint = document.querySelector('.hero-scroll-hint');
+        if (scrollHint) {
+            scrollHint.addEventListener('click', () => {
+                const aboutSection = document.getElementById('about');
+                if (aboutSection) lenis.scrollTo(aboutSection, { offset: -80 });
+            });
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
-    <script type="module">
-      import { initScrollAnimations } from '/shared/animations.js';
-      // Wait for hero curtain to finish before starting scroll animations
-      // (prevents elements animating behind the curtain -- RESEARCH pitfall 5)
-      let scrollAnimsStarted = false;
-      function startScrollAnims() {
-        if (scrollAnimsStarted) return;
-        scrollAnimsStarted = true;
-        initScrollAnimations({
-          cards: '.project-card-h'
-        });
-      }
-      const curtain = document.getElementById('heroCurtain');
-      if (curtain) {
-        curtain.addEventListener('transitionend', () => {
-          startScrollAnims();
-        }, { once: true });
-        // Fallback: if curtain already finished or doesn't animate (e.g., reduced motion)
-        setTimeout(() => {
-          startScrollAnims();
-        }, 2000);
-      } else {
-        startScrollAnims();
-      }
+    })();
     </script>
 </body>
 </html>
