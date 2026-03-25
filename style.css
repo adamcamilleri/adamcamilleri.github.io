@@ -795,11 +795,11 @@ a {
 }
 
 .me-label span {
-    font-family: var(--font-display);
+    font-family: Calibri, 'Segoe UI', sans-serif;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #0A0A0B;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     background: var(--accent);
     padding: 3px 10px;
     border-radius: 6px;
