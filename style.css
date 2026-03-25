@@ -815,6 +815,15 @@ a {
     stroke: #0A0A0B;
 }
 
+.about-image-caption {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--txt-tertiary);
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
 
 @media (max-width: 768px) {
     .about-grid {
