@@ -157,8 +157,9 @@
                         </div>
                     </div>
                     <div class="about-image-col scroll-reveal">
-                        <div class="about-image-wrapper">
+                        <div class="about-image-wrapper" id="aboutImageWrapper">
                             <img src="images/1718307854171.png" alt="Adam Camilleri" class="about-image" loading="lazy">
+                            <img src="images/1718307854171.png" alt="" class="about-image-color" aria-hidden="true" loading="lazy">
                             <div class="me-label">
                                 <span>Me</span>
                                 <svg class="me-arrow" width="40" height="50" viewBox="0 0 40 50" fill="none">
@@ -636,6 +637,24 @@
                     const offset = aboutSection.getBoundingClientRect().top + window.scrollY - 80;
                     window.scrollTo({ top: offset, behavior: 'smooth' });
                 }
+            });
+        }
+
+        /* ── About image color reveal on cursor ── */
+        const aboutWrapper = document.getElementById('aboutImageWrapper');
+        const aboutColorImg = aboutWrapper?.querySelector('.about-image-color');
+        if (aboutWrapper && aboutColorImg) {
+            aboutColorImg.style.opacity = '1';
+            aboutWrapper.addEventListener('mousemove', (e) => {
+                const rect = aboutWrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                aboutWrapper.style.setProperty('--mx', x + 'px');
+                aboutWrapper.style.setProperty('--my', y + 'px');
+            });
+            aboutWrapper.addEventListener('mouseleave', () => {
+                aboutWrapper.style.setProperty('--mx', '-200px');
+                aboutWrapper.style.setProperty('--my', '-200px');
             });
         }
 
