@@ -641,21 +641,17 @@
             });
         }
 
-        /* ── About image color reveal on cursor ── */
+        /* ── About image color reveal on cursor (global tracking) ── */
         const aboutWrapper = document.getElementById('aboutImageWrapper');
         const aboutColorImg = aboutWrapper?.querySelector('.about-image-color');
         if (aboutWrapper && aboutColorImg) {
             aboutColorImg.style.opacity = '1';
-            aboutWrapper.addEventListener('mousemove', (e) => {
+            document.addEventListener('mousemove', (e) => {
                 const rect = aboutWrapper.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 aboutWrapper.style.setProperty('--mx', x + 'px');
                 aboutWrapper.style.setProperty('--my', y + 'px');
-            });
-            aboutWrapper.addEventListener('mouseleave', () => {
-                aboutWrapper.style.setProperty('--mx', '-200px');
-                aboutWrapper.style.setProperty('--my', '-200px');
             });
         }
 
