@@ -750,6 +750,15 @@ a {
     filter: grayscale(100%);
 }
 
+@media (max-width: 768px) {
+    .about-image {
+        filter: none;
+    }
+    .about-image-color {
+        display: none;
+    }
+}
+
 /* Color reveal layer - follows cursor */
 .about-image-wrapper::after {
     content: '';
