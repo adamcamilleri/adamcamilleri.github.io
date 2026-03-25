@@ -787,7 +787,7 @@ a {
 .me-label {
     position: absolute;
     top: 28%;
-    right: 16%;
+    right: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
