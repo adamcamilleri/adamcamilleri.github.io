@@ -795,24 +795,15 @@ a {
 }
 
 .me-label span {
-    font-family: Calibri, 'Segoe UI', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #0A0A0B;
-    letter-spacing: 0.02em;
-    background: var(--accent);
-    padding: 1px 8px;
-    border-radius: 5px;
-    line-height: 1.4;
-    border: 1.5px solid #0A0A0B;
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--txt-primary);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 
 .me-arrow {
-    margin-top: 2px;
-}
-
-.me-arrow path {
-    stroke: #0A0A0B;
+    margin-top: -2px;
 }
 
 .about-image-caption {
