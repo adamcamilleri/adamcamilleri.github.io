@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontario Housing Market Dashboard | Adam Camilleri</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="dash-header">
+        <div class="header-left">
+            <h1>Ontario Housing Market</h1>
+            <p class="header-sub">GTA Regional Analysis &middot; Jan 2019 &ndash; Mar 2026</p>
+        </div>
+        <div class="header-right">
+            <a href="https://adamcamilleri.github.io" class="back-link">&larr; Back to Portfolio</a>
+        </div>
+    </header>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="citySelect">City</label>
+            <select id="citySelect">
+                <option value="All">All Cities (Average)</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="typeSelect">Property Type</label>
+            <select id="typeSelect">
+                <option value="All">All Types</option>
+                <option value="Detached">Detached</option>
+                <option value="Semi-Detached">Semi-Detached</option>
+                <option value="Townhouse">Townhouse</option>
+                <option value="Condo">Condo</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="rangeSelect">Date Range</label>
+            <select id="rangeSelect">
+                <option value="all">All Time</option>
+                <option value="12">Last 12 Months</option>
+                <option value="24">Last 24 Months</option>
+                <option value="36">Last 3 Years</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-label">Avg. Price (Current)</span>
+            <span class="kpi-value" id="kpiPrice">--</span>
+            <span class="kpi-change" id="kpiPriceChange">--</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Median Days on Market</span>
+            <span class="kpi-value" id="kpiDom">--</span>
+            <span class="kpi-change" id="kpiDomChange">--</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Monthly Sales Volume</span>
+            <span class="kpi-value" id="kpiSales">--</span>
+            <span class="kpi-change" id="kpiSalesChange">--</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">List-to-Sale Ratio</span>
+            <span class="kpi-value" id="kpiRatio">--</span>
+            <span class="kpi-change" id="kpiRatioChange">--</span>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card chart-wide">
+            <h2>Average Home Price Over Time</h2>
+            <canvas id="priceChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h2>Average Price by City (Latest Month)</h2>
+            <canvas id="cityBarChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h2>Sales Volume Trend</h2>
+            <canvas id="salesChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h2>Days on Market Trend</h2>
+            <canvas id="domChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h2>List-to-Sale Price Ratio</h2>
+            <canvas id="ratioChart"></canvas>
+        </div>
+    </div>
+
+    <div class="insights-section">
+        <h2>Key Insights</h2>
+        <div class="insights-grid" id="insightsGrid"></div>
+    </div>
+
+    <footer class="dash-footer">
+        <p>Data sourced from public TRREB and StatsCan reports. Built with Python, Pandas, SQL, and Chart.js.</p>
+        <p>Adam Camilleri &middot; 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

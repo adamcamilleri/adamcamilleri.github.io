@@ -199,8 +199,8 @@ a {
     pointer-events: none;
     z-index: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
     background-size: 80px 80px;
 }
 
@@ -459,12 +459,14 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: var(--nav-height) 0 40px;
+    align-items: stretch;
+    padding: var(--nav-height) 0 10vh;
     position: relative;
     z-index: 2;
 }
 
 .hero-inner {
+    flex: 1;
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 48px;
@@ -613,9 +615,10 @@ a {
 
 /* Scroll hint chevron */
 .hero-scroll-hint {
-    text-align: center;
-    margin-top: auto;
-    padding-top: 40px;
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     cursor: pointer;
 }
 
