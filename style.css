@@ -782,6 +782,20 @@ a {
     line-height: 1.5;
 }
 
+.about-layout {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 64px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .about-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+}
+
 @media (max-width: 600px) {
     .timeline-item {
         grid-template-columns: 1fr;
@@ -790,14 +804,6 @@ a {
     .timeline-date {
         padding-left: 0;
     }
-}
-
-/* Legacy about image styles kept for reference */
-.about-grid {
-    display: grid;
-    grid-template-columns: 7fr 5fr;
-    gap: 64px;
-    align-items: start;
 }
 
 .highlight-num {
