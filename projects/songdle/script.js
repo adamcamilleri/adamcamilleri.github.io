@@ -730,7 +730,7 @@
     if (song.soundcloudUrl && scWidget && scReady && scLoaded) {
       var scDur = state.done ? 30 : CLIP_DURATIONS[state.level];
       var scGuardId = song.id;
-      scWidget.seekTo(0);
+      scWidget.seekTo((song.startOffset || 0) * 1000);
       scWidget.play();
       setPlayIcon(true);
       playBtn.disabled = false;
@@ -763,8 +763,9 @@
       return;
     }
 
-    // ── Fallback: stream proxy (songs without youtubeId, or YouTube failed) ──────
-    playFallback();
+    // No playable source — should not happen since songs.json is filtered
+    setStatus('Could not play audio. Try again.', true);
+    setPlayIcon(false);
   }
 
   function playFallback() {
@@ -781,7 +782,7 @@
     if (state.audio) { state.audio.pause(); state.audio = null; }
     state.audio = new Audio(audioUrl);
     state.audio.volume = getVolume();
-    state.audio.currentTime = 0;
+    state.audio.currentTime = song.startOffset || 0;
 
     state.audio.play()
       .then(function () {

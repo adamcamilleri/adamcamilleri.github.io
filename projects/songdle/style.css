@@ -810,9 +810,19 @@ header {
 /* ── Game Skeleton ───────────────────────── */
 
 .game-skeleton {
+  display: none;
   padding: 24px 16px;
   max-width: 400px;
   margin: 0 auto;
+}
+
+.game-skeleton.is-loading {
+  display: block;
+}
+
+.game-skeleton .skeleton {
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 /* ── Responsive ──────────────────────────── */

@@ -232,7 +232,8 @@
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/b5/b1/22b5b181-3fac-fa91-739b-e92d535332cd/mzaf_174079572917728500.plus.aac.p.m4a",
     "spotifyId": "6tZ3b7ik1QDXFAZlXib0YZ",
     "youtubeId": "ufynqs_COF4",
-    "startOffset": 2
+    "startOffset": 2,
+    "soundcloudUrl": "https://soundcloud.com/j-cole/kevins-heart"
   },
   {
     "id": "1440924454",
@@ -242,7 +243,8 @@
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4a/32/eb/4a32eb12-7fab-a90e-de8d-2e900498cb3b/mzaf_8208929056986212947.plus.aac.p.m4a",
     "spotifyId": "6I6NX6tjGsxFAsIfGzY9lJ",
     "youtubeId": "oigcRpBOoZk",
-    "startOffset": 2
+    "startOffset": 2,
+    "soundcloudUrl": "https://soundcloud.com/j-cole/deja-vu"
   },
   {
     "id": "1373861481",
@@ -252,7 +254,8 @@
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/59/52/43595210-5fa0-dd56-ad1b-da5865200f5a/mzaf_6388758962829682580.plus.aac.p.m4a",
     "spotifyId": "7yotKA30dwTKNEGomV9ZsI",
     "youtubeId": "ciya_AQu25o",
-    "startOffset": 2
+    "startOffset": 2,
+    "soundcloudUrl": "https://soundcloud.com/j-cole/kod"
   },
   {
     "id": "1600772523",
@@ -262,7 +265,8 @@
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/a8/3e/ed/a83eed0b-4a11-4365-35d2-662b11dec248/mzaf_7193495623824731495.plus.aac.p.m4a",
     "spotifyId": "4tqcoej1zPvwePZCzuAjJd",
     "youtubeId": "eCGV26aj-mM",
-    "startOffset": 2
+    "startOffset": 2,
+    "soundcloudUrl": "https://soundcloud.com/j-cole/wet-dreamz"
   },
   {
     "id": "1373858922",
@@ -272,7 +276,8 @@
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/15/79/07/157907fa-b550-082a-50cf-4065a1ead7ba/mzaf_1002678881049315125.plus.aac.p.m4a",
     "spotifyId": "4DvoYgOZXnqmKuc2GzzFHz",
     "youtubeId": "NtjrFw4i2Qo",
-    "startOffset": 2
+    "startOffset": 2,
+    "soundcloudUrl": "https://soundcloud.com/j-cole/intro"
   },
   {
     "id": "1441586584",
@@ -343,14 +348,6 @@
     "spotifyId": "3j84U36KvLeXNDPv4t5pI8",
     "youtubeId": "9hJ8lLNWrM4",
     "startOffset": 2
-  },
-  {
-    "id": "1478935971",
-    "name": "My Family (From \"The Addams Family\" Original Motion Picture Soundtrack)",
-    "artist": "Migos, KAROL G, Snoop Dogg & Rock Mafia",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/07/ae/7b/07ae7b10-6bd1-380f-a566-3ee56150d8f4/mzaf_15896670468900501928.plus.aac.p.m4a",
-    "spotifyId": "62rchuhJrm5JSlIfHz7cH3"
   },
   {
     "id": "1615488589",
@@ -655,14 +652,6 @@
     "startOffset": 2
   },
   {
-    "id": "1531535291",
-    "name": "Mr. Crowley",
-    "artist": "Ozzy Osbourne",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9b/35/99/9b35990f-cbb9-0301-c26c-3ad0ed09d235/mzaf_16258021861743772928.plus.aac.p.m4a",
-    "spotifyId": "2ov8L95QD25TLpZAZPYWXL"
-  },
-  {
     "id": "158711416",
     "name": "Shot In the Dark",
     "artist": "Ozzy Osbourne",
@@ -913,28 +902,13 @@
     "startOffset": 2
   },
   {
-    "id": "296549790",
-    "name": "Deep Inside of You",
-    "artist": "Third Eye Blind",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6a/d8/d5/6ad8d558-0e34-660a-33a4-91b6a0119c41/mzaf_7123038308647417435.plus.aac.p.m4a",
-    "spotifyId": "06iQLLK93Dlv7RcvzmZo2g"
-  },
-  {
-    "id": "1440879551",
-    "name": "Say It Ain't So",
-    "artist": "Weezer",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/45/3f/17/453f17b1-a152-664c-7630-cc2bcfbf0e33/mzaf_10694908686401264706.plus.aac.p.m4a",
-    "spotifyId": "56MEbUIvvfEEkLIl51wxGD"
-  },
-  {
     "id": "1440868258",
     "name": "Island In the Sun",
     "artist": "Weezer",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/52/a6/03/52a6032e-39c0-fd3e-555d-ce683f3d9d31/mzaf_7707796819108024384.plus.aac.p.m4a",
-    "spotifyId": "2MLHyLy5z5l5YRp7momlgw"
+    "spotifyId": "2MLHyLy5z5l5YRp7momlgw",
+    "soundcloudUrl": "https://soundcloud.com/weezer/island-in-the-sun"
   },
   {
     "id": "1440879325",
@@ -942,7 +916,8 @@
     "artist": "Weezer",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/12/de/de/12dedea9-7ce1-8af7-c51b-0ee4d7fe2311/mzaf_2284246765455592700.plus.aac.p.m4a",
-    "spotifyId": "3mwvKOyMmG77zZRunnxp9E"
+    "spotifyId": "3mwvKOyMmG77zZRunnxp9E",
+    "soundcloudUrl": "https://soundcloud.com/weezer/buddy-holly"
   },
   {
     "id": "1440879332",
@@ -950,7 +925,8 @@
     "artist": "Weezer",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0a/a1/6e/0aa16eb5-bed8-0474-2fbf-d505e67ab4c1/mzaf_2809324957133493033.plus.aac.p.m4a",
-    "spotifyId": "5WhtlIoxoZrMmuaWWEQhwV"
+    "spotifyId": "5WhtlIoxoZrMmuaWWEQhwV",
+    "soundcloudUrl": "https://soundcloud.com/weezer/undone-the-sweater-song"
   },
   {
     "id": "1440865427",
@@ -958,63 +934,8 @@
     "artist": "Weezer",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a0/d6/f8/a0d6f897-bdf0-6900-a0b1-f78f61913f9c/mzaf_2160760949495910274.plus.aac.p.m4a",
-    "spotifyId": "1yKu2MhpwzDXXH2tzG6xoa"
-  },
-  {
-    "id": "1440921233",
-    "name": "In Too Deep",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/02/52/9b/02529b97-fb7d-027a-d531-a5114602e4b7/mzaf_9879215621047660204.plus.aac.p.m4a",
-    "spotifyId": "3u7EIgAlwNQtxkM4bOA7uI"
-  },
-  {
-    "id": "1449912112",
-    "name": "Pieces",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0e/a3/0b/0ea30bf1-598d-dae2-b749-efbd26babdf2/mzaf_6846502755302581539.plus.aac.p.m4a",
-    "spotifyId": "6XZY6zVuVdk43t269pO8lt"
-  },
-  {
-    "id": "1440766708",
-    "name": "With Me",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b8/0b/fc/b80bfcef-e68a-1513-12bf-cfa47091d938/mzaf_9016925395595158162.plus.aac.p.m4a",
-    "spotifyId": "2GpFYF56kYINvKjQntqnxM"
-  },
-  {
-    "id": "1449911839",
-    "name": "We're All To Blame",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f4/7c/17/f47c17fb-4cc4-938c-702a-57f7bfc73cea/mzaf_2356675820482370497.plus.aac.p.m4a",
-    "spotifyId": "5nU7CaKQhHFIUUeXdNiwl7"
-  },
-  {
-    "id": "1449912057",
-    "name": "Some Say",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/72/89/eb/7289ebac-f02b-a124-95f5-4ac0aea466b6/mzaf_17863704824504852551.plus.aac.p.m4a",
-    "spotifyId": "7FKG99aCVKwCoGg1eZ5XRk"
-  },
-  {
-    "id": "258612006",
-    "name": "Miserable",
-    "artist": "Lit",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ac/9f/b3/ac9fb378-ae8f-e714-298e-bd1115f929d2/mzaf_14522069850413921354.plus.aac.p.m4a",
-    "spotifyId": "2zLZuZFgf4mn3af8wILpHS"
-  },
-  {
-    "id": "1746833484",
-    "name": "Purple Rain",
-    "artist": "Prince & The Revolution",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/11/09/30/1109307b-cdbd-20b1-aebc-c39c632a73a4/mzaf_11384520489297938238.plus.aac.p.m4a",
-    "spotifyId": "1uvyZBs4IZYRebHIB1747m"
+    "spotifyId": "1yKu2MhpwzDXXH2tzG6xoa",
+    "soundcloudUrl": "https://soundcloud.com/weezer/beverly-hills"
   },
   {
     "id": "1544298982",
@@ -1022,15 +943,8 @@
     "artist": "Prince",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/82/78/6d/82786df0-df6b-f2dd-491f-0b6b32ec98ea/mzaf_16160304497193345973.plus.aac.p.m4a",
-    "spotifyId": "4yrM5BVyJzy5Ed4GPO6e8j"
-  },
-  {
-    "id": "260336471",
-    "name": "Kiss",
-    "artist": "Prince & The Revolution",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d9/8f/32/d98f3294-5c0b-3efc-7ae4-cf95762df987/mzaf_688296106235269222.plus.aac.p.m4a",
-    "spotifyId": "62LJFaYihsdVrrkgUOJC05"
+    "spotifyId": "4yrM5BVyJzy5Ed4GPO6e8j",
+    "soundcloudUrl": "https://soundcloud.com/prince/i-wanna-be-your-lover"
   },
   {
     "id": "1545704094",
@@ -1038,55 +952,8 @@
     "artist": "Prince",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/4a/d8/b6/4ad8b699-f4b8-74ff-7866-3be43f1578ea/mzaf_12814016853080037594.plus.aac.p.m4a",
-    "spotifyId": "6sby78fghipoXHQLeeZFFH"
-  },
-  {
-    "id": "1746833479",
-    "name": "I Would Die 4 U",
-    "artist": "Prince & The Revolution",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e6/2e/07/e62e0703-1013-e827-6e5e-31f0618b5376/mzaf_14926281505661522486.plus.aac.p.m4a",
-    "spotifyId": "3QszJeuSyyZQmD9pY1tqpo"
-  },
-  {
-    "id": "1833328840",
-    "name": "The Fate of Ophelia",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fa/1c/6b/fa1c6be0-8f12-52fa-3b36-5465d32ac602/mzaf_13774232611391010550.plus.aac.p.m4a",
-    "spotifyId": "53iuhJlwXhSER5J2IYYv1W"
-  },
-  {
-    "id": "1440936016",
-    "name": "Shake It Off",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/04/86/32/048632f7-a5c5-0f5d-6213-a9e89c3a99b3/mzaf_8458239339293825693.plus.aac.p.m4a",
-    "spotifyId": "5xTtaWoae3wi06K5WfVUUH"
-  },
-  {
-    "id": "1468058171",
-    "name": "Cruel Summer",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/af/81/44af8168-9609-1b85-5048-ada08dceacf3/mzaf_1341699644335558812.plus.aac.p.m4a",
-    "spotifyId": "1BxfuPKGuaTgP7aM0Bbdwr"
-  },
-  {
-    "id": "1452859427",
-    "name": "You Belong With Me",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/15/6a/e0/156ae0e7-2a35-e1c1-3ebc-c1c837651a50/mzaf_18380354397720038617.plus.aac.p.m4a",
-    "spotifyId": "3GCL1PydwsLodcpv0Ll1ch"
-  },
-  {
-    "id": "1440935808",
-    "name": "Blank Space",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/97/b4/f6/97b4f65f-f334-771c-a4f5-5e7b9b42634f/mzaf_17056874752218225925.plus.aac.p.m4a",
-    "spotifyId": "1p80LdxRV74UKvL8gnD7ky"
+    "spotifyId": "6sby78fghipoXHQLeeZFFH",
+    "soundcloudUrl": "https://soundcloud.com/prince/when-doves-cry"
   },
   {
     "id": "1122782283",
@@ -1094,7 +961,8 @@
     "artist": "Coldplay",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/f3/1a/66f31a76-a6ed-cb4c-f353-23310a7ae9a8/mzaf_10593596652344378873.plus.aac.p.m4a",
-    "spotifyId": "3AJwUDP919kvQ9QcozQPxg"
+    "spotifyId": "3AJwUDP919kvQ9QcozQPxg",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/yellow"
   },
   {
     "id": "1122773680",
@@ -1102,7 +970,8 @@
     "artist": "Coldplay",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/2b/04/65/2b0465c3-2db1-e461-2362-14b528456b8f/mzaf_1805426141027060154.plus.aac.p.m4a",
-    "spotifyId": "1mea3bSkSGXuIRvnydlB5b"
+    "spotifyId": "1mea3bSkSGXuIRvnydlB5b",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/viva-la-vida"
   },
   {
     "id": "1122782281",
@@ -1110,7 +979,8 @@
     "artist": "Coldplay",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/db/ce/47dbce82-d89c-0897-0da7-26d06ae7e2f2/mzaf_14852507599380441353.plus.aac.p.m4a",
-    "spotifyId": "7D0RhFcb3CrfPuTJ0obrod"
+    "spotifyId": "7D0RhFcb3CrfPuTJ0obrod",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/sparks"
   },
   {
     "id": "829910927",
@@ -1118,7 +988,8 @@
     "artist": "Coldplay",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/a2/31/4b/a2314b97-10b6-190c-72b3-45cc21bbf56b/mzaf_740612971315603868.plus.aac.p.m4a",
-    "spotifyId": "0FDzzruyVECATHXKHFs9eJ"
+    "spotifyId": "0FDzzruyVECATHXKHFs9eJ",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/a-sky-full-of-stars"
   },
   {
     "id": "1122776155",
@@ -1126,87 +997,8 @@
     "artist": "Coldplay",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ae/a6/27/aea62715-e6ae-9562-ba81-1f969a2ee2fa/mzaf_9054259057357054559.plus.aac.p.m4a",
-    "spotifyId": "75JFxkI2RXiU7L9VXzMkle"
-  },
-  {
-    "id": "1544491998",
-    "name": "Someone Like You",
-    "artist": "Adele",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ef/18/7b/ef187b7d-f487-e935-4ca1-af5748313710/mzaf_8455263230305249048.plus.aac.p.m4a",
-    "spotifyId": "3bNv3VuUOKgrf5hu3YcuRo"
-  },
-  {
-    "id": "1544491988",
-    "name": "Set Fire to the Rain",
-    "artist": "Adele",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/81/19/83/811983ba-173c-84f4-4058-fae8340abcdf/mzaf_13432775834568786807.plus.aac.p.m4a",
-    "spotifyId": "3di5hcvxxciiqwMH1jarhY"
-  },
-  {
-    "id": "1544491233",
-    "name": "Rolling in the Deep",
-    "artist": "Adele",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9f/07/1d/9f071dc7-791c-c869-dfa2-06b25936a287/mzaf_11077490630806345321.plus.aac.p.m4a",
-    "spotifyId": "4OSBTYWVwsQhGLF9NHvIbR"
-  },
-  {
-    "id": "1590036021",
-    "name": "Easy On Me",
-    "artist": "Adele",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/75/28/56/75285676-dbce-d91d-7b36-070084a3546b/mzaf_5286200244455841527.plus.aac.p.m4a",
-    "spotifyId": "0gplL1WMoJ6iYaPgMCL0gX"
-  },
-  {
-    "id": "1544494392",
-    "name": "Hello",
-    "artist": "Adele",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/93/22/22/93222271-8d55-d923-e0ff-b2964a5abefe/mzaf_3513742103157153222.plus.aac.p.m4a",
-    "spotifyId": "1Yk0cQdMLx5RzzFTYwmuld"
-  },
-  {
-    "id": "1762656732",
-    "name": "Die With A Smile",
-    "artist": "Lady Gaga & Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/d1/46/e9d14699-9505-493e-cd27-a501095c81ff/mzaf_7283388936457278756.plus.aac.p.m4a",
-    "spotifyId": "2plbrEY59IikOBgBGLjaoe"
-  },
-  {
-    "id": "1434372043",
-    "name": "Always Remember Us This Way",
-    "artist": "Lady Gaga",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e4/b8/f3/e4b8f37d-91b4-ca6f-d903-604bb3ada165/mzaf_17531851350070402784.plus.aac.p.m4a",
-    "spotifyId": "2rbDhOo9Fh61Bbu23T2qCk"
-  },
-  {
-    "id": "1434371887",
-    "name": "Shallow",
-    "artist": "Lady Gaga & Bradley Cooper",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9c/7a/54/9c7a54a6-f2a7-8d8e-1d13-4fe110fddf38/mzaf_3987088489827294384.plus.aac.p.m4a",
-    "spotifyId": "2VxeLyX666F8uXCJ0dZF8B"
-  },
-  {
-    "id": "1793869710",
-    "name": "Abracadabra",
-    "artist": "Lady Gaga",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/ae/23/66ae23ad-76f2-cc89-bcef-8592f03f4a74/mzaf_3200208882053923784.plus.aac.p.m4a",
-    "spotifyId": "2LHNTC9QZxsL3nWpt8iaSR"
-  },
-  {
-    "id": "1476727675",
-    "name": "Telephone (feat. Beyoncé)",
-    "artist": "Lady Gaga",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/60/c6/ec/60c6ec3d-c089-1c8c-66db-81ab1e590bce/mzaf_17102914453623960694.plus.aac.p.m4a",
-    "spotifyId": "5BRDnysyAupG8uz5JAzfLY"
+    "spotifyId": "75JFxkI2RXiU7L9VXzMkle",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/the-scientist"
   },
   {
     "id": "1441154437",
@@ -1214,7 +1006,8 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7b/45/22/7b452241-882c-409b-3a9b-23306b14286a/mzaf_8588243939716013218.plus.aac.p.m4a",
-    "spotifyId": "113v1MA9MTShy98uCz37nO"
+    "spotifyId": "113v1MA9MTShy98uCz37nO",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/umbrella"
   },
   {
     "id": "1441154439",
@@ -1222,7 +1015,8 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f6/5b/0d/f65b0d9e-ad88-c617-94a8-de4cf6579dff/mzaf_4611312496171288825.plus.aac.p.m4a",
-    "spotifyId": "0ByMNEPAPpOR5H69DVrTNy"
+    "spotifyId": "0ByMNEPAPpOR5H69DVrTNy",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/dont-stop-the-music"
   },
   {
     "id": "1440896009",
@@ -1230,7 +1024,8 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/58/bd/6f/58bd6f05-45d7-76d7-bae3-6d453e00b5cc/mzaf_1937910784700207272.plus.aac.p.m4a",
-    "spotifyId": "2ENexcMEMsYk0rVJigVD3i"
+    "spotifyId": "2ENexcMEMsYk0rVJigVD3i",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/only-girl-in-the-world"
   },
   {
     "id": "1444321282",
@@ -1238,7 +1033,8 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/26/97/fb/2697fb36-8ef2-9d18-0a2e-6545947b4445/mzaf_9032202105098805603.plus.aac.p.m4a",
-    "spotifyId": "1z9kQ14XBSN0r2v6fx4IdG"
+    "spotifyId": "1z9kQ14XBSN0r2v6fx4IdG",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/diamonds"
   },
   {
     "id": "1441154571",
@@ -1246,135 +1042,8 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a5/10/48/a510486f-6ae2-63be-86cb-25e1be8125b2/mzaf_16451062589614299862.plus.aac.p.m4a",
-    "spotifyId": "2VOomzT6VavJOGBeySqaMc"
-  },
-  {
-    "id": "716192614",
-    "name": "Last Friday Night (T.G.I.F.)",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/70/81/2c/70812ca0-0fab-f545-53ab-3dac6953431f/mzaf_16382616307619959787.plus.aac.p.m4a",
-    "spotifyId": "3avYqdwHKEq8beXbeWCKqJ"
-  },
-  {
-    "id": "1440819170",
-    "name": "Dark Horse (feat. Juicy J)",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c7/80/b7/c780b757-f2e8-9e40-c5b9-dd28b5fe1296/mzaf_9911645771464051186.plus.aac.p.m4a",
-    "spotifyId": "5jrdCoLpJSvHHorevXBATy"
-  },
-  {
-    "id": "1440818897",
-    "name": "Roar",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/21/a8/76/21a87607-1fe3-2bd2-753c-0b4b73c22b90/mzaf_9666996724668759977.plus.aac.p.m4a",
-    "spotifyId": "6F5c58TMEs1byxUstkzVeM"
-  },
-  {
-    "id": "716192601",
-    "name": "Teenage Dream",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5d/1a/ef/5d1aefa2-4683-4c6d-5d69-c8c8fb5dcc81/mzaf_3081418224702484801.plus.aac.p.m4a",
-    "spotifyId": "5jzKL4BDMClWqRguW5qZvh"
-  },
-  {
-    "id": "716085504",
-    "name": "Wide Awake",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0a/3f/b2/0a3fb2cc-c89b-1efb-0447-6d50d871399c/mzaf_1675277477156448676.plus.aac.p.m4a",
-    "spotifyId": "5JLv62qFIS1DR3zGEcApRt"
-  },
-  {
-    "id": "1866732797",
-    "name": "Risk It All",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5b/49/8c/5b498caf-e3a4-8d48-20ae-0f51cf0a0d6e/mzaf_16238111096439911115.plus.aac.p.m4a",
-    "spotifyId": "5y2ijHECwFYWqcAHKTZgzD"
-  },
-  {
-    "id": "1866733083",
-    "name": "Dance With Me",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c3/8c/11/c38c11c5-a623-03aa-a52c-02ed906878bf/mzaf_12506306383993301415.plus.aac.p.m4a",
-    "spotifyId": "1myZ6GQewhAzMH2dKtKSWK"
-  },
-  {
-    "id": "1866732798",
-    "name": "Cha Cha Cha",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cf/a0/47/cfa0477d-2d93-49b9-5f42-c5ffbe1ceccc/mzaf_16219005127047421386.plus.aac.p.m4a",
-    "spotifyId": "6QletrrmpkUpeJkipX9pgf"
-  },
-  {
-    "id": "1866733077",
-    "name": "On My Soul",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b8/c4/d5/b8c4d524-76c6-ee8a-779d-41783cbafb82/mzaf_8191281532243447094.plus.aac.p.m4a",
-    "spotifyId": "4i4BVY2JiH4mDSLIBdNGKD"
-  },
-  {
-    "id": "1866733081",
-    "name": "Nothing Left",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6f/f9/53/6ff95324-aaa0-fe3e-bf8f-f23936020e5a/mzaf_11486499877232780359.plus.aac.p.m4a",
-    "spotifyId": "0Sq6JK9kyC4MQa3KrJj5CB"
-  },
-  {
-    "id": "1193701400",
-    "name": "Perfect",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c7/ba/bc/c7babc66-f598-aaa6-bcf6-307281795817/mzaf_16337361235117168274.plus.aac.p.m4a",
-    "spotifyId": "0tgVpDi06FyKpA1z0VMD4v"
-  },
-  {
-    "id": "1050204631",
-    "name": "Thinking Out Loud",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/20/09/4b/20094ba6-6b50-3c62-1539-2748f216e983/mzaf_15958908847184776502.plus.aac.p.m4a",
-    "spotifyId": "34gCuhDGsG4bRPIf9bb02f"
-  },
-  {
-    "id": "1193701392",
-    "name": "Shape of You",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/c7/4f/44c74f0d-72dc-6143-d4d0-ba14d661ca0d/mzaf_9566898362556366703.plus.aac.p.m4a",
-    "spotifyId": "7qiZfU4dY1lWllzX7mPBI3"
-  },
-  {
-    "id": "1581087034",
-    "name": "Shivers",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a8/9f/a5/a89fa5e9-8a3b-77bb-e081-866067d3f213/mzaf_13889707114574366771.plus.aac.p.m4a",
-    "spotifyId": "50nfwKoDiSYg8zOCREWAm5"
-  },
-  {
-    "id": "1050204626",
-    "name": "Photograph",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a8/84/2e/a8842e02-539d-6642-12c6-9b77dedd4b54/mzaf_10114178281833820816.plus.aac.p.m4a",
-    "spotifyId": "1HNkqx9Ahdgi1Ixy2xkKkL"
-  },
-  {
-    "id": "1440858717",
-    "name": "My Way",
-    "artist": "Frank Sinatra",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/61/1c/61/611c6184-b951-8dff-1837-f9aebf3ada8f/mzaf_11788097543403230574.plus.aac.p.m4a",
-    "spotifyId": "3spdoTYpuCpmq19tuD0bOe"
+    "spotifyId": "2VOomzT6VavJOGBeySqaMc",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/disturbia"
   },
   {
     "id": "1440858129",
@@ -1382,7 +1051,8 @@
     "artist": "Frank Sinatra",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d2/20/75/d22075e3-b9f6-7337-5aab-a0f21a036562/mzaf_8055883631088518579.plus.aac.p.m4a",
-    "spotifyId": "7FXj7Qg3YorUxdrzvrcY25"
+    "spotifyId": "7FXj7Qg3YorUxdrzvrcY25",
+    "soundcloudUrl": "https://soundcloud.com/frank-sinatra/fly-me-to-the-moon"
   },
   {
     "id": "1440858707",
@@ -1390,7 +1060,8 @@
     "artist": "Frank Sinatra",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/89/ca/5289caa6-d8d7-1926-efc1-d4768932777e/mzaf_8400376249993885806.plus.aac.p.m4a",
-    "spotifyId": "4FmCUATNIarCQh72JYdvnm"
+    "spotifyId": "4FmCUATNIarCQh72JYdvnm",
+    "soundcloudUrl": "https://soundcloud.com/frank-sinatra/thats-life"
   },
   {
     "id": "1440858124",
@@ -1398,7 +1069,8 @@
     "artist": "Frank Sinatra",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f7/2b/19/f72b1987-f4d8-5dd5-dbd9-03760a81b4cf/mzaf_17811835657417198350.plus.aac.p.m4a",
-    "spotifyId": "0elmUoU7eMPwZX1Mw1MnQo"
+    "spotifyId": "0elmUoU7eMPwZX1Mw1MnQo",
+    "soundcloudUrl": "https://soundcloud.com/frank-sinatra/the-way-you-look-tonight"
   },
   {
     "id": "1440858721",
@@ -1406,239 +1078,8 @@
     "artist": "Frank Sinatra",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c0/fe/b9/c0feb9d0-d827-557a-9295-9131a3fcaefb/mzaf_7450551465534700544.plus.aac.p.m4a",
-    "spotifyId": "3QksrtI9VFCBHWA4rgvcV8"
-  },
-  {
-    "id": "277635828",
-    "name": "I'm Yours",
-    "artist": "Jason Mraz",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/7d/21/637d21cb-2e4b-a845-bd85-fb327e04464a/mzaf_14367811252980822947.plus.aac.p.m4a",
-    "spotifyId": "1EzrEOXmMH3G43AXT1y7pA"
-  },
-  {
-    "id": "509536631",
-    "name": "I Won't Give Up",
-    "artist": "Jason Mraz",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5d/f4/11/5df411a7-7de9-a768-3eef-1b74cc77efcb/mzaf_2117023069067957023.plus.aac.p.m4a",
-    "spotifyId": "53QF56cjZA9RTuuMZDrSA6"
-  },
-  {
-    "id": "277635829",
-    "name": "Lucky",
-    "artist": "Jason Mraz & Colbie Caillat",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/f9/90/83f99033-fb9d-58d8-6e17-df35b6ba12df/mzaf_2412801904124381815.plus.aac.p.m4a",
-    "spotifyId": "0IktbUcnAGrvD03AWnz3Q8"
-  },
-  {
-    "id": "30645456",
-    "name": "The Remedy (I Won't Worry)",
-    "artist": "Jason Mraz",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f0/c5/9a/f0c59a2d-7e25-809b-2e3f-ee56b1d89b22/mzaf_6713417824219697349.plus.aac.p.m4a",
-    "spotifyId": "4tK4ARuilOrBzwVQK73E0Y"
-  },
-  {
-    "id": "1396747070",
-    "name": "Have It All",
-    "artist": "Jason Mraz",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/91/d7/61/91d761b7-ec25-0d36-4056-07e180b31957/mzaf_12278255356170128731.plus.aac.p.m4a",
-    "spotifyId": "7BXW1QCg56yzEBV8pW8pah"
-  },
-  {
-    "id": "1536646948",
-    "name": "Too Good at Goodbyes",
-    "artist": "Sam Smith",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0c/9e/89/0c9e8972-be70-178a-049b-ec89fa7dc9bc/mzaf_12767949070659192881.plus.aac.p.m4a",
-    "spotifyId": "1mXVgsBdtIVeCLJnSnmtdV"
-  },
-  {
-    "id": "1536993755",
-    "name": "Stay With Me",
-    "artist": "Sam Smith",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/ac/a1/0baca125-0b2c-907b-e6b5-7550b67a9e9c/mzaf_4044090818700163424.plus.aac.p.m4a",
-    "spotifyId": "5Nm9ERjJZ5oyfXZTECKmRt"
-  },
-  {
-    "id": "1536993857",
-    "name": "I'm Not The Only One",
-    "artist": "Sam Smith",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/05/ce/af/05ceaf78-569e-6a21-42f9-0e417f376b0b/mzaf_8016789619381223715.plus.aac.p.m4a",
-    "spotifyId": "7795WJLVKJoAyVoOtCWqXN"
-  },
-  {
-    "id": "1440814843",
-    "name": "Lay Me Down",
-    "artist": "Sam Smith",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/90/34/88/90348884-afdf-b79e-cf3f-62b193015725/mzaf_10233456704332616997.plus.aac.p.m4a",
-    "spotifyId": "74sb4Gib0cL3TQeCjYF8vh"
-  },
-  {
-    "id": "1643168566",
-    "name": "Unholy",
-    "artist": "Sam Smith & Kim Petras",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/b3/03/44b30336-3a22-74b7-ae9c-c04c1b6a4a54/mzaf_4295127268197707699.plus.aac.p.m4a",
-    "spotifyId": "3nqQXoyQOWXiESFLlDF1hG"
-  },
-  {
-    "id": "1441844542",
-    "name": "All of Me",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6c/82/42/6c824284-399d-b1bd-5a60-873e67cf9af8/mzaf_17162071416676008329.plus.aac.p.m4a",
-    "spotifyId": "3U4isOIWM3VvDubwSI3y7a"
-  },
-  {
-    "id": "1451363345",
-    "name": "Ordinary People",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/61/99/ea/6199eaa8-b041-8634-c47d-f9c0c4a57104/mzaf_13172361864285325844.plus.aac.p.m4a",
-    "spotifyId": "2ZA4uMlSZjaoWGFqP1tsLI"
-  },
-  {
-    "id": "1441844642",
-    "name": "You & I (Nobody in the World)",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/31/8f/5c318f4f-8f22-0621-0922-ce836901a939/mzaf_2001073081652462704.plus.aac.p.m4a",
-    "spotifyId": "55nlbqqFVnSsArIeYSQlqx"
-  },
-  {
-    "id": "292767854",
-    "name": "Green Light (feat. André 3000)",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b9/41/ed/b941ed83-4230-1383-9c15-31924b1be047/mzaf_11807193460443912740.plus.aac.p.m4a",
-    "spotifyId": "72by3Re4C3eVEBXvsUo0zV"
-  },
-  {
-    "id": "1170698158",
-    "name": "Love Me Now",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e5/21/a9/e521a933-98a1-7c1c-0013-d4fce7848a6a/mzaf_921073384424059736.plus.aac.p.m4a",
-    "spotifyId": "6nxQdXa1uAL0rY72wPZu89"
-  },
-  {
-    "id": "482734113",
-    "name": "What Makes You Beautiful",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/bd/84/31/bd843169-11f8-adc6-7da1-0e744dc889f2/mzaf_9976382207184264032.plus.aac.p.m4a",
-    "spotifyId": "4cluDES4hQEUhmXj6TXkSo"
-  },
-  {
-    "id": "695318302",
-    "name": "Story of My Life",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/89/08/e6/8908e614-a313-0f73-f980-3bec6b0665b9/mzaf_2874864421229375558.plus.aac.p.m4a",
-    "spotifyId": "4nVBt6MZDDP6tRVdQTgxJg"
-  },
-  {
-    "id": "914556579",
-    "name": "Night Changes",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d0/94/c2/d094c26b-49a2-6fee-5f35-5d81c8d98548/mzaf_6574169018621617412.plus.aac.p.m4a",
-    "spotifyId": "5O2P9iiztwhomNh8xkR9lJ"
-  },
-  {
-    "id": "914556572",
-    "name": "Steal My Girl",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fb/12/6f/fb126f38-57da-041c-ffcc-2f2fafd0875f/mzaf_5013917587753207682.plus.aac.p.m4a",
-    "spotifyId": "2Bs4jQEGMycglOfWPBqrVG"
-  },
-  {
-    "id": "695318301",
-    "name": "Best Song Ever",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/2d/d9/87/2dd987a0-059a-9ad1-3c50-153906aec9ac/mzaf_11235919823542172723.plus.aac.p.m4a",
-    "spotifyId": "5T7ZFtCcOgkpjxcuaeZbw0"
-  },
-  {
-    "id": "1739659144",
-    "name": "WILDFLOWER",
-    "artist": "Billie Eilish",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/de/c3/e8/dec3e884-7237-9622-718a-12c5f48c5ca2/mzaf_3134455671785145822.plus.aac.p.m4a",
-    "spotifyId": "3QaPy1KgI7nu9FJEQUgn6h"
-  },
-  {
-    "id": "1739659142",
-    "name": "BIRDS OF A FEATHER",
-    "artist": "Billie Eilish",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/31/d3/3431d34e-847f-5d66-df83-0bce688d997e/mzaf_18106743962423782018.plus.aac.p.m4a",
-    "spotifyId": "6dOtVTDdiauQNBQEDOtlAB"
-  },
-  {
-    "id": "1440899467",
-    "name": "ocean eyes",
-    "artist": "Billie Eilish",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d6/59/2b/d6592b0b-1e7e-4743-b2e4-f2af038fd783/mzaf_7697277787797935735.plus.aac.p.m4a",
-    "spotifyId": "2uIX8YMNjGMD7441kqyyNU"
-  },
-  {
-    "id": "1369380479",
-    "name": "lovely",
-    "artist": "Billie Eilish & Khalid",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1e/d8/8d/1ed88d91-fb06-b3f2-5391-afd732cc2ff9/mzaf_18444937225262929488.plus.aac.p.m4a",
-    "spotifyId": "0u2P5u6lvoDfwTYjAADbn4"
-  },
-  {
-    "id": "1696819855",
-    "name": "What Was I Made For? (From The Motion Picture \"Barbie\")",
-    "artist": "Billie Eilish",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4e/89/79/4e8979d0-31cc-d2c7-751d-9c5368f53885/mzaf_8166853517153482173.plus.aac.p.m4a",
-    "spotifyId": "6wf7Yu7cxBSPrRlWeSeK0Q"
-  },
-  {
-    "id": "486040195",
-    "name": "We Are Young (feat. Janelle Monáe)",
-    "artist": "Fun.",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/63/a9/ed/63a9ede2-1823-d75f-7ae3-061b91790395/mzaf_17932545875589323048.plus.aac.p.m4a",
-    "spotifyId": "5rgy6ghBq1eRApCkeUdJXf"
-  },
-  {
-    "id": "486040196",
-    "name": "Carry On",
-    "artist": "Fun.",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/63/fb/4463fbf2-682a-4e6b-d2dc-4c41898d363e/mzaf_13660703829748455150.plus.aac.p.m4a",
-    "spotifyId": "5xZjfKSfTooDP2rcAgjxlH"
-  },
-  {
-    "id": "378658742",
-    "name": "Nightmare",
-    "artist": "Avenged Sevenfold",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/35/21/92/352192e5-d538-ec37-5491-b173a3ef93ba/mzaf_1465284581781996933.plus.aac.p.m4a",
-    "spotifyId": "4UEo1b0wWrtHMC8bVqPiH8"
-  },
-  {
-    "id": "266614007",
-    "name": "A Little Piece of Heaven",
-    "artist": "Avenged Sevenfold",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ec/61/97/ec6197ef-a51e-0c3f-c4f1-96b35bff4ba8/mzaf_716496341213239706.plus.aac.p.m4a",
-    "spotifyId": "1BLfQ6dPXmuDrFmbdfW7Jl"
+    "spotifyId": "3QksrtI9VFCBHWA4rgvcV8",
+    "soundcloudUrl": "https://soundcloud.com/frank-sinatra/theme-from-new-york-new-york"
   },
   {
     "id": "1450695739",
@@ -1650,132 +1091,13 @@
     "soundcloudUrl": "https://soundcloud.com/billieeilish/bad-guy"
   },
   {
-    "id": "1450695872",
-    "name": "when the party's over",
-    "artist": "Billie Eilish",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2a/ba/44/2aba4410-ba71-89ce-e075-10120409c31c/mzaf_16887001963655152332.plus.aac.p.m4a",
-    "spotifyId": "43zdsphuZLzwA9k4DJhU0I"
-  },
-  {
-    "id": "576655095",
-    "name": "Just the Way You Are",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/0c/9d/26/0c9d266f-632d-dbda-770d-55cdded795f8/mzaf_18078867637438469059.plus.aac.p.m4a",
-    "spotifyId": "7BqBn9nzAq8spo5e7cZ0dJ"
-  },
-  {
-    "id": "573962551",
-    "name": "Locked Out of Heaven",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f4/37/44/f4374481-e6e8-54d1-32ad-893ec2f4d495/mzaf_3915415747653767603.plus.aac.p.m4a",
-    "spotifyId": "3w3y8KPTfNeOKPiqUTakBh"
-  },
-  {
-    "id": "573962555",
-    "name": "When I Was Your Man",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/82/d2/9a/82d29a5f-d9a0-57f4-c0ec-f785969240c3/mzaf_5320660780349800682.plus.aac.p.m4a",
-    "spotifyId": "0nJW01T7XtvILxQgC5J7Wh"
-  },
-  {
-    "id": "1161504043",
-    "name": "That's What I Like",
-    "artist": "Bruno Mars",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ad/b1/86/adb18687-4c21-bd3d-6707-51bfb89a9339/mzaf_9755637347896433020.plus.aac.p.m4a",
-    "spotifyId": "0KKkJNfGyhkQ5aFogxQAPU"
-  },
-  {
     "id": "1207120448",
     "name": "Something Just Like This",
     "artist": "Coldplay",
     "genre": "rock",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/64/7f/96/647f9601-aa94-3599-6c73-0143510b8b92/mzaf_13538528720942742126.plus.aac.p.m4a",
-    "spotifyId": "1dNIEtp7AY3oDAKCGg2XkH"
-  },
-  {
-    "id": "1681329730",
-    "name": "Always",
-    "artist": "Daniel Caesar",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/29/94/e4/2994e49b-8613-f5bb-8533-7cf13de92630/mzaf_12958362463531140094.plus.aac.p.m4a",
-    "spotifyId": "2LlOeW5rVcvl3QcPNPcDus"
-  },
-  {
-    "id": "1406109863",
-    "name": "God's Plan",
-    "artist": "Drake",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/da/7d/f1/da7df14b-8ee6-5020-d850-ccc0381eb141/mzaf_5511967710095380808.plus.aac.p.m4a",
-    "spotifyId": "6DCZcSspjsKoFjzjrWoCdn"
-  },
-  {
-    "id": "1440892167",
-    "name": "Passionfruit",
-    "artist": "Drake",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/ae/54/9e/ae549e51-2ea1-0eb4-9963-f8ca6977af59/mzaf_3526477251118968088.plus.aac.p.m4a",
-    "spotifyId": "5mCPDVBb16L4XQwDdbRUpz"
-  },
-  {
-    "id": "1443231169",
-    "name": "Work (feat. Rihanna)",
-    "artist": "Drake",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f7/8d/12/f78d1232-043f-3573-22a9-d65edd474f93/mzaf_8658533347319025740.plus.aac.p.m4a",
-    "spotifyId": "72TFWvU3wUYdUuxejTTIzt"
-  },
-  {
-    "id": "1471580177",
-    "name": "I Don't Care",
-    "artist": "Ed Sheeran",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/84/bb/fb/84bbfbcd-9f63-dfa0-8660-ff86ced2eaaa/mzaf_11693010840075646451.plus.aac.p.m4a",
-    "spotifyId": "6hvRoJ0BTZywxu8UCPBkzx"
-  },
-  {
-    "id": "923608498",
-    "name": "Let It Snow! Let It Snow! Let It Snow!",
-    "artist": "Frank Sinatra",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/1a/c1/e6/1ac1e654-d287-b4ed-f7a5-c8c05038f997/mzaf_550453738490077406.plus.aac.p.m4a",
-    "spotifyId": "4kKdvXD0ez7jp1296JmAts"
-  },
-  {
-    "id": "1440858703",
-    "name": "Somethin' Stupid",
-    "artist": "Frank Sinatra",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/11/98/28/119828f7-15ef-acb2-f51c-0d2d668f0803/mzaf_16760706449548374681.plus.aac.p.m4a",
-    "spotifyId": "4feXcsElKIVsGwkbnTHAfV"
-  },
-  {
-    "id": "601186061",
-    "name": "Some Nights",
-    "artist": "Fun.",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fd/74/9b/fd749b38-22b2-2820-fe5e-2ed8849a1da0/mzaf_6723634430028206406.plus.aac.p.m4a",
-    "spotifyId": "67WTwafOMgegV6ABnBQxcE"
-  },
-  {
-    "id": "435861801",
-    "name": "C'mon",
-    "artist": "Fun.",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b4/9d/42/b49d42a0-dbaa-499a-f65d-43436832a844/mzaf_15747143423084859365.plus.aac.p.m4a",
-    "spotifyId": "4SQAYXO7M0qciGFfaPYsCJ"
-  },
-  {
-    "id": "486040198",
-    "name": "Why Am I the One",
-    "artist": "Fun.",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a3/7c/7f/a37c7f54-108c-41db-c277-e9ced02cb42e/mzaf_9162082236518986579.plus.aac.p.m4a",
-    "spotifyId": "2bEWRMWfH5n8QEuXgVlcxf"
+    "spotifyId": "1dNIEtp7AY3oDAKCGg2XkH",
+    "soundcloudUrl": "https://soundcloud.com/coldplay/something-just-like-this"
   },
   {
     "id": "1450406398",
@@ -1783,7 +1105,8 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ce/5e/1d/ce5e1daa-8337-3071-1d5d-c58f26ad006e/mzaf_13777424473798520781.plus.aac.p.m4a",
-    "spotifyId": "2JvzF1RMd7lE3KmFlsyZD8"
+    "spotifyId": "2JvzF1RMd7lE3KmFlsyZD8",
+    "soundcloudUrl": "https://soundcloud.com/j-cole/middle-child"
   },
   {
     "id": "1440545960",
@@ -1791,7 +1114,8 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/59/b6/58/59b658dc-bf53-d179-8bef-66a70e269d56/mzaf_15637929840161306626.plus.aac.p.m4a",
-    "spotifyId": "2wAJTrFhCnQyNSD3oUgTZO"
+    "spotifyId": "2wAJTrFhCnQyNSD3oUgTZO",
+    "soundcloudUrl": "https://soundcloud.com/j-cole/work-out"
   },
   {
     "id": "1529504220",
@@ -1799,271 +1123,8 @@
     "artist": "J. Cole",
     "genre": "hip-hop",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/15/90/1e/15901e79-802f-71ab-161c-1b1ace396ce0/mzaf_826777063245532329.plus.aac.p.m4a",
-    "spotifyId": "2uwnP6tZVVmTovzX5ELooy"
-  },
-  {
-    "id": "509536634",
-    "name": "93 Million Miles",
-    "artist": "Jason Mraz",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/24/e1/ec/24e1ec92-ae06-5e34-198d-daf43f7e6137/mzaf_13274914157391185341.plus.aac.p.m4a",
-    "spotifyId": "1s8tP3jP4GZcyHDsjvw218"
-  },
-  {
-    "id": "1443430125",
-    "name": "Beauty and the Beast",
-    "artist": "John Legend",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/50/28/0c/50280c21-7494-7ea9-2475-81944e05eef9/mzaf_10944248958612779522.plus.aac.p.m4a",
-    "spotifyId": "7wMPhUSe6CZga1vOMpLTJP"
-  },
-  {
-    "id": "1440766431",
-    "name": "Ni**as In Paris",
-    "artist": "Jay-Z & Kanye West",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/16/05/26/1605268b-83ce-6c22-1224-e999d0006a6d/mzaf_4723869812628029401.plus.aac.p.m4a",
-    "spotifyId": "1auxYwYrFRqZP7t3s7w4um"
-  },
-  {
-    "id": "1442846328",
-    "name": "Stronger",
-    "artist": "Kanye West",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/96/f2/25/96f225f2-cd07-3639-4133-0910aa9725c0/mzaf_13857358519708863745.plus.aac.p.m4a",
-    "spotifyId": "0j2T0R9dR9qdJYsB7ciXhf"
-  },
-  {
-    "id": "1442846712",
-    "name": "Flashing Lights",
-    "artist": "Kanye West",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c3/c6/c6/c3c6c652-2f19-1511-c8e9-e9caf9b6b4ac/mzaf_8110172512846397285.plus.aac.p.m4a",
-    "spotifyId": "5TRPicyLGbAF2LGBFbHGvO"
-  },
-  {
-    "id": "716192625",
-    "name": "Firework",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ab/27/3b/ab273b22-1eb1-dd49-5332-5ef70c35683b/mzaf_4912325324633099647.plus.aac.p.m4a",
-    "spotifyId": "4r6eNCsrZnQWJzzvFh4nlg"
-  },
-  {
-    "id": "716192666",
-    "name": "The One That Got Away",
-    "artist": "Katy Perry",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9c/d0/bf/9cd0bf4f-46b0-e887-f5ae-a1f9e19ff703/mzaf_11827369852171832648.plus.aac.p.m4a",
-    "spotifyId": "3oL3XRtkP1WVbMxf7dtTdu"
-  },
-  {
-    "id": "1440882165",
-    "name": "HUMBLE.",
-    "artist": "Kendrick Lamar",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/30/3f/27/303f27c8-1997-8c57-66b3-b67e7c720779/mzaf_5598476068977070849.plus.aac.p.m4a",
-    "spotifyId": "7KXjTSCq5nL1LoYtL7XAwS"
-  },
-  {
-    "id": "1440903307",
-    "name": "All The Stars",
-    "artist": "Kendrick Lamar",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/8b/2c/ea8b2cf4-95f2-b0b3-ffc5-10f4611bf98f/mzaf_6758805407695014001.plus.aac.p.m4a",
-    "spotifyId": "3GCdLUSnKSMJhs4Tj6CV3s"
-  },
-  {
-    "id": "1440860400",
-    "name": "Money Trees",
-    "artist": "Kendrick Lamar",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/be/7f/2f/be7f2fe2-41dd-6b9a-4957-a10ac5c62989/mzaf_17460900856492630846.plus.aac.p.m4a",
-    "spotifyId": "2HbKqm4o0w5wEeEFXm2sD4"
-  },
-  {
-    "id": "1577631231",
-    "name": "Poker Face",
-    "artist": "Lady Gaga",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/aa/0c/99/aa0c99d5-216b-8fb4-afac-7045983890a4/mzaf_2955331233441591766.plus.aac.p.m4a",
-    "spotifyId": "5R8dQOPq8haW94K7mgERlO"
-  },
-  {
-    "id": "1704956549",
-    "name": "Bad Romance",
-    "artist": "Lady Gaga",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8a/fb/29/8afb298f-b98c-1b57-6b35-f2c8a698b6f8/mzaf_4447381537757030656.plus.aac.p.m4a",
-    "spotifyId": "0SiywuOBRcynK0uKGWdCnn"
-  },
-  {
-    "id": "1204246290",
-    "name": "iSpy",
-    "artist": "Lil Yachty",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/0f/e8/5d/0fe85df6-9c59-b904-9048-13b38f52868a/mzaf_698819110898534169.plus.aac.p.m4a",
-    "spotifyId": "2EEeOnHehOozLq4aS0n6SL"
-  },
-  {
-    "id": "1105607878",
-    "name": "Broccoli",
-    "artist": "Lil Yachty",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e7/dd/eb/e7ddeb4c-3701-aa8b-da15-f629e563b7d1/mzaf_17498157455262136457.plus.aac.p.m4a",
-    "spotifyId": "7yyRTcZmCiyzzJlNzGC9Ol"
-  },
-  {
-    "id": "1447452168",
-    "name": "a lot",
-    "artist": "21 Savage",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2d/81/ab/2d81abff-5771-847e-f887-72704ea5feca/mzaf_17844188204827565393.plus.aac.p.m4a",
-    "spotifyId": "2t8yVaLvJ0RenpXUIAC52d"
-  },
-  {
-    "id": "1657584259",
-    "name": "Creepin'",
-    "artist": "21 Savage",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/47/ba/83/47ba83bd-ff6a-d4b2-f126-545a170f0775/mzaf_2932236241939206370.plus.aac.p.m4a",
-    "spotifyId": "2dHHgzDwk4BJdRwy9uXhTO"
-  },
-  {
-    "id": "1630221907",
-    "name": "Jimmy Cooks",
-    "artist": "21 Savage",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/36/94/0c/36940cb0-8ee1-8381-e564-5f4c004b5012/mzaf_17834639626375554756.plus.aac.p.m4a",
-    "spotifyId": "3F5CgOj3wFlRv51JsHbxhe"
-  },
-  {
-    "id": "1040195238",
-    "name": "Drag Me Down",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/be/63/e6/be63e65a-640d-2dc0-0ebf-d1091ecab0d3/mzaf_3364590603754769759.plus.aac.p.m4a",
-    "spotifyId": "2K87XMYnUMqLcX3zvtAF4G"
-  },
-  {
-    "id": "1040171617",
-    "name": "Perfect",
-    "artist": "One Direction",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7c/f2/28/7cf228eb-3d7e-63b6-866e-02046ac0287b/mzaf_6967391765231745117.plus.aac.p.m4a",
-    "spotifyId": "3NLnwwAQbbFKcEcV8hDItk"
-  },
-  {
-    "id": "1477880568",
-    "name": "Take What You Want",
-    "artist": "Ozzy Osbourne",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8c/18/0c/8c180cbf-fd85-f66e-94fc-0c8ef0907eaf/mzaf_7990572326010613746.plus.aac.p.m4a",
-    "spotifyId": "7CZyCXKG6d5ALeq41sLzbw"
-  },
-  {
-    "id": "192826926",
-    "name": "Bark at the Moon",
-    "artist": "Ozzy Osbourne",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/08/ea/58/08ea5876-cd09-1405-7524-e3377e2b0487/mzaf_3235916206745576243.plus.aac.p.m4a",
-    "spotifyId": "2E7W1X4maFFcjHrVrFA7Vs"
-  },
-  {
-    "id": "1373506170",
-    "name": "rockstar",
-    "artist": "Post Malone",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/37/94/223794d5-e415-e646-a1c6-a52f178f9c82/mzaf_4256851832513251175.plus.aac.p.m4a",
-    "spotifyId": "19bX4zmC2zDben2ldhoRB3"
-  },
-  {
-    "id": "1698224411",
-    "name": "Congratulations",
-    "artist": "Post Malone",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/5a/d1/3f/5ad13fa7-348e-642b-7dbb-8415810e96b0/mzaf_17745491357360250248.plus.aac.p.m4a",
-    "spotifyId": "3a1lNhkSLSkpJE4MSHpDu9"
-  },
-  {
-    "id": "1373506180",
-    "name": "Better Now",
-    "artist": "Post Malone",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a1/2a/06/a12a0675-58e5-c404-5f55-64f0b7058f42/mzaf_4757445611632570860.plus.aac.p.m4a",
-    "spotifyId": "7dt6x5M1jzdTEt8oCbisTK"
-  },
-  {
-    "id": "1229320470",
-    "name": "Let's Go Crazy",
-    "artist": "Prince & The Revolution",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/99/8b/38998b6e-08ae-79c0-045c-15f649fa4f5a/mzaf_12306155360479044302.plus.aac.p.m4a",
-    "spotifyId": "6FMIVQPZg9cmMY8hPxAacD"
-  },
-  {
-    "id": "1440806739",
-    "name": "Under Pressure",
-    "artist": "Queen",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/74/42/5f/74425f2e-4c63-0514-951a-891ad9753097/mzaf_3082293095615590695.plus.aac.p.m4a",
-    "spotifyId": "5AZGbqiIK5t1jrWSPT7k8X"
-  },
-  {
-    "id": "1108212668",
-    "name": "This Is What You Came For",
-    "artist": "Rihanna",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/e6/4c/8a/e64c8a6b-49e1-6ead-4f22-7d81dea2768e/mzaf_1927716231528220099.plus.aac.p.m4a",
-    "spotifyId": "0azC730Exh71aQlOt9Zj3y"
-  },
-  {
-    "id": "1440782199",
-    "name": "Love The Way You Lie",
-    "artist": "Rihanna",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/62/39/b4/6239b410-56e8-b8fa-8c45-9ca626127de1/mzaf_17806806395705664356.plus.aac.p.m4a",
-    "spotifyId": "15JINEqzVMv3SvJTAXAKED"
-  },
-  {
-    "id": "1447334978",
-    "name": "Dancing With A Stranger",
-    "artist": "Sam Smith",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c3/30/69/c33069cc-5980-a257-d19d-3b7aff8ff6a6/mzaf_7297139468848368484.plus.aac.p.m4a",
-    "spotifyId": "6Qs4SXO9dwPj5GKvVOv8Ki"
-  },
-  {
-    "id": "1628887491",
-    "name": "Still Waiting",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/41/f4/66/41f466cb-f7d2-f304-d4a3-77d8376b0ac3/mzaf_1394818477615307639.plus.aac.p.m4a",
-    "spotifyId": "4rLKjYqJjLU0Odg52kGL2O"
-  },
-  {
-    "id": "1440660166",
-    "name": "The Hell Song",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/42/f5/37/42f53769-d33a-8975-f00c-01e9b7a6d70d/mzaf_6477729967586525488.plus.aac.p.m4a",
-    "spotifyId": "1hPftDY3fsBXQuZvzShMYA"
-  },
-  {
-    "id": "1444778263",
-    "name": "I Don't Wanna Live Forever",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/be/ff/c1/beffc1a5-c509-75c5-0ec6-0112e6a3d241/mzaf_18411584998255494412.plus.aac.p.m4a",
-    "spotifyId": "55n9yjI6qqXh5F2mYvUc2y"
-  },
-  {
-    "id": "1443721398",
-    "name": "You're Gonna Go Far, Kid",
-    "artist": "The Offspring",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c7/41/77/c74177cb-d860-9765-6b6c-8f515be66a71/mzaf_2795670426338482385.plus.aac.p.m4a",
-    "spotifyId": "6TfBA04WJ3X1d1wXhaCFVT"
+    "spotifyId": "2uwnP6tZVVmTovzX5ELooy",
+    "soundcloudUrl": "https://soundcloud.com/j-cole/power-trip"
   },
   {
     "id": "1440870375",
@@ -2084,44 +1145,13 @@
     "soundcloudUrl": "https://soundcloud.com/theweeknd/save-your-tears"
   },
   {
-    "id": "1600773036",
-    "name": "No Role Modelz",
-    "artist": "J. Cole",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/81/a2/33/81a2333c-1a07-0505-5375-2f1aa74ddf8e/mzaf_17607571914784018837.plus.aac.p.m4a",
-    "spotifyId": "68Dni7IE4VyPkTOH9mRWHr"
-  },
-  {
-    "id": "590423286",
-    "name": "Faint",
-    "artist": "LINKIN PARK",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/72/81/42/72814285-6c1a-d0a4-89e2-8aeeda6cfc37/mzaf_17180911196812101386.plus.aac.p.m4a",
-    "spotifyId": "4Yf5bqU3NK4kNOypcrLYwU"
-  },
-  {
-    "id": "1843774120",
-    "name": "Slide",
-    "artist": "Migos",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/09/73/74/097374d4-053e-76eb-69fa-e02e1a67fe77/mzaf_15513773439102120776.plus.aac.p.m4a",
-    "spotifyId": "7tr2za8SQg2CI8EDgrdtNl"
-  },
-  {
-    "id": "1544292230",
-    "name": "Raspberry Beret",
-    "artist": "Prince & The Revolution",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/5a/d0/c3/5ad0c3fe-ce9d-7280-59a1-04447cbc736a/mzaf_13265204289163118189.plus.aac.p.m4a",
-    "spotifyId": "5jSz894ljfWE0IcHBSM39i"
-  },
-  {
     "id": "1443062439",
     "name": "We Found Love",
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/84/20/86/842086d1-bb81-a7cc-fc84-1f5e87ee32c2/mzaf_17030072356129507733.plus.aac.p.m4a",
-    "spotifyId": "1zv3WFUbZ5vPxFq9I2jAU1"
+    "spotifyId": "1zv3WFUbZ5vPxFq9I2jAU1",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/we-found-love"
   },
   {
     "id": "1445051482",
@@ -2129,142 +1159,7 @@
     "artist": "Rihanna",
     "genre": "other",
     "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/92/fa/40/92fa40e2-02b2-dd4c-e26a-8836e4ae98f0/mzaf_5474480802718053434.plus.aac.p.m4a",
-    "spotifyId": "5oO3drDxtziYU2H1X23ZIp"
-  },
-  {
-    "id": "1440659999",
-    "name": "Fat Lip",
-    "artist": "Sum 41",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4f/bb/63/4fbb63dc-140b-2371-d3f9-5b9e1a9f80cc/mzaf_3122477036994646893.plus.aac.p.m4a",
-    "spotifyId": "3tWudnj1NK7YUfnR91nezW"
-  },
-  {
-    "id": "1468058173",
-    "name": "Lover",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e0/db/47/e0db47b0-7f70-0631-0414-cd4777d2fb3e/mzaf_6362891154838442638.plus.aac.p.m4a",
-    "spotifyId": "1dGr1c8CrMLDpV6mPbImSI"
-  },
-  {
-    "id": "1649434293",
-    "name": "Anti-Hero",
-    "artist": "Taylor Swift",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/56/2a/1d562a07-dc5f-a9c0-1f36-2051a8c14eb7/mzaf_7214829135431340590.plus.aac.p.m4a",
-    "spotifyId": "0V3wPSX9ygBnCm8psDIegu"
-  },
-  {
-    "id": "1440858495",
-    "name": "The Hills",
-    "artist": "The Weeknd",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/70/c8/0b70c898-ec23-3131-5d17-aa7417045013/mzaf_3059117378996578649.plus.aac.p.m4a",
-    "spotifyId": "7fBv7CLKzipRk6EC6TWHOB"
-  },
-  {
-    "id": "271978757",
-    "name": "Motorcycle Drive By",
-    "artist": "Third Eye Blind",
-    "genre": "rock",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/51/d2/0c/51d20c8a-9126-d7a3-2c0d-450c9946f52c/mzaf_5413582484223849287.plus.aac.p.m4a",
-    "spotifyId": "47wtXjG0Sk6DI6cjkRBcEg"
-  },
-  {
-    "id": "1151481750",
-    "name": "goosebumps",
-    "artist": "Travis Scott",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/03/0a/ae/030aaeb0-a9fc-280e-c33c-e02d0b95264c/mzaf_13068295871760308152.plus.aac.p.m4a",
-    "spotifyId": "6gBFPUFcJLzWGx4lenP6h2"
-  },
-  {
-    "id": "1482217453",
-    "name": "HIGHEST IN THE ROOM",
-    "artist": "Travis Scott",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/cf/b1/d9/cfb1d96a-86e4-07a5-e228-539246a1a241/mzaf_2820870448525548346.plus.aac.p.m4a",
-    "spotifyId": "3eekarcy7kvN4yt5ZFzltW"
-  },
-  {
-    "id": "1444323011",
-    "name": "After The Storm",
-    "artist": "Tyler, The Creator",
-    "genre": "hip-hop",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/a6/99/eaa699af-33dc-3f58-5ebd-e4b830707647/mzaf_11136703388258616116.plus.aac.p.m4a",
-    "spotifyId": "1AZlOsf9LnEGibuPXanV8x"
-  },
-  {
-    "id": "529020329",
-    "name": "DJ Got Us Fallin' In Love",
-    "artist": "USHER",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/b9/82/bfb98232-b8f9-eee6-496e-a1a4a465a8d6/mzaf_3513875338366925169.plus.aac.p.m4a",
-    "spotifyId": "4356Typ82hUiFAynbLYbPn"
-  },
-  {
-    "id": "693290780",
-    "name": "Without You",
-    "artist": "USHER",
-    "genre": "other",
-    "preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4b/8c/3e/4b8c3ed1-7a96-1776-dc7c-caa8edc35363/mzaf_408107167294346974.plus.aac.p.m4a",
-    "spotifyId": "1tAutlhI9FwnKn7fVgmd5P"
-  },
-  {
-    "id": "",
-    "artist": "Daniel Caesar",
-    "name": "Japanese Denim",
-    "genre": "other",
-    "preview_url": "",
-    "spotifyId": "7IVukH71OXfAu3KudrrizN"
-  },
-  {
-    "id": "",
-    "artist": "Lil Yachty",
-    "name": "1 Night",
-    "genre": "hip-hop",
-    "preview_url": "",
-    "spotifyId": "40yJGQyEaBbIkXpwMFkXip"
-  },
-  {
-    "id": "",
-    "artist": "The Offspring",
-    "name": "Why Don't You Get a Job?",
-    "genre": "rock",
-    "preview_url": "",
-    "spotifyId": "0sNKiz82ATCvT3f3XVVUUj"
-  },
-  {
-    "id": "",
-    "artist": "Tyler, The Creator",
-    "name": "See You Again",
-    "genre": "hip-hop",
-    "preview_url": "",
-    "spotifyId": "7KA4W4McWYRpgf0fWsJZWB"
-  },
-  {
-    "id": "",
-    "artist": "Tyler, The Creator",
-    "name": "EARFQUAKE",
-    "genre": "hip-hop",
-    "preview_url": "",
-    "spotifyId": "5hVghJ4KaYES3BFUATCYn0"
-  },
-  {
-    "id": "",
-    "artist": "Tyler, The Creator",
-    "name": "NEW MAGIC WAND",
-    "genre": "hip-hop",
-    "preview_url": "",
-    "spotifyId": "0fv2KH6hac06J86hBUTcSf"
-  },
-  {
-    "id": "",
-    "artist": "Tyler, The Creator",
-    "name": "ARE WE STILL FRIENDS?",
-    "genre": "hip-hop",
-    "preview_url": "",
-    "spotifyId": "5TxRUOsGeWeRl3xOML59Ai"
+    "spotifyId": "5oO3drDxtziYU2H1X23ZIp",
+    "soundcloudUrl": "https://soundcloud.com/rihanna/love-on-the-brain"
   }
 ]
