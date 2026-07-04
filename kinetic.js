@@ -88,7 +88,7 @@
         if (v > 0.004) {
           active = true;
           chars[k].style.fontVariationSettings =
-            '"opsz" 144, "SOFT" ' + (60 + 40 * v).toFixed(1) + ', "wght" ' + (640 + 150 * v).toFixed(0);
+            '"wght" ' + (600 + 250 * v).toFixed(0);
           chars[k].style.transform =
             'translateY(' + (0.07 * v).toFixed(3) + 'em) scaleY(' + (1 - 0.11 * v).toFixed(3) + ')';
         } else if (chars[k].style.transform) {
@@ -139,15 +139,14 @@
 
   /* ---------- compound: weight grows on an accelerating curve ---------- */
   function compound(el, chars) {
-    var BASE = 300, REST = 640, MAX = 900, DUR = 900;
+    var BASE = 250, REST = 600, MAX = 900, DUR = 900;
     var w = chars.map(function () { return BASE; });
     var target = chars.map(function () { return REST; });
     var start = chars.map(function (_, k) { return 250 * Math.pow(1.12, k); });
     var holding = false, raf = null, t0 = null;
 
     function apply(k) {
-      chars[k].style.fontVariationSettings =
-        '"opsz" 144, "SOFT" 60, "wght" ' + w[k].toFixed(0);
+      chars[k].style.fontVariationSettings = '"wght" ' + w[k].toFixed(0);
     }
     chars.forEach(function (_, k) { apply(k); });
 

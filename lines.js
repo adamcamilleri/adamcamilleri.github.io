@@ -1,8 +1,8 @@
-/* The line field — three flowing lines behind the cover, one per clock:
-   honey (dough time), phosphor (job time), wafer (market time).
-   Each line drifts continuously; how far across the screen it has drawn
-   is scrubbed by scroll progress, with a bright "now" head at the tip.
-   Static single frame under prefers-reduced-motion. */
+/* The line scene — vectr-style flowing 3D lines on a pale panel, fixed
+   behind the hero. Red and blue curves drift in perspective; scroll
+   scrubs how far each has drawn plus the camera drift, and the pointer
+   adds parallax. Content below the hero covers the canvas as you scroll.
+   Renders one static frame under prefers-reduced-motion. */
 (function () {
   'use strict';
 
@@ -13,64 +13,100 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var LINES = [
-    { color: '#C97C1B', base: 0.30, a1: 46, f1: 0.0038, s1: 0.00022, a2: 14, f2: 0.011, s2: -0.00035 },
-    { color: '#57B78C', base: 0.54, a1: 34, f1: 0.0031, s1: -0.00018, a2: 18, f2: 0.009, s2: 0.00028 },
-    { color: '#8FA3DE', base: 0.76, a1: 52, f1: 0.0026, s1: 0.00015, a2: 10, f2: 0.013, s2: -0.00024 }
-  ];
+  var BG = '#D0E1EB';
+  var RED = '#ff4d67';
+  var BLUE = '#0e94fb';
 
-  var W = 0, H = 0, DPR = 1;
-  var mouseY = 0.5, driftY = 0.5;
+  /* Each line lives in 3D: x runs across, y waves, z gives depth. */
+  var LINES = [
+    { color: RED,  y: -0.16, z: 1.9, a1: 0.34, f1: 1.6, s1: 0.00030, a2: 0.10, f2: 4.2, s2: -0.00052, w: 1.6 },
+    { color: RED,  y: -0.05, z: 3.1, a1: 0.28, f1: 1.2, s1: -0.00022, a2: 0.13, f2: 3.1, s2: 0.00040, w: 1.2 },
+    { color: RED,  y:  0.14, z: 4.6, a1: 0.42, f1: 0.9, s1: 0.00017, a2: 0.08, f2: 5.0, s2: -0.00033, w: 0.9 },
+    { color: BLUE, y:  0.05, z: 1.6, a1: 0.30, f1: 1.4, s1: -0.00027, a2: 0.11, f2: 3.7, s2: 0.00047, w: 1.7 },
+    { color: BLUE, y:  0.20, z: 2.8, a1: 0.36, f1: 1.1, s1: 0.00021, a2: 0.09, f2: 4.6, s2: -0.00038, w: 1.2 },
+    { color: BLUE, y: -0.22, z: 4.1, a1: 0.26, f1: 1.8, s1: -0.00016, a2: 0.12, f2: 2.8, s2: 0.00029, w: 0.9 }
+  ];
+  var SEGMENTS = 130;
+
+  var W = 0, H = 0;
+  var mx = 0.5, my = 0.5, px = 0.5, py = 0.5;
 
   function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth;
     H = window.innerHeight;
-    canvas.width = W * DPR;
-    canvas.height = H * DPR;
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (reduced) draw(0);
   }
 
   function progress() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
-    return max > 0 ? window.scrollY / max : 0;
+    return max > 0 ? Math.min(1, window.scrollY / max) : 0;
+  }
+
+  /* Perspective projection: world (u across [-1..1], y, z) -> screen. */
+  function project(u, y, z, camY) {
+    var f = 1.9 / z;
+    return {
+      x: W * (0.5 + u * 0.62 * (0.6 + f * 0.4)),
+      y: H * (0.52 + (y - camY) * f),
+      f: f
+    };
   }
 
   function draw(t) {
-    ctx.clearRect(0, 0, W, H);
-    var frac = reduced ? 1 : Math.min(1, 0.32 + 0.68 * Math.min(1, progress() * 1.5));
-    driftY += (mouseY - driftY) * 0.04;
-    var parallax = (driftY - 0.5) * 26;
+    ctx.fillStyle = BG;
+    ctx.fillRect(0, 0, W, H);
 
-    for (var i = 0; i < LINES.length; i++) {
-      var L = LINES[i];
-      var endX = W * frac;
-      var yFor = function (x) {
-        return H * L.base + parallax * (i - 1) +
-          L.a1 * Math.sin(x * L.f1 + t * L.s1 + i * 2.1) +
-          L.a2 * Math.sin(x * L.f2 + t * L.s2 + i * 4.7);
-      };
+    px += (mx - px) * 0.04;
+    py += (my - py) * 0.04;
+    var scroll = reduced ? 0.5 : progress();
+    var frac = reduced ? 1 : Math.min(1, 0.30 + 0.70 * Math.min(1, scroll * 1.6));
+    var camY = (py - 0.5) * 0.10 + scroll * 0.16;
+    var camX = (px - 0.5) * 0.06;
 
+    /* far lines first so near lines layer over them */
+    var order = LINES.slice().sort(function (a, b) { return b.z - a.z; });
+
+    for (var i = 0; i < order.length; i++) {
+      var L = order[i];
+      var pts = [];
+      var n = Math.max(2, Math.floor(SEGMENTS * frac));
+      for (var s = 0; s <= n; s++) {
+        var u = -1.15 + (s / SEGMENTS) * 2.3;
+        var y = L.y +
+          L.a1 * 0.22 * Math.sin(u * L.f1 * Math.PI + t * L.s1 * 8 + L.z) +
+          L.a2 * 0.22 * Math.sin(u * L.f2 * Math.PI + t * L.s2 * 8 + L.z * 2.3);
+        var z = L.z + Math.sin(u * 1.3 + t * 0.00018 * 8 + L.z) * 0.5;
+        pts.push(project(u + camX, y, z, camY));
+      }
+
+      /* glow pass, then core */
       ctx.beginPath();
-      for (var x = 0; x <= endX; x += 7) ctx.lineTo(x, yFor(x));
-      ctx.lineTo(endX, yFor(endX));
+      for (var k = 0; k < pts.length; k++) ctx.lineTo(pts[k].x, pts[k].y);
       ctx.strokeStyle = L.color;
-      ctx.globalAlpha = 0.34;
-      ctx.lineWidth = 1.4;
+      ctx.lineWidth = L.w * 6;
+      ctx.globalAlpha = 0.07;
+      ctx.stroke();
+      ctx.lineWidth = L.w * 1.5;
+      ctx.globalAlpha = 0.28 + 0.30 / L.z;
       ctx.stroke();
 
-      /* the "now" head at the tip of each clock */
-      var hy = yFor(endX);
-      ctx.globalAlpha = 0.16;
-      ctx.beginPath();
-      ctx.arc(endX, hy, 7, 0, Math.PI * 2);
-      ctx.fillStyle = L.color;
-      ctx.fill();
-      ctx.globalAlpha = 0.9;
-      ctx.beginPath();
-      ctx.arc(endX, hy, 2.4, 0, Math.PI * 2);
-      ctx.fill();
+      /* the bright head at the drawn tip */
+      if (!reduced && frac < 1) {
+        var tip = pts[pts.length - 1];
+        ctx.globalAlpha = 0.14;
+        ctx.beginPath();
+        ctx.arc(tip.x, tip.y, 9 * tip.f, 0, Math.PI * 2);
+        ctx.fillStyle = L.color;
+        ctx.fill();
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(tip.x, tip.y, 2.6 * tip.f, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
     ctx.globalAlpha = 1;
   }
@@ -78,14 +114,16 @@
   window.addEventListener('resize', resize);
   if (!reduced) {
     window.addEventListener('pointermove', function (e) {
-      mouseY = e.clientY / Math.max(1, H);
+      mx = e.clientX / Math.max(1, W);
+      my = e.clientY / Math.max(1, H);
     }, { passive: true });
   }
 
   resize();
   if (!reduced) {
     (function loop(now) {
-      draw(now);
+      /* skip work once the hero has fully scrolled past */
+      if (window.scrollY < window.innerHeight * 1.4) draw(now);
       requestAnimationFrame(loop);
     })(0);
   }
