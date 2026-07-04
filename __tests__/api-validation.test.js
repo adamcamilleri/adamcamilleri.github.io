@@ -53,47 +53,4 @@ describe('API validation', () => {
     });
   });
 
-  describe('POST /api/save-design', () => {
-    test('rejects missing html', async () => {
-      const res = await request(app)
-        .post('/api/save-design')
-        .set('Origin', 'http://localhost:3000')
-        .send({});
-      expect(res.status).toBe(400);
-    });
-
-    test('rejects html too large', async () => {
-      const res = await request(app)
-        .post('/api/save-design')
-        .set('Origin', 'http://localhost:3000')
-        .send({ html: 'x'.repeat(500001) });
-      expect(res.status).toBe(413);
-    });
-  });
-
-  describe('POST /api/create-payment-link', () => {
-    test('rejects zero amount', async () => {
-      const res = await request(app)
-        .post('/api/create-payment-link')
-        .set('Origin', 'http://localhost:3000')
-        .send({ amount: 0 });
-      expect(res.status).toBe(400);
-    });
-
-    test('rejects negative amount', async () => {
-      const res = await request(app)
-        .post('/api/create-payment-link')
-        .set('Origin', 'http://localhost:3000')
-        .send({ amount: -100 });
-      expect(res.status).toBe(400);
-    });
-
-    test('rejects amount exceeds maximum', async () => {
-      const res = await request(app)
-        .post('/api/create-payment-link')
-        .set('Origin', 'http://localhost:3000')
-        .send({ amount: 100000000 });
-      expect(res.status).toBe(400);
-    });
-  });
 });

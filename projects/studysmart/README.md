@@ -24,7 +24,7 @@ A productivity-focused Pomodoro timer application with customizable work/break i
 
 ## Live Demo
 
-Visit the live demo at: [StudyBuddy Demo](https://adamcamilleri.github.io/projects/studybuddy/)
+Visit the live demo at: [StudyBuddy Demo](https://adamcamilleri.github.io/projects/studysmart/)
 
 ## License
 

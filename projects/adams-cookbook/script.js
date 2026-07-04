@@ -793,7 +793,7 @@ function renderRecipes() {
     recipeFeed.innerHTML = recipes.map((recipe, i) => `
         <div class="recipe-card card-overlay" data-id="${recipe.id}">
             <div class="thumbnail-wrapper">
-                <img src="${recipe.thumbnail}" alt="${recipe.title}" class="recipe-thumbnail">
+                <img src="${recipe.thumbnail}" alt="${recipe.title}" class="recipe-thumbnail" loading="lazy" decoding="async">
             </div>
             <div class="recipe-info">
                 <h3 class="recipe-title">${recipe.title}</h3>
@@ -933,7 +933,7 @@ function displaySearchResults(results) {
     } else {
         searchResults.innerHTML = results.map(recipe => `
             <div class="search-result-item" data-id="${recipe.id}">
-                <img src="${recipe.thumbnail}" alt="${recipe.title}" class="search-result-thumbnail">
+                <img src="${recipe.thumbnail}" alt="${recipe.title}" class="search-result-thumbnail" loading="lazy" decoding="async">
                 <div class="search-result-info">
                     <div class="search-result-title">${recipe.title}</div>
                     <div class="search-result-description">${recipe.description}</div>

@@ -5,19 +5,24 @@ Personal portfolio + mini-app demos. See `.planning/STATE.md` for current phase 
 ## Monorepo Layout
 
 ```
-repo root/              Portfolio shell (index.html, style.css)
+repo root/              Editorial portfolio (index.html, style.css, site.js, kinetic.js, smooth.js, lines.js)
+├── pizza/              Feature 01 · The 72-Hour Pie
+├── work/               Feature 02 · The Nightly Run (proficiencies, timeline, projects)
+├── investing/          Feature 03 · The Long Position
 ├── api/                Vercel serverless functions (one file = one endpoint)
 │   └── _lib/           Shared utilities — NOT endpoints (Vercel ignores _ dirs)
 │       ├── cors.js     setCorsHeaders(req, res) — CORS for all handlers
+│       ├── api-key.js  checkApiKey(req, res) — auth for POST endpoints
 │       └── mongodb.js  getDb() — ping-guarded MongoClient singleton
 ├── projects/           Self-contained mini-app demos
 │   ├── handoff/        AI website builder (main demo)
 │   ├── songdle/        Daily song guessing game
 │   ├── taskmaster/     Full Next.js 14 task manager (own package.json)
-│   ├── studybuddy/     Static study tool
+│   ├── studysmart/     Static study tool
 │   ├── connect-four/   Static Connect Four game
+│   ├── housing-dashboard/  Ontario housing data viz
+│   ├── rose-portfolio/     Legacy portfolio design
 │   └── adams-cookbook/  Static recipe app
-├── src-ts/             TypeScript source → compiled to dist/
 ├── __tests__/          Jest unit + API integration tests
 ├── cypress/e2e/        Cypress end-to-end tests
 └── .planning/          GSD planning docs (not deployed)
@@ -26,8 +31,6 @@ repo root/              Portfolio shell (index.html, style.css)
 ## api/_lib/ Pattern
 
 When adding an API endpoint, ALWAYS require `cors.js` from `api/_lib/` at the top of the handler body. Require `mongodb.js` the same way if the endpoint needs a database.
-
-**Exception:** `api/oauth.js` has its own `ALLOWED_ORIGINS` (deliberately restricted 4-origin list). Do NOT migrate it to the shared cors.js without reviewing the OAuth flow first.
 
 **Canonical handler pattern:**
 
@@ -56,10 +59,8 @@ npm run test:e2e                      # Cypress E2E: cypress/e2e/*.cy.js
 | Variable | Purpose |
 |----------|---------|
 | `GROQ_API_KEY` | Required — Handoff AI generation |
-| `MONGODB_URI` | Design save/load |
+| `MONGODB_URI` | MongoDB persistence |
 | `VERCEL_TOKEN` | Programmatic deploy button |
-| `VERCEL_OAUTH_CLIENT_ID` | User OAuth flow |
-| `VERCEL_OAUTH_CLIENT_SECRET` | User OAuth flow |
 
 See `.env.example` for the full list.
 
@@ -72,8 +73,7 @@ See `.env.example` for the full list.
 
 **New mini-app project:**
 1. Create `projects/<name>/` with `index.html`, `script.js`, `style.css`
-2. Add a stub redirect at `<name>/index.html` if clean URLs are needed
-3. If the app needs an API, add handlers under `api/` and register in `server.js`
+2. If the app needs an API, add handlers under `api/` and register in `server.js`
 
 ## Bug Reports
 
