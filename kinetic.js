@@ -27,14 +27,21 @@
       Array.prototype.slice.call(node.childNodes).forEach(function (child) {
         if (child.nodeType === Node.TEXT_NODE) {
           var frag = document.createDocumentFragment();
-          child.textContent.split('').forEach(function (c) {
-            if (/\s/.test(c)) { frag.appendChild(document.createTextNode(c)); return; }
-            var s = document.createElement('span');
-            s.className = 'ch';
-            s.textContent = c;
-            s.style.setProperty('--i', i++);
-            frag.appendChild(s);
-            chars.push(s);
+          /* keep whole words in nowrap spans so lines never break mid-word */
+          child.textContent.split(/(\s+)/).forEach(function (tok) {
+            if (!tok) return;
+            if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+            var word = document.createElement('span');
+            word.className = 'kt-word';
+            tok.split('').forEach(function (c) {
+              var s = document.createElement('span');
+              s.className = 'ch';
+              s.textContent = c;
+              s.style.setProperty('--i', i++);
+              word.appendChild(s);
+              chars.push(s);
+            });
+            frag.appendChild(word);
           });
           target.replaceChild(frag, child);
         } else if (child.nodeType === Node.ELEMENT_NODE) {

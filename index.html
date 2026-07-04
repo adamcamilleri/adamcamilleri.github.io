@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body class="cover">
-    <canvas class="linefield" aria-hidden="true"></canvas>
     <a class="skip-link" href="#contents">Skip to contents</a>
 
     <header class="masthead">
@@ -26,15 +25,52 @@
             <a href="pizza/">01 · Pizza</a>
             <a href="work/">02 · Data</a>
             <a href="investing/">03 · Investing</a>
-            <a href="#contact">Contact</a>
+            <a class="btn-pill" href="#contact">Contact</a>
         </nav>
     </header>
 
     <main>
-        <section class="cover-hero">
-            <p class="cover-kicker">Portfolio<span class="k-sep">/</span>Milton, Ontario<span class="k-sep">/</span>Data · Pizza · Investing</p>
-            <h1 class="cover-title" data-kinetic="dough">Everything good here took a <em>while.</em></h1>
-            <p class="cover-dek">I'm <strong>Adam Camilleri</strong>, a data analyst on the Reporting &amp; Analytics team at MCAP. The three things I care most about all work the same way: <strong>dough that ferments for three days, jobs that run overnight, positions held for decades.</strong> Start early. Wait well.</p>
+        <section class="scene-wrap" aria-label="Interactive landscape of Adam's world">
+            <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg>
+            <p class="scene-hint" aria-hidden="true">Hover the landscape</p>
+            <nav class="scene-steps" aria-label="Sections">
+                <a class="step" data-key="pizza" href="pizza/">
+                    <span class="step-no">01</span>
+                    <span>
+                        <span class="step-title">The 72-Hour Pie</span>
+                        <span class="step-desc">The bakery. NY-style pizza on a cold-fermented dough, a baking steel pushed past 500&deg;F, and a mortadella, pistachio pesto and honey pie in development.</span>
+                    </span>
+                </a>
+                <a class="step" data-key="data" href="work/">
+                    <span class="step-no">02</span>
+                    <span>
+                        <span class="step-title">The Nightly Run</span>
+                        <span class="step-desc">The plant. Reporting &amp; Analytics at MCAP: SSIS packages, SQL against DB2 on the AS/400, and reports that ship while everyone sleeps.</span>
+                    </span>
+                </a>
+                <a class="step" data-key="invest" href="investing/">
+                    <span class="step-no">03</span>
+                    <span>
+                        <span class="step-title">The Long Position</span>
+                        <span class="step-desc">The skyline. Semiconductors as a sector bet, index funds as the base, and a horizon measured in decades.</span>
+                    </span>
+                </a>
+                <a class="step" data-key="archive" href="#archive">
+                    <span class="step-no">04</span>
+                    <span>
+                        <span class="step-title">The Workshop</span>
+                        <span class="step-desc">The archive. Twenty cookbook recipes, a housing-market dashboard, a daily song game, and an AI website builder.</span>
+                    </span>
+                </a>
+            </nav>
+        </section>
+
+        <section class="intro">
+            <div class="intro-inner">
+                <p class="cover-kicker">Portfolio<span class="k-sep">/</span>Milton, Ontario<span class="k-sep">/</span>Data · Pizza · Investing</p>
+                <h1 class="cover-title" data-kinetic="dough">Everything good here took a <em>while.</em></h1>
+                <p class="cover-dek">I'm <strong>Adam Camilleri</strong>, a data analyst on the Reporting &amp; Analytics team at MCAP. The three things I care most about all work the same way: <strong>dough that ferments for three days, jobs that run overnight, positions held for decades.</strong> Start early. Wait well.</p>
+            </div>
         </section>
 
         <div class="page-grid" id="contents">
@@ -91,7 +127,7 @@
                     </a>
                 </section>
 
-                <section class="also" aria-label="Also in this issue">
+                <section class="also" id="archive" aria-label="More projects">
                     <h2 class="also-heading"><span>More projects</span><span>Archive</span></h2>
                     <ul class="also-list">
                         <li>
@@ -175,6 +211,6 @@
     <script src="site.js" defer></script>
     <script src="kinetic.js" defer></script>
     <script src="smooth.js" defer></script>
-    <script src="lines.js" defer></script>
+    <script src="scene.js" defer></script>
 </body>
 </html>
