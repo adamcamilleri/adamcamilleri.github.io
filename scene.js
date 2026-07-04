@@ -1,4 +1,4 @@
-/* The journey — an isometric world you scroll through, vectr-style.
+/* The journey: an isometric world you scroll through, vectr-style.
    The hero is pinned while scrolling drives a camera along the glowing
    beam. Each stop is a small neighborhood, not a lone building:
      pizza   -> pizzeria block: striped awning, round pizza sign, smoking
@@ -123,7 +123,6 @@
     var BL = [cx - r * 0.866, cy + r * 0.5], BR = [cx + r * 0.866, cy + r * 0.5];
     var ML = [cx - r * 0.866, cy], MR = [cx + r * 0.866, cy];
     var L = [cx - r * 0.4, cy], R = [cx + r * 0.4, cy];
-    el('circle', { cx: cx, cy: cy, r: r * 1.32, fill: '#ffffff' }, parent);
     face(parent, [T, TL, ML, L], MCAP_NAVY);
     face(parent, [MR, BR, B, R], MCAP_NAVY);
     face(parent, [T, TR, MR, R], MCAP_GRAY);
@@ -131,7 +130,7 @@
   }
 
   /* ============================================================
-     WORLD — four neighborhoods spread along a long route
+     WORLD: four neighborhoods spread along a long route
      ============================================================ */
   var root = el('g', {}, svg);
   var world = el('g', {}, root);
@@ -309,9 +308,12 @@
   box(gDat, -156, 40, 4, 4, 26, 132);
   box(gDat, -190, 76, 42, 30, 34);                       /* low wing */
   box(gDat, -176, 76, 22, 8, 10);                        /* entrance canopy */
-  (function () {                                         /* MCAP sign, top of the front face */
-    var c = P(-157, 76, 113);
-    mcapSign(gDat, c[0], c[1], 12);
+  (function () {
+    /* MCAP sign: a white panel slab proud of the facade, logo mounted on it */
+    box(gDat, -186, 76, 58, 3, 26, 104);
+    face(gDat, [P(-186, 79, 130), P(-128, 79, 130), P(-128, 79, 104), P(-186, 79, 104)], '#ffffff');
+    var c = P(-157, 79, 117);
+    mcapSign(gDat, c[0], c[1], 10);
   })();
 
   /* ---------- water tower + route filler 2 ---------- */
@@ -398,7 +400,7 @@
 
   /* ---------- project placeholders ----------
      PLACEHOLDER OBJECTS: each project gets a plinth + plain cube for
-     now. Adam picks the real object per project later — swap the two
+     now. Adam picks the real object per project later: swap the two
      box() calls inside projectSpot() (or per call site) and everything
      else (hover, label, click, keyboard, reveal) keeps working. */
   function projectSpot(key, label, href, x, y) {

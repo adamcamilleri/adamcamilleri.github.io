@@ -1,4 +1,4 @@
-# adamcamilleri.github.io — Project Context
+# adamcamilleri.github.io: Project Context
 
 Personal portfolio + mini-app demos. See `.planning/STATE.md` for current phase and progress.
 
@@ -10,10 +10,10 @@ repo root/              Editorial portfolio (index.html, style.css, site.js, kin
 ├── work/               Feature 02 · The Nightly Run (proficiencies, timeline, projects)
 ├── investing/          Feature 03 · The Long Position
 ├── api/                Vercel serverless functions (one file = one endpoint)
-│   └── _lib/           Shared utilities — NOT endpoints (Vercel ignores _ dirs)
-│       ├── cors.js     setCorsHeaders(req, res) — CORS for all handlers
-│       ├── api-key.js  checkApiKey(req, res) — auth for POST endpoints
-│       └── mongodb.js  getDb() — ping-guarded MongoClient singleton
+│   └── _lib/           Shared utilities: NOT endpoints (Vercel ignores _ dirs)
+│       ├── cors.js     setCorsHeaders(req, res): CORS for all handlers
+│       ├── api-key.js  checkApiKey(req, res): auth for POST endpoints
+│       └── mongodb.js  getDb(): ping-guarded MongoClient singleton
 ├── projects/           Self-contained mini-app demos
 │   ├── handoff/        AI website builder (main demo)
 │   ├── songdle/        Daily song guessing game
@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
 };
 ```
 
-Require inside the handler body (not at module top) — this matches the existing codebase pattern.
+Require inside the handler body (not at module top): this matches the existing codebase pattern.
 
 ## How to Run Tests
 
@@ -58,7 +58,7 @@ npm run test:e2e                      # Cypress E2E: cypress/e2e/*.cy.js
 
 | Variable | Purpose |
 |----------|---------|
-| `GROQ_API_KEY` | Required — Handoff AI generation |
+| `GROQ_API_KEY` | Required: Handoff AI generation |
 | `MONGODB_URI` | MongoDB persistence |
 | `VERCEL_TOKEN` | Programmatic deploy button |
 
@@ -84,18 +84,18 @@ When a bug is reported, do not start by trying to fix it. Instead:
 
 ## Security Rules
 
-- No hardcoded secrets — always use `process.env.*`
+- No hardcoded secrets: always use `process.env.*`
 - All API request bodies must be validated (type, size, required fields)
-- XSS prevention — use DOM APIs (`textContent`, `createElement`), never `innerHTML` with user-supplied content
+- XSS prevention: use DOM APIs (`textContent`, `createElement`), never `innerHTML` with user-supplied content
 - Auth checks must run before any protected operation
 
 ## Deep Context
 
 For detailed architecture docs, see:
-- [Requirements](.planning/REQUIREMENTS.md) — what needs to be built and why
-- [Roadmap](.planning/ROADMAP.md) — phase sequence and progress
-- [State](.planning/STATE.md) — current phase, decisions, blockers
-- [Structure](.planning/codebase/STRUCTURE.md) — full directory tree and file purposes
-- [Conventions](.planning/codebase/CONVENTIONS.md) — coding patterns and style
-- [Integrations](.planning/codebase/INTEGRATIONS.md) — external services and APIs
-- [Testing](.planning/codebase/TESTING.md) — test strategy and locations
+- [Requirements](.planning/REQUIREMENTS.md): what needs to be built and why
+- [Roadmap](.planning/ROADMAP.md): phase sequence and progress
+- [State](.planning/STATE.md): current phase, decisions, blockers
+- [Structure](.planning/codebase/STRUCTURE.md): full directory tree and file purposes
+- [Conventions](.planning/codebase/CONVENTIONS.md): coding patterns and style
+- [Integrations](.planning/codebase/INTEGRATIONS.md): external services and APIs
+- [Testing](.planning/codebase/TESTING.md): test strategy and locations

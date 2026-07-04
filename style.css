@@ -1,5 +1,5 @@
 /* ============================================================
-   ADAM CAMILLERI — industrial-minimal system (vectr-style)
+   ADAM CAMILLERI: industrial-minimal system (vectr-style)
 
    Tokens lifted from the reference site:
      bg #fcfcfc · panel #D0E1EB · muted panel #eff4f4
@@ -168,7 +168,7 @@ body.cover .masthead {
 .cover-dek strong, .feature-dek strong { color: var(--ink); font-weight: 600; }
 
 /* ============================================================
-   RUN LOG — horizontal process strip
+   RUN LOG: horizontal process strip
    ============================================================ */
 .page-grid { display: block; background: var(--bg); position: relative; z-index: 1; }
 
@@ -610,7 +610,7 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
 .no-js .reveal { opacity: 1; transform: none; }
 
 /* ============================================================
-   THE JOURNEY (scene.js) — pinned isometric scene, scroll-driven
+   THE JOURNEY (scene.js): pinned isometric scene, scroll-driven
    ============================================================ */
 .scene-journey {
   height: 780svh;

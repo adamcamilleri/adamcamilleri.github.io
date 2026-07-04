@@ -1,4 +1,4 @@
-/* Kinetic type engine — one splitter, four behaviors, each keyed to its page's
+/* Kinetic type engine: one splitter, four behaviors, each keyed to its page's
    subject via data-kinetic on the headline:
      "dough"    letters squish + soften near the cursor (Fraunces wght/SOFT axes)
      "decode"   terminal boot: chars cycle mono glyphs, settle left to right
@@ -176,7 +176,7 @@
     function ensure() { if (!raf) raf = requestAnimationFrame(frame); }
     ensure();
 
-    /* Hold to keep compounding — pointer or keyboard. Gains are never reset. */
+    /* Hold to keep compounding: pointer or keyboard. Gains are never reset. */
     el.classList.add('kt-holdable');
     el.setAttribute('tabindex', '0');
     var down = function (e) { holding = true; ensure(); if (e.type === 'keydown') e.preventDefault(); };
