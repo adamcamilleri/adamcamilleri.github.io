@@ -399,12 +399,14 @@
   box(gArch, 1012, -356, 14, 12, 9);
 
   /* ---------- project placeholders ----------
-     PLACEHOLDER OBJECTS: each project gets a plinth + plain cube for
-     now. Adam picks the real object per project later: swap the two
-     box() calls inside projectSpot() (or per call site) and everything
-     else (hover, label, click, keyboard, reveal) keeps working. */
-  function projectSpot(key, label, href, x, y) {
-    var g = cluster(key, label + ' (project)', href, 0.70);
+     PLACEHOLDER OBJECTS scattered around the map, one per project,
+     each placed near a fitting neighborhood and clickable whenever
+     the camera reaches it. Plinth + plain cube until Adam picks a
+     real object per project: swap the two box() calls at a call site
+     and the hover, label, click, keyboard, and reveal wiring keeps
+     working. appear controls when it pops in along the tour. */
+  function projectSpot(key, label, href, x, y, appear) {
+    var g = cluster(key, label + ' (project)', href, appear);
     var c = P(x, y, 0);
     el('ellipse', { cx: c[0], cy: c[1], rx: 22, ry: 11, fill: SHADOW }, g);
     box(g, x - 12, y - 12, 24, 24, 6);                   /* plinth */
@@ -417,10 +419,12 @@
     t.textContent = label;
     return g;
   }
-  projectSpot('proj-cookbook', "Adam's Cookbook", 'projects/adams-cookbook/', 890, -140);
-  projectSpot('proj-housing', 'Housing Dashboard', 'projects/housing-dashboard/', 965, -115);
-  projectSpot('proj-songdle', 'Songdle', 'projects/songdle/', 1045, -95);
-  projectSpot('proj-handoff', 'Handoff', 'projects/handoff/', 1125, -120);
+  /* cookbook by the pizzeria, handoff by the office, housing by the
+     mid-route houses, songdle out past the exchange */
+  projectSpot('proj-cookbook', "Adam's Cookbook", 'projects/adams-cookbook/', -640, 90, -1);
+  projectSpot('proj-handoff', 'Handoff', 'projects/handoff/', -260, -80, 0.12);
+  projectSpot('proj-housing', 'Housing Dashboard', 'projects/housing-dashboard/', 300, 60, 0.30);
+  projectSpot('proj-songdle', 'Songdle', 'projects/songdle/', 760, -300, 0.56);
 
   /* ============================================================
      THE JOURNEY

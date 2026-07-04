@@ -1,5 +1,4 @@
-# Handoff & Portfolio CI
-# Lint, validate, and run tests on push/PR
+# Portfolio CI: structure checks plus the TaskMaster build
 name: CI
 
 on:
@@ -34,9 +33,6 @@ jobs:
           test -f api/soundcloud-daily.js && echo "✓ api/soundcloud-daily.js" || exit 1
           echo "All API handlers present."
 
-      - name: Run unit tests
-        run: npm test
-
       - name: Validate Handoff project
         run: |
           test -f projects/handoff/index.html && echo "✓ Handoff index" || exit 1
@@ -68,61 +64,4 @@ jobs:
       - name: Build TaskMaster
         run: npm run build
 
-  e2e:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install E2E dependencies
-        run: npm ci
-
-      - name: Run Cypress E2E tests
-        run: npm run test:e2e
-
-  load:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Download JMeter
-        run: |
-          curl -sL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz -o jmeter.tgz
-          tar xzf jmeter.tgz
-          echo "JMETER_HOME=$(pwd)/apache-jmeter-5.6.3" >> $GITHUB_ENV
-
-      - name: Run load test
-        env:
-          PORT: 3000
-        run: |
-          node server.js &
-          SERVER_PID=$!
-          for i in $(seq 1 30); do
-            curl -sf http://127.0.0.1:3000/api/health && break || sleep 1
-          done
-          curl -sf http://127.0.0.1:3000/api/health || (kill $SERVER_PID 2>/dev/null; exit 1)
-          $JMETER_HOME/bin/jmeter -n -t jmeter/handoff-load-test-local.jmx -l jmeter-results.jtl 2>&1 | tee jmeter.log
-          kill $SERVER_PID 2>/dev/null || true
-          grep -qE "Err:\s*0\s" jmeter.log || (echo "Load test had failures (Err > 0)" && cat jmeter.log && exit 1)

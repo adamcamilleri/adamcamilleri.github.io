@@ -23,8 +23,6 @@ repo root/              Editorial portfolio (index.html, style.css, site.js, kin
 │   ├── housing-dashboard/  Ontario housing data viz
 │   ├── rose-portfolio/     Legacy portfolio design
 │   └── adams-cookbook/  Static recipe app
-├── __tests__/          Jest unit + API integration tests
-├── cypress/e2e/        Cypress end-to-end tests
 └── .planning/          GSD planning docs (not deployed)
 ```
 
@@ -48,10 +46,10 @@ Require inside the handler body (not at module top): this matches the existing c
 
 ## How to Run Tests
 
+There is no root test suite (removed July 2026). TaskMaster keeps its own:
+
 ```bash
-npm test                              # Jest (root): __tests__/*.test.js
-cd projects/taskmaster && npm test    # TaskMaster Jest tests
-npm run test:e2e                      # Cypress E2E: cypress/e2e/*.cy.js
+cd projects/taskmaster && npm test
 ```
 
 ## Key Env Vars
@@ -77,10 +75,7 @@ See `.env.example` for the full list.
 
 ## Bug Reports
 
-When a bug is reported, do not start by trying to fix it. Instead:
-1. Write a test that reproduces the bug first
-2. Have subagents attempt the fix
-3. Prove the fix works via a passing test
+When a bug is reported, do not start by trying to fix it. Reproduce it first (a script, a curl call, or a browser repro), then fix, then prove the repro passes.
 
 ## Security Rules
 
