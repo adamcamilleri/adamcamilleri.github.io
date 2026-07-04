@@ -1,596 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adam Camilleri | Data Analyst</title>
-    <link rel="stylesheet" href="style.css?v=5.4">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Adam Camilleri · Slow Processes</title>
+    <meta name="description" content="Adam Camilleri: data analyst at MCAP, pizza maker, long-horizon investor. Three practices, one habit: start early, wait well.">
+    <meta property="og:title" content="Adam Camilleri · Slow Processes">
+    <meta property="og:description" content="Data analyst at MCAP, pizza maker, long-horizon investor. Three features on things that get better while you wait.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adamcamilleri.github.io/">
+    <link rel="icon" href="images/logo-ac.png">
+    <link rel="canonical" href="https://adamcamilleri.github.io/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=6.0">
 </head>
-<body>
-    <!-- Boot sequence overlay -->
-    <div class="boot-overlay" id="bootOverlay">
-        <div class="boot-content">
-            <div class="boot-lines" id="bootLines">
-                <div class="boot-line" data-delay="0"><span class="boot-prompt">&gt;</span> initializing systems...</div>
-                <div class="boot-line" data-delay="600"><span class="boot-prompt">&gt;</span> loading portfolio data...</div>
-                <div class="boot-line" data-delay="1200"><span class="boot-prompt">&gt;</span> compiling components...</div>
-                <div class="boot-line" data-delay="1800"><span class="boot-prompt">&gt;</span> establishing connections...</div>
-                <div class="boot-line boot-ready" data-delay="2400"><span class="boot-prompt">&gt;</span> READY</div>
-            </div>
-            <div class="boot-progress-container">
-                <div class="boot-progress-bar" id="bootProgressBar"></div>
-            </div>
-            <div class="boot-footer">
-                <span class="boot-label">SYSTEM BOOT</span>
-                <span class="boot-percent" id="bootPercent">0%</span>
-            </div>
-        </div>
-    </div>
+<body class="cover">
+    <canvas class="linefield" aria-hidden="true"></canvas>
+    <a class="skip-link" href="#contents">Skip to contents</a>
 
-    <!-- Noise overlay -->
-    <svg class="noise-overlay" aria-hidden="true">
-        <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-        </filter>
-        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
-    </svg>
-
-    <!-- Grid background -->
-    <div class="grid-bg" aria-hidden="true"></div>
-
-    <!-- Cursor glow -->
-    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-
-    <!-- Scroll progress bar -->
-    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-    <!-- Navigation -->
-    <header class="site-header" id="siteHeader">
-        <nav class="nav-container">
-            <a href="#hero" class="nav-logo">AC</a>
-            <div class="nav-links" id="navLinks">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="nav-socials">
-                <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://x.com/imadamcam" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
+    <header class="masthead">
+        <a class="masthead-brand" href="/">Adam Camilleri</a>
+        <nav class="masthead-nav" aria-label="Features">
+            <a href="pizza/">01 · Pizza</a>
+            <a href="work/">02 · Data</a>
+            <a href="investing/">03 · Investing</a>
+            <a href="#contact">Contact</a>
         </nav>
     </header>
 
-    <!-- Mobile menu overlay -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-links">
-            <a href="#about" class="mobile-link">About</a>
-            <a href="#skills" class="mobile-link">Skills</a>
-            <a href="#projects" class="mobile-link">Projects</a>
-            <a href="#contact" class="mobile-link">Contact</a>
-        </div>
-        <div class="mobile-menu-socials">
-            <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
-            <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="https://x.com/imadamcam" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
-        </div>
-    </div>
-
     <main>
-        <!-- Hero Section -->
-        <section class="hero" id="hero">
-            <div class="hero-inner">
-                <div class="hero-left">
-                    <h1 class="hero-name stagger-in" style="--delay: 0.3s">Adam Camilleri</h1>
-                    <h2 class="hero-title-outline stagger-in" style="--delay: 0.5s">Data Analyst</h2>
-                    <p class="hero-subtitle stagger-in" style="--delay: 0.7s">Data Analyst on the Reporting & Analytics team at MCAP. Day to day, I utilize SQL, SSIS, and Excel to deliver data to multiple business units across MCAP.</p>
-                    <div class="hero-ctas stagger-in" style="--delay: 0.9s">
-                        <a href="#projects" class="btn btn-solid">View Projects</a>
-                    </div>
-                </div>
-                <div class="hero-right">
-                    <div class="hero-stats-grid stagger-in" style="--delay: 0.6s">
-                        <div class="stat-card">
-                            <span class="stat-label">Role</span>
-                            <span class="stat-value">Data Analyst</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-label">Location</span>
-                            <span class="stat-value">Milton, ON</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-label">Experience</span>
-                            <span class="stat-value">3+ Years</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-label">Focus</span>
-                            <span class="stat-value">Data & Process Improvement</span>
-                        </div>
-                    </div>
-                    <div class="hero-social-row stagger-in" style="--delay: 0.8s">
-                        <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                        <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="https://x.com/imadamcam" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-scroll-hint stagger-in" style="--delay: 1.2s">
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
+        <section class="cover-hero">
+            <p class="cover-kicker">Vol. 01<span class="k-sep">/</span>Milton, Ontario<span class="k-sep">/</span>A magazine-shaped portfolio</p>
+            <h1 class="cover-title" data-kinetic="dough">Everything good here took a <em>while.</em></h1>
+            <p class="cover-dek">I'm <strong>Adam Camilleri</strong>, a data analyst on the Reporting &amp; Analytics team at MCAP. The three things I care most about all work the same way: <strong>dough that ferments for three days, jobs that run overnight, positions held for decades.</strong> Start early. Wait well.</p>
         </section>
 
-        <!-- About Section -->
-        <section class="section" id="about">
-            <div class="container">
-                <span class="section-marker scroll-reveal">// about</span>
-                <h2 class="section-heading scroll-reveal">How I got here.</h2>
-                <div class="about-layout">
-                    <div class="timeline">
-                        <div class="timeline-item scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">Sep 2020</div>
-                            <div class="timeline-card">
-                                <h3>BSc Computer Science</h3>
-                                <span class="timeline-company">Wilfrid Laurier University</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">Sep 2020</div>
-                            <div class="timeline-card">
-                                <h3>Data Systems Analyst</h3>
-                                <span class="timeline-company">Wilfrid Laurier University</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">May 2022</div>
-                            <div class="timeline-card">
-                                <h3>Technical Support Analyst</h3>
-                                <span class="timeline-company">Transcom</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">May 2024</div>
-                            <div class="timeline-card">
-                                <h3>Summer Student</h3>
-                                <span class="timeline-company">MCAP</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">Jul 2024</div>
-                            <div class="timeline-card">
-                                <h3>Mortgage Specialist</h3>
-                                <span class="timeline-company">MCAP</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item timeline-current scroll-reveal">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-date">Apr 2026</div>
-                            <div class="timeline-card">
-                                <h3>Data Analyst</h3>
-                                <span class="timeline-company">MCAP &middot; Reporting & Analytics</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-image-col scroll-reveal">
-                        <div class="about-image-wrapper" id="aboutImageWrapper">
-                            <img src="images/1718307854171.png" alt="Adam Camilleri" class="about-image" loading="lazy">
-                            <img src="images/1718307854171.png" alt="" class="about-image-color" aria-hidden="true" loading="lazy">
-                            <div class="me-label">
-                                <span>Me</span>
-                                <svg class="me-arrow" width="20" height="35" viewBox="0 0 20 35" fill="none" style="filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
-                                    <line x1="10" y1="2" x2="10" y2="24" stroke="var(--txt-primary)" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M5 20 L10 29 L15 20" stroke="var(--txt-primary)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="about-image-caption">A picture from a nice family walk through the Huron Trails behind my condo when I lived in Kitchener</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="page-grid" id="contents">
+            <aside class="runlog" aria-label="Run log: all three clocks">
+                <h2 class="runlog-title">Run Log · All Clocks</h2>
+                <ol>
+                    <li><span class="t">T-72H</span> <span class="e">dough mixed, into the cold</span></li>
+                    <li><span class="t">02:00</span> <span class="e">nightly extract begins</span></li>
+                    <li><span class="t">Y+0</span> <span class="e">position opened</span></li>
+                    <li><span class="t">T-24H</span> <span class="e">blisters forming under the lid</span></li>
+                    <li><span class="t">04:15</span> <span class="e">packages green, reports built</span></li>
+                    <li><span class="t">Y+10</span> <span class="e">still holding</span></li>
+                    <li><span class="t">T-0</span> <span class="e">launch onto the steel</span></li>
+                    <li><span class="t">06:55</span> <span class="e">inboxes full before the office is</span></li>
+                    <li><span class="t">Y+30</span> <span class="e">the compounding did the work</span></li>
+                </ol>
+            </aside>
 
-        <!-- Skills Section -->
-        <section class="section" id="skills">
-            <div class="container">
-                <span class="section-marker scroll-reveal">// skills</span>
-                <h2 class="section-heading scroll-reveal">My Proficiencies</h2>
+            <div>
+                <section class="toc" aria-label="Features">
+                    <h2 class="toc-heading"><span>In this issue</span><span>Three features</span></h2>
 
-                <div class="skills-group scroll-reveal">
-                    <h3 class="skills-group-title">Core Skills</h3>
-                    <div class="skills-grid">
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="SQL">
-                            <span>SQL</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://img.icons8.com/color/96/microsoft-excel-2019--v1.png" alt="Excel">
-                            <span>Excel</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" alt="SSMS">
-                            <span>SSMS</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" alt="SSIS">
-                            <span>SSIS</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://img.icons8.com/color/96/tableau-software.png" alt="Tableau">
-                            <span>Tableau</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualbasic/visualbasic-original.svg" alt="VBA">
-                            <span>VBA</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git">
-                            <span>Git</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" alt="MongoDB">
-                            <span>MongoDB</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skills-group scroll-reveal">
-                    <h3 class="skills-group-title">Also Used</h3>
-                    <div class="skills-grid">
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript">
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="TypeScript">
-                            <span>TypeScript</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React">
-                            <span>React</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML">
-                            <span>HTML</span>
-                        </div>
-                        <div class="skill-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS">
-                            <span>CSS</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section class="section" id="projects">
-            <div class="container">
-                <span class="section-marker scroll-reveal">// portfolio</span>
-                <h2 class="section-heading scroll-reveal">Featured Work</h2>
-                <!-- Featured project (full width) -->
-                <a href="projects/housing-dashboard/index.html" target="_blank" rel="noopener" class="project-featured scroll-reveal">
-                    <div class="project-featured-image" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #312e81 100%);">
-                        <div class="project-featured-overlay">
-                            <span class="project-featured-label">GTA HOUSING</span>
-                            <span class="project-featured-tagline">Ontario's market, visualized.</span>
-                        </div>
-                        <div class="project-featured-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-                    </div>
-                    <div class="project-featured-info">
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Pandas</span>
-                            <span class="tag">SQL</span>
-                            <span class="tag">Chart.js</span>
-                            <span class="tag">Data Viz</span>
-                        </div>
-                        <h3 class="project-title">Ontario Housing Market Dashboard</h3>
-                        <p class="project-desc">Interactive dashboard tracking GTA home prices, sales volume, and market indicators across 10 cities from 2019 to 2026. Full data pipeline from raw CSVs through Python/Pandas cleaning to web visualization.</p>
-                    </div>
-                </a>
-
-                <!-- Project grid -->
-                <div class="projects-grid">
-
-                    <!-- Songdle -->
-                    <a href="projects/songdle/index.html" target="_blank" rel="noopener" class="project-card scroll-reveal">
-                        <div class="project-card-image" style="background: linear-gradient(135deg, #4a1942 0%, #6b2fa0 100%);">
-                            <div class="project-card-image-label">SG</div>
-                        </div>
-                        <div class="project-card-inner">
-                            <div class="project-tags">
-                                <span class="tag">JavaScript</span>
-                                <span class="tag">Node.js</span>
-                                <span class="tag">Spotify API</span>
-                                <span class="tag">YouTube API</span>
-                            </div>
-                            <h3 class="project-title">Songdle</h3>
-                            <p class="project-desc">Daily game: guess the song from short clips. Wrong guess = longer clip.</p>
-                        </div>
+                    <a class="toc-row t-pizza" href="pizza/">
+                        <span class="toc-num" aria-hidden="true">01</span>
+                        <span>
+                            <span class="toc-kicker">Feature · Pizza</span>
+                            <span class="toc-title" data-kinetic="wave">The 72-Hour Pie</span>
+                            <span class="toc-dek">New York style at home: a cold-fermented dough, a baking steel pushed past 500°F, a sourdough starter that isn't ready yet, and a mortadella–pistachio–honey pie in development.</span>
+                            <span class="toc-log">T+48H COLD FERMENT · STEEL 500°F · STATUS: RISING</span>
+                        </span>
+                        <span class="toc-arrow" aria-hidden="true">-&gt;</span>
                     </a>
 
-                </div>
-            </div>
-        </section>
+                    <a class="toc-row t-data" href="work/">
+                        <span class="toc-num" aria-hidden="true">02</span>
+                        <span>
+                            <span class="toc-kicker">Feature · Data</span>
+                            <span class="toc-title" data-kinetic="wave">The Nightly Run</span>
+                            <span class="toc-dek">Reporting &amp; Analytics at MCAP: SSIS packages, SQL against DB2 on the AS/400, and automated reports that ship while everyone sleeps.</span>
+                            <span class="toc-log">02:00 EXTRACT · 02:40 TRANSFORM · 06:55 DELIVERED</span>
+                        </span>
+                        <span class="toc-arrow" aria-hidden="true">-&gt;</span>
+                    </a>
 
-        <!-- Contact Section -->
-        <section class="section" id="contact">
-            <div class="container">
-                <span class="section-marker scroll-reveal">// contact</span>
-                <h2 class="section-heading scroll-reveal">Get In Touch</h2>
-                <div class="contact-grid">
-                    <form class="contact-form scroll-reveal" action="https://formspree.io/f/xvgaawyd" method="POST">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required placeholder="Your name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required placeholder="What's this about?">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Your message..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-solid btn-full">Send Message</button>
-                    </form>
-                    <div class="contact-info scroll-reveal">
-                        <div class="contact-info-item">
-                            <i class="fa-solid fa-envelope"></i>
-                            <div>
-                                <span class="contact-info-label">Email</span>
-                                <a href="mailto:imadamcam@gmail.com">imadamcam@gmail.com</a>
-                            </div>
-                        </div>
-                        <div class="contact-info-item">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <div>
-                                <span class="contact-info-label">Location</span>
-                                <span>Milton, ON</span>
-                            </div>
-                        </div>
-                        <div class="contact-info-item">
-                            <i class="fa-solid fa-phone"></i>
-                            <div>
-                                <span class="contact-info-label">Phone</span>
-                                <a href="tel:+16475294715">(647) 529-4715</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <a class="toc-row t-invest" href="investing/">
+                        <span class="toc-num" aria-hidden="true">03</span>
+                        <span>
+                            <span class="toc-kicker">Feature · Investing</span>
+                            <span class="toc-title" data-kinetic="wave">The Long Position</span>
+                            <span class="toc-dek">Semiconductors as a sector bet, index funds as the base, and a horizon measured in decades rather than quarters.</span>
+                            <span class="toc-log">Y+0 CONTRIBUTE · Y+10 HOLD · Y+30 COMPOUND</span>
+                        </span>
+                        <span class="toc-arrow" aria-hidden="true">-&gt;</span>
+                    </a>
+                </section>
+
+                <section class="also" aria-label="Also in this issue">
+                    <h2 class="also-heading"><span>Also in this issue</span><span>From the archive</span></h2>
+                    <ul class="also-list">
+                        <li>
+                            <a class="also-link" href="projects/adams-cookbook/" target="_blank" rel="noopener">
+                                <span>
+                                    <span class="also-name">Adam's Cookbook</span>
+                                    <span class="also-desc">Twenty quick recipes from my TikTok page: penne alla vodka, lasagna bolognese, sesame chicken, and the BBQ chicken pizza that started the dough obsession.</span>
+                                </span>
+                                <span class="also-meta">Recipes · 20</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="also-link" href="projects/housing-dashboard/" target="_blank" rel="noopener">
+                                <span>
+                                    <span class="also-name">Ontario Housing Market Dashboard</span>
+                                    <span class="also-desc">GTA home prices, sales volume, and market indicators across 10 cities, 2019–2026. Python and Pandas pipeline to web visualization.</span>
+                                </span>
+                                <span class="also-meta">Data viz</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="also-link" href="projects/songdle/" target="_blank" rel="noopener">
+                                <span>
+                                    <span class="also-name">Songdle</span>
+                                    <span class="also-desc">A daily game: guess the song from short clips. Every wrong guess buys you a longer listen.</span>
+                                </span>
+                                <span class="also-meta">Game</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="also-link" href="projects/handoff/" target="_blank" rel="noopener">
+                                <span>
+                                    <span class="also-name">Handoff</span>
+                                    <span class="also-desc">An AI website builder. Describe a site in chat, watch it get generated, deploy it to Vercel.</span>
+                                </span>
+                                <span class="also-meta">AI demo</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <p>&copy; 2026 Adam Camilleri. All rights reserved.</p>
-            <div class="footer-socials">
-                <a href="https://github.com/adamcamilleri" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://x.com/imadamcam" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+    <footer class="colophon" id="contact">
+        <div class="colophon-inner">
+            <div>
+                <h2 class="colophon-heading">Letters to the editor</h2>
+                <p class="colophon-note">For work, pizza arguments, or semiconductor takes. I read everything.</p>
+                <ul class="colophon-links">
+                    <li><span class="lbl">Email</span><a href="mailto:imadamcam@gmail.com">imadamcam@gmail.com</a></li>
+                    <li><span class="lbl">GitHub</span><a href="https://github.com/adamcamilleri" target="_blank" rel="noopener">github.com/adamcamilleri</a></li>
+                    <li><span class="lbl">LinkedIn</span><a href="https://linkedin.com/in/adamcamilleri" target="_blank" rel="noopener">linkedin.com/in/adamcamilleri</a></li>
+                    <li><span class="lbl">X</span><a href="https://x.com/imadamcam" target="_blank" rel="noopener">x.com/imadamcam</a></li>
+                    <li><span class="lbl">Based in</span>Milton, Ontario</li>
+                </ul>
             </div>
+            <form class="contact-form" action="https://formspree.io/f/xvgaawyd" method="POST">
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required autocomplete="name">
+                </div>
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                </div>
+                <div class="form-row">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn">Send letter</button>
+            </form>
+        </div>
+        <div class="colophon-base">
+            <span>&copy; 2026 Adam Camilleri</span>
+            <span>Set in Fraunces, Newsreader &amp; IBM Plex Mono</span>
+            <span>Vol. 01 · Slow Processes</span>
         </div>
     </footer>
 
-    <!-- Scripts -->
-
-    <script>
-    (function() {
-        'use strict';
-
-        /* ── Boot Sequence ── */
-        document.body.classList.add('booting');
-        const bootOverlay = document.getElementById('bootOverlay');
-        const bootLines = document.querySelectorAll('.boot-line');
-        const bootBar = document.getElementById('bootProgressBar');
-        const bootPercent = document.getElementById('bootPercent');
-        const totalDuration = 3000;
-        let bootStart = Date.now();
-
-        // Show lines one by one
-        bootLines.forEach((line) => {
-            const delay = parseInt(line.dataset.delay) || 0;
-            setTimeout(() => line.classList.add('visible'), delay);
-        });
-
-        // Animate progress bar
-        function updateBootProgress() {
-            const elapsed = Date.now() - bootStart;
-            const progress = Math.min(elapsed / totalDuration, 1);
-            const percent = Math.round(progress * 100);
-            bootBar.style.width = percent + '%';
-            bootPercent.textContent = percent + '%';
-
-            if (progress < 1) {
-                requestAnimationFrame(updateBootProgress);
-            } else {
-                // Boot complete - fade out overlay
-                setTimeout(() => {
-                    bootOverlay.classList.add('done');
-                    document.body.classList.remove('booting');
-                }, 400);
-            }
-        }
-        requestAnimationFrame(updateBootProgress);
-
-        /* ── Smooth scroll for anchor links (native) ── */
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offset = target.getBoundingClientRect().top + window.scrollY - 80;
-                    window.scrollTo({ top: offset, behavior: 'smooth' });
-                    closeMobileMenu();
-                }
-            });
-        });
-
-        /* ── Cursor Glow ── */
-        const cursorGlow = document.getElementById('cursorGlow');
-        let mouseX = 0, mouseY = 0;
-        let glowX = 0, glowY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateGlow() {
-            glowX += (mouseX - glowX) * 0.1;
-            glowY += (mouseY - glowY) * 0.1;
-            cursorGlow.style.left = glowX + 'px';
-            cursorGlow.style.top = glowY + 'px';
-            requestAnimationFrame(animateGlow);
-        }
-        animateGlow();
-
-        /* ── Scroll Progress Bar ── */
-        const scrollProgress = document.getElementById('scrollProgress');
-
-        function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            scrollProgress.style.width = progress + '%';
-        }
-
-        window.addEventListener('scroll', updateScrollProgress, { passive: true });
-
-        /* ── Mobile Nav Toggle ── */
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        function closeMobileMenu() {
-            hamburger.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            mobileMenu.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        }
-
-        hamburger.addEventListener('click', () => {
-            const isOpen = hamburger.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', isOpen);
-            mobileMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        });
-
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                closeMobileMenu();
-                if (target) {
-                    setTimeout(() => {
-                        const offset = target.getBoundingClientRect().top + window.scrollY - 80;
-                        window.scrollTo({ top: offset, behavior: 'smooth' });
-                    }, 100);
-                }
-            });
-        });
-
-        /* ── Scroll Reveal ── */
-        const revealElements = document.querySelectorAll('.scroll-reveal');
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        /* ── Active Nav Link ── */
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        function updateActiveLink() {
-            const scrollY = window.scrollY + 120;
-
-            sections.forEach(section => {
-                const top = section.offsetTop;
-                const height = section.offsetHeight;
-                const id = section.getAttribute('id');
-
-                if (scrollY >= top && scrollY < top + height) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + id) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveLink, { passive: true });
-
-        /* ── Header hide/show on scroll ── */
-        let lastScroll = 0;
-        const header = document.getElementById('siteHeader');
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.scrollY;
-            if (currentScroll > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            lastScroll = currentScroll;
-        }, { passive: true });
-
-        /* ── Bounce animation for scroll hint ── */
-        const scrollHint = document.querySelector('.hero-scroll-hint');
-        if (scrollHint) {
-            scrollHint.addEventListener('click', () => {
-                const aboutSection = document.getElementById('about');
-                if (aboutSection) {
-                    const offset = aboutSection.getBoundingClientRect().top + window.scrollY - 80;
-                    window.scrollTo({ top: offset, behavior: 'smooth' });
-                }
-            });
-        }
-
-        /* ── About image color reveal on cursor (global tracking) ── */
-        const aboutWrapper = document.getElementById('aboutImageWrapper');
-        const aboutColorImg = aboutWrapper?.querySelector('.about-image-color');
-        if (aboutWrapper && aboutColorImg) {
-            aboutColorImg.style.opacity = '1';
-            document.addEventListener('mousemove', (e) => {
-                const rect = aboutWrapper.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                aboutWrapper.style.setProperty('--mx', x + 'px');
-                aboutWrapper.style.setProperty('--my', y + 'px');
-            });
-        }
-
-    })();
-    </script>
+    <script src="site.js" defer></script>
+    <script src="kinetic.js" defer></script>
+    <script src="smooth.js" defer></script>
+    <script src="lines.js" defer></script>
 </body>
 </html>

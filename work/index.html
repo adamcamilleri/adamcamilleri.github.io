@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nightly Run · Adam Camilleri</title>
+    <meta name="description" content="Data work at MCAP: SSIS package development, SQL against DB2 on the AS/400, and automated report deployment. Plus proficiencies, career timeline, and selected projects.">
+    <meta property="og:title" content="The Nightly Run · Adam Camilleri">
+    <meta property="og:description" content="Feature 02 · Data. SSIS, DB2/AS400 SQL, and reports that ship while everyone sleeps.">
+    <meta property="og:type" content="article">
+    <link rel="icon" href="../images/logo-ac.png">
+    <link rel="canonical" href="https://adamcamilleri.github.io/work/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=6.0">
+</head>
+<body class="feature theme-data">
+    <a class="skip-link" href="#article">Skip to article</a>
+
+    <header class="masthead">
+        <a class="masthead-brand" href="../">Adam Camilleri</a>
+        <nav class="masthead-nav" aria-label="Features">
+            <a href="../pizza/">01 · Pizza</a>
+            <a href="./" aria-current="page">02 · Data</a>
+            <a href="../investing/">03 · Investing</a>
+            <a href="../#contact">Contact</a>
+        </nav>
+    </header>
+
+    <header class="feature-header">
+        <p class="feature-kicker">Feature No. 02 · Data · Reporting &amp; Analytics, MCAP</p>
+        <h1 class="feature-title" data-kinetic="decode">The Nightly <em>Run</em></h1>
+        <p class="feature-dek">The best data work is invisible: by the time anyone opens their laptop, the packages have run, the numbers reconcile, and the reports are already sitting in the inbox.</p>
+    </header>
+
+    <div class="page-grid">
+        <aside class="runlog" aria-label="Run log: job clock">
+            <h2 class="runlog-title">Run Log · Job Clock</h2>
+            <ol>
+                <li><span class="t">01:00</span> <span class="e">agent wakes, checks the schedule</span></li>
+                <li><span class="t">02:00</span> <span class="e">extract from DB2 on the AS/400</span></li>
+                <li><span class="t">02:40</span> <span class="e">SSIS transforms, staging loads</span></li>
+                <li><span class="t">03:30</span> <span class="e">validations pass, no red rows</span></li>
+                <li><span class="t">04:15</span> <span class="e">report datasets built</span></li>
+                <li><span class="t">05:30</span> <span class="e">Excel deliverables rendered</span></li>
+                <li><span class="t">06:55</span> <span class="e">distributed to business units</span></li>
+                <li><span class="t">09:00</span> <span class="e">nobody notices. that's the job.</span></li>
+            </ol>
+        </aside>
+
+        <article class="article" id="article">
+            <section class="reveal">
+                <div class="sec-head">
+                    <span class="sec-no">02 / 01</span>
+                    <h2 class="sec-title">What I actually do</h2>
+                </div>
+                <p class="lede">I'm a data analyst on the Reporting &amp; Analytics team at MCAP, one of Canada's largest independent mortgage financing companies. My work sits in the middle of the pipeline: source data lives in DB2 on an IBM AS/400 (a platform older than I am and more reliable than most things newer), and business units need it turned into reports they can act on.</p>
+                <p>The bridge is <strong>SSIS package development</strong>: extract jobs that pull from DB2, transformations that reshape and validate, and deployments that publish finished reports on a schedule. The SQL runs against both the AS/400 side and SQL Server, and the deliverables land where the business actually lives: mostly Excel.</p>
+
+                <div class="diagram">
+                    <pre aria-label="Pipeline diagram: DB2 on AS/400 through SSIS and SQL Server to reports and business units">
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│  <span class="hi">DB2 / AS400</span> │─────▶│     <span class="hi">SSIS</span>     │─────▶│  <span class="hi">SQL Server</span>  │
+│  source of   │ SQL  │  transform,  │ load │   staging,   │
+│    record    │      │   validate   │      │  report sets │
+└──────────────┘      └──────────────┘      └──────┬───────┘
+                                                   │ scheduled
+                                                   ▼
+                                     ┌───────────────────────────┐
+                                     │  <span class="hi">automated reports</span> ──▶ BUs │
+                                     │  excel · dashboards · 7am │
+                                     └───────────────────────────┘</pre>
+                    <p class="diagram-caption">FIG. 02-A · THE NIGHTLY PIPELINE, SIMPLIFIED</p>
+                </div>
+
+                <p class="pull">A report that needs a human to remember to run it isn't automated. It's just a chore with extra steps.</p>
+            </section>
+
+            <section class="reveal">
+                <div class="sec-head">
+                    <span class="sec-no">02 / 02</span>
+                    <h2 class="sec-title">Proficiencies</h2>
+                </div>
+                <p>Tools listed by how they earn their keep, not alphabetically.</p>
+                <div class="spec">
+                    <div class="spec-caption"><span>Daily drivers</span><span class="spec-tag">CORE</span></div>
+                    <div class="spec-wrap">
+                        <table>
+                            <tr><th>SQL</th><td>The job itself <span class="dim">· DB2 &amp; SQL Server dialects</span></td></tr>
+                            <tr><th>SSIS</th><td>Package development &amp; deployment</td></tr>
+                            <tr><th>SSMS</th><td>Where the SQL gets written</td></tr>
+                            <tr><th>Excel</th><td>Delivery format of record <span class="dim">· plus VBA</span></td></tr>
+                            <tr><th>Tableau</th><td>When a table isn't enough</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="spec">
+                    <div class="spec-caption"><span>Working knowledge</span><span class="spec-tag">ALSO</span></div>
+                    <div class="spec-wrap">
+                        <table>
+                            <tr><th>Git</th><td>Version control for everything here</td></tr>
+                            <tr><th>JavaScript / TypeScript</th><td>Every project on this site</td></tr>
+                            <tr><th>React / Node.js</th><td>Side-project stack</td></tr>
+                            <tr><th>Python / Pandas</th><td>Housing dashboard data pipeline</td></tr>
+                            <tr><th>MongoDB</th><td>Persistence for the demos</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal">
+                <div class="sec-head">
+                    <span class="sec-no">02 / 03</span>
+                    <h2 class="sec-title">How I got here</h2>
+                </div>
+                <ul class="timeline">
+                    <li>
+                        <span class="tl-date">SEP 2020</span>
+                        <span><span class="tl-role">BSc Computer Science</span><br><span class="tl-org">Wilfrid Laurier University</span></span>
+                    </li>
+                    <li>
+                        <span class="tl-date">SEP 2020</span>
+                        <span><span class="tl-role">Data Systems Analyst</span><br><span class="tl-org">Wilfrid Laurier University</span></span>
+                    </li>
+                    <li>
+                        <span class="tl-date">MAY 2022</span>
+                        <span><span class="tl-role">Technical Support Analyst</span><br><span class="tl-org">Transcom</span></span>
+                    </li>
+                    <li>
+                        <span class="tl-date">MAY 2024</span>
+                        <span><span class="tl-role">Summer Student</span><br><span class="tl-org">MCAP</span></span>
+                    </li>
+                    <li>
+                        <span class="tl-date">JUL 2024</span>
+                        <span><span class="tl-role">Mortgage Specialist</span><br><span class="tl-org">MCAP</span></span>
+                    </li>
+                    <li class="current">
+                        <span class="tl-date">APR 2026</span>
+                        <span><span class="tl-role">Data Analyst</span><br><span class="tl-org">MCAP · Reporting &amp; Analytics</span></span>
+                    </li>
+                </ul>
+                <p>The through-line: I kept moving toward the data. Support taught me what users actually struggle with, the mortgage desk taught me what the business actually needs, and both make the reports better than either would alone.</p>
+            </section>
+
+            <section class="reveal">
+                <div class="sec-head">
+                    <span class="sec-no">02 / 04</span>
+                    <h2 class="sec-title">Selected projects</h2>
+                </div>
+                <ul class="proj-list">
+                    <li>
+                        <a class="proj-link" href="../projects/housing-dashboard/" target="_blank" rel="noopener">
+                            <span>
+                                <span class="proj-name">Ontario Housing Market Dashboard</span>
+                                <span class="proj-desc">GTA home prices, sales volume, and market indicators across 10 cities from 2019 to 2026. Raw CSVs cleaned with Python and Pandas, visualized with Chart.js.</span>
+                            </span>
+                            <span class="proj-meta">Python · SQL · Data viz</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="proj-link" href="../projects/songdle/" target="_blank" rel="noopener">
+                            <span>
+                                <span class="proj-name">Songdle</span>
+                                <span class="proj-desc">Daily song-guessing game. Node.js backend against streaming APIs, with a daily rotation so everyone gets the same puzzle.</span>
+                            </span>
+                            <span class="proj-meta">JavaScript · Node.js</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="proj-link" href="../projects/handoff/" target="_blank" rel="noopener">
+                            <span>
+                                <span class="proj-name">Handoff</span>
+                                <span class="proj-desc">AI website builder: describe a site in chat, watch it generate live, deploy to Vercel with one click.</span>
+                            </span>
+                            <span class="proj-meta">AI · Serverless</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="proj-link" href="../projects/taskmaster/" target="_blank" rel="noopener">
+                            <span>
+                                <span class="proj-name">TaskMaster</span>
+                                <span class="proj-desc">Full Next.js 14 task manager with its own test suite, the largest single codebase on this site.</span>
+                            </span>
+                            <span class="proj-meta">Next.js · TypeScript</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </article>
+    </div>
+
+    <a class="next-feature" href="../investing/">
+        <div class="next-feature-inner">
+            <span class="next-kicker">Next feature · No. 03</span>
+            <p class="next-title">The Long Position <span class="arrow" aria-hidden="true">-&gt;</span></p>
+        </div>
+    </a>
+
+    <footer class="colophon">
+        <div class="colophon-base">
+            <span>&copy; 2026 Adam Camilleri</span>
+            <span><a href="../">Back to contents</a></span>
+            <span>Vol. 01 · Slow Processes</span>
+        </div>
+    </footer>
+
+    <script src="../site.js" defer></script>
+    <script src="../kinetic.js" defer></script>
+    <script src="../smooth.js" defer></script>
+</body>
+</html>
