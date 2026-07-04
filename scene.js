@@ -25,6 +25,9 @@
   var PAD = '#cbdeea';
   var SHADOW = 'rgba(70, 100, 135, 0.10)';
   var BEAM = '#43c8f5', BEAM_SOFT = '#9fe2fb', DOT = '#7cc9e8';
+  var GREEN = '#35a06b';                 /* the market, up and to the right */
+  var LAMP = '#ffca3a';                  /* the one office light still on */
+  var MCAP_NAVY = '#23306E', MCAP_GRAY = '#A7ABB4';
 
   function P(x, y, z) {
     return [(x - y) * 0.866, (x + y) * 0.5 - z];
@@ -94,18 +97,37 @@
     el('ellipse', { cx: c[0], cy: c[1], rx: 13, ry: 6.5, fill: '#fbfdff' }, parent);
     el('ellipse', { cx: c[0], cy: c[1], rx: 13, ry: 6.5, fill: 'none', stroke: '#d8e3ee', 'stroke-width': 1 }, parent);
   }
-  function windows(parent, x, y, w, d, h, z0, litIndex) {
-    var idx = 0;
+  /* lit: null, or { side: 'front' | 'right', index: n, color: '#hex' } */
+  function windows(parent, x, y, w, d, h, z0, lit) {
+    var idxR = 0, idxF = 0;
     for (var z = z0 + 10; z < z0 + h - 8; z += 14) {
       for (var a = 6; a < d - 8; a += 14) {
-        var fill = (idx === litIndex) ? BEAM : WIN_R;
-        face(parent, [P(x + w, y + a, z + 8), P(x + w, y + a + 8, z + 8), P(x + w, y + a + 8, z), P(x + w, y + a, z)], fill);
-        idx++;
+        var fillR = (lit && lit.side === 'right' && idxR === lit.index) ? lit.color : WIN_R;
+        face(parent, [P(x + w, y + a, z + 8), P(x + w, y + a + 8, z + 8), P(x + w, y + a + 8, z), P(x + w, y + a, z)], fillR);
+        idxR++;
       }
       for (var b = 6; b < w - 8; b += 14) {
-        face(parent, [P(x + b, y + d, z + 8), P(x + b + 8, y + d, z + 8), P(x + b + 8, y + d, z), P(x + b, y + d, z)], WIN_L);
+        var fillF = (lit && lit.side === 'front' && idxF === lit.index) ? lit.color : WIN_L;
+        face(parent, [P(x + b, y + d, z + 8), P(x + b + 8, y + d, z + 8), P(x + b + 8, y + d, z), P(x + b, y + d, z)], fillF);
+        idxF++;
       }
     }
+  }
+
+  /* the MCAP hexagon, billboarded flat like a mounted facade sign:
+     navy upper-left + lower-right, gray upper-right + lower-left,
+     white diamond through the middle */
+  function mcapSign(parent, cx, cy, r) {
+    var T = [cx, cy - r], B = [cx, cy + r];
+    var TL = [cx - r * 0.866, cy - r * 0.5], TR = [cx + r * 0.866, cy - r * 0.5];
+    var BL = [cx - r * 0.866, cy + r * 0.5], BR = [cx + r * 0.866, cy + r * 0.5];
+    var ML = [cx - r * 0.866, cy], MR = [cx + r * 0.866, cy];
+    var L = [cx - r * 0.4, cy], R = [cx + r * 0.4, cy];
+    el('circle', { cx: cx, cy: cy, r: r * 1.32, fill: '#ffffff' }, parent);
+    face(parent, [T, TL, ML, L], MCAP_NAVY);
+    face(parent, [MR, BR, B, R], MCAP_NAVY);
+    face(parent, [T, TR, MR, R], MCAP_GRAY);
+    face(parent, [ML, BL, B, L], MCAP_GRAY);
   }
 
   /* ============================================================
@@ -271,7 +293,7 @@
   /* ---------- office district ---------- */
   var nDat = popGroup(world, 0.12);
   box(nDat, -70, 40, 50, 50, 78);                        /* second tower */
-  windows(nDat, -70, 40, 50, 50, 78, 0, -1);
+  windows(nDat, -70, 40, 50, 50, 78, 0, null);
   pad(nDat, -240, 120, 130, 70);                         /* parking lot */
   car(nDat, -228, 132);
   car(nDat, -200, 146);
@@ -281,11 +303,16 @@
 
   var gDat = cluster('data', 'The office: what I do for a living', 'work/', 0.12);
   box(gDat, -190, 10, 66, 66, 132);                      /* main tower */
-  windows(gDat, -190, 10, 66, 66, 132, 0, 7);
+  /* one light still on: front face above the entrance, third-highest floor */
+  windows(gDat, -190, 10, 66, 66, 132, 0, { side: 'front', index: 22, color: LAMP });
   box(gDat, -188, 12, 20, 14, 8, 132);
   box(gDat, -156, 40, 4, 4, 26, 132);
   box(gDat, -190, 76, 42, 30, 34);                       /* low wing */
-  box(gDat, -176, 106, 22, 8, 10);                       /* canopy */
+  box(gDat, -176, 76, 22, 8, 10);                        /* entrance canopy */
+  (function () {                                         /* MCAP sign, top of the front face */
+    var c = P(-157, 76, 113);
+    mcapSign(gDat, c[0], c[1], 12);
+  })();
 
   /* ---------- water tower + route filler 2 ---------- */
   var f2 = popGroup(world, 0.22);
@@ -303,9 +330,9 @@
   /* ---------- financial district ---------- */
   var nInv = popGroup(world, 0.42);
   box(nInv, 380, -215, 50, 50, 66);                      /* background towers */
-  windows(nInv, 380, -215, 50, 50, 66, 0, -1);
+  windows(nInv, 380, -215, 50, 50, 66, 0, null);
   box(nInv, 560, -230, 54, 54, 92);
-  windows(nInv, 560, -230, 54, 54, 92, 0, -1);
+  windows(nInv, 560, -230, 54, 54, 92, 0, null);
   person(nInv, 480, -60);
   person(nInv, 560, -110);
 
@@ -317,20 +344,27 @@
   }
   box(gInv, 418, -152, 124, 88, 7, 44);                  /* architrave */
   wedge(gInv, 418, -152, 124, 88, 22, 51);               /* pediment */
-  (function () {                                         /* rising chart */
+  (function () {                                         /* green pennant on the pediment */
+    box(gInv, 529, -109, 3, 3, 16, 73);
+    var f = P(530.5, -107.5, 87);
+    face(gInv, [f, [f[0] + 15, f[1] + 4], [f[0] + 2, f[1] + 8]], GREEN);
+  })();
+  (function () {                                         /* rising chart, market green */
     var bx = 562, by = -105, tops = [];
     [12, 22, 34, 50, 68].forEach(function (h, i) {
       box(gInv, bx + i * 20, by - i * 8, 14, 14, h);
-      tops.push(P(bx + i * 20 + 7, by - i * 8 + 7, h + 3));
+      /* green gain stripe on top of each bar */
+      face(gInv, [P(bx + i * 20, by - i * 8, h + 2.5), P(bx + i * 20 + 14, by - i * 8, h + 2.5), P(bx + i * 20 + 14, by - i * 8 + 14, h + 2.5), P(bx + i * 20, by - i * 8 + 14, h + 2.5)], GREEN);
+      tops.push(P(bx + i * 20 + 7, by - i * 8 + 7, h + 5));
     });
-    el('polyline', { points: pts(tops), fill: 'none', stroke: BEAM, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, gInv);
+    el('polyline', { points: pts(tops), fill: 'none', stroke: GREEN, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, gInv);
     var last = tops[tops.length - 1], prev = tops[tops.length - 2];
     var ang = Math.atan2(last[1] - prev[1], last[0] - prev[0]);
     el('polygon', {
       points: pts([[last[0] + Math.cos(ang) * 10, last[1] + Math.sin(ang) * 10],
         [last[0] + Math.cos(ang + 2.5) * 7, last[1] + Math.sin(ang + 2.5) * 7],
         [last[0] + Math.cos(ang - 2.5) * 7, last[1] + Math.sin(ang - 2.5) * 7]]),
-      fill: BEAM
+      fill: GREEN
     }, gInv);
   })();
 
@@ -361,6 +395,30 @@
   box(gArch, 1076, -338, 40, 4, 20, 38);
   box(gArch, 990, -352, 18, 14, 12);                     /* crates */
   box(gArch, 1012, -356, 14, 12, 9);
+
+  /* ---------- project placeholders ----------
+     PLACEHOLDER OBJECTS: each project gets a plinth + plain cube for
+     now. Adam picks the real object per project later — swap the two
+     box() calls inside projectSpot() (or per call site) and everything
+     else (hover, label, click, keyboard, reveal) keeps working. */
+  function projectSpot(key, label, href, x, y) {
+    var g = cluster(key, label + ' (project)', href, 0.70);
+    var c = P(x, y, 0);
+    el('ellipse', { cx: c[0], cy: c[1], rx: 22, ry: 11, fill: SHADOW }, g);
+    box(g, x - 12, y - 12, 24, 24, 6);                   /* plinth */
+    box(g, x - 7, y - 7, 14, 14, 14, 6);                 /* placeholder cube */
+    var t = el('text', {
+      x: c[0], y: c[1] - 48,
+      'text-anchor': 'middle',
+      'class': 'spot-label'
+    }, g);
+    t.textContent = label;
+    return g;
+  }
+  projectSpot('proj-cookbook', "Adam's Cookbook", 'projects/adams-cookbook/', 890, -140);
+  projectSpot('proj-housing', 'Housing Dashboard', 'projects/housing-dashboard/', 965, -115);
+  projectSpot('proj-songdle', 'Songdle', 'projects/songdle/', 1045, -95);
+  projectSpot('proj-handoff', 'Handoff', 'projects/handoff/', 1125, -120);
 
   /* ============================================================
      THE JOURNEY
