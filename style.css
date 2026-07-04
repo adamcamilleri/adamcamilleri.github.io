@@ -134,28 +134,12 @@ body.cover .masthead {
 .masthead-nav a[aria-current="page"] { color: var(--highlight); }
 
 /* ============================================================
-   LINE FIELD — fixed scene behind the hero
-   ============================================================ */
-.linefield {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* ============================================================
-   HERO (cover + features share the panel treatment)
+   PAGE HEADERS
    ============================================================ */
 .cover-hero, .feature-header {
-  min-height: calc(100svh - var(--header-h));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: clamp(3rem, 8vh, 5rem) var(--gutter) clamp(4rem, 12vh, 7rem);
+  padding: clamp(4rem, 12vh, 8rem) var(--gutter) clamp(3rem, 8vh, 5rem);
 }
 
 .cover-kicker, .feature-kicker { color: var(--ink-alt); margin-bottom: 1.6rem; display: flex; align-items: center; gap: 0.9rem; }
@@ -658,21 +642,37 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
 .no-js .reveal { opacity: 1; transform: none; }
 
 /* ============================================================
-   THE LANDSCAPE (scene.js) — isometric hero scene
+   THE JOURNEY (scene.js) — pinned isometric scene, scroll-driven
    ============================================================ */
-.scene-wrap {
-  position: relative;
+.scene-journey {
+  height: 430svh;
+  background: linear-gradient(180deg, #dcebf4 0%, #d3e4f0 100%);
+}
+.scene-sticky {
+  position: sticky;
+  top: var(--header-h);
   height: calc(100svh - var(--header-h));
   min-height: 480px;
-  background: linear-gradient(180deg, #dcebf4 0%, #d3e4f0 100%);
   overflow: hidden;
 }
-.scene-wrap svg {
+.scene-sticky svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
+@media (prefers-reduced-motion: reduce) {
+  .scene-journey { height: auto; }
+}
+
+/* buildings pop in as the camera approaches */
+.pop {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.pop.on { opacity: 1; transform: translateY(0); }
+.hotspot.pop.on.hot, .hotspot.pop.on:hover { transform: translateY(-9px); }
 .scene-hint {
   position: absolute;
   top: 1.2rem;
