@@ -636,6 +636,42 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
 .no-js .reveal { opacity: 1; transform: none; }
 
 /* ============================================================
+   TOWN HERO: embedded /town/ pixel game on the landing page
+   ============================================================ */
+.town-hero {
+  position: relative;
+  height: calc(100svh - var(--header-h));
+  min-height: 480px;
+  background: #cdecc6;
+  border-bottom: 3px solid var(--gold);
+}
+.town-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.town-fullscreen {
+  position: absolute;
+  right: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1.4rem, 5vh, 3rem);
+  z-index: 3;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0;
+  text-decoration: none;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.55rem 1rem;
+  border-radius: var(--pill);
+  box-shadow: 0 3px 0 var(--wood);
+  transition: background 0.15s var(--ease);
+}
+.town-fullscreen:hover, .town-fullscreen:focus-visible { background: var(--highlight); color: #fff; }
+
+/* ============================================================
    THE CITY (scene.js): free-roam isometric map, drag to pan
    ============================================================ */
 .scene-journey {

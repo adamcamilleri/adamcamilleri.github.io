@@ -30,45 +30,9 @@
     </header>
 
     <main>
-        <section class="scene-journey" aria-label="An interactive map of Adam's world">
-            <div class="scene-sticky">
-                <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg>
-                <p class="scene-hint" aria-hidden="true">WASD or arrows to drive</p>
-                <p class="drive-hint" id="driveHint" aria-hidden="true"></p>
-                <div class="drive-pad" aria-hidden="true">
-                    <button class="pad-btn pad-up" data-dir="up" aria-label="Drive forward">&#9650;</button>
-                    <button class="pad-btn pad-left" data-dir="left" aria-label="Turn left">&#9664;</button>
-                    <button class="pad-btn pad-right" data-dir="right" aria-label="Turn right">&#9654;</button>
-                    <button class="pad-btn pad-down" data-dir="down" aria-label="Reverse">&#9660;</button>
-                    <button class="pad-go" id="padGo">GO</button>
-                </div>
-                <nav class="scene-steps" aria-label="Sections">
-                    <a class="step" data-key="pizza" href="pizza/">
-                        <span>
-                            <span class="step-title">Pizza</span>
-                            <span class="step-desc">I make NY-style pizza from scratch. The dough alone takes three days.</span>
-                        </span>
-                    </a>
-                    <a class="step" data-key="data" href="work/">
-                        <span>
-                            <span class="step-title">Work</span>
-                            <span class="step-desc">I'm a data analyst at MCAP. I build the jobs that turn mortgage data into morning reports. They run while everyone's asleep.</span>
-                        </span>
-                    </a>
-                    <a class="step" data-key="invest" href="investing/">
-                        <span>
-                            <span class="step-title">Investing</span>
-                            <span class="step-desc">Index funds as the base, a big bet on semiconductors on top. Then the hard part: doing nothing for a few decades.</span>
-                        </span>
-                    </a>
-                    <a class="step" data-key="archive" href="#archive">
-                        <span>
-                            <span class="step-title">Everything else</span>
-                            <span class="step-desc">Twenty recipes from my TikTok, a housing-market dashboard, a daily song game, an AI website builder.</span>
-                        </span>
-                    </a>
-                </nav>
-            </div>
+        <section class="town-hero" aria-label="Adam's Town: a walkable pixel town">
+            <iframe class="town-frame" src="town/?embed=1" title="Adam's Town: walk around with WASD or the arrow keys, press Space at a door" loading="eager"></iframe>
+            <a class="town-fullscreen" href="town/">Open full screen &#8599;</a>
         </section>
 
         <section class="intro">
@@ -210,6 +174,5 @@
     <script src="site.js" defer></script>
     <script src="kinetic.js" defer></script>
     <script src="smooth.js" defer></script>
-    <script src="scene.js" defer></script>
 </body>
 </html>
