@@ -73,8 +73,13 @@
     objects.push({ kind: 'building', img: img, bx: bx, by: by, bw: bw, bh: bh, base: (by + 1) * TS });
     // footprint solid (bottom 2 rows), door tile walkable
     for (var ix = -(bw >> 1); ix <= (bw >> 1); ix++) for (var iy = -1; iy <= 0; iy++) { var gx = bx + ix, gy = by + iy; if (gx === bx && gy === by) continue; if (gy >= 0 && gy < MH && gx >= 0 && gx < MW) solid[gy][gx] = 1; }
-    // path from the door down into the open
-    for (var p = 0; p < 4; p++) setG(bx, by + 1 + p, 's');
+    // sand path from the door to the central plaza (radial spoke, 2 tiles wide)
+    var px = bx, py = by + 1, guard = 0;
+    while (Math.hypot(px - CX, py - CY) > 6.5 && guard++ < 60) {
+      setG(px, py, 's'); setG(px + 1, py, 's');
+      if (Math.abs(CY - py) >= Math.abs(CX - px)) py += Math.sign(CY - py) || 0;
+      else px += Math.sign(CX - px) || 0;
+    }
     objects.push({ kind: 'sign', img: signSprite(s[5]), x: (bx + 1) * TS + 4, y: by * TS - 4, base: (by + 1) * TS + 6 });
     targets.push({ x: bx, y: by + 1, key: s[5], name: s[6], body: s[7], href: s[8], egg: s[9], kicker: s[9] ? 'Curio' : 'Shop' });
   });
@@ -91,9 +96,13 @@
     targets.push({ x: tx, y: ty, key: 'egg-' + cu[0], kicker: cu[2], name: cu[3], body: cu[4], egg: 1 });
   });
 
-  // scattered trees
+  // seeded RNG so the world is identical on every load (no tree jitter on refresh)
+  var _seed = 0x1a2b3c4d >>> 0;
+  function rnd() { _seed = (_seed + 0x6d2b79f5) | 0; var t = Math.imul(_seed ^ (_seed >>> 15), 1 | _seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+
+  // scattered trees (deterministic placement)
   for (var i = 0; i < 70; i++) {
-    var tx = (Math.random() * MW) | 0, ty = (Math.random() * MH) | 0, dd = Math.hypot(tx - CX, ty - CY);
+    var tx = (rnd() * MW) | 0, ty = (rnd() * MH) | 0, dd = Math.hypot(tx - CX, ty - CY);
     if (dd < 10 || solid[ty][tx] || ground[ty][tx] !== 'g') continue;
     objects.push({ kind: 'tree', img: (i % 2 ? 'tree1' : 'tree2'), x: tx * TS, y: ty * TS, base: ty * TS + TS });
     solid[ty][tx] = 1;
@@ -101,11 +110,11 @@
 
   /* ---------- character ---------- */
   var ch = { x: CX * TS, y: (CY + 9) * TS, dir: 'down', moving: false, anim: 0, frame: 0 };
-  var SPD = 1.5;
+  var SPD = 0.75;
   function tileSolid(px, py) { var tx = Math.floor(px / TS), ty = Math.floor(py / TS); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return true; return !!solid[ty][tx]; }
   function canMove(nx, ny) { var l = nx + 3, r = nx + 13, t = ny + 16, b = ny + 21; return !(tileSolid(l, t) || tileSolid(r, t) || tileSolid(l, b) || tileSolid(r, b)); }
   function drawChar(sx, sy, dir, frame) {
-    var CELL = 96, D = 140, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
+    var CELL = 96, D = 70, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
     if (!dogSheet) return;  // Finn's art (finn-made-by-adam) has its own baked shadow, so no drawn ellipse
     ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, cx - D / 2, feetY - D * 0.9375, D, D);
   }
@@ -139,7 +148,7 @@
     if (dx && dy) { dx *= 0.7071; dy *= 0.7071; }
     if (dx) { var nx = ch.x + dx * SPD; if (canMove(nx, ch.y)) ch.x = nx; }
     if (dy) { var ny = ch.y + dy * SPD; if (canMove(ch.x, ny)) ch.y = ny; }
-    if (ch.moving) { ch.anim += 0.16; ch.frame = Math.floor(ch.anim) % 4; } else { ch.frame = 0; ch.anim = 0; }
+    if (ch.moving) { ch.anim += 0.08; ch.frame = Math.floor(ch.anim) % 4; } else { ch.frame = 0; ch.anim = 0; }
     refreshNear();
   }
   function render() {
