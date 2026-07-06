@@ -131,6 +131,78 @@ const headMat = emissive('#fff2cc', 3.6);
 const barMat = emissive('#eaf3ff', 3.4);
 const signGreen = emissive('#4fe08a', 1.6);
 
+/* ---------- facade textures (canvas-drawn) ---------- */
+function canv(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h || w; return [c, c.getContext('2d')]; }
+function brickTexture() {
+  const [c, g] = canv(128);
+  g.fillStyle = '#a9705a'; g.fillRect(0, 0, 128, 128);          // mortar
+  const bh = 16, bw = 32;
+  for (let row = 0, y = 0; y < 128; y += bh, row++) {
+    const off = (row % 2) ? -bw / 2 : 0;
+    for (let x = -bw; x < 128; x += bw) {
+      g.fillStyle = 'hsl(' + (12 + Math.random() * 10) + ',40%,' + (30 + Math.random() * 10) + '%)';
+      g.fillRect(x + off + 1.5, y + 1.5, bw - 3, bh - 3);
+    }
+  }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2, 1); return t;
+}
+function storefrontTexture() {
+  const [c, g] = canv(256);
+  g.fillStyle = '#241c2c'; g.fillRect(0, 0, 256, 256);
+  const grad = g.createLinearGradient(0, 60, 0, 180);
+  grad.addColorStop(0, '#ffe6a8'); grad.addColorStop(1, '#e08a3c');
+  [16, 96, 176].forEach(x => { g.fillStyle = grad; g.fillRect(x, 56, 64, 120); g.strokeStyle = '#241c2c'; g.lineWidth = 7; g.strokeRect(x, 56, 64, 120); });
+  g.fillStyle = '#3a2e42'; g.fillRect(104, 150, 48, 100);
+  g.fillStyle = '#ffd98a'; g.fillRect(112, 158, 32, 66);
+  return new THREE.CanvasTexture(c);
+}
+function labelTexture(text, bg, fg) {
+  const [c, g] = canv(256, 96);
+  g.fillStyle = bg; g.fillRect(0, 0, 256, 96);
+  g.fillStyle = fg; g.font = 'bold 60px Inter, Arial, sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText(text, 128, 54);
+  return new THREE.CanvasTexture(c);
+}
+function pizzaTexture() {
+  const [c, g] = canv(128);
+  g.fillStyle = '#12040a'; g.fillRect(0, 0, 128, 128);
+  g.beginPath(); g.arc(64, 64, 58, 0, 7); g.fillStyle = '#e8c26a'; g.fill();
+  g.beginPath(); g.arc(64, 64, 48, 0, 7); g.fillStyle = '#d24b34'; g.fill();
+  g.fillStyle = '#a83828';
+  [[46, 44], [84, 50], [58, 88], [88, 82], [40, 74]].forEach(p => { g.beginPath(); g.arc(p[0], p[1], 7, 0, 7); g.fill(); });
+  return new THREE.CanvasTexture(c);
+}
+function mcapTexture() {
+  const [c, g] = canv(256);
+  g.fillStyle = '#f4f5fb'; g.fillRect(0, 0, 256, 256);
+  const cx = 128, cy = 128, r = 98;
+  const p = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const T = p(-Math.PI / 2), TR = p(-Math.PI / 6), BR = p(Math.PI / 6), B = p(Math.PI / 2), BL = p(5 * Math.PI / 6), TL = p(7 * Math.PI / 6), C = [cx, cy];
+  const poly = (pp, f) => { g.beginPath(); g.moveTo(pp[0][0], pp[0][1]); pp.slice(1).forEach(q => g.lineTo(q[0], q[1])); g.closePath(); g.fillStyle = f; g.fill(); };
+  poly([T, TL, C], '#23306e'); poly([C, BR, B], '#23306e'); poly([TR, T, C], '#a7abb4'); poly([BL, B, C], '#a7abb4');
+  poly([TL, BL, C], '#a7abb4'); poly([TR, BR, C], '#23306e');
+  poly([[cx, cy - 42], [cx + 36, cy], [cx, cy + 42], [cx - 36, cy]], '#f4f5fb');
+  return new THREE.CanvasTexture(c);
+}
+const TX = { store: storefrontTexture(), pizzaLabel: labelTexture('PIZZA', '#7a0f1a', '#ffd98a'), pizza: pizzaTexture(), mcap: mcapTexture() };
+const matBrick = new THREE.MeshStandardMaterial({ map: brickTexture(), roughness: 0.95 });
+
+/* a plane that both shows and emits its texture, so signs glow at night */
+function litPanel(parent, w, h, tex, x, y, z, intensity) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+    new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: '#ffffff', emissiveIntensity: intensity || 1, roughness: 0.6 }));
+  m.position.set(x, y, z); parent.add(m); return m;
+}
+
+/* subtle plaster on every plain wall so nothing is a dead-flat box */
+const plasterTex = noiseTile('#c8c3e0', 0.035, 128, 8); plasterTex.repeat.set(3, 3);
+mat.wall.map = plasterTex; mat.wall.needsUpdate = true;
+mat.wallC.map = plasterTex; mat.wallC.needsUpdate = true;
+
+/* dark trim shared by props and the car */
+const trimMat = new THREE.MeshStandardMaterial({ color: '#1b1622', roughness: 0.6, metalness: 0.3 });
+
 /* ---------- geometry helpers ---------- */
 const boxGeo = new THREE.BoxGeometry(1, 1, 1);
 const obstacles = [];
@@ -237,14 +309,24 @@ function district(key, href, label, cx, cz, r, build) {
 
 /* PIZZERIA (west) */
 district('pizza', '../pizza/', 'Pizza', -105, 0, 30, (g) => {
-  solid(g, 24, 12, 18, mat.wall, -105, 0);
-  block(g, 25, 1.2, 19, mat.roof, -105, 0, 12);
-  for (let i = 0; i < 8; i++) block(g, 3, 1.2, 4, i % 2 ? mat.red : mat.cream, -116 + i * 3, 9, 12.6, false);
-  solid(g, 9, 9, 9, mat.wallB, -86, 0);                     // oven
+  solid(g, 24, 12, 18, matBrick, -105, 0);
+  block(g, 26, 1.4, 20, mat.roof, -105, 0, 12);             // parapet
+  litPanel(g, 22, 7.6, TX.store, -105, 4.2, 9.06, 1.15);    // glowing storefront
+  // striped awning above the windows
+  for (let i = 0; i < 8; i++) block(g, 3, 0.6, 3, i % 2 ? mat.red : mat.cream, -116.5 + i * 3, 8.4, 10.3, false);
+  block(g, 24, 0.5, 0.6, mat.wallB, -105, 8.1, 11.8, false);
+  litPanel(g, 12, 3.4, TX.pizzaLabel, -105, 12.7, 9.2, 1.7); // lit PIZZA sign
+  for (let i = 0; i < 10; i++) {                            // string lights
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.35, 6, 6), emissive(i % 2 ? '#ffd98a' : '#ff9a6a', 2.6));
+    b.position.set(-116 + i * 2.45, 12.7, 9.5); g.add(b);
+  }
+  solid(g, 9, 9, 9, matBrick, -86, 0);                      // brick oven
   block(g, 2.4, 13, 2.4, mat.wallB, -80, -4);               // chimney
-  block(g, 1, 12, 1, mat.wallB, -120, 8);                   // sign pole
-  const sign = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.8, 20), emissive('#e7a545', 1.6));
+  block(g, 1, 12, 1, mat.wallB, -120, 8);                   // neon sign pole
+  const sign = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.6, 24),
+    new THREE.MeshStandardMaterial({ map: TX.pizza, emissiveMap: TX.pizza, emissive: '#ffffff', emissiveIntensity: 1.3, roughness: 0.5 }));
   sign.rotation.x = Math.PI / 2; sign.position.set(-120, 15, 8.5); g.add(sign);
+  const glow = new THREE.PointLight('#ffb45a', 12, 28, 2); glow.position.set(-105, 5, 13); g.add(glow);
   tireStack(g, -128, 14); tree(g, -126, -14, 1);
 });
 
@@ -252,11 +334,10 @@ district('pizza', '../pizza/', 'Pizza', -105, 0, 30, (g) => {
 district('data', '../work/', 'Work', 0, -105, 32, (g) => {
   tower(g, 20, 46, 20, 0, -110);
   solid(g, 14, 11, 12, mat.wall, -2, -86);
-  block(g, 16, 8, 1, mat.cream, 0, 34, -99.4);
-  const hex = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 0.6, 6), mat.navy);
-  hex.rotation.x = Math.PI / 2; hex.position.set(0, 34, -98.8); g.add(hex);
-  const hex2 = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.7, 0.7, 6), mat.gray);
-  hex2.rotation.x = Math.PI / 2; hex2.position.set(0, 34, -98.6); g.add(hex2);
+  block(g, 15, 15, 0.6, mat.wall, 0, 34, -99.2);            // sign backing
+  litPanel(g, 12, 12, TX.mcap, 0, 34, -98.8, 1.05);         // glowing MCAP logo
+  const signLight = new THREE.SpotLight('#cfe0ff', 8, 40, 0.7, 0.6, 1.5);
+  signLight.position.set(0, 34, -80); signLight.target.position.set(0, 34, -99); g.add(signLight); g.add(signLight.target);
   tower(g, 15, 28, 15, 26, -92);
   lamp(g, -20, -78); bench(g, -14, -76); hydrant(g, 14, -78);
 });
@@ -323,10 +404,121 @@ PROJECTS.forEach(([key, href, label, x, z]) => {
   targets.push({ key, href, label, x, z, r: 15 });
 });
 
+/* ============================================================
+   FILLER SHOPS: small signed storefronts that densify the blocks
+   ============================================================ */
+function signTexture(text, bg, fg) {
+  const [c, g] = canv(256, 80);
+  g.fillStyle = bg; g.fillRect(0, 0, 256, 80);
+  g.fillStyle = fg; g.font = 'bold 40px Inter, Arial, sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText(text, 128, 44);
+  return new THREE.CanvasTexture(c);
+}
+const SHOP_COLORS = ['#c96b6b', '#6b8bc9', '#6bc98f', '#c9a86b', '#9b6bc9', '#c97fae'];
+const SHOPS = [
+  ['Corner Store', -40, 42], ['Barber', -70, 40], ['Laundromat', 40, -42], ['Cafe', 42, 70],
+  ['Records', -42, -70], ['Hardware', 70, 42], ['Florist', -68, -42], ['Diner', 44, 40],
+  ['Bakery', -44, 68], ['Pharmacy', 68, -44], ['Books', -66, 68], ['Bikes', 66, 66]
+];
+SHOPS.forEach(([name, x, z], i) => {
+  const g = new THREE.Group();
+  const col = new THREE.MeshStandardMaterial({ color: SHOP_COLORS[i % SHOP_COLORS.length], roughness: 0.9, map: plasterTex });
+  const h = 8 + (i % 3) * 3;
+  solid(g, 12, h, 10, col, x, z);
+  block(g, 13, 1, 11, mat.roof, x, z, h);
+  litPanel(g, 9, 2, signTexture(name, '#1a1524', '#ffe0a0'), x, h - 1.4, z + 5.05, 1.3);
+  litPanel(g, 8, 3.4, TX.store, x, 3, z + 5.04, 0.9);        // lit windows
+  scene.add(g);
+});
+
+/* ============================================================
+   EASTER EGGS: little objects that pop a card about my life.
+   Add as many as you like by appending to EGGS below; each entry
+   spawns a glowing prop and a proximity card. Bodies are short
+   stubs to rewrite in your own words.
+   ============================================================ */
+function screenTex(kind) {
+  const [c, g] = canv(128);
+  if (kind === 'code') {
+    g.fillStyle = '#0d1326'; g.fillRect(0, 0, 128, 128);
+    const cols = ['#7fd0ff', '#c792ea', '#c3e88d', '#ffcb6b'];
+    for (let y = 10, i = 0; y < 120; y += 12, i++) { g.fillStyle = cols[i % 4]; g.fillRect(10, y, 30 + Math.random() * 70, 5); }
+  } else if (kind === 'game') {
+    g.fillStyle = '#101830'; g.fillRect(0, 0, 128, 128);
+    for (let i = 0; i < 40; i++) { g.fillStyle = ['#57d97e', '#ff7a59', '#5aa0ff', '#ffd23f'][i % 4]; g.fillRect(Math.random() * 116, Math.random() * 116, 12, 12); }
+  } else { // photo
+    const grd = g.createLinearGradient(0, 0, 0, 128); grd.addColorStop(0, '#4a63a8'); grd.addColorStop(1, '#20325e');
+    g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
+    g.fillStyle = '#e8c9a0'; g.beginPath(); g.arc(64, 52, 18, 0, 7); g.fill();
+    g.fillStyle = '#2b2436'; g.fillRect(44, 74, 40, 44);
+  }
+  return new THREE.CanvasTexture(c);
+}
+const scr = { code: screenTex('code'), game: screenTex('game'), photo: screenTex('photo') };
+const gold = new THREE.MeshStandardMaterial({ color: '#e7b64a', emissive: '#7a5411', emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 });
+
+const eggProp = {
+  computer(g, x, z) {
+    block(g, 3, 1.4, 1.6, mat.metal, x, z, 2.2, false);      // monitor body
+    litPanel(g, 2.4, 1.1, scr.game, x, 2.9, z + 0.85, 1.6);  // screen
+    block(g, 0.5, 1, 0.5, mat.metal, x, z, 1.2, false);      // stand
+    block(g, 2.6, 0.3, 1, trimMat, x, z + 1.4, 1.1, false);  // keyboard
+    block(g, 1, 2.4, 1, trimMat, x + 2.2, z, 1, false);      // tower
+  },
+  code(g, x, z) {
+    litPanel(g, 3.4, 2.4, scr.code, x, 3.4, z, 1.5);
+    block(g, 3.8, 2.8, 0.3, trimMat, x, z, 2, false);
+  },
+  chef(g, x, z) {
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 1, 16), mat.cream); band.position.set(x, 2.4, z); band.castShadow = true; g.add(band);
+    const puff = new THREE.Mesh(new THREE.SphereGeometry(1.7, 12, 10), mat.cream); puff.position.set(x, 3.6, z); puff.scale.y = 0.8; puff.castShadow = true; g.add(puff);
+  },
+  photo(g, x, z) {
+    block(g, 0.5, 3.5, 0.5, mat.metal, x, z, 0);
+    block(g, 4.4, 3.4, 0.4, trimMat, x, z, 3.4, false);
+    litPanel(g, 3.6, 2.6, scr.photo, x, 5.1, z + 0.25, 1.1);
+  },
+  arcade(g, x, z) {
+    block(g, 2.6, 6, 2.2, trimMat, x, z, 0);
+    litPanel(g, 2, 1.6, scr.game, x, 4.4, z + 1.15, 1.5);
+    block(g, 2.6, 0.8, 2.2, new THREE.MeshStandardMaterial({ color: '#c96b6b', roughness: 0.6 }), x, z, 6, false);
+  },
+  trophy(g, x, z) {
+    const cup = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 0.7, 2.4, 14), gold); cup.position.set(x, 3, z); cup.castShadow = true; g.add(cup);
+    block(g, 1.6, 1, 1.6, gold, x, z, 1.2, false);
+  },
+  book(g, x, z) {
+    ['#c15b5b', '#5b7bc1', '#5bc187'].forEach((col, i) => block(g, 3, 0.8, 2.2, new THREE.MeshStandardMaterial({ color: col, roughness: 0.8 }), x, z, 1.2 + i * 0.8, false));
+  }
+};
+
+const EGGS = [
+  ['computer', 'Gaming', 'CS:GO, Overwatch, Minecraft', 'Thousands of hours. The aim trainer reflexes and the Minecraft redstone logic both fed into everything else. (rewrite in your own words)', -30, 30],
+  ['code', 'Coding', 'Where this whole site comes from', 'JavaScript, SQL, and whatever a project needs. This city included. (rewrite in your own words)', 32, -30],
+  ['chef', 'Cooking', 'Twenty recipes and a pizza obsession', 'Recipes on TikTok and a three-day dough habit. See the pizzeria. (rewrite in your own words)', -34, -32],
+  ['photo', 'Convocation', 'BSc Computer Science, Laurier', '(Adam: drop in the real story of this event.)', 30, 34],
+  ['arcade', 'Console era', 'Before the PC', '(Adam: add the consoles and games that raised you.)', -72, 30],
+  ['book', 'Studying', 'Comp Sci, Wilfrid Laurier', 'Four years of theory that still shows up in the day job. (rewrite)', 72, -30],
+  ['trophy', 'A proud moment', 'Something worth a shelf', '(Adam: what goes on the trophy shelf?)', 30, 72],
+  ['computer', 'Building PCs', 'Hardware tinkering', '(Adam: your rig / the first PC you built.)', -30, -72],
+  ['photo', 'A trip', 'Somewhere that stuck', '(Adam: a place and why it mattered.)', 72, 30],
+  ['code', 'First program', 'The one that hooked you', '(Adam: what was the first thing you built?)', -72, -30],
+  ['chef', 'Signature dish', 'The one people request', '(Adam: name the dish.)', 34, 30],
+  ['trophy', 'MCAP', 'The day job that pays for the hobbies', 'Data analyst, Reporting & Analytics. (rewrite)', -30, 72]
+];
+EGGS.forEach(([kind, kicker, title, body, x, z], i) => {
+  const g = new THREE.Group();
+  block(g, 5, 1, 5, mat.wallB, x, z);                        // plinth
+  const halo = new THREE.PointLight('#8f86ff', 5, 16, 2); halo.position.set(x, 3, z); g.add(halo);
+  (eggProp[kind] || eggProp.trophy)(g, x, z);
+  scene.add(g);
+  targets.push({ key: 'egg-' + i, egg: true, kicker: kicker, title: title, body: body, x: x, z: z, r: 11 });
+});
+
 /* ---------- the car: a chunky SUV ---------- */
 const car = new THREE.Group();
 const bodyMat = new THREE.MeshStandardMaterial({ color: '#7a2233', roughness: 0.4, metalness: 0.35 });
-const trimMat = new THREE.MeshStandardMaterial({ color: '#1b1622', roughness: 0.6, metalness: 0.3 });
 // chassis + hood + body
 block(car, 4.6, 1.6, 8.4, bodyMat, 0, 0, 1.5);
 block(car, 4.4, 1, 2.6, bodyMat, 0, 2.6, 2.7, false);        // hood
@@ -373,6 +565,12 @@ const input = { fwd: 0, turn: 0 };
 const MAXF = 64, MAXR = 26, ACC = 100, BRK = 92, CAR_R = 3;
 let near = null;
 const promptEl = document.getElementById('prompt');
+const card = document.getElementById('eggcard');
+const cardK = document.getElementById('eggKicker');
+const cardT = document.getElementById('eggTitle');
+const cardB = document.getElementById('eggBody');
+function showEgg(t) { cardK.textContent = t.kicker; cardT.textContent = t.title; cardB.textContent = t.body; card.classList.add('show'); }
+function hideEgg() { card.classList.remove('show'); }
 
 function resolveCollision() {
   for (const o of obstacles) {
@@ -431,8 +629,9 @@ function step(dt) {
   const key = best && best.key;
   if (key !== (near && near.key)) {
     near = best;
-    if (best) { promptEl.innerHTML = 'Press <b>Space</b> to open ' + best.label; promptEl.classList.add('show'); }
-    else promptEl.classList.remove('show');
+    if (best && best.egg) { showEgg(best); promptEl.classList.remove('show'); }
+    else if (best) { hideEgg(); promptEl.innerHTML = 'Press <b>Space</b> to open ' + best.label; promptEl.classList.add('show'); }
+    else { hideEgg(); promptEl.classList.remove('show'); }
   }
 }
 
@@ -449,7 +648,7 @@ function dirOf(k) {
   if (k === 'ArrowRight' || k === 'd' || k === 'D') return 'right';
   return null;
 }
-const go = () => { if (near) location.href = near.href === '#' ? '../#archive' : near.href; };
+const go = () => { if (near && near.href) location.href = near.href === '#' ? '../#archive' : near.href; };
 addEventListener('keydown', (e) => {
   if ((e.code === 'Space' || e.key === ' ' || e.key === 'Enter') && near) { e.preventDefault(); go(); return; }
   const d = dirOf(e.key); if (!d) return;

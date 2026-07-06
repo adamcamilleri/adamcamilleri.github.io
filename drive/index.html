@@ -35,6 +35,20 @@
       .prompt.show { opacity: 1; transform: translateX(-50%) translateY(0); }
       .prompt b { color: #ffca3a; }
 
+      .eggcard {
+        position: fixed; left: clamp(1rem, 3vw, 2.4rem); bottom: clamp(1.4rem, 5vh, 3rem);
+        z-index: 6; max-width: 360px; padding: 1.1rem 1.3rem;
+        border-radius: 16px; background: rgba(14, 11, 34, 0.86);
+        border: 1px solid rgba(160, 150, 255, 0.28);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(12px); pointer-events: none;
+        opacity: 0; transform: translateY(12px); transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+      .eggcard.show { opacity: 1; transform: translateY(0); }
+      .eggcard-kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffca3a; font-weight: 700; margin-bottom: 0.4rem; }
+      .eggcard-title { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+      .eggcard-body { font-size: 0.92rem; line-height: 1.5; color: #cdd0f0; }
+
       .fallback {
         position: fixed; inset: 0; z-index: 9; display: none;
         align-items: center; justify-content: center; text-align: center;
@@ -69,6 +83,12 @@
         <span class="hud-hint">WASD or arrows to drive · roll up to a building and press Space</span>
     </div>
     <p class="prompt" id="prompt"></p>
+
+    <div class="eggcard" id="eggcard" aria-hidden="true">
+        <div class="eggcard-kicker" id="eggKicker"></div>
+        <div class="eggcard-title" id="eggTitle"></div>
+        <div class="eggcard-body" id="eggBody"></div>
+    </div>
 
     <div class="pad" aria-hidden="true">
         <button class="pu" data-dir="up">&#9650;</button>
