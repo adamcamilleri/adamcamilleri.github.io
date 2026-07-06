@@ -21,3 +21,7 @@ cypress/downloads/
 # OS
 .DS_Store
 Thumbs.db
+
+# Pokemon Essentials fangame kit (ripped assets - never publish)
+Pokemon Essentials*/
+Root_*.png
