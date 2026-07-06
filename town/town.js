@@ -20,15 +20,9 @@
 
   // dog sprite sheet, recolored white
   var DOGROW = { down: 3, left: 1, right: 2, up: 0 };
-  var dogSheet = null, dogImg = new Image();
-  dogImg.onload = function () {
-    var c = document.createElement('canvas'); c.width = dogImg.width; c.height = dogImg.height;
-    var g = c.getContext('2d'); g.imageSmoothingEnabled = false; g.drawImage(dogImg, 0, 0);
-    var id = g.getImageData(0, 0, c.width, c.height), d = id.data;
-    for (var i = 0; i < d.length; i += 4) { if (d[i + 3] === 0) continue; var lum = 0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2]; if (lum < 48) continue; var v = Math.min(255, 224 + (lum / 255) * 31); d[i] = v; d[i + 1] = v; d[i + 2] = v; }
-    g.putImageData(id, 0, 0); dogSheet = c; loaded();
-  };
-  dogImg.src = 'dog-walk.png';
+  var dogSheet = null, dogImg = new Image();      // Finn: a pre-baked fully-white dog sheet
+  dogImg.onload = function () { dogSheet = dogImg; loaded(); };
+  dogImg.src = 'dog-white.png';
 
   /* ---------- tiny procedural sprites (signs, curios) ---------- */
   function make(w, h) { var c = document.createElement('canvas'); c.width = w; c.height = h; var g = c.getContext('2d'); g.imageSmoothingEnabled = false; return [c, g]; }
