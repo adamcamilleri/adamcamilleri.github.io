@@ -150,7 +150,7 @@
     if (dx && dy) { dx *= 0.7071; dy *= 0.7071; }
     if (dx) { var nx = ch.x + dx * SPD; if (canMove(nx, ch.y)) ch.x = nx; }
     if (dy) { var ny = ch.y + dy * SPD; if (canMove(ch.x, ny)) ch.y = ny; }
-    if (ch.moving) { ch.anim += 0.08; ch.frame = Math.floor(ch.anim) % 4; } else { ch.frame = 0; ch.anim = 0; }
+    if (ch.moving) { ch.anim += 0.04; ch.frame = Math.floor(ch.anim) % 4; } else { ch.frame = 0; ch.anim = 0; }
     refreshNear();
   }
   function render() {
