@@ -10,31 +10,35 @@
    ============================================================ */
 
 :root {
-  --bg: #fcfcfc;
-  --bg-panel: #D0E1EB;
-  --bg-muted: #eff4f4;
-  --highlight: #3932DC;
-  --ink: #050419;
-  --ink-alt: #373647;
-  --muted: #585765;
-  --subtle: #b2b1b8;
-  --border: #e6e6e8;
-  --red: #ff4d67;
-  --blue: #0e94fb;
+  /* Cozy pixel-town palette, lifted from /town/ (parchment, wood, gold) */
+  --bg: #f4ead1;          /* warm parchment page */
+  --bg-panel: #fbf4e2;    /* light cream card */
+  --bg-muted: #ece0c0;    /* muted cream panel */
+  --highlight: #b8752a;   /* warm orange-brown accent (town sign kicker) */
+  --ink: #33281a;         /* dark wood-brown: text + dark bands */
+  --ink-alt: #5c4a30;
+  --muted: #837055;
+  --subtle: #a6906a;
+  --border: #d9c8a0;      /* tan hairline */
+  --red: #c0453a;         /* pizza tomato accent */
+  --blue: #3f7fa6;        /* data window-blue accent */
+  --gold: #c8a86a;        /* sign gold trim / ring */
+  --wood: #2e2114;        /* deep wood for hard shadows */
 
   --font: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Pixelify Sans", "Inter", sans-serif;
 
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 17px;
   --text-lg: 22px;
   --text-xl: clamp(26px, 3.4vw, 36px);
-  --text-2xl: clamp(44px, 6.5vw, 80px);
-  --text-hero: clamp(44px, 8.5vw, 96px);
+  --text-2xl: clamp(40px, 6vw, 68px);
+  --text-hero: clamp(40px, 7.5vw, 82px);
 
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
-  --radius: 12px;
-  --pill: 156px;
+  --radius: 10px;
+  --pill: 12px;           /* chunky rounded rects, not full pills */
   --page-max: 1240px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --header-h: 72px;
@@ -87,6 +91,18 @@ body {
   text-transform: uppercase;
 }
 
+/* ---------- Pixel display type (headings, nav, brand) ----------
+   Kept off long body copy so articles stay easy to read. */
+.masthead-brand, .masthead-nav a,
+.cover-title, .feature-title, .toc-title, .sec-title,
+.also-name, .proj-name, .next-title, .colophon-heading,
+.crosslink-title, .pull, .step-title, .spot-label {
+  font-family: var(--font-display);
+  letter-spacing: 0;
+  font-weight: 700;
+}
+.cover-title, .feature-title { line-height: 1; }
+
 /* ============================================================
    HEADER
    ============================================================ */
@@ -100,10 +116,10 @@ body {
   gap: 1rem;
   height: var(--header-h);
   padding: 0 var(--gutter);
-  background: rgba(252, 252, 252, 0.82);
+  background: rgba(244, 234, 209, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 3px solid var(--gold);
 }
 body.cover .masthead {
   background: transparent;
@@ -337,10 +353,12 @@ body.cover .masthead {
 
 /* ---------- Spec sheets ---------- */
 .spec {
-  margin: 1.8rem 0;
+  margin: 2.1rem 0;
   max-width: 620px;
-  background: var(--bg-muted);
+  background: var(--bg-panel);
+  border: 3px solid var(--wood);
   border-radius: var(--radius);
+  box-shadow: 0 0 0 3px var(--gold), 0 6px 0 rgba(46, 33, 20, 0.22);
   overflow: hidden;
 }
 .spec-caption {
@@ -350,6 +368,8 @@ body.cover .masthead {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  font-family: var(--font-display);
+  letter-spacing: 0;
 }
 .spec-caption .spec-tag { color: var(--blue); }
 body.theme-pizza .spec-caption .spec-tag { color: var(--red); }
@@ -363,11 +383,13 @@ body.theme-pizza .spec-caption .spec-tag { color: var(--red); }
 
 /* ---------- Diagrams ---------- */
 .diagram {
-  margin: 1.8rem 0;
+  margin: 2.1rem 0;
   padding: 1.4rem 1.6rem;
   border-radius: var(--radius);
   background: var(--ink);
   color: var(--bg);
+  border: 3px solid var(--wood);
+  box-shadow: 0 0 0 3px var(--gold), 0 6px 0 rgba(46, 33, 20, 0.22);
   overflow-x: auto;
 }
 .diagram pre {
@@ -411,15 +433,17 @@ body.theme-pizza .diagram .hi { color: var(--red); }
   grid-template-columns: 120px 1fr;
   gap: 1.2rem;
   align-items: center;
-  margin: 1.8rem 0;
+  margin: 2.1rem 0;
   padding: 1rem;
-  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  border: 3px solid var(--wood);
   border-radius: var(--radius);
+  box-shadow: 0 0 0 3px var(--gold), 0 6px 0 rgba(46, 33, 20, 0.22);
   max-width: 620px;
   text-decoration: none;
-  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
-.crosslink:hover, .crosslink:focus-visible { background: var(--bg-muted); border-color: var(--subtle); }
+.crosslink:hover, .crosslink:focus-visible { transform: translateY(-2px); box-shadow: 0 0 0 3px var(--gold), 0 8px 0 rgba(46, 33, 20, 0.22); }
 .crosslink img { width: 120px; height: 88px; object-fit: cover; border-radius: 6px; }
 .crosslink-kicker { color: var(--highlight); }
 .crosslink-title { font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; margin-top: 0.25rem; }
@@ -566,20 +590,23 @@ body.theme-pizza .diagram .hi { color: var(--red); }
 
 .btn {
   display: inline-block;
-  font-family: var(--font);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  padding: 0.7rem 1.8rem;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 0.65rem 1.7rem;
   border: 0;
   background: var(--highlight);
   color: #fff;
   cursor: pointer;
   text-decoration: none;
   border-radius: var(--pill);
-  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+  box-shadow: 0 4px 0 #7a4a15;
+  transition: background 0.15s var(--ease), transform 0.1s var(--ease), box-shadow 0.1s var(--ease);
   justify-self: start;
 }
-.btn:hover, .btn:focus-visible { background: #2a24b8; transform: translateY(-1px); }
+.btn:hover, .btn:focus-visible { background: #a5661f; transform: translateY(-1px); box-shadow: 0 5px 0 #7a4a15; }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #7a4a15; }
 
 .colophon-base {
   max-width: var(--page-max);
@@ -614,7 +641,7 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
 .scene-journey {
   height: calc(100svh - var(--header-h));
   min-height: 480px;
-  background: linear-gradient(180deg, #dcebf4 0%, #d3e4f0 100%);
+  background: linear-gradient(180deg, #bfe3ef 0%, #cdecc6 62%, #bfe0a6 100%);
 }
 .scene-sticky {
   position: relative;
