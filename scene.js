@@ -500,169 +500,61 @@
   pieces.forEach(function (p) { world.appendChild(p.g); });
 
   /* ============================================================
-     FREE-ROAM CAMERA
+     DRIVING: a car you steer around the city, camera following
      ============================================================ */
   var steps = document.querySelectorAll('.scene-steps .step');
   var spots = svg.querySelectorAll('.hotspot');
   var pops = world.querySelectorAll('.pop');
 
+  var spotByKey = {};
+  spots.forEach(function (g) { spotByKey[g.dataset.key] = g; });
+
   var VIEW = [800, 460];
   var camX = 0, camY = 0;
-  var targetX = 0, targetY = 0;
-  var flying = false;
-  var vx = 0, vy = 0;
-  var dragging = false;
-  var dragDist = 0;
-  var lastPX = 0, lastPY = 0;
-
-  /* the plate is a diamond in screen space, so clamp the camera to a
-     shrunken diamond rather than a rectangle: no dragging into empty sky */
-  var EXTPX = EXT * 2 * 0.866, EXTPY = EXT;
-  var ROAM = 0.72;
-
-  function clampCam() {
-    var k = Math.abs(camX) / EXTPX + Math.abs(camY) / EXTPY;
-    if (k > ROAM) {
-      var f = ROAM / k;
-      camX *= f;
-      camY *= f;
-    }
-  }
-  function anchorPoint(key) {
-    var a = ANCHORS[key];
-    return P(a[0], a[1], 0);
-  }
-
-  var hoverKey = null;
-  var nearKey = 'pizza';
-
-  function paint() {
-    var key = hoverKey || nearKey;
-    steps.forEach(function (s) { s.classList.toggle('hot', s.dataset.key === key); });
-    spots.forEach(function (s) { s.classList.toggle('hot', s.dataset.key === key); });
-  }
-
-  function nearestAnchor() {
-    var bestKey = 'pizza', bestD = 1e12;
-    for (var k in ANCHORS) {
-      var p = anchorPoint(k);
-      var dx = p[0] - camX, dy = p[1] - camY;
-      var d = dx * dx + dy * dy;
-      if (d < bestD) { bestD = d; bestKey = k; }
-    }
-    return bestKey;
-  }
 
   function render() {
     root.setAttribute('transform',
       'translate(' + (VIEW[0] - camX).toFixed(2) + ' ' + (VIEW[1] - camY).toFixed(2) + ')');
   }
 
-  function frame() {
-    var moved = false;
-    if (flying) {
-      camX += (targetX - camX) * 0.08;
-      camY += (targetY - camY) * 0.08;
-      if (Math.abs(targetX - camX) + Math.abs(targetY - camY) < 0.6) flying = false;
-      moved = true;
-    } else if (!dragging && (Math.abs(vx) > 0.08 || Math.abs(vy) > 0.08)) {
-      camX -= vx; camY -= vy;
-      vx *= 0.94; vy *= 0.94;
-      moved = true;
-    }
-    if (moved) {
-      clampCam();
-      render();
-      var k = nearestAnchor();
-      if (k !== nearKey) { nearKey = k; paint(); }
-    }
-    requestAnimationFrame(frame);
+  /* clickable destinations in world space (buildings + projects) */
+  var TARGETS = [
+    { key: 'pizza', x: -320, y: 10, r: 95, href: 'pizza/' },
+    { key: 'data', x: -12, y: -257, r: 95, href: 'work/' },
+    { key: 'invest', x: 235, y: -258, r: 100, href: 'investing/' },
+    { key: 'archive', x: 242, y: 226, r: 95, href: '#archive' },
+    { key: 'proj-cookbook', x: -185, y: -60, r: 58, href: 'projects/adams-cookbook/' },
+    { key: 'proj-handoff', x: 60, y: -370, r: 58, href: 'projects/handoff/' },
+    { key: 'proj-housing', x: -300, y: 390, r: 58, href: 'projects/housing-dashboard/' },
+    { key: 'proj-songdle', x: 70, y: -30, r: 55, href: 'projects/songdle/' }
+  ];
+
+  var hoverKey = null;
+  var nearTarget = null;
+
+  function paint() {
+    var key = hoverKey || (nearTarget && nearTarget.key);
+    steps.forEach(function (s) { s.classList.toggle('hot', s.dataset.key === key); });
+    spots.forEach(function (s) { s.classList.toggle('hot', s.dataset.key === key); });
   }
 
-  /* ---------- interactions ---------- */
+  /* mouse users keep hover + click; keyboard Enter still opens a focused one */
   spots.forEach(function (g) {
     g.addEventListener('mouseenter', function () { hoverKey = g.dataset.key; paint(); });
     g.addEventListener('mouseleave', function () { hoverKey = null; paint(); });
     g.addEventListener('focus', function () { hoverKey = g.dataset.key; paint(); });
     g.addEventListener('blur', function () { hoverKey = null; paint(); });
-    g.addEventListener('click', function () {
-      if (dragDist > 6) return;       /* it was a pan, not a click */
-      window.location.href = g.dataset.href;
-    });
+    g.addEventListener('click', function () { window.location.href = g.dataset.href; });
     g.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = g.dataset.href; }
     });
   });
-
-  /* step click flies the camera there; a second click once centered
-     follows the link */
   steps.forEach(function (s) {
     s.addEventListener('mouseenter', function () { hoverKey = s.dataset.key; paint(); });
     s.addEventListener('mouseleave', function () { hoverKey = null; paint(); });
-    s.addEventListener('focus', function () { hoverKey = s.dataset.key; paint(); });
-    s.addEventListener('blur', function () { hoverKey = null; paint(); });
-    s.addEventListener('click', function (e) {
-      var key = s.dataset.key;
-      if (nearKey !== key || flying) {
-        e.preventDefault();
-        var p = anchorPoint(key);
-        targetX = p[0]; targetY = p[1];
-        flying = true;
-        hoverKey = null;
-        nearKey = key;
-        paint();
-      }
-    });
   });
 
-  if (!reduced) {
-    svg.style.cursor = 'grab';
-    svg.addEventListener('pointerdown', function (e) {
-      if (e.button !== 0) return;
-      dragging = true;
-      flying = false;
-      dragDist = 0;
-      vx = 0; vy = 0;
-      lastPX = e.clientX; lastPY = e.clientY;
-      svg.setPointerCapture(e.pointerId);
-      svg.style.cursor = 'grabbing';
-    });
-    svg.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      var dx = e.clientX - lastPX, dy = e.clientY - lastPY;
-      lastPX = e.clientX; lastPY = e.clientY;
-      dragDist += Math.abs(dx) + Math.abs(dy);
-      var scale = 1600 / svg.getBoundingClientRect().width;
-      camX -= dx * scale; camY -= dy * scale;
-      vx = dx * scale; vy = dy * scale;
-      clampCam();
-      render();
-    });
-    var endDrag = function () {
-      dragging = false;
-      svg.style.cursor = 'grab';
-    };
-    svg.addEventListener('pointerup', endDrag);
-    svg.addEventListener('pointercancel', endDrag);
-
-    svg.setAttribute('tabindex', '0');
-    svg.setAttribute('aria-label', 'Map of the city. Use arrow keys to pan.');
-    svg.addEventListener('keydown', function (e) {
-      var step = 60;
-      if (e.key === 'ArrowLeft') camX -= step;
-      else if (e.key === 'ArrowRight') camX += step;
-      else if (e.key === 'ArrowUp') camY -= step;
-      else if (e.key === 'ArrowDown') camY += step;
-      else return;
-      e.preventDefault();
-      clampCam();
-      render();
-      var k = nearestAnchor();
-      if (k !== nearKey) { nearKey = k; paint(); }
-    });
-  }
-
-  /* ---------- boot ---------- */
+  /* ---------- reduced motion: static city, no car ---------- */
   if (reduced) {
     root.setAttribute('transform',
       'translate(' + VIEW[0] + ' ' + (VIEW[1] - 40) + ') scale(0.85)');
@@ -671,16 +563,171 @@
     return;
   }
 
-  var start = anchorPoint('pizza');
-  camX = start[0]; camY = start[1];
-  render();
-
-  /* the city builds itself outward from the pizzeria on load */
   pops.forEach(function (g) {
     setTimeout(function () { g.classList.add('on'); },
       300 + parseFloat(g.dataset.appear) * 2400);
   });
 
-  paint();
+  /* ---------- the car ---------- */
+  var carG = el('g', { 'aria-hidden': 'true' }, world);
+  var CAR_TOP = '#4038d8', CAR_SIDE = '#2a2496';
+  var CAB_TOP = '#dfe7f5', CAB_SIDE = '#aebfd4';
+
+  function carBox(cx, cy, hd, hl, hw, z0, h, topFill, sideFill) {
+    var cos = Math.cos(hd), sin = Math.sin(hd);
+    function corner(fl, fw, z) {
+      return P(cx + fl * cos - fw * sin, cy + fl * sin + fw * cos, z);
+    }
+    /* only the two camera-facing side walls (outward normal toward the
+       viewer, i.e. nx + ny > 0) are drawn, so a turning car looks solid */
+    var walls = [
+      [hl, -hw, hl, hw, cos, sin],       /* front */
+      [-hl, hw, -hl, -hw, -cos, -sin],   /* back */
+      [-hl, -hw, hl, -hw, sin, -cos],    /* right */
+      [hl, hw, -hl, hw, -sin, cos]       /* left */
+    ];
+    walls.forEach(function (w) {
+      if (w[4] + w[5] <= 0) return;
+      face(carG, [corner(w[0], w[1], z0 + h), corner(w[2], w[3], z0 + h),
+        corner(w[2], w[3], z0), corner(w[0], w[1], z0)], sideFill);
+    });
+    face(carG, [corner(hl, -hw, z0 + h), corner(hl, hw, z0 + h),
+      corner(-hl, hw, z0 + h), corner(-hl, -hw, z0 + h)], topFill);
+  }
+
+  function drawCar(cx, cy, hd) {
+    while (carG.firstChild) carG.removeChild(carG.firstChild);
+    var s = P(cx, cy, 0);
+    el('ellipse', { cx: s[0], cy: s[1], rx: 20, ry: 10, fill: SHADOW }, carG);
+    carBox(cx, cy, hd, 15, 8, 2, 6, CAR_TOP, CAR_SIDE);
+    carBox(cx - 2 * Math.cos(hd), cy - 2 * Math.sin(hd), hd, 8, 6.5, 8, 5, CAB_TOP, CAB_SIDE);
+  }
+
+  /* keep the car depth-sorted so it drives behind buildings in front of it */
+  var lastIdx = -1;
+  function placeCar(cx, cy) {
+    var depth = cx + cy;
+    var idx = pieces.length;
+    for (var i = 0; i < pieces.length; i++) {
+      if (pieces[i].depth > depth) { idx = i; break; }
+    }
+    if (idx === lastIdx) return;
+    lastIdx = idx;
+    if (idx >= pieces.length) world.appendChild(carG);
+    else world.insertBefore(carG, pieces[idx].g);
+  }
+
+  /* ---------- physics ---------- */
+  var car = { x: -300, y: 130, hd: -0.6, sp: 0 };
+  var input = { fwd: 0, turn: 0 };
+  var MAXF = 300, MAXR = 140, ACC = 520, BRK = 460;
+
+  function driveStep(dt) {
+    if (input.fwd > 0) car.sp = Math.min(MAXF, car.sp + ACC * dt);
+    else if (input.fwd < 0) car.sp = Math.max(-MAXR, car.sp - BRK * dt);
+    else car.sp -= car.sp * Math.min(1, 3 * dt);
+    car.sp *= (1 - Math.min(1, 0.55 * dt));
+    if (input.fwd === 0 && Math.abs(car.sp) < 1.5) car.sp = 0;
+
+    var grip = Math.max(-1, Math.min(1, car.sp / 80));
+    car.hd += input.turn * 2.6 * dt * grip;
+
+    car.x += Math.cos(car.hd) * car.sp * dt;
+    car.y += Math.sin(car.hd) * car.sp * dt;
+
+    var k = Math.abs(car.x) / (EXT - 30) + Math.abs(car.y) / (EXT - 30);
+    if (k > 1) { car.x /= k; car.y /= k; car.sp *= 0.4; }
+  }
+
+  /* ---------- parked-on-a-destination hint ---------- */
+  var hint = document.getElementById('driveHint');
+  function checkNear() {
+    var best = null, bestD = 1e9;
+    for (var i = 0; i < TARGETS.length; i++) {
+      var t = TARGETS[i], dx = car.x - t.x, dy = car.y - t.y;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if (d < t.r && d < bestD) { bestD = d; best = t; }
+    }
+    if ((best && best.key) === (nearTarget && nearTarget.key)) return;
+    nearTarget = best;
+    paint();
+    if (!hint) return;
+    if (best) {
+      var g = spotByKey[best.key];
+      var label = g ? g.getAttribute('aria-label').replace(' (project)', '').split(':')[0] : '';
+      hint.textContent = 'Press Enter to open ' + label;
+      hint.classList.add('show');
+    } else {
+      hint.classList.remove('show');
+    }
+  }
+
+  /* ---------- input (keys drive only while the map is in view) ---------- */
+  var pressed = {};
+  var sceneActive = true;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      sceneActive = e[0].intersectionRatio > 0.4;
+      if (!sceneActive) { pressed = {}; readInput(); }
+    }, { threshold: [0, 0.4, 0.8] }).observe(document.querySelector('.scene-journey'));
+  }
+  function readInput() {
+    input.fwd = (pressed.up ? 1 : 0) - (pressed.down ? 1 : 0);
+    input.turn = (pressed.right ? 1 : 0) - (pressed.left ? 1 : 0);
+  }
+  function keyDir(k) {
+    if (k === 'ArrowUp' || k === 'w' || k === 'W') return 'up';
+    if (k === 'ArrowDown' || k === 's' || k === 'S') return 'down';
+    if (k === 'ArrowLeft' || k === 'a' || k === 'A') return 'left';
+    if (k === 'ArrowRight' || k === 'd' || k === 'D') return 'right';
+    return null;
+  }
+  window.addEventListener('keydown', function (e) {
+    if (!sceneActive || (e.target && e.target.matches && e.target.matches('input, textarea'))) return;
+    if (e.key === 'Enter' && nearTarget) { window.location.href = nearTarget.href; return; }
+    var d = keyDir(e.key);
+    if (!d) return;
+    pressed[d] = true; readInput(); e.preventDefault();
+  });
+  window.addEventListener('keyup', function (e) {
+    var d = keyDir(e.key);
+    if (!d) return;
+    pressed[d] = false; readInput();
+  });
+
+  /* touch d-pad */
+  document.querySelectorAll('.pad-btn').forEach(function (btn) {
+    var d = btn.dataset.dir;
+    var on = function (e) { e.preventDefault(); pressed[d] = true; readInput(); };
+    var off = function (e) { e.preventDefault(); pressed[d] = false; readInput(); };
+    btn.addEventListener('pointerdown', on);
+    btn.addEventListener('pointerup', off);
+    btn.addEventListener('pointerleave', off);
+    btn.addEventListener('pointercancel', off);
+  });
+  var goBtn = document.getElementById('padGo');
+  if (goBtn) goBtn.addEventListener('click', function () { if (nearTarget) window.location.href = nearTarget.href; });
+
+  /* ---------- loop ---------- */
+  var cs0 = P(car.x, car.y, 0);
+  camX = cs0[0]; camY = cs0[1];
+  render();
+  drawCar(car.x, car.y, car.hd);
+  placeCar(car.x, car.y);
+
+  var prev = 0;
+  function frame(ts) {
+    var dt = prev ? Math.min(0.05, (ts - prev) / 1000) : 0.016;
+    prev = ts;
+    driveStep(dt);
+    drawCar(car.x, car.y, car.hd);
+    placeCar(car.x, car.y);
+    var cs = P(car.x, car.y, 0);
+    camX += (cs[0] - camX) * 0.12;
+    camY += (cs[1] - camY) * 0.12;
+    render();
+    checkNear();
+    requestAnimationFrame(frame);
+  }
   requestAnimationFrame(frame);
 })();

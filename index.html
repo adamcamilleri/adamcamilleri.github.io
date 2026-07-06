@@ -33,7 +33,15 @@
         <section class="scene-journey" aria-label="An interactive map of Adam's world">
             <div class="scene-sticky">
                 <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg>
-                <p class="scene-hint" aria-hidden="true">Drag to explore</p>
+                <p class="scene-hint" aria-hidden="true">WASD or arrows to drive</p>
+                <p class="drive-hint" id="driveHint" aria-hidden="true"></p>
+                <div class="drive-pad" aria-hidden="true">
+                    <button class="pad-btn pad-up" data-dir="up" aria-label="Drive forward">&#9650;</button>
+                    <button class="pad-btn pad-left" data-dir="left" aria-label="Turn left">&#9664;</button>
+                    <button class="pad-btn pad-right" data-dir="right" aria-label="Turn right">&#9654;</button>
+                    <button class="pad-btn pad-down" data-dir="down" aria-label="Reverse">&#9660;</button>
+                    <button class="pad-go" id="padGo">GO</button>
+                </div>
                 <nav class="scene-steps" aria-label="Sections">
                     <a class="step" data-key="pizza" href="pizza/">
                         <span>

@@ -629,6 +629,71 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
   touch-action: pan-y;
 }
 
+/* the "press Enter to open" prompt when the car parks on a building */
+.drive-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.4rem, 5vh, 3rem);
+  transform: translateX(-50%) translateY(8px);
+  z-index: 3;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.drive-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* touch d-pad: only on coarse pointers */
+.drive-pad { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .drive-pad {
+    display: grid;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 4;
+    grid-template-columns: repeat(3, 46px);
+    grid-template-rows: repeat(3, 46px);
+    gap: 4px;
+    align-items: center;
+    justify-items: center;
+  }
+  .pad-btn {
+    width: 46px;
+    height: 46px;
+    border: 0;
+    border-radius: 12px;
+    background: rgba(5, 4, 25, 0.72);
+    color: #fff;
+    font-size: 15px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+  }
+  .pad-btn:active { background: var(--highlight); }
+  .pad-up { grid-column: 2; grid-row: 1; }
+  .pad-left { grid-column: 1; grid-row: 2; }
+  .pad-right { grid-column: 3; grid-row: 2; }
+  .pad-down { grid-column: 2; grid-row: 3; }
+  .pad-go {
+    grid-column: 2; grid-row: 2;
+    width: 46px; height: 46px;
+    border: 0; border-radius: 50%;
+    background: var(--highlight);
+    color: #fff; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* buildings pop in as the camera approaches */
 .pop {
   opacity: 0;
