@@ -7,6 +7,7 @@
    shop and press Space to open its page, or to a curio to read a note. */
 
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
@@ -389,9 +390,27 @@ block(car, 4.8, 1, 0.8, trimMat, 0, 4.2, 1.6, false); block(car, 4.8, 1, 0.8, tr
 [[-1.4, 4.25], [1.4, 4.25]].forEach(h => block(car, 0.9, 0.7, 0.3, emis('#fff2cc', 2.4), h[0], h[1], 2.2, false));
 [[-1.5, -4.25], [1.5, -4.25]].forEach(h => block(car, 0.8, 0.6, 0.3, emis('#ff3b52', 1.8), h[0], h[1], 2.2, false));
 const beam = new THREE.SpotLight('#fff0c4', 26, 60, 0.6, 0.5, 1.4); beam.position.set(0, 2.6, 4); beam.target.position.set(0, 0, 26); car.add(beam); car.add(beam.target);
-const under = new THREE.PointLight('#ff2f6e', 4, 14, 2); under.position.set(0, 0.5, 0); car.add(under);
+const under = new THREE.PointLight('#ff2f6e', 1.4, 9, 2); under.position.set(0, 0.4, 0); car.add(under);
 const carGlow = new THREE.PointLight('#d6ddff', 8, 30, 2); carGlow.position.set(0, 5, 0); car.add(carGlow);  // reads the street around the car
 car.position.set(-95, 0, 45); car.rotation.y = Math.PI; scene.add(car);
+
+/* swap the box car for a real CC0 model (ToyCar, CC0 via Khronos).
+   Falls back to the box if the file is missing or fails to load. */
+new GLTFLoader().load('car.glb', (gltf) => {
+  const model = gltf.scene;
+  const bb = new THREE.Box3().setFromObject(model);
+  const size = new THREE.Vector3(), center = new THREE.Vector3();
+  bb.getSize(size); bb.getCenter(center);
+  const s = 9 / Math.max(size.x, size.z);
+  model.scale.setScalar(s);
+  model.position.set(-center.x * s, -bb.min.y * s, -center.z * s);
+  model.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; if (o.material) o.material.envMapIntensity = 1.2; } });
+  const holder = new THREE.Group();
+  holder.rotation.y = Math.PI;                 // face the car's +Z travel direction
+  holder.add(model);
+  car.children.filter(c => c.isMesh).forEach(m => car.remove(m));  // drop the box body, keep the lights
+  car.add(holder);
+}, undefined, () => { /* keep the box car */ });
 
 /* ---------- strong bloom for neon ---------- */
 const composer = new EffectComposer(renderer);
