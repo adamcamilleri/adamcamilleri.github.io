@@ -196,32 +196,33 @@ function tireStack(parent, x, z) {
     parent.add(t);
   }
 }
-function curb(x, z, w, d) {
-  block(scene, w, 0.6, d, mat.curb, x, z, 0.05, false);
-}
 
 /* ---------- ground + roads ---------- */
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000), mat.ground);
 ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 
 const PLATE = 150;
-const roadY = 0.06;
-function road(w, d, x, z) {
+function road(w, d, x, z, y) {
   const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), mat.road);
-  m.rotation.x = -Math.PI / 2; m.position.set(x, roadY, z);
-  if (w > d) m.rotation.z = Math.PI / 2;
+  m.rotation.x = -Math.PI / 2; m.position.set(x, y, z);
   m.receiveShadow = true; scene.add(m);
 }
-road(PLATE * 2, 16, 0, -55); road(PLATE * 2, 16, 0, 55);
-road(16, PLATE * 2, -55, 0); road(16, PLATE * 2, 55, 0);
-// curbs along the avenues
-[-55, 55].forEach(z => { curb(0, z - 8.4, PLATE * 2, 1.2); curb(0, z + 8.4, PLATE * 2, 1.2); });
-[-55, 55].forEach(x => { curb(x - 8.4, 0, 1.2, PLATE * 2); curb(x + 8.4, 0, 1.2, PLATE * 2); });
-// lane dashes
+// streets sit a hair above avenues so the four crossings never z-fight
+road(16, PLATE * 2, -55, 0, 0.06); road(16, PLATE * 2, 55, 0, 0.06);
+road(PLATE * 2, 16, 0, -55, 0.055); road(PLATE * 2, 16, 0, 55, 0.055);
+
+// curbs, broken at every intersection so no strip runs across a road
+const SEG = [[-PLATE, -63], [-47, 47], [63, PLATE]];
+function curbH(zc) { SEG.forEach(s => block(scene, s[1] - s[0], 0.6, 1.2, mat.curb, (s[0] + s[1]) / 2, zc, 0.02, false)); }
+function curbV(xc) { SEG.forEach(s => block(scene, 1.2, 0.6, s[1] - s[0], mat.curb, xc, (s[0] + s[1]) / 2, 0.02, false)); }
+[-55, 55].forEach(z => { curbH(z - 8.6); curbH(z + 8.6); });
+[-55, 55].forEach(x => { curbV(x - 8.6); curbV(x + 8.6); });
+
+// lane dashes down the middle of each road
 for (let t = -PLATE; t < PLATE; t += 14) {
   if (Math.abs(t + 55) > 12 && Math.abs(t - 55) > 12) {
-    [-55, 55].forEach(z => { const a = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.4), mat.lane); a.rotation.x = -Math.PI / 2; a.position.set(t, roadY + 0.02, z); scene.add(a); });
-    [-55, 55].forEach(x => { const a = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 5), mat.lane); a.rotation.x = -Math.PI / 2; a.position.set(x, roadY + 0.02, t); scene.add(a); });
+    [-55, 55].forEach(x => { const a = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 5), mat.lane); a.rotation.x = -Math.PI / 2; a.position.set(x, 0.09, t); scene.add(a); });
+    [-55, 55].forEach(z => { const a = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.4), mat.lane); a.rotation.x = -Math.PI / 2; a.position.set(t, 0.09, z); scene.add(a); });
   }
 }
 
@@ -299,11 +300,11 @@ function house(x, z, rot) {
 }
 [[-110, 100], [-95, 118], [-125, 82], [-100, -105], [-120, -88], [12, 100], [-14, 118], [30, 92], [118, -40], [-42, 118]]
   .forEach(p => house(p[0], p[1]));
-[[-62, 62], [62, 62], [-62, -62], [62, -62], [-24, 24], [30, -22], [18, 30], [-32, -30], [42, 44], [-46, 40]]
+[[-68, 68], [68, 68], [-68, -68], [68, -68], [-26, 26], [30, -26], [26, 30], [-34, -30], [42, 42], [-44, 40], [-40, -44], [40, -40]]
   .forEach(p => tree(scene, p[0], p[1], 1 + ((Math.abs(p[0]) + Math.abs(p[1])) % 3) * 0.14));
-[[-55, -22], [55, 22], [-22, 55], [22, -55], [-70, 30], [70, -30]].forEach(p => lamp(scene, p[0], p[1]));
-[[-40, 40], [40, -40], [-64, -20], [20, 64], [-20, -64]].forEach(p => bush(scene, p[0], p[1]));
-[[-66, 44], [44, -66]].forEach(p => hydrant(scene, p[0], p[1]));
+[[-64, -24], [64, 24], [-24, 64], [24, -64], [-64, 64], [64, -64], [-64, -64], [64, 64]].forEach(p => lamp(scene, p[0], p[1]));
+[[-40, 40], [40, -40], [-64, -30], [30, 64], [-30, -64], [64, 42]].forEach(p => bush(scene, p[0], p[1]));
+[[-66, 40], [40, -66], [64, -40]].forEach(p => hydrant(scene, p[0], p[1]));
 
 /* project markers (glowing plinths, not solid so you can roll onto them) */
 const PROJECTS = [
@@ -430,7 +431,7 @@ function step(dt) {
   const key = best && best.key;
   if (key !== (near && near.key)) {
     near = best;
-    if (best) { promptEl.innerHTML = 'Press <b>Enter</b> to open ' + best.label; promptEl.classList.add('show'); }
+    if (best) { promptEl.innerHTML = 'Press <b>Space</b> to open ' + best.label; promptEl.classList.add('show'); }
     else promptEl.classList.remove('show');
   }
 }
@@ -450,7 +451,7 @@ function dirOf(k) {
 }
 const go = () => { if (near) location.href = near.href === '#' ? '../#archive' : near.href; };
 addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && near) { go(); return; }
+  if ((e.code === 'Space' || e.key === ' ' || e.key === 'Enter') && near) { e.preventDefault(); go(); return; }
   const d = dirOf(e.key); if (!d) return;
   pressed[d] = true; readInput(); e.preventDefault();
 });
