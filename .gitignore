@@ -25,3 +25,13 @@ Thumbs.db
 # Pokemon Essentials fangame kit (ripped assets - never publish)
 Pokemon Essentials*/
 Root_*.png
+
+# Ripped/commercial game asset packs - never publish to the live site
+UI/
+attack effects/
+backgrounds/
+character overworld/
+graphics/
+menu sprites/
+sprites/
+tileset/

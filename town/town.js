@@ -130,13 +130,28 @@
   function bakeProps() { PROP.tree = tree(); PROP.lamp = lamp(); PROP.bench = bench(); PROP.flowers = flowers(); PROP.fountain = fountain(); }
 
   /* ---------- character: a dog sprite (4x4 sheet, 64px frames) ---------- */
-  var dogImg = new Image(); var dogReady = false; dogImg.onload = function () { dogReady = true; }; dogImg.src = 'dog-walk.png';
-  var DOGROW = { down: 0, left: 1, right: 2, up: 3 };
+  var dogImg = new Image(); var dogSheet = null;
+  var DOGROW = { down: 3, left: 1, right: 2, up: 0 };
+  dogImg.onload = function () {
+    var r = make(dogImg.width, dogImg.height), c = r[0], g = r[1];
+    g.drawImage(dogImg, 0, 0);
+    var id = g.getImageData(0, 0, c.width, c.height), d = id.data;
+    for (var i = 0; i < d.length; i += 4) {
+      if (d[i + 3] === 0) continue;
+      var lum = 0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+      if (lum < 48) continue;                       // keep only the darkest outline + eyes + nose
+      var v = Math.min(255, 224 + (lum / 255) * 31); // brown fur -> white
+      d[i] = v; d[i + 1] = v; d[i + 2] = v;
+    }
+    g.putImageData(id, 0, 0);
+    dogSheet = c;
+  };
+  dogImg.src = 'dog-walk.png';
   function drawChar(sx, sy, dir, frame) {
-    ctx.fillStyle = 'rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.ellipse(sx + 8 * SCALE, sy + 20 * SCALE, 9 * SCALE, 3.5 * SCALE, 0, 0, 7); ctx.fill();
-    if (!dogReady) return;
-    var D = 78, cx = sx + 8 * SCALE, cy = sy + 9 * SCALE;
-    ctx.drawImage(dogImg, frame * 64, (DOGROW[dir] || 0) * 64, 64, 64, cx - D / 2, cy - D / 2 + 6, D, D);
+    var D = 118, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
+    ctx.fillStyle = 'rgba(0,0,0,0.20)'; ctx.beginPath(); ctx.ellipse(cx, feetY, D * 0.16, D * 0.055, 0, 0, 7); ctx.fill();
+    if (!dogSheet) return;
+    ctx.drawImage(dogSheet, frame * 64, (DOGROW[dir] || 0) * 64, 64, 64, cx - D / 2, feetY - D * 0.69, D, D);
   }
 
   /* ---------- world layout ---------- */
