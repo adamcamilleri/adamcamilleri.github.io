@@ -636,7 +636,7 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
 }
 .pop.on { opacity: 1; transform: translateY(0); }
-.hotspot.pop.on.hot, .hotspot.pop.on:hover { transform: translateY(-9px); }
+.hotspot.pop.on.hot, .hotspot.pop.on:hover { transform: scale(1.06); }
 .scene-hint {
   position: absolute;
   top: 1.2rem;
@@ -648,7 +648,13 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
   color: var(--muted);
 }
 
-.hotspot { cursor: pointer; transition: transform 0.35s var(--ease), filter 0.35s var(--ease); outline: none; }
+.hotspot {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: 50% 80%;
+  transition: transform 0.35s var(--ease), filter 0.35s var(--ease);
+  outline: none;
+}
 .spot-label {
   font-family: var(--font);
   font-size: 13px;
@@ -662,7 +668,7 @@ body.feature .colophon .colophon-base { margin-top: 0; border-top: 0; padding-to
 .hotspot.hot .spot-label,
 .hotspot:focus-visible .spot-label { opacity: 1; }
 .hotspot.hot, .hotspot:hover {
-  transform: translateY(-9px);
+  transform: scale(1.06);
   filter: drop-shadow(0 14px 18px rgba(57, 50, 220, 0.16));
 }
 .hotspot:focus-visible { filter: drop-shadow(0 0 0 2px var(--highlight)) drop-shadow(0 14px 18px rgba(57, 50, 220, 0.16)); }
