@@ -310,7 +310,7 @@
   Pp(0.3, 260, -160);
   Pl(0.3, 170, -170);
 
-  var gInv = pc(137, 0.3, { key: 'invest', label: 'The exchange: how I invest', href: 'investing/' });
+  var gInv = pc(82, 0.3, { key: 'invest', label: 'The exchange: how I invest', href: 'investing/' });
   box(gInv, 175, -300, 120, 84, 8);
   box(gInv, 187, -292, 96, 62, 34, 8);
   for (var col = 0; col < 6; col++) {
@@ -324,13 +324,17 @@
     face(gInv, [f, [f[0] + 15, f[1] + 4], [f[0] + 2, f[1] + 8]], GREEN);
   })();
   (function () {
+    /* the rising chart sits well forward of the hall, so it is its own
+       piece: leaving it inside gInv pushed the whole hall's sort depth
+       forward and made it paint over the tower standing in front of it */
+    var gChart = pc(137, 0.3);
     var bx = 320, by = -255, tops = [];
     [12, 22, 34, 50, 68].forEach(function (h, i) {
-      box(gInv, bx + i * 18, by - i * 7, 14, 14, h);
-      face(gInv, [P(bx + i * 18, by - i * 7, h + 2.5), P(bx + i * 18 + 14, by - i * 7, h + 2.5), P(bx + i * 18 + 14, by - i * 7 + 14, h + 2.5), P(bx + i * 18, by - i * 7 + 14, h + 2.5)], GREEN);
+      box(gChart, bx + i * 18, by - i * 7, 14, 14, h);
+      face(gChart, [P(bx + i * 18, by - i * 7, h + 2.5), P(bx + i * 18 + 14, by - i * 7, h + 2.5), P(bx + i * 18 + 14, by - i * 7 + 14, h + 2.5), P(bx + i * 18, by - i * 7 + 14, h + 2.5)], GREEN);
       tops.push(P(bx + i * 18 + 7, by - i * 7 + 7, h + 5));
     });
-    el('polyline', { points: pts(tops), fill: 'none', stroke: GREEN, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, gInv);
+    el('polyline', { points: pts(tops), fill: 'none', stroke: GREEN, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, gChart);
     var last = tops[tops.length - 1], prev = tops[tops.length - 2];
     var ang = Math.atan2(last[1] - prev[1], last[0] - prev[0]);
     el('polygon', {
@@ -338,7 +342,7 @@
         [last[0] + Math.cos(ang + 2.5) * 7, last[1] + Math.sin(ang + 2.5) * 7],
         [last[0] + Math.cos(ang - 2.5) * 7, last[1] + Math.sin(ang - 2.5) * 7]]),
       fill: GREEN
-    }, gInv);
+    }, gChart);
   })();
 
   /* W block: the pizzeria on main street */
