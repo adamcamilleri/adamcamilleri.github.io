@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive the city (beta) · Adam Camilleri</title>
+    <meta name="description" content="A 3D drivable version of the portfolio city.">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="../images/logo-ac.png">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { height: 100%; overflow: hidden; background: #241d44; color: #eef; font-family: "Inter", system-ui, sans-serif; }
+      #city { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+      .hud { position: fixed; z-index: 5; pointer-events: none; }
+      .hud-top {
+        top: 0; left: 0; right: 0;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 1rem 1.4rem;
+        font-size: 13px; letter-spacing: 0.04em;
+      }
+      .hud-top a { color: #cdd0ff; text-decoration: none; pointer-events: auto; font-weight: 600; }
+      .hud-top a:hover { color: #fff; }
+      .hud-hint { color: #b9bce8; text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; }
+
+      .prompt {
+        position: fixed; left: 50%; bottom: clamp(1.4rem, 6vh, 3.2rem);
+        transform: translateX(-50%) translateY(10px);
+        z-index: 6; padding: 0.6rem 1.2rem; border-radius: 999px;
+        background: rgba(10, 8, 30, 0.82); color: #fff;
+        font-size: 14px; font-weight: 600; white-space: nowrap;
+        opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease;
+        pointer-events: none; backdrop-filter: blur(8px);
+      }
+      .prompt.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      .prompt b { color: #ffca3a; }
+
+      .fallback {
+        position: fixed; inset: 0; z-index: 9; display: none;
+        align-items: center; justify-content: center; text-align: center;
+        padding: 2rem; background: #241d44;
+      }
+      .fallback a { color: #ffca3a; }
+
+      /* touch d-pad */
+      .pad { display: none; }
+      @media (hover: none), (pointer: coarse) {
+        .pad {
+          display: grid; position: fixed; right: 1rem; bottom: 1rem; z-index: 7;
+          grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(3, 52px); gap: 5px;
+        }
+        .pad button {
+          border: 0; border-radius: 13px; background: rgba(10, 8, 30, 0.7); color: #fff;
+          font-size: 17px; touch-action: none; -webkit-user-select: none; user-select: none;
+        }
+        .pad button:active { background: #4038d8; }
+        .pu { grid-column: 2; grid-row: 1; } .pl { grid-column: 1; grid-row: 2; }
+        .pr { grid-column: 3; grid-row: 2; } .pd { grid-column: 2; grid-row: 3; }
+        .pgo { grid-column: 2; grid-row: 2; border-radius: 50%; background: #4038d8; font-size: 12px; font-weight: 700; }
+      }
+      @media (prefers-reduced-motion: reduce) { .hud-hint::after { content: " — reduced motion: parked view"; } }
+    </style>
+</head>
+<body>
+    <canvas id="city"></canvas>
+
+    <div class="hud hud-top">
+        <a href="../">&larr; Back to the flat city</a>
+        <span class="hud-hint">WASD or arrows to drive · drive up to a building to enter</span>
+    </div>
+    <p class="prompt" id="prompt"></p>
+
+    <div class="pad" aria-hidden="true">
+        <button class="pu" data-dir="up">&#9650;</button>
+        <button class="pl" data-dir="left">&#9664;</button>
+        <button class="pr" data-dir="right">&#9654;</button>
+        <button class="pd" data-dir="down">&#9660;</button>
+        <button class="pgo" id="pgo">GO</button>
+    </div>
+
+    <div class="fallback" id="fallback">
+        <div>
+            <p style="font-size:1.2rem;margin-bottom:0.6rem">This 3D city needs WebGL, which your browser has turned off.</p>
+            <p><a href="../">Head back to the flat, fast version &rarr;</a></p>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+    <script type="module" src="city.js"></script>
+    <script>
+      // if the module never boots (no WebGL / CDN blocked), show the fallback
+      setTimeout(function () {
+        if (!window.__cityBooted) document.getElementById('fallback').style.display = 'flex';
+      }, 4000);
+    </script>
+</body>
+</html>
