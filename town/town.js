@@ -19,7 +19,7 @@
   Object.keys(manifest).forEach(function (k) { var im = new Image(); im.onload = loaded; im.src = manifest[k]; IMG[k] = im; });
 
   // dog sprite sheet, recolored white
-  var DOGROW = { down: 3, left: 1, right: 2, up: 0 };
+  var DOGROW = { down: 3, left: 2, right: 1, up: 0 };
   var dogSheet = null, dogImg = new Image();      // Finn: sprite sheet drawn by Adam (finn-made-by-adam), sliced into a 96px 4x4 grid
   dogImg.onload = function () { dogSheet = dogImg; loaded(); };
   dogImg.src = 'dog-white.png';
@@ -116,7 +116,9 @@
   function drawChar(sx, sy, dir, frame) {
     var CELL = 96, D = 70, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
     if (!dogSheet) return;  // Finn's art (finn-made-by-adam) has its own baked shadow, so no drawn ellipse
-    ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, cx - D / 2, feetY - D * 0.9375, D, D);
+    // snap to whole pixels so the sprite isn't resampled (blur) at sub-pixel positions
+    var dx = Math.round(cx - D / 2), dy = Math.round(feetY - D * 0.9375);
+    ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, dx, dy, D, D);
   }
 
   /* ---------- interaction ---------- */
@@ -153,6 +155,7 @@
   }
   function render() {
     var camX = Math.round(ch.x + 8 - cvs.width / (2 * SCALE)), camY = Math.round(ch.y + 10 - cvs.height / (2 * SCALE));
+    ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = '#7bbf4c'; ctx.fillRect(0, 0, cvs.width, cvs.height);
     if (!ready) return;
     var x0 = Math.floor(camX / TS) - 1, y0 = Math.floor(camY / TS) - 1;
