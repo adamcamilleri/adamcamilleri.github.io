@@ -23,7 +23,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.82;
+renderer.toneMappingExposure = 0.95;
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -44,9 +44,11 @@ scene.add(new THREE.Mesh(skyGeo, skyMat));
 const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.5, 2000);
 camera.position.set(0, 40, 60);
 
-/* mostly-dark base light; the city is lit by its own neon */
-scene.add(new THREE.HemisphereLight('#3a4066', '#0a0a14', 0.6));
-const moon = new THREE.DirectionalLight('#95a6d8', 0.5);
+/* base light kept low, but enough that the street and building bases
+   read instead of crushing to black */
+scene.add(new THREE.HemisphereLight('#5a6398', '#2a2c46', 1.05));
+scene.add(new THREE.AmbientLight('#3a4068', 0.62));
+const moon = new THREE.DirectionalLight('#a6b4e0', 0.75);
 moon.position.set(-70, 110, 50);
 moon.castShadow = true;
 moon.shadow.mapSize.set(2048, 2048);
@@ -76,13 +78,17 @@ function windowsTexture() {
   return repeatTex(c);
 }
 function neonText(text, color, vertical) {
-  const [c, g] = canv(vertical ? 96 : 256, vertical ? 256 : 96);
+  const [c, g] = canv(vertical ? 160 : 512, vertical ? 512 : 160);
   g.fillStyle = '#08060f'; g.fillRect(0, 0, c.width, c.height);
-  g.fillStyle = color; g.shadowColor = color; g.shadowBlur = 22;
-  g.textAlign = 'center'; g.textBaseline = 'middle';
-  if (vertical) { g.font = 'bold 52px Arial'; text.split('').forEach((ch, i) => g.fillText(ch, 48, 34 + i * 46)); }
-  else { g.font = 'bold 64px Arial'; g.fillText(text, 128, 52); }
-  return new THREE.CanvasTexture(c);
+  // dark tube outline then bright core, twice, for a crisp neon look
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+  const draw = (fill, blur, lw) => {
+    g.fillStyle = fill; g.strokeStyle = fill; g.lineWidth = lw; g.shadowColor = color; g.shadowBlur = blur;
+    if (vertical) { g.font = 'bold 86px Arial'; text.split('').forEach((ch, i) => g.fillText(ch, 80, 60 + i * 78)); }
+    else { g.font = 'bold 108px Arial'; g.fillText(text, c.width / 2, c.height / 2); }
+  };
+  draw(color, 26, 4); draw('#ffffff', 6, 1);
+  const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
 }
 /* abstract vertical neon "characters" (original strokes, not real text) */
 function neonGlyphs(color) {
@@ -123,8 +129,8 @@ function screenTexture(kind) {
 function M(o) { return new THREE.MeshStandardMaterial(o); }
 function emis(hex, i) { return M({ color: hex, emissive: hex, emissiveIntensity: i || 2, roughness: 0.4 }); }
 const mat = {
-  road: M({ map: asphaltTexture(), roughness: 0.42, metalness: 0.5, color: '#3a3a48' }),
-  ground: M({ map: asphaltTexture(), roughness: 0.7, metalness: 0.2, color: '#26242e' }),
+  road: M({ map: asphaltTexture(), roughness: 0.38, metalness: 0.5, color: '#565567' }),
+  ground: M({ map: asphaltTexture(), roughness: 0.7, metalness: 0.2, color: '#4a4858' }),
   stripe: M({ color: '#d8dae8', roughness: 0.6 }),
   win: M({ map: windowsTexture(), emissiveMap: windowsTexture(), emissive: '#ffffff', emissiveIntensity: 0.32, roughness: 0.5, metalness: 0.2 }),
   concrete: M({ color: '#2c2b36', roughness: 0.9 }),
@@ -154,7 +160,7 @@ function neonBar(parent, w, h, x, y, z, color, ry) {
   const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), emis(color, 2.4));
   m.position.set(x, y, z); if (ry) m.rotation.y = ry; parent.add(m); return m;
 }
-function colorLight(x, y, z, color) { if (glowLights.length > 26) return; const p = new THREE.PointLight(color, 8, 40, 2); p.position.set(x, y, z); scene.add(p); glowLights.push(p); }
+function colorLight(x, y, z, color) { if (glowLights.length > 34) return; const p = new THREE.PointLight(color, 13, 48, 2); p.position.set(x, y, z); scene.add(p); glowLights.push(p); }
 
 /* a skyscraper caked in neon, signs facing +z (the street) */
 const WORDS = ['RAMEN', 'BAR', 'SUSHI', 'KARAOKE', 'GAMES', 'CLUB', 'COFFEE', 'HOTEL', 'SAKE', 'NOODLE', 'OPEN', '24H'];
@@ -170,8 +176,9 @@ function tower(x, z, w, d, h, faceZ) {
   for (let i = 0; i < nSigns; i++) {
     const col = NEON[Math.floor(Math.random() * NEON.length)];
     const sx = x - w / 2 + 2 + Math.random() * (w - 4);
-    const sh = 6 + Math.random() * 8, sy = 6 + Math.random() * (h - sh - 4);
-    litPanel(g, 2.4, sh, neonGlyphs(col), sx, sy, fz + 0.3 * (faceZ === -1 ? -1 : 1), 1.7, ry);
+    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    const sh = Math.min(14, word.length * 2.6), sy = 6 + Math.random() * (h - sh - 4);
+    litPanel(g, 2.8, sh, neonText(word, col, true), sx, sy, fz + 0.3 * (faceZ === -1 ? -1 : 1), 1.7, ry);
   }
   // a horizontal marquee near the base
   const word = WORDS[Math.floor((x * 3 + z) % WORDS.length + WORDS.length) % WORDS.length];
@@ -179,7 +186,7 @@ function tower(x, z, w, d, h, faceZ) {
   litPanel(g, Math.min(w - 1, 8), 2.4, neonText(word, wc), x, 5, fz + 0.3 * (faceZ === -1 ? -1 : 1), 1.7, ry);
   // rooftop box sign
   if (Math.random() < 0.6) { const rc = NEON[Math.floor(Math.random() * NEON.length)]; neonBar(g, w * 0.7, 3, x, h + 3.5, fz * 0.5 + z * 0.5, rc, ry); }
-  colorLight(x, 8, fz, wc);
+  colorLight(x, 6, fz + (faceZ === -1 ? -2 : 2), wc);
   scene.add(g); addObstacle(x, z, w, d);
   return g;
 }
@@ -210,7 +217,7 @@ function district(key, href, label, cx, cz, r, build) { const g = new THREE.Grou
 district('pizza', '../pizza/', 'Pizza', -105, 0, 30, (g) => {
   tower(-105, 0, 22, 16, 30, 1);
   litPanel(g, 12, 4, neonText('PIZZA', '#ff2e63'), -105, 12, 8.4, 2.4);
-  litPanel(g, 3, 9, neonGlyphs('#ffcf3f'), -118, 10, 8.4, 1.9);
+  litPanel(g, 3, 10, neonText('NOODLE', '#ffcf3f', true), -118, 11, 8.4, 1.9);
   // red paper-lantern row
   for (let i = 0; i < 6; i++) { const l = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8), emis('#ff3b3b', 1.6)); l.scale.y = 1.2; l.position.set(-116 + i * 2.4, 6, 9.2); g.add(l); }
   colorLight(-105, 8, 12, '#ff2e63');
@@ -249,7 +256,7 @@ function streetLamp(x, z) {
   block(g, 0.4, 10, 0.4, mat.metal, x, z);
   block(g, 3, 0.3, 0.4, mat.metal, x + 1.3, z, 9.6, false);
   const head = new THREE.Mesh(boxGeo, emis('#eaf0ff', 2)); head.scale.set(1.4, 0.4, 0.8); head.position.set(x + 2.4, 9.4, z); g.add(head);
-  const p = new THREE.PointLight('#dfe8ff', 5, 24, 2); p.position.set(x + 2.4, 9, z); g.add(p);
+  const p = new THREE.PointLight('#dfe8ff', 12, 34, 2); p.position.set(x + 2.4, 9, z); g.add(p);
   scene.add(g);
 }
 function trafficLight(x, z) {
@@ -353,12 +360,13 @@ block(car, 4.8, 1, 0.8, trimMat, 0, 4.2, 1.6, false); block(car, 4.8, 1, 0.8, tr
 [[-1.5, -4.25], [1.5, -4.25]].forEach(h => block(car, 0.8, 0.6, 0.3, emis('#ff3b52', 1.8), h[0], h[1], 2.2, false));
 const beam = new THREE.SpotLight('#fff0c4', 26, 60, 0.6, 0.5, 1.4); beam.position.set(0, 2.6, 4); beam.target.position.set(0, 0, 26); car.add(beam); car.add(beam.target);
 const under = new THREE.PointLight('#ff2f6e', 4, 14, 2); under.position.set(0, 0.5, 0); car.add(under);
+const carGlow = new THREE.PointLight('#d6ddff', 8, 30, 2); carGlow.position.set(0, 5, 0); car.add(carGlow);  // reads the street around the car
 car.position.set(-95, 0, 45); car.rotation.y = Math.PI; scene.add(car);
 
 /* ---------- strong bloom for neon ---------- */
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.5, 0.55, 0.55));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.55, 0.38, 0.62));
 composer.addPass(new OutputPass());
 
 /* ---------- driving + collision ---------- */
