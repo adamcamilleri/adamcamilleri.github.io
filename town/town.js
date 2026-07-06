@@ -20,7 +20,7 @@
 
   // dog sprite sheet, recolored white
   var DOGROW = { down: 3, left: 1, right: 2, up: 0 };
-  var dogSheet = null, dogImg = new Image();      // Finn: a pre-baked fully-white dog sheet
+  var dogSheet = null, dogImg = new Image();      // Finn: sprite sheet drawn by Adam (finn-made-by-adam), sliced into a 96px 4x4 grid
   dogImg.onload = function () { dogSheet = dogImg; loaded(); };
   dogImg.src = 'dog-white.png';
 
@@ -105,10 +105,9 @@
   function tileSolid(px, py) { var tx = Math.floor(px / TS), ty = Math.floor(py / TS); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return true; return !!solid[ty][tx]; }
   function canMove(nx, ny) { var l = nx + 3, r = nx + 13, t = ny + 16, b = ny + 21; return !(tileSolid(l, t) || tileSolid(r, t) || tileSolid(l, b) || tileSolid(r, b)); }
   function drawChar(sx, sy, dir, frame) {
-    var D = 118, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
-    ctx.fillStyle = 'rgba(0,0,0,0.20)'; ctx.beginPath(); ctx.ellipse(cx, feetY, D * 0.16, D * 0.055, 0, 0, 7); ctx.fill();
-    if (!dogSheet) return;
-    ctx.drawImage(dogSheet, frame * 64, (DOGROW[dir] || 0) * 64, 64, 64, cx - D / 2, feetY - D * 0.69, D, D);
+    var CELL = 96, D = 140, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
+    if (!dogSheet) return;  // Finn's art (finn-made-by-adam) has its own baked shadow, so no drawn ellipse
+    ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, cx - D / 2, feetY - D * 0.9375, D, D);
   }
 
   /* ---------- interaction ---------- */
