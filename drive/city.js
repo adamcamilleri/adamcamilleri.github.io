@@ -394,8 +394,9 @@ const under = new THREE.PointLight('#ff2f6e', 1.4, 9, 2); under.position.set(0, 
 const carGlow = new THREE.PointLight('#d6ddff', 8, 30, 2); carGlow.position.set(0, 5, 0); car.add(carGlow);  // reads the street around the car
 car.position.set(-95, 0, 45); car.rotation.y = Math.PI; scene.add(car);
 
-/* swap the box car for a real CC0 model (ToyCar, CC0 via Khronos).
-   Falls back to the box if the file is missing or fails to load. */
+/* If a car.glb model is dropped into this folder it replaces the box
+   car automatically; otherwise the box car stays. Drop in any low-poly
+   car .glb (Kenney / Poly Pizza / Sketchfab) and it just works. */
 new GLTFLoader().load('car.glb', (gltf) => {
   const model = gltf.scene;
   const bb = new THREE.Box3().setFromObject(model);
