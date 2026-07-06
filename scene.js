@@ -194,19 +194,44 @@
     }
   }
 
-  function popGroup(parent, appear) {
-    var g = el('g', { 'aria-hidden': 'true', 'class': 'pop' }, parent);
+  /* ============================================================
+     PIECES: every structure becomes its own group, depth-sorted
+     back to front (isometric painter's order) before it enters
+     the DOM, so nothing floats over a building that should hide
+     it. depth = frontmost world corner (x + y); larger = nearer.
+     ============================================================ */
+  var pieces = [];
+  function pc(depth, appear, hot) {
+    var g = el('g', hot
+      ? { 'class': 'hotspot pop', tabindex: '0', role: 'link', 'aria-label': hot.label, 'data-key': hot.key }
+      : { 'aria-hidden': 'true', 'class': 'pop' }, null);
+    if (hot) g.dataset.href = hot.href;
     g.dataset.appear = appear;
+    pieces.push({ depth: depth, g: g });
     return g;
   }
-  function cluster(key, label, href, appear) {
-    var g = el('g', { 'class': 'hotspot pop', tabindex: '0', role: 'link', 'aria-label': label, 'data-key': key }, world);
-    g.dataset.href = href;
-    g.dataset.appear = appear;
-    return g;
-  }
+  function Ph(a, x, y, w, d, h) { house(pc((x + w) + (y + d), a), x, y, w, d, h); }
+  function Pt(a, x, y) { tree(pc(x + y, a), x, y); }
+  function Pp(a, x, y) { person(pc(x + y, a), x, y); }
+  function Pcar(a, x, y, v) { car(pc(x + y, a), x, y, v); }
+  function Pl(a, x, y) { streetlight(pc(x + y, a), x, y); }
+  function Pu(a, x, y) { umbrella(pc(x + y, a), x, y); }
 
-  /* shadows pop with their structures */
+  /* terrain: flat ground cover, always under the 3D city */
+  flat(ground, -90, -390, 70, 110, ROAD, 0.5);            /* office parking */
+  flat(ground, -95, -95, 190, 190, '#c3e0d8', 0.5);       /* park lawn */
+  (function () {
+    var c = P(30, 30, 0);
+    el('ellipse', { cx: c[0], cy: c[1], rx: 50, ry: 25, fill: PLATE }, ground);
+    el('ellipse', { cx: c[0], cy: c[1], rx: 44, ry: 22, fill: POND }, ground);
+  })();
+
+  /* shadows sit above terrain, under every structure */
+  function gshadow(appear) {
+    var g = el('g', { 'aria-hidden': 'true', 'class': 'pop' }, ground);
+    g.dataset.appear = appear;
+    return g;
+  }
   [
     [-380, -20, 130, 90, 10, 0],       /* pizzeria */
     [-215, 20, 70, 55, 6, 0],          /* neighbor shop */
@@ -227,36 +252,36 @@
     [190, 30, 55, 45, 5, 0.35],
     [300, 20, 50, 42, 5, 0.35]
   ].forEach(function (s) {
-    shadow(popGroup(ground, s[5]), s[0], s[1], s[2], s[3], s[4]);
+    shadow(gshadow(s[5]), s[0], s[1], s[2], s[3], s[4]);
   });
 
   /* ============================================================
      BLOCKS (drawn back to front by x+y)
      ============================================================ */
 
-  /* NW block (-275,-275): residential */
-  var bNW = popGroup(world, 0.25);
-  house(bNW, -350, -350, 60, 50, 22);
-  house(bNW, -230, -290, 55, 45, 20);
-  house(bNW, -390, -230, 55, 45, 20);
-  tree(bNW, -270, -350);
-  tree(bNW, -180, -220);
-  person(bNW, -280, -240);
-  streetlight(bNW, -170, -170);
+  /* NW block: residential */
+  Ph(0.25, -350, -350, 60, 50, 22);
+  Ph(0.25, -230, -290, 55, 45, 20);
+  Ph(0.25, -390, -230, 55, 45, 20);
+  Pt(0.25, -270, -350);
+  Pt(0.25, -180, -220);
+  Pp(0.25, -280, -240);
+  Pl(0.25, -170, -170);
 
-  /* N block (0,-275): MCAP office district */
-  var bN = popGroup(world, 0.15);
-  box(bN, 55, -190, 55, 55, 82);
-  windows(bN, 55, -190, 55, 55, 82, 0, null);
-  flat(bN, -90, -390, 70, 110, ROAD, 0.5);        /* parking lot */
-  car(bN, -80, -378);
-  car(bN, -80, -350);
-  car(bN, -80, -322, true);
-  person(bN, -30, -180);
-  person(bN, 40, -240);
-  tree(bN, -90, -170);
+  /* N block: MCAP office district (parking is terrain, above) */
+  (function () {
+    var g = pc(-25, 0.15);                          /* second tower */
+    box(g, 55, -190, 55, 55, 82);
+    windows(g, 55, -190, 55, 55, 82, 0, null);
+  })();
+  Pcar(0.15, -80, -378);
+  Pcar(0.15, -80, -350);
+  Pcar(0.15, -80, -322, true);
+  Pp(0.15, -30, -180);
+  Pp(0.15, 40, -240);
+  Pt(0.15, -90, -170);
 
-  var gDat = cluster('data', 'The office: what I do for a living', 'work/', 0.15);
+  var gDat = pc(-194, 0.15, { key: 'data', label: 'The office: what I do for a living', href: 'work/' });
   box(gDat, -45, -290, 66, 66, 132);
   windows(gDat, -45, -290, 66, 66, 132, 0, { side: 'front', index: 22, color: LAMP });
   box(gDat, -43, -288, 20, 14, 8, 132);
@@ -271,16 +296,21 @@
     mcapSign(gDat, c[0], c[1], 10);
   })();
 
-  /* NE block (275,-275): financial district */
-  var bNE = popGroup(world, 0.3);
-  box(bNE, 350, -200, 50, 50, 66);
-  windows(bNE, 350, -200, 50, 50, 66, 0, null);
-  box(bNE, 180, -180, 54, 54, 92);
-  windows(bNE, 180, -180, 54, 54, 92, 0, null);
-  person(bNE, 260, -160);
-  streetlight(bNE, 170, -170);
+  /* NE block: financial district */
+  (function () {
+    var g = pc(250, 0.3);
+    box(g, 350, -200, 50, 50, 66);
+    windows(g, 350, -200, 50, 50, 66, 0, null);
+  })();
+  (function () {
+    var g = pc(108, 0.3);
+    box(g, 180, -180, 54, 54, 92);
+    windows(g, 180, -180, 54, 54, 92, 0, null);
+  })();
+  Pp(0.3, 260, -160);
+  Pl(0.3, 170, -170);
 
-  var gInv = cluster('invest', 'The exchange: how I invest', 'investing/', 0.3);
+  var gInv = pc(137, 0.3, { key: 'invest', label: 'The exchange: how I invest', href: 'investing/' });
   box(gInv, 175, -300, 120, 84, 8);
   box(gInv, 187, -292, 96, 62, 34, 8);
   for (var col = 0; col < 6; col++) {
@@ -311,20 +341,25 @@
     }, gInv);
   })();
 
-  /* W block (-275,0): the pizzeria on main street */
-  var bW = popGroup(world, 0);
-  box(bW, -215, 20, 70, 55, 26);
-  box(bW, -207, 26, 22, 16, 7, 26);
-  box(bW, -420, 60, 26, 20, 6);
-  box(bW, -418, 62, 22, 16, 6, 6);
-  umbrella(bW, -250, -60);
-  umbrella(bW, -215, -75);
-  person(bW, -260, -30);
-  person(bW, -170, 40);
-  tree(bW, -410, -80);
-  streetlight(bW, -170, 80);
+  /* W block: the pizzeria on main street */
+  (function () {
+    var g = pc(-70, 0);                             /* neighbor shop */
+    box(g, -215, 20, 70, 55, 26);
+    box(g, -207, 26, 22, 16, 7, 26);
+  })();
+  (function () {
+    var g = pc(-314, 0);                            /* pallet crate */
+    box(g, -420, 60, 26, 20, 6);
+    box(g, -418, 62, 22, 16, 6, 6);
+  })();
+  Pu(0, -250, -60);
+  Pu(0, -215, -75);
+  Pp(0, -260, -30);
+  Pp(0, -170, 40);
+  Pt(0, -410, -80);
+  Pl(0, -170, 80);
 
-  var gPza = cluster('pizza', 'The pizzeria: how I make pizza', 'pizza/', 0);
+  var gPza = pc(-170, 0, { key: 'pizza', label: 'The pizzeria: how I make pizza', href: 'pizza/' });
   box(gPza, -380, -20, 110, 76, 34);
   (function () {
     var ax = -380, ay = 56, aw = 110;
@@ -350,66 +385,70 @@
     el('path', { d: 'M' + c[0] + ' ' + c[1] + ' L' + (c[0] + 6) + ' ' + (c[1] - 21) + ' A21 21 0 0 1 ' + (c[0] + 16) + ' ' + (c[1] - 13) + ' Z', fill: '#fbfdff' }, gPza);
   })();
 
-  /* C block (0,0): the park */
-  var bC = popGroup(world, 0.2);
-  flat(bC, -95, -95, 190, 190, '#c3e0d8', 0.5);   /* lawn */
+  /* C block: the park (lawn and pond are terrain, above) */
   (function () {
-    var c = P(30, 30, 0);
-    el('ellipse', { cx: c[0], cy: c[1], rx: 50, ry: 25, fill: PLATE }, bC);
-    el('ellipse', { cx: c[0], cy: c[1], rx: 44, ry: 22, fill: POND }, bC);
+    var g = pc(-30, 0.2);                           /* water tower */
+    box(g, -34, -80, 6, 6, 34);
+    box(g, -2, -80, 6, 6, 34);
+    box(g, -34, -48, 6, 6, 34);
+    box(g, -2, -48, 6, 6, 34);
+    box(g, -38, -84, 46, 46, 26, 34);
+    box(g, -30, -76, 30, 30, 6, 60);
   })();
-  box(bC, -34, -80, 6, 6, 34);                    /* water tower */
-  box(bC, -2, -80, 6, 6, 34);
-  box(bC, -34, -48, 6, 6, 34);
-  box(bC, -2, -48, 6, 6, 34);
-  box(bC, -38, -84, 46, 46, 26, 34);
-  box(bC, -30, -76, 30, 30, 6, 60);
-  tree(bC, -70, 40);
-  tree(bC, -50, 75);
-  tree(bC, 80, -50);
-  tree(bC, 55, -75);
-  person(bC, -20, 60);
-  person(bC, 70, 10);
+  Pt(0.2, -70, 40);
+  Pt(0.2, -50, 75);
+  Pt(0.2, 80, -50);
+  Pt(0.2, 55, -75);
+  Pp(0.2, -20, 60);
+  Pp(0.2, 70, 10);
 
-  /* E block (275,0): apartments */
-  var bE = popGroup(world, 0.35);
-  box(bE, 190, 30, 55, 45, 58);
-  windows(bE, 190, 30, 55, 45, 58, 0, null);
-  house(bE, 300, 20, 50, 42, 18);
-  box(bE, 320, 80, 55, 45, 44);
-  windows(bE, 320, 80, 55, 45, 44, 0, null);
-  tree(bE, 260, 80);
-  person(bE, 240, 60);
-  streetlight(bE, 170, 170);
+  /* E block: apartments */
+  (function () {
+    var g = pc(320, 0.35);
+    box(g, 190, 30, 55, 45, 58);
+    windows(g, 190, 30, 55, 45, 58, 0, null);
+  })();
+  Ph(0.35, 300, 20, 50, 42, 18);
+  (function () {
+    var g = pc(500, 0.35);
+    box(g, 320, 80, 55, 45, 44);
+    windows(g, 320, 80, 55, 45, 44, 0, null);
+  })();
+  Pt(0.35, 260, 80);
+  Pp(0.35, 240, 60);
+  Pl(0.35, 170, 170);
 
-  /* SW block (-275,275): residential */
-  var bSW = popGroup(world, 0.35);
-  house(bSW, -350, 200, 60, 50, 22);
-  house(bSW, -240, 300, 55, 45, 20);
-  house(bSW, -390, 320, 55, 45, 20);
-  tree(bSW, -280, 250);
-  person(bSW, -300, 320);
-  streetlight(bSW, -170, 170);
+  /* SW block: residential */
+  Ph(0.35, -350, 200, 60, 50, 22);
+  Ph(0.35, -240, 300, 55, 45, 20);
+  Ph(0.35, -390, 320, 55, 45, 20);
+  Pt(0.35, -280, 250);
+  Pp(0.35, -300, 320);
+  Pl(0.35, -170, 170);
 
-  /* S block (0,275): residential */
-  var bS = popGroup(world, 0.4);
-  house(bS, -40, 200, 60, 50, 22);
-  house(bS, 40, 300, 55, 45, 20);
-  house(bS, -80, 320, 55, 45, 20);
-  tree(bS, 40, 220);
-  person(bS, 0, 280);
+  /* S block: residential */
+  Ph(0.4, -40, 200, 60, 50, 22);
+  Ph(0.4, 40, 300, 55, 45, 20);
+  Ph(0.4, -80, 320, 55, 45, 20);
+  Pt(0.4, 40, 220);
+  Pp(0.4, 0, 280);
 
-  /* SE block (275,275): the workshop yard */
-  var bSE = popGroup(world, 0.45);
-  house(bSE, 330, 300, 55, 45, 20);
-  box(bSE, 180, 320, 30, 20, 12);
-  box(bSE, 180, 344, 30, 20, 12);
-  box(bSE, 182, 322, 26, 16, 10, 12);
-  box(bSE, 390, 220, 5, 5, 44);
-  box(bSE, 376, 218, 34, 4, 3, 30);
-  person(bSE, 250, 280);
+  /* SE block: the workshop yard */
+  Ph(0.45, 330, 300, 55, 45, 20);
+  (function () {
+    var g = pc(574, 0.45);                          /* container stack */
+    box(g, 180, 320, 30, 20, 12);
+    box(g, 180, 344, 30, 20, 12);
+    box(g, 182, 322, 26, 16, 10, 12);
+  })();
+  (function () {
+    var g = pc(632, 0.45);                          /* mast */
+    box(g, 390, 220, 5, 5, 44);
+    box(g, 376, 218, 34, 4, 3, 30);
+  })();
+  Pp(0.45, 250, 280);
 
-  var gArch = cluster('archive', 'The workshop: everything else I build', '#archive', 0.45);
+  var gArch = pc(556, 0.45, { key: 'archive', label: 'The workshop: everything else I build', href: '#archive' });
   box(gArch, 190, 190, 104, 72, 34);
   wedge(gArch, 186, 186, 112, 80, 18, 34);
   face(gArch, [P(210, 262, 24), P(252, 262, 24), P(252, 262, 0), P(210, 262, 0)], '#c3d2e0');
@@ -421,11 +460,10 @@
   box(gArch, 222, 164, 14, 12, 9);
 
   /* street traffic */
-  var traffic = popGroup(world, 0.5);
-  car(traffic, -220, -132);
-  car(traffic, 60, 122);
-  car(traffic, 118, -40, true);
-  car(traffic, -128, 220, true);
+  Pcar(0.5, -220, -132);
+  Pcar(0.5, 60, 122);
+  Pcar(0.5, 118, -40, true);
+  Pcar(0.5, -128, 220, true);
 
   /* ---------- project placeholders ----------
      PLACEHOLDER OBJECTS scattered through the blocks, one per project,
@@ -433,7 +471,7 @@
      Adam picks a real object per project: swap the two box() calls at
      a call site and the wiring keeps working. */
   function projectSpot(key, label, href, x, y, appear) {
-    var g = cluster(key, label + ' (project)', href, appear);
+    var g = pc((x + 12) + (y + 12), appear, { key: key, label: label + ' (project)', href: href });
     var c = P(x, y, 0);
     el('ellipse', { cx: c[0], cy: c[1], rx: 22, ry: 11, fill: SHADOW }, g);
     box(g, x - 12, y - 12, 24, 24, 6);
@@ -452,6 +490,10 @@
   projectSpot('proj-handoff', 'Handoff', 'projects/handoff/', 60, -370, 0.2);
   projectSpot('proj-housing', 'Housing Dashboard', 'projects/housing-dashboard/', -300, 390, 0.4);
   projectSpot('proj-songdle', 'Songdle', 'projects/songdle/', 70, -30, 0.25);
+
+  /* sort every piece back to front, then add to the world */
+  pieces.sort(function (a, b) { return a.depth - b.depth; });
+  pieces.forEach(function (p) { world.appendChild(p.g); });
 
   /* ============================================================
      FREE-ROAM CAMERA
