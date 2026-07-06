@@ -24,6 +24,8 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.95;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+const MAXA = renderer.capabilities.getMaxAnisotropy();
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -51,29 +53,31 @@ scene.add(new THREE.AmbientLight('#3a4068', 0.62));
 const moon = new THREE.DirectionalLight('#a6b4e0', 0.75);
 moon.position.set(-70, 110, 50);
 moon.castShadow = true;
-moon.shadow.mapSize.set(2048, 2048);
-moon.shadow.bias = -0.0004; moon.shadow.normalBias = 0.03;
+moon.shadow.mapSize.set(4096, 4096);
+moon.shadow.bias = -0.0003; moon.shadow.normalBias = 0.03;
 const sc = moon.shadow.camera; sc.left = -140; sc.right = 140; sc.top = 140; sc.bottom = -140; sc.near = 10; sc.far = 460;
 scene.add(moon); scene.add(moon.target);
 
 /* ---------- textures ---------- */
 function canv(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h || w; return [c, c.getContext('2d')]; }
-function repeatTex(c, rx, ry) { const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; if (rx) t.repeat.set(rx, ry || rx); return t; }
+function tuneTex(t) { t.anisotropy = MAXA; t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; return t; }
+function repeatTex(c, rx, ry) { const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; if (rx) t.repeat.set(rx, ry || rx); return tuneTex(t); }
 const NEON = ['#ff2e63', '#14e0d6', '#ffcf3f', '#ff7a2f', '#4dff88', '#ff5edf', '#4d9bff', '#ff1e4d'];
 
 function asphaltTexture() {
-  const [c, g] = canv(128);
-  g.fillStyle = '#14131c'; g.fillRect(0, 0, 128, 128);
-  for (let i = 0; i < 500; i++) { g.fillStyle = 'rgba(' + (30 + Math.random() * 30) + ',' + (30 + Math.random() * 30) + ',' + (40 + Math.random() * 30) + ',0.5)'; g.fillRect(Math.random() * 128, Math.random() * 128, 2, 2); }
+  const [c, g] = canv(256);
+  g.fillStyle = '#181722'; g.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 1400; i++) { g.fillStyle = 'rgba(' + (34 + Math.random() * 34) + ',' + (34 + Math.random() * 34) + ',' + (46 + Math.random() * 34) + ',0.5)'; g.fillRect(Math.random() * 256, Math.random() * 256, 2, 2); }
   return repeatTex(c, 8, 8);
 }
 function windowsTexture() {
-  const [c, g] = canv(64);
-  g.fillStyle = '#0b0d18'; g.fillRect(0, 0, 64, 64);
-  for (let y = 3; y < 64; y += 7) for (let x = 3; x < 64; x += 6) {
+  const [c, g] = canv(256);
+  g.fillStyle = '#0b0d18'; g.fillRect(0, 0, 256, 256);
+  for (let y = 6; y < 256; y += 16) for (let x = 6; x < 256; x += 13) {
+    g.fillStyle = '#05060c'; g.fillRect(x - 1, y - 1, 11, 13);              // mullion
     const r = Math.random();
-    g.fillStyle = r < 0.55 ? '#10121e' : (r < 0.78 ? '#ffdf9a' : (r < 0.92 ? '#bcd4ff' : '#ff9a6a'));
-    g.fillRect(x, y, 4, 5);
+    g.fillStyle = r < 0.52 ? '#12141f' : (r < 0.76 ? '#ffdf9a' : (r < 0.9 ? '#bcd4ff' : '#ff9a6a'));
+    g.fillRect(x, y, 9, 11);
   }
   return repeatTex(c);
 }
@@ -88,7 +92,7 @@ function neonText(text, color, vertical) {
     else { g.font = 'bold 108px Arial'; g.fillText(text, c.width / 2, c.height / 2); }
   };
   draw(color, 26, 4); draw('#ffffff', 6, 1);
-  const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+  return tuneTex(new THREE.CanvasTexture(c));
 }
 /* abstract vertical neon "characters" (original strokes, not real text) */
 function neonGlyphs(color) {
@@ -123,7 +127,7 @@ function screenTexture(kind) {
     g.fillStyle = '#12061f'; g.fillRect(0, 0, 128, 128);
     for (let i = 0; i < 30; i++) { g.fillStyle = NEON[i % NEON.length]; g.fillRect(Math.random() * 116, Math.random() * 116, 10, 10); }
   }
-  return new THREE.CanvasTexture(c);
+  return tuneTex(new THREE.CanvasTexture(c));
 }
 
 function M(o) { return new THREE.MeshStandardMaterial(o); }
@@ -142,6 +146,24 @@ const mat = {
 const winMats = [mat.win,
   M({ map: mat.win.map, emissiveMap: mat.win.map, emissive: '#ffe6c0', emissiveIntensity: 0.34, roughness: 0.5 }),
   M({ map: mat.win.map, emissiveMap: mat.win.map, emissive: '#cfe0ff', emissiveIntensity: 0.3, roughness: 0.5 })];
+
+/* image-based lighting: a neon-tinted environment so metal and the wet
+   road pick up soft coloured reflections instead of reading dead flat */
+(function () {
+  const [c, g] = canv(1024, 512);
+  const grd = g.createLinearGradient(0, 0, 0, 512);
+  grd.addColorStop(0, '#05050f'); grd.addColorStop(0.55, '#140f28'); grd.addColorStop(0.8, '#2a1440'); grd.addColorStop(1, '#3a1030');
+  g.fillStyle = grd; g.fillRect(0, 0, 1024, 512);
+  for (let i = 0; i < 60; i++) { g.fillStyle = NEON[i % NEON.length]; g.globalAlpha = 0.35 + Math.random() * 0.4; g.fillRect(Math.random() * 1024, 300 + Math.random() * 150, 6 + Math.random() * 14, 30 + Math.random() * 90); }
+  g.globalAlpha = 1;
+  const eq = new THREE.CanvasTexture(c); eq.mapping = THREE.EquirectangularReflectionMapping; eq.colorSpace = THREE.SRGBColorSpace;
+  const pmrem = new THREE.PMREMGenerator(renderer); pmrem.compileEquirectangularShader();
+  scene.environment = pmrem.fromEquirectangular(eq).texture;
+  eq.dispose(); pmrem.dispose();
+})();
+mat.road.metalness = 0.75; mat.road.roughness = 0.26; mat.road.envMapIntensity = 1.1;
+mat.ground.metalness = 0.55; mat.ground.roughness = 0.42; mat.ground.envMapIntensity = 0.8;
+mat.glass.envMapIntensity = 1.6; mat.metal.envMapIntensity = 1.2;
 
 /* ---------- helpers ---------- */
 const boxGeo = new THREE.BoxGeometry(1, 1, 1);
@@ -167,8 +189,14 @@ const WORDS = ['RAMEN', 'BAR', 'SUSHI', 'KARAOKE', 'GAMES', 'CLUB', 'COFFEE', 'H
 function tower(x, z, w, d, h, faceZ) {
   const g = new THREE.Group();
   block(g, w, h, d, winMats[Math.abs(Math.round(x + z)) % 3], x, z);
-  block(g, w + 1, 1.5, d + 1, mat.dark, x, z, h);
-  block(g, w * 0.3, 4, d * 0.3, mat.metal, x, z, h + 1.5, false); // rooftop unit
+  // setback crown on taller towers
+  if (h > 40) block(g, w * 0.7, 6, d * 0.7, winMats[Math.abs(Math.round(x - z)) % 3], x, z, h);
+  block(g, w + 1, 1.5, d + 1, mat.dark, x, z, h > 40 ? h + 6 : h);
+  const rt = h > 40 ? h + 7.5 : h + 1.5;
+  block(g, w * 0.24, 4, d * 0.24, mat.metal, x - w * 0.18, z, rt, false);   // AC unit
+  const tank = new THREE.Mesh(new THREE.CylinderGeometry(w * 0.14, w * 0.14, 3.4, 10), mat.metal); tank.position.set(x + w * 0.2, rt + 1.7, z + d * 0.1); tank.castShadow = true; g.add(tank);
+  block(g, 0.3, 8, 0.3, mat.dark, x, z, rt, false);                          // antenna
+  const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.5, 8, 8), emis('#ff3b3b', 3)); beacon.position.set(x, rt + 8, z); g.add(beacon);
   const fz = z + (faceZ === -1 ? -d / 2 - 0.2 : d / 2 + 0.2);
   const ry = faceZ === -1 ? Math.PI : 0;
   // vertical neon signs climbing the facade
@@ -283,8 +311,10 @@ function wire(x1, z1, x2, z2, y) {
 function ped(x, z) {
   const g = new THREE.Group();
   const col = ['#e8e8f0', '#3a3a48', '#c15b5b', '#5b7bc1', '#d8b64a'][Math.floor(Math.random() * 5)];
-  block(g, 1, 2.4, 0.8, M({ color: col, roughness: 0.8 }), x, z, 0.6);
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 8, 8), M({ color: '#e8c9a0', roughness: 0.9 })); head.position.set(x, 3.4, z); g.add(head);
+  const cm = M({ color: col, roughness: 0.8 });
+  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.45, 1.3, 4, 8), cm); torso.position.set(x, 1.9, z); torso.castShadow = true; g.add(torso);
+  [-0.5, 0.5].forEach(o => { const leg = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.9, 3, 6), M({ color: '#2a2a34', roughness: 0.8 })); leg.position.set(x + o * 0.5, 0.7, z); g.add(leg); });
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), M({ color: '#e8c9a0', roughness: 0.9 })); head.position.set(x, 3.1, z); head.castShadow = true; g.add(head);
   scene.add(g);
 }
 function bus(x, z) {
@@ -366,7 +396,7 @@ car.position.set(-95, 0, 45); car.rotation.y = Math.PI; scene.add(car);
 /* ---------- strong bloom for neon ---------- */
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.55, 0.38, 0.62));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.5, 0.32, 0.72));
 composer.addPass(new OutputPass());
 
 /* ---------- driving + collision ---------- */
