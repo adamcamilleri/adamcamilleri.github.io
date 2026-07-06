@@ -60,13 +60,13 @@
 
   // buildings: image, bottom-center door tile (bx,by), visual size, target
   var SHOPS = [
-    ['house1', 27, 25, 5, 5, 'pizza', "Adam's Pizzeria", 'Three-day dough, baking steel, the works.', '../pizza/', 0],
-    ['house2', 38, 25, 6, 6, 'data', 'MCAP Data Office', 'Where I move mortgage data for a living.', '../work/', 0],
-    ['house3', 20, 34, 5, 5, 'invest', 'The Bank', 'Chips and index funds, held for decades.', '../investing/', 0],
+    ['house1', 27, 25, 5, 5, 'pizza', "Adam's Pizzeria", 'Countless hours have been spent researching how to make the best pizza, and the culmination of that work lives here!.', '../pizza/', 0],
+    ['house2', 38, 25, 6, 6, 'data', 'MCAP', 'My workplace! I am a Data Analyst.', '../work/', 0],
+    ['house3', 20, 34, 5, 5, 'invest', 'The Bank', 'My stock investments, mainly for personal use.', '../investing/', 0],
     ['house4', 46, 34, 6, 6, 'archive', 'The Workshop', 'Every other project I have built.', '../#archive', 0],
-    ['house1', 25, 45, 5, 5, 'arcade', 'Arcade', 'CS:GO, Overwatch, Minecraft, 999 hours in Pokemon X. (rewrite)', '', 1],
-    ['house3', 44, 45, 5, 5, 'diner', 'The Diner', 'Twenty recipes on TikTok. (rewrite)', '', 1],
-    ['house2', 34, 47, 6, 6, 'studio', 'Code Studio', 'JavaScript, SQL, this town. (rewrite)', '', 1]
+    ['house1', 25, 45, 5, 5, 'arcade', 'Game room', 'List of my favourite games of all time, how long I played them for, and a rating out of 10.', '', 1],
+    ['house3', 44, 45, 5, 5, 'diner', 'The Scorch (Restaurant)', 'I wanted to be a chef as a kid, and chose this name to be the name of my restaurant. This houses all my recipes, including many from my TikTok.', '', 1],
+    ['house2', 34, 47, 6, 6, 'studio', 'Computer Lab', 'The host of my nerdy interests including SQL, Python, JavaScript, automation, and more.', '', 1]
   ];
   SHOPS.forEach(function (s) {
     var img = s[0], bx = s[1], by = s[2], bw = s[3], bh = s[4];
@@ -85,10 +85,10 @@
   });
 
   // curios ringing the plaza
-  [['pc', 45, 'Gaming', 'My battlestation', 'CS:GO, Overwatch, Minecraft, 999 hours in Pokemon X. (rewrite)'],
-   ['books', 135, 'School', 'Comp Sci at Laurier', 'BSc 2020. (rewrite)'],
-   ['trophy', 225, 'A proud moment', 'Something worth a shelf', '(Adam: what goes here?)'],
-   ['camera', 315, 'A memory', 'That one event', '(Adam: a photo and the story.)']
+  [['pc', 45, 'placeholder', 'placeholder'],
+   ['books', 135, 'placeholder', 'placeholder'],
+   ['trophy', 225, 'placeholder', 'placeholder'],
+   ['camera', 315, 'placeholder', 'placeholder']
   ].forEach(function (cu) {
     var a = cu[1] * Math.PI / 180, rr = 5, tx = Math.round(CX + Math.cos(a) * rr), ty = Math.round(CY + Math.sin(a) * rr);
     objects.push({ kind: 'curio', img: curioSprite(cu[0]), x: tx * TS, y: ty * TS - 4, base: ty * TS + TS });
