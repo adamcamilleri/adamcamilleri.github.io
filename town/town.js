@@ -60,12 +60,12 @@
 
   // buildings: image, bottom-center door tile (bx,by), visual size, target
   var SHOPS = [
-    ['house1', 27, 25, 5, 5, 'pizza', "Adam's Pizzeria", 'Countless hours have been spent researching how to make the best pizza, and the culmination of that work lives here!.', '../pizza/', 0],
+    ['house1', 27, 25, 5, 5, 'pizza', "Adam's Pizzeria", 'Countless hours have been spent researching how to make the best pizza, and the culmination of that work lives here!', '../pizza/', 0],
     ['house2', 38, 25, 6, 6, 'data', 'MCAP', 'My workplace! I am a Data Analyst.', '../work/', 0],
     ['house3', 20, 34, 5, 5, 'invest', 'The Bank', 'My stock investments, mainly for personal use.', '../investing/', 0],
     ['house4', 46, 34, 6, 6, 'archive', 'The Workshop', 'Every other project I have built.', '../#archive', 0],
     ['house1', 25, 45, 5, 5, 'arcade', 'Game room', 'List of my favourite games of all time, how long I played them for, and a rating out of 10.', '', 1],
-    ['house3', 44, 45, 5, 5, 'diner', 'The Scorch (Restaurant)', 'I wanted to be a chef as a kid, and chose this name to be the name of my restaurant. This houses all my recipes, including many from my TikTok.', '', 1],
+    ['house3', 44, 45, 5, 5, 'diner', 'The Scorch', 'I wanted to be a chef as a kid, and chose this name to be the name of my restaurant. This houses all my recipes, including many from my TikTok.', '', 1],
     ['house2', 34, 47, 6, 6, 'studio', 'Computer Lab', 'The host of my nerdy interests including SQL, Python, JavaScript, automation, and more.', '', 1]
   ];
   SHOPS.forEach(function (s) {
@@ -109,7 +109,7 @@
   }
 
   /* ---------- character ---------- */
-  var ch = { x: CX * TS, y: (CY + 9) * TS, dir: 'down', moving: false, anim: 0, frame: 0 };
+  var ch = { x: CX * TS, y: CY * TS, dir: 'down', moving: false, anim: 0, frame: 0 };
   var SPD = 0.75;
   function tileSolid(px, py) { var tx = Math.floor(px / TS), ty = Math.floor(py / TS); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return true; return !!solid[ty][tx]; }
   function canMove(nx, ny) { var l = nx + 3, r = nx + 13, t = ny + 16, b = ny + 21; return !(tileSolid(l, t) || tileSolid(r, t) || tileSolid(l, b) || tileSolid(r, b)); }
