@@ -155,7 +155,10 @@
     refreshNear();
   }
   function render() {
-    var camX = Math.round(ch.x + 8 - cvs.width / (2 * SCALE)), camY = Math.round(ch.y + 10 - cvs.height / (2 * SCALE));
+    // Fractional camera: the player stays at an exact fixed screen point (no jitter),
+    // and every tile/object rounds its own screen position so the world stays crisp.
+    var camX = ch.x + 8 - cvs.width / (2 * SCALE), camY = ch.y + 10 - cvs.height / (2 * SCALE);
+    var R2 = Math.round;
     ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = '#7bbf4c'; ctx.fillRect(0, 0, cvs.width, cvs.height);
     if (!ready) return;
@@ -163,7 +166,7 @@
     var xN = x0 + Math.ceil(cvs.width / DS) + 2, yN = y0 + Math.ceil(cvs.height / DS) + 2;
     for (var ty = y0; ty < yN; ty++) for (var tx = x0; tx < xN; tx++) {
       if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) continue;
-      ctx.drawImage(ground[ty][tx] === 's' ? IMG.sand : IMG.grass, (tx * TS - camX) * SCALE, (ty * TS - camY) * SCALE, DS, DS);
+      ctx.drawImage(ground[ty][tx] === 's' ? IMG.sand : IMG.grass, R2((tx * TS - camX) * SCALE), R2((ty * TS - camY) * SCALE), DS, DS);
     }
     var charBase = ch.y + 20, draw = objects.slice().sort(function (a, b) { return a.base - b.base; }), placed = false;
     for (var i = 0; i < draw.length; i++) {
@@ -171,12 +174,12 @@
       var o = draw[i];
       if (o.kind === 'building') {
         var wpx = o.bw * TS, hpx = o.bh * TS, left = o.bx * TS - wpx / 2, top = (o.by + 1) * TS - hpx;
-        ctx.drawImage(IMG[o.img], (left - camX) * SCALE, (top - camY) * SCALE, wpx * SCALE, hpx * SCALE);
+        ctx.drawImage(IMG[o.img], R2((left - camX) * SCALE), R2((top - camY) * SCALE), wpx * SCALE, hpx * SCALE);
       } else if (o.kind === 'tree') {
         var tw = 2.4 * TS, th = 3.4 * TS;
-        ctx.drawImage(IMG[o.img], (o.x + TS / 2 - tw / 2 - camX) * SCALE, (o.y + TS - th - camY) * SCALE, tw * SCALE, th * SCALE);
+        ctx.drawImage(IMG[o.img], R2((o.x + TS / 2 - tw / 2 - camX) * SCALE), R2((o.y + TS - th - camY) * SCALE), tw * SCALE, th * SCALE);
       } else {
-        ctx.drawImage(o.img, (o.x - camX) * SCALE, (o.y - camY) * SCALE, o.img.width * SCALE, o.img.height * SCALE);
+        ctx.drawImage(o.img, R2((o.x - camX) * SCALE), R2((o.y - camY) * SCALE), o.img.width * SCALE, o.img.height * SCALE);
       }
     }
     if (!placed) drawChar((ch.x - camX) * SCALE, (ch.y - camY) * SCALE, ch.dir, ch.frame);
