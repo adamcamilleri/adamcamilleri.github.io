@@ -73,13 +73,6 @@
     objects.push({ kind: 'building', img: img, bx: bx, by: by, bw: bw, bh: bh, base: (by + 1) * TS });
     // footprint solid (bottom 2 rows), door tile walkable
     for (var ix = -(bw >> 1); ix <= (bw >> 1); ix++) for (var iy = -1; iy <= 0; iy++) { var gx = bx + ix, gy = by + iy; if (gx === bx && gy === by) continue; if (gy >= 0 && gy < MH && gx >= 0 && gx < MW) solid[gy][gx] = 1; }
-    // sand path from the door to the central plaza (radial spoke, 2 tiles wide)
-    var px = bx, py = by + 1, guard = 0;
-    while (Math.hypot(px - CX, py - CY) > 6.5 && guard++ < 60) {
-      setG(px, py, 's'); setG(px + 1, py, 's');
-      if (Math.abs(CY - py) >= Math.abs(CX - px)) py += Math.sign(CY - py) || 0;
-      else px += Math.sign(CX - px) || 0;
-    }
     objects.push({ kind: 'sign', img: signSprite(s[5]), x: (bx + 1) * TS + 4, y: by * TS - 4, base: (by + 1) * TS + 6 });
     targets.push({ x: bx, y: by + 1, key: s[5], name: s[6], body: s[7], href: s[8], egg: s[9], kicker: s[9] ? 'Curio' : 'Shop' });
   });
