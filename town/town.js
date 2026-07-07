@@ -114,11 +114,12 @@
   function tileSolid(px, py) { var tx = Math.floor(px / TS), ty = Math.floor(py / TS); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return true; return !!solid[ty][tx]; }
   function canMove(nx, ny) { var l = nx + 3, r = nx + 13, t = ny + 16, b = ny + 21; return !(tileSolid(l, t) || tileSolid(r, t) || tileSolid(l, b) || tileSolid(r, b)); }
   function drawChar(sx, sy, dir, frame) {
-    var CELL = 96, D = 70, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
+    var CELL = 96, cx = sx + 8 * SCALE, feetY = sy + 18 * SCALE;
     if (!dogSheet) return;  // Finn's art (finn-made-by-adam) has its own baked shadow, so no drawn ellipse
-    // snap to whole pixels so the sprite isn't resampled (blur) at sub-pixel positions
-    var dx = Math.round(cx - D / 2), dy = Math.round(feetY - D * 0.9375);
-    ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, dx, dy, D, D);
+    // The sheet is pre-scaled to final size; blit it 1:1 (no runtime scaling) at whole
+    // pixels so it stays crisp and doesn't shimmer while walking. Feet baked at y=CELL-6.
+    var dx = Math.round(cx - CELL / 2), dy = Math.round(feetY - (CELL - 6));
+    ctx.drawImage(dogSheet, frame * CELL, (DOGROW[dir] || 0) * CELL, CELL, CELL, dx, dy, CELL, CELL);
   }
 
   /* ---------- interaction ---------- */
