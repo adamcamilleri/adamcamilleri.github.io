@@ -15,7 +15,8 @@ repo root/              Editorial portfolio (index.html, style.css, site.js, kin
 │       ├── api-key.js  checkApiKey(req, res): auth for POST endpoints
 │       └── mongodb.js  getDb(): ping-guarded MongoClient singleton
 ├── projects/           Self-contained mini-app demos
-│   ├── handoff/        AI website builder (main demo)
+│   ├── querydesk/      Self-serve reporting for legacy databases (main demo;
+│   │                   own Python/FastAPI + React stack, see its Makefile)
 │   ├── songdle/        Daily song guessing game
 │   ├── taskmaster/     Full Next.js 14 task manager (own package.json)
 │   ├── studysmart/     Static study tool
@@ -46,19 +47,19 @@ Require inside the handler body (not at module top): this matches the existing c
 
 ## How to Run Tests
 
-There is no root test suite (removed July 2026). TaskMaster keeps its own:
+There is no root test suite (removed July 2026). TaskMaster and QueryDesk keep their own:
 
 ```bash
 cd projects/taskmaster && npm test
+cd projects/querydesk && make test
 ```
 
 ## Key Env Vars
 
 | Variable | Purpose |
 |----------|---------|
-| `GROQ_API_KEY` | Required: Handoff AI generation |
+| `ANTHROPIC_API_KEY` | QueryDesk SQL generation (projects/querydesk) |
 | `MONGODB_URI` | MongoDB persistence |
-| `VERCEL_TOKEN` | Programmatic deploy button |
 
 See `.env.example` for the full list.
 

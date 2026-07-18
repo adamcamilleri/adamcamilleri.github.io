@@ -25,20 +25,38 @@ jobs:
       - name: Validate API structure
         run: |
           echo "Checking API endpoints exist..."
-          test -f api/chat.js && echo "✓ api/chat.js" || exit 1
-          test -f api/deploy.js && echo "✓ api/deploy.js" || exit 1
-          test -f api/health.js && echo "✓ api/health.js" || exit 1
-          test -f api/songdle-songs.js && echo "✓ api/songdle-songs.js" || exit 1
-          test -f api/songdle-stream.js && echo "✓ api/songdle-stream.js" || exit 1
-          test -f api/soundcloud-daily.js && echo "✓ api/soundcloud-daily.js" || exit 1
+          test -f api/health.js && echo "api/health.js ok" || exit 1
+          test -f api/songdle-songs.js && echo "api/songdle-songs.js ok" || exit 1
+          test -f api/songdle-stream.js && echo "api/songdle-stream.js ok" || exit 1
+          test -f api/soundcloud-daily.js && echo "api/soundcloud-daily.js ok" || exit 1
           echo "All API handlers present."
 
-      - name: Validate Handoff project
-        run: |
-          test -f projects/handoff/index.html && echo "✓ Handoff index" || exit 1
-          test -f projects/handoff/script.js && echo "✓ Handoff script" || exit 1
-          test -f projects/handoff/styles.css && echo "✓ Handoff styles" || exit 1
-          echo "Handoff project structure valid."
+  querydesk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/querydesk
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Run backend tests
+        run: cd backend && python -m pytest
+
+      - name: Build frontend
+        run: cd frontend && npm install --no-fund --no-audit && npm run build
 
   taskmaster:
     runs-on: ubuntu-latest

@@ -488,10 +488,10 @@
     t.textContent = label;
     return g;
   }
-  /* cookbook beside the pizzeria, handoff behind the office, housing
+  /* cookbook beside the pizzeria, querydesk behind the office, housing
      among the southwest houses, songdle in the park */
   projectSpot('proj-cookbook', "Adam's Cookbook", 'projects/adams-cookbook/', -185, -60, 0.1);
-  projectSpot('proj-handoff', 'Handoff', 'projects/handoff/', 60, -370, 0.2);
+  projectSpot('proj-querydesk', 'QueryDesk', 'https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/querydesk', 60, -370, 0.2);
   projectSpot('proj-housing', 'Housing Dashboard', 'projects/housing-dashboard/', -300, 390, 0.4);
   projectSpot('proj-songdle', 'Songdle', 'projects/songdle/', 70, -30, 0.25);
 
@@ -524,7 +524,7 @@
     { key: 'invest', x: 235, y: -258, r: 100, href: 'investing/' },
     { key: 'archive', x: 242, y: 226, r: 95, href: '#archive' },
     { key: 'proj-cookbook', x: -185, y: -60, r: 58, href: 'projects/adams-cookbook/' },
-    { key: 'proj-handoff', x: 60, y: -370, r: 58, href: 'projects/handoff/' },
+    { key: 'proj-querydesk', x: 60, y: -370, r: 58, href: 'https://github.com/adamcamilleri/adamcamilleri.github.io/tree/main/projects/querydesk' },
     { key: 'proj-housing', x: -300, y: 390, r: 58, href: 'projects/housing-dashboard/' },
     { key: 'proj-songdle', x: 70, y: -30, r: 55, href: 'projects/songdle/' }
   ];
