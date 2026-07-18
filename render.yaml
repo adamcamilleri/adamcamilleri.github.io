@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: querydesk
+    runtime: docker
+    plan: free
+    rootDir: projects/querydesk
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/connections
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: QUERYDESK_ASK_LIMIT_PER_HOUR
+        value: "20"

@@ -1,6 +1,10 @@
 """FastAPI application wiring the four layers together."""
 
-from fastapi import FastAPI, HTTPException, Response, UploadFile
+import time
+from collections import defaultdict, deque
+
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import config
@@ -26,6 +30,53 @@ app = FastAPI(title="QueryDesk", version="1.0.0")
 engine = make_engine(config.APP_DB_PATH)
 store = CatalogStore(engine)
 history = HistoryStore(engine)
+
+
+def _ensure_demo_seed() -> None:
+    """Recreate the demo database and connection when they are missing.
+
+    Hosted deploys run on ephemeral disks, so a fresh instance must be able
+    to seed itself; locally this is a no-op after make seed.
+    """
+    from .seed.make_dictionary import write_dictionary
+    from .seed.seed_demo import DEMO_CONNECTION_NAME, bootstrap_app_db, seed_demo_db
+
+    if not config.DEMO_DICTIONARY_PATH.exists():
+        write_dictionary(config.DEMO_DICTIONARY_PATH)
+    if not config.DEMO_DB_PATH.exists():
+        seed_demo_db(config.DEMO_DB_PATH)
+        bootstrap_app_db(
+            config.APP_DB_PATH, config.DEMO_DB_PATH, config.DEMO_DICTIONARY_PATH
+        )
+    elif store.find_connection_by_name(DEMO_CONNECTION_NAME) is None:
+        bootstrap_app_db(
+            config.APP_DB_PATH, config.DEMO_DB_PATH, config.DEMO_DICTIONARY_PATH
+        )
+
+
+_ensure_demo_seed()
+
+_ask_log: dict[str, deque] = defaultdict(deque)
+
+
+def _enforce_ask_limit(request: Request) -> None:
+    if config.ASK_LIMIT_PER_HOUR <= 0:
+        return
+    forwarded = request.headers.get("x-forwarded-for", "")
+    client_ip = forwarded.split(",")[0].strip() or (
+        request.client.host if request.client else "unknown"
+    )
+    now = time.monotonic()
+    log = _ask_log[client_ip]
+    while log and now - log[0] > 3600:
+        log.popleft()
+    if len(log) >= config.ASK_LIMIT_PER_HOUR:
+        raise HTTPException(
+            429,
+            "Generation limit reached for this hour. You can still write SQL "
+            "by hand; it is validated the same way.",
+        )
+    log.append(now)
 
 
 def _connection_or_404(connection_id: int) -> dict:
@@ -146,7 +197,8 @@ async def dictionary_apply(connection_id: int, file: UploadFile):
 
 
 @app.post("/api/ask")
-def ask(body: AskIn):
+def ask(body: AskIn, request: Request):
+    _enforce_ask_limit(request)
     connection = _connection_or_404(body.connection_id)
     connector = _connector_for(connection)
     try:
@@ -271,3 +323,9 @@ def get_report(report_id: int):
     if report is None:
         raise HTTPException(404, "Report not found")
     return report
+
+
+# Mounted last so /api/* keeps precedence. In local dev the dist directory
+# does not exist and vite serves the frontend instead.
+if config.STATIC_DIR.is_dir():
+    app.mount("/", StaticFiles(directory=config.STATIC_DIR, html=True), name="frontend")

@@ -36,8 +36,19 @@ make test   # pytest: validator rules, catalog merge, CYMD, end-to-end
 |----------|---------|
 | `ANTHROPIC_API_KEY` | SQL generation via the Anthropic API (claude-sonnet-4-6). Without it, generation shows a banner; catalog browsing, manual SQL with validation, and export keep working. |
 | `QUERYDESK_DATA_DIR` | Optional override for where `app.db` and `demo_mars.db` live. |
+| `QUERYDESK_ASK_LIMIT_PER_HOUR` | Generation requests allowed per client IP per hour (default 20, 0 disables). Protects API credits on public deploys. |
+| `QUERYDESK_STATIC_DIR` | Directory of built frontend assets for FastAPI to serve. Set by the Dockerfile; unset in local dev, where vite serves the app. |
 
 See `.env.example`.
+
+## Deploying
+
+The repo ships a `Dockerfile` (multi-stage: vite build, then a Python image where FastAPI serves both the API and the built frontend) and a `render.yaml` blueprint at the repo root. On Render: New > Blueprint > pick this repo, set `ANTHROPIC_API_KEY`, deploy. A fresh instance seeds `demo_mars.db` and the catalog on first boot, so ephemeral disks are fine; request history resets on restart, which is acceptable for a demo. The same image runs anywhere Docker does:
+
+```bash
+docker build -t querydesk .
+docker run -p 8000:8000 -e ANTHROPIC_API_KEY=sk-... querydesk
+```
 
 ## The demo schema and real AS/400 conventions
 
